@@ -17,23 +17,23 @@ const registerProduct = async (req, res) => {
     if(name.length < five) {
       return res.status(unprocessable).send({
         'err': 
-				{'code': 'invalid_data',
-				  'message': '"name" length must be at least 5 characters long'} });
+    		{'code': 'invalid_data',
+    		  'message': '"name" length must be at least 5 characters long'} });
     }
     if(checkProductExist){
       return res.status(unprocessable).send({'err': 
-			{'code': 'invalid_data',
-			  'message': 'Product already exists'} });
+    	{'code': 'invalid_data',
+    	  'message': 'Product already exists'} });
     }
     if(quantity <= zero) {
       return res.status(unprocessable).send({'err': 
-			{'code': 'invalid_data',
-			  'message': '"quantity" must be larger than or equal to 1'} });
+    	{'code': 'invalid_data',
+    	  'message': '"quantity" must be larger than or equal to 1'} });
     }
     if(typeof quantity === 'string') {
       return res.status(unprocessable).send({'err': 
-			{'code': 'invalid_data',
-			  'message': '"quantity" must be a number'} });
+    	{'code': 'invalid_data',
+    	  'message': '"quantity" must be a number'} });
     }
     const newProduct = await productModel.register(name, quantity);
     res.status(created).json(newProduct);
