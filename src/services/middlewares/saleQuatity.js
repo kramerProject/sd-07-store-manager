@@ -6,18 +6,16 @@ const check = (body) => {
   const numberSale = body.map((item) => {
     return item.quantity;
   });
-  for(let index = zero;index < numberSale.length; index++) {
+  for (let index = zero; index < numberSale.length; index++) {
     if (!Number.isInteger(numberSale[index]) || numberSale[index] <= zero) {
       return false;
     }
   }
-   
+
   return true;
 };
 const productMiddlewaresQuantity = (req, res, next) => {
   const { body } = req;
-
-  console.log(check(body));
   if (!check(body)) {
 
     return res.status(codes.notProcessed).json(
