@@ -15,5 +15,5 @@ app.get('/', (_request, response) => {
 });
 
 app.listen(port, () => {
-  console.log('App ouvindo a porta 3001!');
+  console.log('App ouvindo a porta 3000!');
 }); 
