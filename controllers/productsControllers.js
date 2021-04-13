@@ -1,16 +1,18 @@
 const serviceValidadeProduct = require('../service/serviceValidadeProduct');
 
-async function addProduct (req, res) {
+function addProduct(req, res) {
+  console.log('Dentro Controller');
   try {
     const { name, quantity } = req.body;
+    console.log('ANTES SERVICE');
     const newProduct = serviceValidadeProduct(name, quantity);
-    res.status(201).json(newProduct);
+    console.log('Depois SERVICE');
+    return res.status(201).json(newProduct);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ message: err.message });
+    console.error(err.code, err.message);
+    return res.status(500).json({ message: err.message });
   }
-};
-
+}
 
 // async function getProducts (req, res) {
 //   try {
