@@ -1,11 +1,10 @@
 const conn = require('../config/conn');
 
-const addProduct = async (name, quantity) => {
-  conn().then(async (db) => {
+const addProduct = async (name, quantity) => conn()
+  .then(async (db) => {
     const product = await db.collection('products').insertOne({name, quantity});
     return product.ops[0];
   });
-};
 
 const getAllProducts = async () => conn()
   .then((db) => db.collection('products').find().toArray());

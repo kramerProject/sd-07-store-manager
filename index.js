@@ -10,7 +10,5 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-
-
 const PORT = 3000;
 app.listen(PORT, () => console.log('Ta rodando o menino'));
