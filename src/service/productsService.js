@@ -17,8 +17,8 @@ const checkDuplicate = async (req, res, next) => {
         },
       });
       return null;
-      next();
     };
+    next();
   };
 };
 
