@@ -1,6 +1,13 @@
-const mongoClient = require('mongodb').MongoClient;
-mongoClient.connect('mongodb://localhost', { useUnifiedTopology: true })
-  .then(conn => global.conn = conn.db('workshoptdc'))
-  .catch(err => console.log(err));
+const MONGO_DB_URL = 'mongodb://172.17.0.1:27017';
+const DB_NAME = 'StoreManager';
 
-module.exports = { };
+// const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
+// const DB_NAME = 'StoreManager';
+
+const connection = () => MongoClient
+  .connect(MONGO_DB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+
+module.exports = connection;
