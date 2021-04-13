@@ -11,5 +11,6 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/products', require('./src/routes/products'));
+app.use('/sales', require('./src/routes/sales'));
 
 app.listen(process.env.PORT || port);

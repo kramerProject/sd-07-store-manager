@@ -18,7 +18,6 @@ function convertToObjectID(value) {
   }
 }
 
-
 const create = async (name, quantity) => {
   return await ProductModel.create(name, quantity);
 };
