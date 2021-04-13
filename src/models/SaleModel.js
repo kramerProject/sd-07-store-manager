@@ -9,4 +9,12 @@ module.exports = {
       .insertOne({ itensSold: sales });
     return { _id, itensSold: sales };
   },
+  find: async () => {
+    const db = await database.connect();
+    return await db.collection(salesCollection).find({}).toArray();
+  },
+  get: async (id) => {
+    const db = await database.connect();
+    return await db.collection(salesCollection).find({ _id: id }).toArray();
+  }
 };
