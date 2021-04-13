@@ -7,14 +7,14 @@ const create = async (product) => {
       .insertOne({itensSold: []}))
     .then(response => {
       product.forEach(item => 
-        updateSales(response.insertedId, item.productId, item.quantity)
+        pushProducts(response.insertedId, item.productId, item.quantity)
       );
       return getBySaleId(response.insertedId);
     })
     .catch(err => console.log(err.message));
 };
 
-const updateSales = async (id, productId, quantity) => {
+const pushProducts = async (id, productId, quantity) => {
   return Connect()
     .then(db => db.collection('sales')
       .updateOne({_id: ObjectId(id)}, {$push: { itensSold: 
@@ -31,6 +31,36 @@ const getBySaleId = async (id) => {
     .catch(err => console.log(err));
 };
 
+const getSales = async () => {
+  return Connect()
+    .then(db => db.collection('sales')
+      .find()
+      .toArray())
+    .then(result => result)
+    .catch(err => console.log(err));
+};
+
+const updateSale = async (id, sale) => {
+  return Connect()
+    .then(db => db.collection('sales')
+      .updateOne({_id: ObjectId(id)}, {$set: { itensSold: sale}}))
+    .then(response => getBySaleId(id))
+    .then(response => response)
+    .catch(err => console.log(err));
+};
+
+const deleteSale = async (id) => {
+  return Connect()
+    .then(db => db.collection('sales')
+      .findOneAndDelete({_id: ObjectId(id)}))
+    .then(response => response.value)
+    .catch(err => console.log(err));
+};
+
 module.exports = {
   create,
+  getSales,
+  getBySaleId,
+  updateSale,
+  deleteSale,
 };
