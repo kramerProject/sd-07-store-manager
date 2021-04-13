@@ -4,6 +4,7 @@ const {
   insertProduct,
   findAll,
   findById,
+  updateProduct,
 } = require('../controller/productsController');
 
 const { validateProduct, checkDuplicate } = require('../middlewares');
@@ -15,5 +16,7 @@ productsRoute.post('/', validateProduct, checkDuplicate, insertProduct);
 productsRoute.get('/', findAll);
 
 productsRoute.get('/:id', findById);
+
+productsRoute.put('/:id', validateProduct, updateProduct);
 
 module.exports = productsRoute;

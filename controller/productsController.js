@@ -39,8 +39,18 @@ const findById = rescue(async (req, res) => {
   return res.status(OK).json(searchResult);
 });
 
+const updateProduct = rescue(async (req, res) => {
+  const { name, quantity } = req.body;
+  const { id } = req.params;
+
+  const updatedProduct = await ProductsModel.update(id, name, quantity);
+
+  res.status(OK).json(updatedProduct);
+});
+
 module.exports = {
   insertProduct,
   findAll,
   findById,
+  updateProduct,
 };
