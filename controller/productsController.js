@@ -4,7 +4,6 @@ const {
   CREATED,
   OK
 } = require('../httpsStatus.json');
-const { json } = require('body-parser');
 
 const addProduct = async (req, res) => {
   try {
@@ -46,8 +45,28 @@ const getProductById = async (req, res) => {
   }
 };
 
+const updateProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const { updateProduct } = productsService;
+
+    const updatedProduct = await updateProduct(id, name, quantity);
+    res.status(OK).json(updatedProduct);
+    
+  } catch (error) {
+    res.status(UNPROCESSABLE_ENTITY).json({
+      err: {
+        'code': 'invalid_data',
+        'message': error.message
+      }
+    });
+  }
+};
+
 module.exports = {
   addProduct,
   getAllProducts,
   getProductById,
+  updateProduct,
 };

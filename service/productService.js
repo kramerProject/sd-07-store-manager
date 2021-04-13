@@ -26,6 +26,12 @@ const isProductExist = async (name) => {
   }
 };
 
+const validateId = (id) => {
+  if (!ObjectId.isValid((id))) {
+    throw new Error('Wrong id format');
+  }
+};
+
 const addProduct = async (name, quantity) => {
   const { addProduct } = productsModel;
   
@@ -45,18 +51,26 @@ const getAllProducts = async () => {
 };
 
 const getProductById = async (id) => {
-  if (!ObjectId.isValid((id))) {
-    throw new Error('Wrong id format');
-    console.log('teste');
-  }
+  validateId(id);
+
   const { getProductById } = productsModel;
   const product = await getProductById(id);
   console.log(product);
   return product;
 };
 
+const updateProduct = async (id, name, quantity) => {
+  validateId(id);
+  validateNameAndQuantity(name, quantity);
+
+  const { updateProduct } = productsModel;
+  const updatedProduct = await updateProduct(id, name, quantity);
+  return updatedProduct;
+};
+
 module.exports = {
   addProduct,
   getAllProducts,
   getProductById,
+  updateProduct,
 };

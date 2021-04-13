@@ -18,11 +18,11 @@ const getProductById = async (id) => conn()
 
 const updateProduct = async (id, name, quantity) => conn()
   .then(async (db) => {
-    const product = db.collection('products').updateOne(
+    const product = await db.collection('products').updateOne(
       { _id: ObjectId(id) },
       { $set: {name, quantity}}
     );
-    return product;
+    return ({ _id: id, name, quantity });
   });
 
 const deleteProduct = async (id) => conn()
