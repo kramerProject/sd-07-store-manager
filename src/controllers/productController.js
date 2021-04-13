@@ -49,11 +49,9 @@ const updateProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
-
     const result = await products.deleteProduct(id);
     if (result.err) return res.status(codes.notProcessed).json(result);
     res.status(codes.sucess).json(result);
-
   } catch (error) {
     console.log(error.message);
   }

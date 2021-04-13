@@ -14,7 +14,7 @@ router.put('/:id',
   middlewares.productValidateQuantity,
   products.updateProduct);
 
-router.delete('/:id',products.deleteProduct);
+router.delete('/:id', products.deleteProduct);
 
 
 module.exports = router;
