@@ -1,4 +1,5 @@
 {
   "UNPROCESSABLE_ENTITY": 422,
-  "CREATED": 201
+  "CREATED": 201,
+  "OK": 200
 }

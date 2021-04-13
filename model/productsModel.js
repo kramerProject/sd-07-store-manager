@@ -1,4 +1,5 @@
 const conn = require('../config/conn');
+const { ObjectId } = require('mongodb');
 
 const addProduct = async (name, quantity) => conn()
   .then(async (db) => {
@@ -12,12 +13,16 @@ const getAllProducts = async () => conn()
 const getProductByName = async (name) => conn()
   .then((db) => db.collection('products').findOne({name}));
 
+const getProductById = async (id) => conn()
+  .then((db) => db.collection('products').findOne({_id: ObjectId(id)}));
+
 const updateProduct = async (id, name, quantity) => conn()
   .then(async (db) => {
     const product = db.collection('products').updateOne(
-      { _id: id },
+      { _id: ObjectId(id) },
       { $set: {name, quantity}}
     );
+    return product;
   });
 
 const deleteProduct = async (id) => conn()
@@ -25,6 +30,7 @@ const deleteProduct = async (id) => conn()
 
 module.exports = {
   addProduct,
+  getProductById,
   getProductByName,
   getAllProducts,
   updateProduct,

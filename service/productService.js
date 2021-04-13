@@ -36,6 +36,27 @@ const addProduct = async (name, quantity) => {
   return newProduct;
 };
 
+const getAllProducts = async () => {
+  const { getAllProducts } = productsModel;
+  const products = await getAllProducts();
+  return ({
+    products: products
+  });
+};
+
+const getProductById = async (id) => {
+  if (!ObjectId.isValid((id))) {
+    throw new Error('Wrong id format');
+    console.log('teste');
+  }
+  const { getProductById } = productsModel;
+  const product = await getProductById(id);
+  console.log(product);
+  return product;
+};
+
 module.exports = {
   addProduct,
+  getAllProducts,
+  getProductById,
 };
