@@ -72,8 +72,37 @@ const getById = async (req, res) => {
   }
 };
 
+const updateProduct = async (req, res) => {
+  try {
+    const { name, quantity } = req.body;
+    const { id } = req.params;
+    if(name.length < five) {
+      return res.status(unprocessable).send({
+        'err': 
+				{'code': 'invalid_data',
+				  'message': '"name" length must be at least 5 characters long'} });
+    }
+    if(quantity <= zero) {
+      return res.status(unprocessable).send({'err': 
+			{'code': 'invalid_data',
+			  'message': '"quantity" must be larger than or equal to 1'} });
+    }
+    if(typeof quantity === 'string') {
+      return res.status(unprocessable).send({'err': 
+			{'code': 'invalid_data',
+			  'message': '"quantity" must be a number'} });
+    }
+    const product = await productModel.update(id, name, quantity);
+
+    res.status(sucess).json(product);
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
 module.exports = {
   registerProduct,
   getAll,
-  getById
+  getById, 
+  updateProduct
 };
