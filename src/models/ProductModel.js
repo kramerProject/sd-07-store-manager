@@ -21,9 +21,13 @@ module.exports = {
   update: async (id, data) => {
     const db = await database.connect();
     await db.collection(productCollection).updateOne(
-      { _id: ObjectId(id) },
+      { _id: id },
       { $set: { ...data } }
     );
     return { _id: id, ...data };
+  },
+  delete: async (id) => {
+    const db = await database.connect();
+    await db.collection(productCollection).deleteOne({ _id: ObjectId(id) });
   }
 };

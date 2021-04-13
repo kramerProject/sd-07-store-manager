@@ -53,4 +53,13 @@ module.exports = {
       return res.status(err_number).json({ err });
     }
   },
+  delete: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const product = await ProductService.delete(id);
+      return res.status(SUCCESS).json(product);
+    } catch ({ err, err_number }) {
+      return res.status(err_number).json({ err });
+    }
+  }
 };
