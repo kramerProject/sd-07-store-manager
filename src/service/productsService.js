@@ -16,8 +16,10 @@ const checkDuplicate = async (req, res, next) => {
           message: 'Product already exists',
         },
       });
-      return null;0
-  next();
+      return null;
+      next();
+    };
+  };
 };
 
 const checkProducts = async (req, res, next) => {
