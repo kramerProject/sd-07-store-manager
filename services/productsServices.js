@@ -6,21 +6,21 @@ const addWithValidation = async (name, quantity) => {
   if (name.length <= regraQtdCaractere) {
     return {
       code: 'invalid_data',
-      message: 'name length must be at least 5 characters long',
+      message: '"name" length must be at least 5 characters long',
     };
   }
 
   if (quantity < qtdMinima) {
     return {
       code: 'invalid_data',
-      message: 'quantity length must be larger than or equal to 1',
+      message: '"quantity" must be larger than or equal to 1',
     };
   }
 
   if (typeof(quantity) != 'number') {
     return {
       code: 'invalid_data',
-      message: 'quantity must be a number',
+      message: '"quantity" must be a number',
     };
   }
 

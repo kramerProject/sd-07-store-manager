@@ -10,7 +10,7 @@ const addProduct = async (req, res) => {
       res.status(status.add).json(newProduct);
       return;
     }
-    res.status(status.invalid_data).json(newProduct);
+    res.status(status.invalid_data).json({err: newProduct});
   } catch (error) {
     console.error(error.message);
     res.status(status.serverError).json({ message: error.message });
@@ -20,7 +20,7 @@ const addProduct = async (req, res) => {
 const getAllProducts = async (req, res) => {
   try {
     const products = await productServices.getAllWithValidation();
-    res.status(status.get).json(products);
+    res.status(status.get).json({ products });
   } catch (error) {
     console.error(error.message);
     res.status(status.serverError).json({ message: error.message });
@@ -35,7 +35,7 @@ const getProductsById = async (req, res) => {
       res.status(status.get).json(product);
       return;
     }
-    res.status(status.invalid_data).json(product);
+    res.status(status.invalid_data).json({err: product});
   } catch (error) {
     console.error(error.message);
     res.status(status.serverError).json({ message: error.message });
