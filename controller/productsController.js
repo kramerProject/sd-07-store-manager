@@ -13,8 +13,12 @@ const addProduct = async (req, res) => {
 
     res.status(CREATED).json(newProduct);
   } catch (error) {
-    console.log(error.message);
-    res.status(UNPROCESSABLE_ENTITY).json(JSON.parse(error.message));
+    res.status(UNPROCESSABLE_ENTITY).json({
+      err: {
+        'code': 'invalid_data',
+        'message': error.message
+      }
+    });
   }
 };
 

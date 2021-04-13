@@ -14,13 +14,7 @@ const validateNameAndQuantity = (name, quantity) => {
   const { error } = schema.validate({ name, quantity });
   if (error) {
     const { details: [{ message }] } = error;
-    const errorMessage = JSON.stringify({
-      err: {
-        'code': 'invalid_data',
-        'message': message
-      }
-    });
-    throw new Error(errorMessage);
+    throw new Error(message);
   }
 };
 
@@ -28,13 +22,7 @@ const isProductExist = async (name) => {
   const { getProductByName } = productsModel;
   const product = await getProductByName(name);
   if (product) {
-    const errorMessage = JSON.stringify({
-      'err': {
-        'code': 'invalid_data',
-        'message': 'Product already exists'
-      }
-    });
-    throw new Error (errorMessage);
+    throw new Error ('Product already exists');
   }
 };
 
