@@ -8,6 +8,30 @@ const insertProduct = async (name, quantity) => {
   }
 };
 
+const showAllProducts = async () => {
+  try {
+    return  productModel.showAllProducts();
+  } catch (error) {
+    console.error({ message: 'Nem um produto cadastrado' });
+  }
+};
+
+const showProductId = async (id) => {
+  try {
+    return await productModel.showProductId(id);
+  } catch (error) {
+    console.error({ message: 'Nem um produto cadastrado' });
+  }
+};
+
+const updateProduct = async (id, name, quantity) => {
+  try {
+    return await productModel.updateProduct(id, name, quantity);
+  } catch (error) {
+    console.error({ message: 'Nem um produto cadastrado' });
+  }
+};
+
 const findName = async (name) => {
   try {
     return productModel.findName(name);
@@ -19,4 +43,7 @@ const findName = async (name) => {
 module.exports = {
   insertProduct,
   findName,
+  showAllProducts,
+  showProductId,
+  updateProduct,
 };
