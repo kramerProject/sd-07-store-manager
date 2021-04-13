@@ -4,10 +4,8 @@ const OPTIONS = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 };
-//avalidador
-// 'mongodb://mongodb:27017/StoreManager'
-//local
-//'mongodb://localhost:27017/StoreManager'
+
+
 const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
 const DB_NAME = 'StoreManager';
 
