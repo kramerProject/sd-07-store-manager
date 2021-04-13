@@ -55,8 +55,14 @@ const getOneWithValidation = async (id) => {
   return product;
 };
 
+const updateWithValidation = async (id, name, quantity) => {
+  const updatedProduct = await productModel.updateOne(id, name, quantity);
+  return updatedProduct;
+};
+
 module.exports = {
   addWithValidation,
   getAllWithValidation,
   getOneWithValidation,
+  updateWithValidation,
 };
