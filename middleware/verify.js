@@ -1,30 +1,68 @@
+const connect = require('../db');
 const status = require('http-status');
+const collectionp = 'products';
+const products = require('../services/productService');
 
-function verifyName (req, res, next){
+async function verifyName(req, res, next) {
   const { name } = req.body;
   const minLength = 5;
-  if(name.length < minLength)return res
+  if (name.length < minLength) return res
     .status(status.UNPROCESSABLE_ENTITY)
     .json(
-      {err:
-        {code:'invalid_data', message:'"name" length must be at least 5 characters long'}
+      {
+        err:
+          { code: 'invalid_data',
+            message: '"name" length must be at least 5 characters long' }
       });
+  const foundName = await products.getByProductName(name);
+  console.log(foundName);
+  if(foundName) {
+    return res
+      .status(status.UNPROCESSABLE_ENTITY)
+      .json({
+        err:
+          { code: 'invalid_data',
+            message: 'Product already exists' }
+      });}
   next();
 }
 
-function verifyQuantity (req, res, next){
-  const {quantity} = req.body;
+function verifyQuantity(req, res, next) {
+  const { quantity } = req.body;
   const minimumValue = 1;
-  if(quantity < minimumValue) return res
+
+  if (quantity < minimumValue) return res
     .status(status.UNPROCESSABLE_ENTITY).json(
-      {err:
-        {code:'invalid_data', message:'"quantity" must be larger than or equal to 1'}
+      {
+        err:
+          { code: 'invalid_data',
+            message: '"quantity" must be larger than or equal to 1' }
       });
-  next();
-  if(typeof quantity !== 'number') return res
-    .status(status.UNPROCESSABLE_ENTITY).json({err:
-      {code:'invalid_data', message:'"quantity" must be a number'}
+
+  if (typeof quantity !== 'number') return res
+    .status(status.UNPROCESSABLE_ENTITY).json({
+      err:
+        { code: 'invalid_data', message: '"quantity" must be a number' }
     });
-    
+  next();
 }
-module.exports = {verifyName, verifyQuantity};
+
+async function verifyExists(req, res, next) {
+  const {id} = req.params;
+  const foundId = await products.getByProductId(id);
+  console.log(foundId + 'foundid');
+  if(!foundId){
+    return res
+      .status(status.UNPROCESSABLE_ENTITY).json({
+        err:
+          { code: 'invalid_data', message: 'Wrong id format' }
+      });
+  }
+  next();
+}
+
+module.exports = { 
+  verifyName, 
+  verifyQuantity, 
+  verifyExists 
+};
