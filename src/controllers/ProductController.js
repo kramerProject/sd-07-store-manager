@@ -1,7 +1,37 @@
 const ProductService = require('../services/ProductService');
-const { CREATED } = require('./status');
+const { SUCCESS, CREATED, UNPROCESSABLE_ENTITY } = require('./status');
+
+const ZERO = 0;
 
 module.exports = {
+  index: async (req, res) => {
+    try {
+      const products = await ProductService.find();
+      return res.status(SUCCESS).json({ products });
+    } catch ({ err, err_number }) {
+      return res.status(err_number).json({ err });
+    }
+  },
+  get: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const products = await ProductService.get('_id', id);
+      
+      if (products.length === ZERO)
+        throw {
+          err: {
+            code: 'invalid_data',
+            message: 'Wrong id format',
+          },
+          err_number: UNPROCESSABLE_ENTITY,
+        };
+
+      const [ product ] = products;
+      return res.status(SUCCESS).json(product);
+    } catch ({ err, err_number }) {
+      return res.status(err_number).json({ err });
+    }
+  },
   create: async (req, res) => {
     try {
       const { name, quantity } = req.body;

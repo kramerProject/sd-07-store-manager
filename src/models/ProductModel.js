@@ -8,7 +8,11 @@ module.exports = {
       .insertOne({ name, quantity });
     return { _id, name, quantity };
   },
-  find: async (field, value) => {
+  find: async () => {
+    const db = await database.connect();
+    return await db.collection(productCollection).find({}).toArray();
+  },
+  get: async (field, value) => {
     const db = await database.connect();
     return await db.collection(productCollection).find({ [field]: value }).toArray();
   },

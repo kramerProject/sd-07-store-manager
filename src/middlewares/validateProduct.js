@@ -13,7 +13,7 @@ async function validadeName(name) {
     };
 
   const ZERO = 0;
-  const alreadyExists = await ProductService.find('name', name);
+  const alreadyExists = await ProductService.get('name', name);
   if (alreadyExists.length !== ZERO)
     throw {
       err: {
