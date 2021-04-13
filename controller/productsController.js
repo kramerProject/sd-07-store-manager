@@ -1,4 +1,4 @@
-const ProductsModel = require('../models/productsModel');
+const ProductsModel = require('../model/productsModel');
 
 // const productsService = require('../services/productsService'); -> utilizar caso necessario
 
@@ -8,10 +8,10 @@ const CREATED = 201;
 
 const insertProduct = rescue(async (req, res) => {
   
-  const {name, quantity } = req.body;
+  const { name, quantity } = req.body;
   const newProduct = await ProductsModel.insert(name, quantity);
 
-  return res.status(CREATED).json(newProduct);
+  return res.status(CREATED).json(newProduct.ops[0]);
 });
 
 module.exports = {

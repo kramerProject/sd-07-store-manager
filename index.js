@@ -1,6 +1,8 @@
 const express = require('express');
 const productsRoute = require('./routes/productsRoutes');
 
+const { errorMiddleware } = require('./middlewares');
+
 const app = express();
 
 app.use(express.json());
@@ -13,5 +15,7 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/products', productsRoute);
+
+app.use(errorMiddleware);
 
 app.listen(PORT, () => { console.log(`Online on port ${PORT}`); });

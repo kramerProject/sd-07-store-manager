@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { insertProduct } = require('../controllers/productsController');
+const { insertProduct } = require('../controller/productsController');
 
 const { validateProduct, checkDuplicate } = require('../middlewares');
 
