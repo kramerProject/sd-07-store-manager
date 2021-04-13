@@ -1,6 +1,8 @@
 const sales = require('../models/salesModel');
 
+
 const addSales = async (body) => {
+  
   const result = await sales.addSale(body);
   if (!result) return {
     err: {

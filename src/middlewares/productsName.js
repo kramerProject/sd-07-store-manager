@@ -1,4 +1,4 @@
-const codes = require('../codes');
+const codes = require('../services/codes');
 const productMiddlewaresName = (req, res, next) => {
   const { name } = req.body;
   const five = 5;

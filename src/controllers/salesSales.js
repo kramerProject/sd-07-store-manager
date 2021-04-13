@@ -1,9 +1,12 @@
 const sales = require('../services/salesService');
 const codes = require('../services/codes');
+const products = require('../services/productService');
 
 const addSales = async (req, res) => {
   try {
     const { body } = req;
+    const updateQuantity = await products.updateQuantity(body, 'sum');
+    if(updateQuantity.err) return res.status(codes.notFound).json(updateQuantity);
     const result = await sales.addSales(body);
     if (result.err) return res.status(codes.notProcessed).json(result);
     res.status(codes.sucess).json(result);
@@ -38,6 +41,7 @@ const updateSale = async (req, res) => {
   try {
     const { body } = req;
     const { id } = req.params;
+    await products.updateQuantity(body, 'sum');
     const result = await sales.updateSale(id, body);
     if (result.err) return res.status(codes.notProcessed).json(result);
     res.status(codes.sucess).json(result);
@@ -52,7 +56,9 @@ const deleteSale = async (req, res) => {
   try {
     const { id } = req.params;
     const result = await sales.deleteSale(id);
+        
     if (result.err) return res.status(codes.notProcessed).json(result);
+    await products.updateQuantity(result.itensSold, 'subtract');
     res.status(codes.sucess).json(result);
   } catch (error) {
     console.log(error.message);

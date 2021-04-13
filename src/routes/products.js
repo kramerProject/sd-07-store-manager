@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const products = require('../controllers/productController');
-const middlewares = require('../services/middlewares');
+const middlewares = require('../middlewares');
 
 router.post('/', middlewares.productValidateName,
   middlewares.productValidateQuantity,

@@ -1,8 +1,11 @@
-const codes = require('../codes');
+const codes = require('../services/codes');
 
 
 const check = (body) => {
   const zero = 0;
+  
+  if(!body.length) return false;
+  
   const numberSale = body.map((item) => {
     return item.quantity;
   });

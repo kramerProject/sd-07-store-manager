@@ -65,10 +65,34 @@ const deleteProduct = async (id) => {
   return resultCheck;
 };
 
+const updateQuantity = async (id, qtd, check) => {
+  if (!ObjectId.isValid(id)) return null;
+  const resultCheck = await connection()
+    .then((db) => db.collection('products').findOne(new ObjectId(id)));
+
+  if (!resultCheck) return null;
+  if (check === 'sum') {
+    await connection()
+      .then((db) => db.collection('products').updateOne(
+        { _id: ObjectId(id) },
+        { $inc: { quantity: -qtd } }));
+    return true;
+  }
+
+  if (check === 'subtract') {
+    await connection()
+      .then((db) => db.collection('products').updateOne(
+        { _id: ObjectId(id) },
+        { $inc: { quantity: qtd } }));
+    return true;
+  }
+};
+
 module.exports = {
   addProduct,
   getAll,
   getById,
   updateProduct,
   deleteProduct,
+  updateQuantity,
 };
