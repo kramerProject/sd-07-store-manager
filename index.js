@@ -1,15 +1,11 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const mysql = require('mysql2/promise');
 const dbProject = require('./models/dbProject');
 const validationsProducts = require('./middleWare/validationsProducts');
 const search = require('./models/search');
-const Status = {
-  OK: 200,
-  Created: 201,
-  Unprocessable_Entity: 422,
-};
+const change = require('./models/change');
+const Status = require('./middleWare/Status');
 const port = 3000;
 
 app.use(express.json());
@@ -26,6 +22,7 @@ app.get('/products', search.getAll);
 app.post('/products', validationsProducts, async (req, res) => {
   const { name, quantity } = req.body;
   const produzei = await dbProject.insert(name, quantity);
+  console.log(Status.Created);
   return res.status(Status.Created).json(produzei);
 });
 
