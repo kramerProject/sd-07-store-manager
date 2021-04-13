@@ -24,6 +24,17 @@ const addWithValidation = async (name, quantity) => {
     };
   }
 
+  const products = await productModel.getAll();
+  const zero = 0;
+  for (let i = zero; i < products.length; i += 1) {
+    if (name === products[i].name) {
+      return {
+        code: 'invalid_data',
+        message: 'Product already exists',
+      };
+    }
+  }
+
   const newProduct = await productModel.add(name, quantity);
   return newProduct;
 };
