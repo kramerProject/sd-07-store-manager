@@ -28,6 +28,12 @@ const addWithValidation = async (name, quantity) => {
   return newProduct;
 };
 
+const getAllWithValidation = async () => {
+  const products = await productModel.getAll();
+  return products;
+};
+
 module.exports = {
   addWithValidation,
+  getAllWithValidation,
 };

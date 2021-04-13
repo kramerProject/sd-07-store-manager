@@ -5,7 +5,6 @@ const status = require('../config/statusTable');
 const addProduct = async (req, res) => {
   try {
     const { name, quantity } = req.body;
-    // const newProduct = await productModel.add(name, quantity);
     const newProduct = await productServices.addWithValidation(name, quantity);
     if (!newProduct.code) {
       res.status(status.add).json(newProduct);
@@ -18,6 +17,16 @@ const addProduct = async (req, res) => {
   }
 };
 
+const getAllProducts = async (req, res) => {
+  try {
+    const products = await productServices.getAllWithValidation();
+    res.status(status.get).json(products);
+  } catch (error) {
+    
+  }
+};
+
 module.exports = {
   addProduct,
+  getAllProducts,
 };
