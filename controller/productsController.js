@@ -2,8 +2,6 @@ const products = require('../models/productsModels');
 const productsValidate = require('../services/productsService');
 
 const STATUS200 = 200;
-const STATUS201 = 201;
-const STATUS422 = 422;
 const STATUS500 = 500;
 
 const addProduct = async (req, res) => {
