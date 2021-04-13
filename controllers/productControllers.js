@@ -100,9 +100,22 @@ const updateProduct = async (req, res) => {
   }
 };
 
+const deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await productModel.exclude(id);
+    res.status(sucess).json(product);
+  } catch (err) {
+    res.status(unprocessable).json({'err': 
+    {'code': 'invalid_data',
+      'message': 'Wrong id format'} });
+  }
+};
+
 module.exports = {
   registerProduct,
   getAll,
   getById, 
-  updateProduct
+  updateProduct, 
+  deleteProduct
 };
