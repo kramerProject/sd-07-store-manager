@@ -1,12 +1,14 @@
 const productModel = require('../models/productModel');
 const connection = require('../config/connection');
 
+const unprocessable = 422;
+const created = 201;
+const internalError = 500;
+const five = 5;
+const zero = 0;
+const sucess = 200;
+
 const registerProduct = async (req, res) => {
-  const unprocessable = 422;
-  const created = 201;
-  const internalError = 500;
-  const five = 5;
-  const zero = 0;
 
   try {
     const { name, quantity } = req.body;
@@ -41,6 +43,37 @@ const registerProduct = async (req, res) => {
   }
 };
 
+const getAll = async (req, res) => {
+  try {
+    const products = await productModel.getAllProducts();
+    res.status(sucess).json({
+      'products': products
+    });
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+const getById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const result = await productModel.getProductsById(id);
+
+    if (!result) {
+      return res.status(unprocessable).json({'err': 
+			{'code': 'invalid_data',
+			  'message': 'Wrong id format'} });
+    }
+
+    res.status(sucess).json(result);
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
 module.exports = {
-  registerProduct
+  registerProduct,
+  getAll,
+  getById
 };
