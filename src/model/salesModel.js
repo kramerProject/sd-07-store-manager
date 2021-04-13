@@ -1,7 +1,7 @@
 const { ObjectID } = require('mongodb');
 const { MongoClient } = require('mongodb');
 
-const MONGO_DB_URL = 'mongodb://172.17.0.2:27017';
+const MONGO_DB_URL = 'mongodb://172.17.0.1:27017';
 const DB_NAME = 'StoreManager';
 
 const connection = () => MongoClient
