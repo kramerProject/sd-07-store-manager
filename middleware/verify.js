@@ -15,7 +15,6 @@ async function verifyName(req, res, next) {
             message: '"name" length must be at least 5 characters long' }
       });
   const foundName = await products.getByProductName(name);
-  console.log(foundName);
   if(foundName) {
     return res
       .status(status.UNPROCESSABLE_ENTITY)
@@ -50,7 +49,6 @@ function verifyQuantity(req, res, next) {
 async function verifyExists(req, res, next) {
   const {id} = req.params;
   const foundId = await products.getByProductId(id);
-  console.log(foundId + 'foundid');
   if(!foundId){
     return res
       .status(status.UNPROCESSABLE_ENTITY).json({
