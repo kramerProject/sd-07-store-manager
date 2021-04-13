@@ -48,9 +48,28 @@ const updateProduct = rescue(async (req, res) => {
   res.status(OK).json(updatedProduct);
 });
 
+const deleteProduct = rescue(async (req, res) => {
+  const { id } = req.params;
+
+  const deletedProduct = await ProductsModel.findById(id);
+
+  if(!deletedProduct) {
+    return res.status(UNPROCESSABLE_ENTITY).json({
+      err: {
+        message: 'Wrong id format',
+        code: 'invalid_data',
+      }
+    });
+  }
+
+  await ProductsModel.deleteOne(id);
+  return res.status(OK).json(deletedProduct);
+});
+
 module.exports = {
   insertProduct,
   findAll,
   findById,
   updateProduct,
+  deleteProduct,
 };
