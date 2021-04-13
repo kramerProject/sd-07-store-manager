@@ -1,5 +1,5 @@
 const express = require('express');
-const productsRoute = require('./routes/productsRoute')
+const productsRoute = require('./routes/productsRoute');
 const app = express();
 
 app.use(express.json());
@@ -13,4 +13,4 @@ app.get('/', (_request, response) => {
 
 
 const PORT = 3000;
-app.listen(PORT, () => console.log("Ta rodando o menino"));
+app.listen(PORT, () => console.log('Ta rodando o menino'));
