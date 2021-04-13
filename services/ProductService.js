@@ -1,5 +1,5 @@
 const ProductModel = require('../models/ProductModel');
-const { validName } = require('../util');
+const func = require('../util');
 const status = require('./status');
 
 
@@ -24,7 +24,7 @@ const editById = async (req, res) => {
 
 // \/ Req. 1 Crie um endpoint para o cadastro de produtos
 const create = async (name, quantity) => {
-  if (!await validName(name)) {
+  if (!await func.validName(name)) {
     return {
       isError: true,
       code: 'invalid_data',
@@ -33,16 +33,34 @@ const create = async (name, quantity) => {
     };
   };
 
+  if (!await func.quantityIsNumber(quantity)) {
+    return {
+      isError: true,
+      code: 'invalid_data',
+      status: status.UNPROCESSABLE_ENTITY,
+      message: '\"quantity\" must be a number',
+    };
+  };
+
+  if (!await func.validInsertQuantity(quantity)) {
+    return {
+      isError: true,
+      code: 'invalid_data',
+      status: status.UNPROCESSABLE_ENTITY,
+      message: '\"quantity\" must be larger than or equal to 1',
+    };
+  }
+
   const nameResult = await ProductModel.findProductByName(name);
 
-  if (nameResult) {
+  if (!await func.nameAlreadyExists(nameResult)) {
     return {
       isError: true,
       code: 'invalid_data',
       status: status.UNPROCESSABLE_ENTITY,
       message: 'Product already exists',
     };
-  };
+  }
 
   const product = await ProductModel.createProduct(name, quantity);
 

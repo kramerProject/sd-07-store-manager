@@ -1,7 +1,6 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
 const {
-  validName,
   validQuantity,
   validId
 } = require('../middlewares/validProduct');
@@ -49,7 +48,7 @@ productRoute.get('/:id', rescue(async (req, res) => {
 }));
 
 // \/ Req. 1 Crie um endpoint para o cadastro de produtos
-productRoute.post('/', validQuantity, rescue(async (req, res, next) => {
+productRoute.post('/', rescue(async (req, res, next) => {
   try {
     const { name, quantity } = req.body;
 
@@ -66,8 +65,8 @@ productRoute.post('/', validQuantity, rescue(async (req, res, next) => {
   }
 }));
 
-productRoute.put('/:id', validId, validQuantity, validName, ProductService.editById);
+// productRoute.put('/:id', validId, validQuantity, ProductService.editById);
 
-productRoute.delete('/:id', validId, ProductService.deleteById);
+// productRoute.delete('/:id', validId, ProductService.deleteById);
 
 module.exports = productRoute;

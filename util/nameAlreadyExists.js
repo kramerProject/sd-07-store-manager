@@ -7,3 +7,4 @@ const nameAlreadyExists = (nameResult) => {
   return true;
 };
 
+module.exports = nameAlreadyExists;
