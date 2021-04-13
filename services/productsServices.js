@@ -33,7 +33,19 @@ const getAllWithValidation = async () => {
   return products;
 };
 
+const getOneWithValidation = async (id) => {
+  const product = await productModel.getOne(id);
+  if (!product) {
+    return {
+      code: 'invalid_data',
+      message: 'Wrong id format',
+    };
+  }
+  return product;
+};
+
 module.exports = {
   addWithValidation,
   getAllWithValidation,
+  getOneWithValidation,
 };

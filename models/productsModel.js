@@ -10,7 +10,14 @@ const add = async (name, quantity) =>
 const getAll = async () => 
   connect().then(async (db) => await db.collection('products').find().toArray());
 
+const getOne = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  return connect().then((db) => db.collection('products').findOne(ObjectId(id)));
+};
+  
+
 module.exports = {
   add,
   getAll,
+  getOne,
 };
