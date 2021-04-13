@@ -12,6 +12,8 @@ app.get('/', (_request, response) => {
 app.post('/products', Products.create);
 app.get('/products', Products.getProduct);
 app.get('/products/:id', Products.getByProductId);
+app.put('/products/:id', Products.updateByProductId);
+app.delete('/products/:id', Products.deleteByProductId);
 
 const PORT = 3000;
 app.listen(PORT, () => {

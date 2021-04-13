@@ -33,9 +33,28 @@ const getByProductId = async (id) => {
     .catch(err => console.log(err));
 };
 
+const updateByProductId = async (id, name, quantity) => {
+  return Connect()
+    .then(db => db.collection('products')
+      .findOneAndUpdate({_id: ObjectId(id)}, {$set: {name, quantity}}))
+    .then(response => getByProductId(response.value._id))
+    .then(result => result)
+    .catch(error => console.log(error));
+};
+
+const deleteByProductId = async (id) => {
+  return Connect()
+    .then(db => db.collection('products')
+      .findOneAndDelete({_id: ObjectId(id)}))
+    .then(response => response.value)
+    .catch(err => console.log(err));
+};
+
 module.exports = {
   create,
   getByProductName,
   getProduct,
-  getByProductId
+  getByProductId,
+  updateByProductId,
+  deleteByProductId,
 };

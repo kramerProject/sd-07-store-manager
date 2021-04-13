@@ -48,9 +48,39 @@ const getByProductId = async (id) => {
   }
 };
 
+const updateByProductId = async (id, product, qty) => {
+  try {
+    switch (true) {
+    case invalid.productName(product):
+      return {code: status.unprocessableEntity, message: invalid.message.productName};
+    case invalid.isntNumber(qty):
+      return {code: status.unprocessableEntity, 
+        message: invalid.message.quantityNotNumber};
+    case invalid.minQuantity(qty):
+      return {code: status.unprocessableEntity, message: invalid.message.quantity};
+    default:
+      const result = await Products.updateByProductId(id, product, qty);
+      return {code: status.ok, message: result};
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const deleteByProductId = async (id) => {
+  try {
+    const result = await Products.deleteByProductId(id);
+    if(result) return {code: status.ok, message: result};
+    return {code: status.unprocessableEntity, message: invalid.message.wrongId};
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 module.exports = {
   create,
   getProduct,
   getByProductId,
+  updateByProductId,
+  deleteByProductId,
 };

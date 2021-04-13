@@ -25,12 +25,35 @@ const getByProductId = async (req, res) => {
     const product = await Products.getByProductId(id);
     res.status(product.code).json(product.message);
   } catch (error) {
-    
+    console.error(error);
+  }
+};
+
+const updateByProductId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const product = await Products.updateByProductId(id, name, quantity);
+    res.status(product.code).json(product.message);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const deleteByProductId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await Products.deleteByProductId(id);
+    res.status(result.code).json(result.message);
+  } catch (error) {
+    console.log(error);
   }
 };
 
 module.exports = {
   create,
   getProduct,
-  getByProductId
+  getByProductId,
+  updateByProductId,
+  deleteByProductId,
 };
