@@ -1,15 +1,19 @@
 const salesModel = require('../model/salesModel');
 
+const ok = 200;
+const unprocessable = 422;
+const notfound = 404;
+
 const create = async (req, res) => {
   const sale = req.body;
   const response = await salesModel.create(sale);
-  res.status(200).send(response);
+  res.status(ok).send(response);
   return null;
 };
 
 const getAll = async (req, res) => {
   const data = await salesModel.getAll();
-  res.status(200).send({ sales: data });
+  res.status(ok).send({ sales: data });
   return null;
 };
 
@@ -18,10 +22,10 @@ const getById = async (req, res) => {
   try {
     const response = await salesModel.getById(id);
     if (response) {
-      res.status(200).send(response);
+      res.status(ok).send(response);
       return null;
     }
-    res.status(404).send({
+    res.status(notfound).send({
       err: {
         code: 'not_found',
         message: 'Sale not found',
@@ -29,7 +33,7 @@ const getById = async (req, res) => {
     });
     return null;
   } catch {
-    res.status(404).send({
+    res.status(notfound).send({
       err: {
         code: 'not_found',
         message: 'Sale not found',
@@ -43,7 +47,7 @@ const editById = async (req, res) => {
   const { id } = req.params;
   const data = req.body;
   await salesModel.editById(id, data);
-  res.status(200).send({ _id: id, itensSold: data });
+  res.status(ok).send({ _id: id, itensSold: data });
   return null;
 };
 
@@ -52,17 +56,17 @@ const deleteById = async (req, res) => {
   try {
     const response = await salesModel.deleteById(id);
     if (response) {
-      res.status(200).send(response);
+      res.status(ok).send(response);
       return null;
     }
-    res.status(422).send({
+    res.status(unprocessable).send({
       err: {
         code: 'invalid_data',
         message: 'Wrong sale ID format',
       },
     });
   } catch {
-    res.status(422).send({
+    res.status(unprocessable).send({
       err: {
         code: 'invalid_data',
         message: 'Wrong sale ID format',

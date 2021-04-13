@@ -30,7 +30,9 @@ const getById = async (id) => connection()
   .then((data) => data[0]);
 
 const editById = async (id, newSale) => connection()
-  .then((db) => db.collection('sales').findOneAndUpdate({ _id: ObjectID(id) }, { $set: { itensSold: newSale } }))
+  .then((db) => db.collection('sales').findOneAndUpdate(
+    { _id: ObjectID(id) }, { $set: { itensSold: newSale } }
+  ))
   .then((responseDelete) => responseDelete.value);
 
 const deleteById = async (id) => connection()

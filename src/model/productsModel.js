@@ -31,7 +31,9 @@ const getById = async (id) => connection()
   .then((data) => data[0]);
 
 const editById = async (id, name, quantity) => connection()
-  .then((db) => db.collection('products').findOneAndUpdate({ _id: ObjectID(id) }, { $set: { name, quantity } }));
+  .then((db) => db.collection('products').findOneAndUpdate(
+    { _id: ObjectID(id) }, { $set: { name, quantity } }
+  ));
 
 const deleteById = async (id) => connection()
   .then((db) => db.collection('products').findOneAndDelete({ _id: ObjectID(id) }))

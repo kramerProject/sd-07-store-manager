@@ -1,27 +1,29 @@
 const productsModel = require('../model/productsModel');
 
+const zero = 0;
+const cinco = 5;
+const unprocessable = 422;
+
 const checkDuplicate = async (req, res, next) => {
   const { name } = req.body;
   const data = await productsModel.getAll();
-  if (data.length > 0) {
+  if (data.length > zero) {
     const arrayNames = data.map((e) => e.name);
     if (arrayNames.includes(name)) {
-      res.status(422).send({
+      res.status(unprocessable).send({
         err: {
           code: 'invalid_data',
           message: 'Product already exists',
         },
       });
-      return null;
-    }
-  }
+      return null;0
   next();
 };
 
 const checkProducts = async (req, res, next) => {
   const { name, quantity } = req.body;
-  if (typeof name !== 'string' || name.length <= 5) {
-    res.status(422).send({
+  if (typeof name !== 'string' || name.length <= cinco) {
+    res.status(unprocessable).send({
       err: {
         code: 'invalid_data',
         message: '"name" length must be at least 5 characters long',
@@ -30,7 +32,7 @@ const checkProducts = async (req, res, next) => {
     return null;
   }
   if (typeof quantity !== 'number') {
-    res.status(422).send({
+    res.status(unprocessable).send({
       err: {
         code: 'invalid_data',
         message: '"quantity" must be a number',
@@ -38,8 +40,8 @@ const checkProducts = async (req, res, next) => {
     });
     return null;
   }
-  if (!Number.isInteger(quantity) || quantity <= 0) {
-    res.status(422).send({
+  if (!Number.isInteger(quantity) || quantity <= zero) {
+    res.status(unprocessable).send({
       err: {
         code: 'invalid_data',
         message: '"quantity" must be larger than or equal to 1',

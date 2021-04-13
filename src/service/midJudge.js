@@ -7,6 +7,11 @@
 const productsModel = require('../model/productsModel');
 const salesModel = require('../model/salesModel');
 
+const zero = 0;
+const vinteEQuatro = 24;
+const unprocessable = 422;
+const notfound = 404;
+
 const buyJudge = async (req, res, next) => {
   const sale = req.body;
   const productIdList = [];
@@ -21,8 +26,8 @@ const buyJudge = async (req, res, next) => {
     const product = await productsModel.getById(productID);
     if (product.quantity > productQuantityList[index]) {
       const newQuantity = product.quantity - productQuantityList[index];
-      if (newQuantity < 0) {
-        res.status(422).send({
+      if (newQuantity < zero) {
+        res.status(unprocessable).send({
           err: {
             code: 'stock_problem',
             message: 'Such amount is not permitted to sell',
@@ -32,7 +37,7 @@ const buyJudge = async (req, res, next) => {
       }
       await productsModel.editById(product._id, product.name, newQuantity);
     } else {
-      res.status(404).send({
+      res.status(notfound).send({
         err: {
           code: 'stock_problem',
           message: 'Such amount is not permitted to sell',
@@ -47,8 +52,8 @@ const buyJudge = async (req, res, next) => {
 const deleteJudge = async (req, res, next) => {
   const { id } = req.params;
   console.log(id);
-  if (id.length !== 24) {
-    res.status(422).send({
+  if (id.length !== vinteEQuatro) {
+    res.status(unprocessable).send({
       err: {
         code: 'invalid_data',
         message: 'Wrong sale ID format',
@@ -67,8 +72,8 @@ const deleteJudge = async (req, res, next) => {
   productIdList.forEach(async (productID, index) => {
     const product = await productsModel.getById(productID);
     const newQuantity = product.quantity + productQuantityList[index];
-    if (newQuantity < 0) {
-      res.status(422).send({
+    if (newQuantity < zero) {
+      res.status(unprocessable).send({
         err: {
           code: 'stock_problem',
           message: 'Such amount is not permitted to sell',
