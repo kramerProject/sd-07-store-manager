@@ -32,11 +32,23 @@ module.exports = {
       return res.status(err_number).json({ err });
     }
   },
+  update: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, quantity } = req.body;
+
+      const product = await ProductService.update(id, { name, quantity });
+      
+      res.status(SUCCESS).json(product);
+    } catch ({ err, err_number }) {
+      return res.status(err_number).json({ err });
+    }
+  },
   create: async (req, res) => {
     try {
       const { name, quantity } = req.body;
       const newProduct =  await ProductService.create(name, quantity);
-      res.status(CREATED).json(newProduct);
+      return res.status(CREATED).json(newProduct);
     } catch ({ err, err_number }) {
       return res.status(err_number).json({ err });
     }

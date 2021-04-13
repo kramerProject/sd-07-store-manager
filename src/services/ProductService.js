@@ -30,4 +30,7 @@ module.exports = {
 
     return await ProductModel.get(field, value);
   },
+  update: async(id, data) => {
+    return await ProductModel.update(id, data);
+  }
 };

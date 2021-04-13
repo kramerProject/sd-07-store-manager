@@ -1,7 +1,7 @@
 const ProductService = require('../services/ProductService');
 const { BAD_REQUEST, UNPROCESSABLE_ENTITY } = require('../controllers/status');
 
-async function validadeName(name) {
+async function validadeName(name, method) {
   const minLength = 5;
   if (name.length < minLength)
     throw {
@@ -11,6 +11,9 @@ async function validadeName(name) {
       },
       err_number: UNPROCESSABLE_ENTITY,
     };
+
+  if (method !== 'POST')
+    return;
 
   const ZERO = 0;
   const alreadyExists = await ProductService.get('name', name);
@@ -44,7 +47,7 @@ function validateQuantity(quantity) {
     };
 }
 
-async function validateProduct(body) {
+async function validateProduct(body, method) {
   if (body.name === undefined)
     throw {
       err: {
@@ -63,13 +66,13 @@ async function validateProduct(body) {
       err_number: BAD_REQUEST,
     };
 
-  await validadeName(body.name);
+  await validadeName(body.name, method);
   validateQuantity(body.quantity);
 }
 
 module.exports = async (req, res, next) => {
   try {
-    await validateProduct(req.body);
+    await validateProduct(req.body, req.method);
     next();
   } catch ({ err, err_number }) {
     return res.status(err_number).json({ err });
