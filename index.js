@@ -14,5 +14,5 @@ app.use(express.json());
 app.use(router);
 
 app.listen(number, () => {
-  console.log(`App ouvindo a porta 3000!`);
+  console.log('App ouvindo a porta 3000!');
 });
