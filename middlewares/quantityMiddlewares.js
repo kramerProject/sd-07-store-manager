@@ -1,6 +1,6 @@
 const unprocessableEntity = 422;
 const minNumber = 0;
-
+console.log();
 const quantityMiddleware = (req, res, next) => {
   const { quantity } = req.body;
   if (typeof quantity !== 'number' || quantity === null) {
