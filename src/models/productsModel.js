@@ -3,23 +3,20 @@ const { ObjectId } = require('mongodb');
 
 const collectionName = 'products';
 
-const create = async (name, quantity) => {
-  conn().then((db) => db.collection(collectionName).insertOne({
+const create = async (name, quantity) => conn()
+  .then((db) => db.collection(collectionName).insertOne({
     name,
     quantity,
   }));
-};
 
-const findAll = async () => {
-  return conn().then((db) => db.collection(collectionName).find().toArray());
-};
+const findAll = async () => conn()
+  .then((db) => db.collection(collectionName).find().toArray());
 
-const findById = async (id) => {
-  return conn().then((db) => db.collection(collectionName).findOne({ _id: id }));
-};
+const findById = async (id) => conn()
+  .then((db) => db.collection(collectionName).findOne(ObjectId(id)));
 
-const update = async (id, name, quantity) => {
-  conn().then((db) => db.collection(collectionName).updateOne(
+const update = async (id, name, quantity) => conn()
+  .then((db) => db.collection(collectionName).updateOne(
     { _id: ObjectId(id) },
     {
       $set: {
@@ -28,7 +25,6 @@ const update = async (id, name, quantity) => {
       }
     }
   ));
-};
 
 module.exports = {
   create,

@@ -25,4 +25,11 @@ const findById = async (id) => {
 const update = async (id, name, quantity) => {
   const product = await Product.update(id, name, quantity);
   return { code: 200, product };
-}
+};
+
+module.exports = {
+  create,
+  findAll,
+  findById,
+  update,
+};
