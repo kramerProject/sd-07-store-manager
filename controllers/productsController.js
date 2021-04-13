@@ -7,8 +7,8 @@ const status = {
 
 const addProduct = async (req, res) => {
   try {
-    const { name, age } = req.body;
-    const newProduct = await productModel.add(name, age);
+    const { name, quantity } = req.body;
+    const newProduct = await productModel.add(name, quantity);
     res.status(status.add).json(newPerson);
   } catch (error) {
     console.error(error.message);
