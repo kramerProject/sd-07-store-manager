@@ -15,11 +15,39 @@ const findById = async (id) => {
   return result;
 };
 
-const editById = async (req, res) => {
-  const { id } = req.params;
-  const { name, quantity } = req.body;
+// \/ Req. 3 Crie um endpoint para atualizar um produto
+const editById = async (id, name, quantity) => {
+  if (!await func.validName(name)) {
+    return {
+      isError: true,
+      code: 'invalid_data',
+      status: status.UNPROCESSABLE_ENTITY,
+      message: '"name" length must be at least 5 characters long',
+    };
+  };
+
+  if (!await func.quantityIsNumber(quantity)) {
+    return {
+      isError: true,
+      code: 'invalid_data',
+      status: status.UNPROCESSABLE_ENTITY,
+      message: '\"quantity\" must be a number',
+    };
+  };
+
+  if (!await func.validInsertQuantity(quantity)) {
+    return {
+      isError: true,
+      code: 'invalid_data',
+      status: status.UNPROCESSABLE_ENTITY,
+      message: '\"quantity\" must be larger than or equal to 1',
+    };
+  }
+
+
+
   const findProduct = await ProductModel.updateById(id, name, quantity);
-  return res.status(status.SUCCESS).json(findProduct);
+  return findProduct;
 };
 
 // \/ Req. 1 Crie um endpoint para o cadastro de produtos
@@ -67,10 +95,9 @@ const create = async (name, quantity) => {
   return product;
 };
 
-const deleteById = async (req, res) => {
-  const { id } = req.params;
+const deleteById = async (id) => {
   const product = await ProductModel.deleteProduct(id);
-  return res.status(status.SUCCESS).json(product);
+  return product;
 };
 
 module.exports = {

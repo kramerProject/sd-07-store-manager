@@ -1,9 +1,5 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
-const {
-  validQuantity,
-  validId
-} = require('../middlewares/validProduct');
 
 const { ProductService, status } = require('../services');
 
@@ -64,6 +60,64 @@ productRoute.post('/', rescue(async (req, res, next) => {
 
   }
 }));
+
+// \/ Req.3  Crie um endpoint para atualizar um produto
+productRoute.put('/:id', rescue(async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const findProduct = await ProductService.findById(id);
+
+    if (!findProduct) {
+      return res.status(status.UNPROCESSABLE_ENTITY).json({
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong id format',
+        }
+      });
+    }
+
+    const { name, quantity } = req.body;
+
+    const result = await ProductService.editById(id, name, quantity);
+
+    if (result.isError) return next(result);
+
+    return res.status(status.SUCCESS).json(result);
+
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
+
+  }
+}));
+
+// \/ Req. 4 Delete.
+productRoute.delete('/:id', rescue(async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const findProduct = await ProductService.findById(id);
+
+    if (!findProduct) {
+      return res.status(status.UNPROCESSABLE_ENTITY).json({
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong id format',
+        }
+      });
+    }
+
+    const result = await ProductService.deleteById(id);
+
+
+    return res.status(status.SUCCESS).json(result);
+
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
+
+  }
+}));
+
 
 // productRoute.put('/:id', validId, validQuantity, ProductService.editById);
 
