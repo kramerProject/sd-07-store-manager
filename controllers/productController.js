@@ -38,7 +38,6 @@ const updateOne = async (req, res) => {
   try {
     const {id} = req.params;
     const {name, quantity} = req.body;
-    console.log(id+name+quantity)
     const result = await product.updateProduct(id, name, quantity);
     return res.status(status.OK).json(result);
   } catch (error) {
