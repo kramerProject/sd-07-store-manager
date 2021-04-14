@@ -3,6 +3,7 @@ const {
   returnProducts,
   returnProductsForId,
   serviceForUpdate,
+  serviceForDelete,
 } = require('../Services/productService');
 const addProduct = async (req, res) => {
   const resOK = 201;
@@ -52,9 +53,24 @@ const updateForId = async (req, res) => {
   }
 };
 
+const deleteForId = async (req, res) => {
+  const resOK = 200;
+  const resErr= 422;
+
+  try {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const deleteForId = await serviceForDelete(id, name, quantity);
+    res.status(resOK).json(deleteForId);
+  } catch (err) {
+    res.status(resErr).json({err});
+  }
+};
+
 module.exports = {
   addProduct,
   getAllProduct,
   getForId,
-  updateForId
+  updateForId,
+  deleteForId,
 };
