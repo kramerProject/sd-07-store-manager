@@ -8,8 +8,8 @@ const create = async (req, res) => {
 };
 
 const findAll = async (req, res) => {
-  const { code, products } = await Product.findAll();
-  res.status(code).json(products);
+  const { code, productsList } = await Product.findAll();
+  res.status(code).json({ products: productsList });
 };
 
 const findById = async (req, res) => {

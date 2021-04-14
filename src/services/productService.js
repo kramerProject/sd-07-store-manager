@@ -13,8 +13,8 @@ const create = async (name, quantity) => {
 };
 
 const findAll = async () => {
-  const products = await Product.findAll();
-  return { code: 200, products };
+  const productsList = await Product.findAll();
+  return { code: 200, productsList };
 };
 
 const findById = async (id) => {
