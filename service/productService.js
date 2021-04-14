@@ -1,49 +1,29 @@
 const { findItemByName, addItem } = require('../model/productsModel');
 const five = 5;
-// const zero = 0;
-const unprocessable_entity = 422;
 
-function validateName(name) {
+async function validateName(name) {
   if (name.length < five) {
-    throw new Error({
-      'err': {
-        'code': 'invalid_data',
-        'message': '"name" length must be at least 5 characters long'
-      }
-    });
+    throw new Error('"name" length must be at least 5 characters long');
   }
-  const productList = findItemByName(name);
-  if (productList) {
-    throw new Error({
-      'err': {
-        'code': 'invalid_data',
-        'message': 'Product already exists'
-      }
-    });
+  const productFound = await findItemByName(name);
+  console.log(productFound);
+  if (productFound) {
+    throw new Error('Product already exists');
   };
 }
 
 function validateQuantity(quantity) {
   if (quantity < 1) {
-    throw new Error({
-      'err': {
-        'code': 'invalid_data',
-        'message': '"quantity" must be larger than or equal to 1'
-      }
-    });
+    throw new Error('"quantity" must be larger than or equal to 1');
   }
   if (typeof quantity !== 'number') {
-    throw new Error({
-      'err': {
-        'code': 'invalid_data',
-        'message': '"quantity" must be a number'
-      }
-    });
+    throw new Error('"quantity" must be a number');
   }
 }
 
-function serviceAddItem(name, quantity) {
-  return addItem(name, quantity);
+async function serviceAddItem(name, quantity) {
+  const newItem = await addItem(name, quantity);
+  return newItem;
 }
 
 module.exports = {
