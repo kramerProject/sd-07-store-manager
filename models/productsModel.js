@@ -7,13 +7,23 @@ const addProduct = async (name, quantity) => {
     .then((result) => result.ops[0]);
 };
 
-const findProductsByNane = async (name) => {
+const findProductsByName = async (name) => {
   return connect().then((db) => db.collection('products').findOne({ name }));
+};
+
+const findAllProducts = async () => {
+  return connect().then((db) => db.collection('products').find());
+};
+
+const findByIdProducts = async (id) => {
+  return connect().then((db) => db.collection('products').findOne(id));
 };
 
 module.exports = {
   addProduct,
-  findProductsByNane,
+  findProductsByName,
+  findAllProducts,
+  findByIdProducts,
 };
 
 /* const createProduct = async (name, quantity) => {
