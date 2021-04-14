@@ -7,7 +7,9 @@ const {
 } = require('./controller/controllerProducts');
 
 const {
-  controllerAddSales
+  controllerAddSales,
+  getAllSales,
+  getSalesById
 } =require('./controller/controllerSales');
 
 
@@ -29,5 +31,7 @@ app.delete('/products/:id', deleteById);
 
 //Sales
 app.post('/sales', controllerAddSales);
+app.get('/sales', getAllSales);
+app.get('/sales/:id', getSalesById);
 
 app.listen(PORT, () => { console.log('Online'); });

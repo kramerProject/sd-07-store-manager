@@ -1,5 +1,7 @@
 const {
-  modelAddToSales
+  modelAddToSales,
+  modelGetAllSales,
+  modelGetSalesById
 } = require('../model/salesModel');
 const ObjectId = require('mongodb').ObjectId;
 const five = 5;
@@ -23,8 +25,23 @@ async function addToSales(salesList) {
   return result = await modelAddToSales(salesList);
 }
 
+async function serviceGetAllSales() {
+  return await modelGetAllSales();
+}
+
+  
+async function serviceGetSalesById(id) {
+  const result = await modelGetSalesById(id);
+  if (!result) {
+    throw new Error('Sale not found');
+  }
+  return result;
+}
+
 module.exports = {
   checkQuantities,
   // checkIds,
-  addToSales
+  addToSales,
+  serviceGetAllSales,
+  serviceGetSalesById
 };
