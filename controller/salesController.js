@@ -10,7 +10,7 @@ const insertSale = rescue(async (req, res) => {
   const saleArray = req.body;
   const newSale = await SalesModel.insert(saleArray);
 
-  return res.status(CREATED).json(newSale.ops[0]);
+  return res.status(OK).json(newSale.ops[0]);
 });
 
 module.exports = {

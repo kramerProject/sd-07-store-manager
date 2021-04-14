@@ -3,7 +3,7 @@ const { ObjectId } = require('mongodb');
 
 const insert = async (saleArray) => {
   return connection()
-    .then((db) => db.collection('products').insertOne({ intensSold: saleArray }));
+    .then((db) => db.collection('products').insertOne({ itensSold: saleArray }));
 };
 
 module.exports = {
