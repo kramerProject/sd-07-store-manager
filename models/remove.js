@@ -21,8 +21,6 @@ const remove = async (req, res, next) => {
 
   const collection2 = await validators.getAllProject();
 
-  console.log(collection2[0])
-
   return res.status(Status.OK).send(collection2[0]);
 };
 
