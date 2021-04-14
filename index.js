@@ -4,7 +4,7 @@ const productRoutes = require('./routes/productsRoutes');
 const app = express();
 
 app.use(express.json());
-app.use(productRoutes)
+app.use(productRoutes);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
@@ -13,5 +13,5 @@ app.get('/', (_request, response) => {
 
 const port = 3000;
 app.listen(port, () => {
-  console.log(`App rodando na porta ${port}`)
-})
+  console.log(`App rodando na porta ${port}`);
+});

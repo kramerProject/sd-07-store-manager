@@ -6,7 +6,7 @@ const getAll = async () => {
 
 const createProduct = async (name, quantity) => {
   return connection().then((db) =>
-  db.collection('products').insertOne({ name, quantity })).then(result => result.ops);
+    db.collection('products').insertOne({ name, quantity })).then(result => result.ops);
 };
 
 module.exports = {
