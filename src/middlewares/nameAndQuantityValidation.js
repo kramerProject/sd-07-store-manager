@@ -21,7 +21,7 @@ const nameAndQuantityValidation = (req, res, next) => {
       }
     });
   }
-  if (quantity < minQuantity) {
+  if (quantity <= minQuantity) {
     return res.status(statusInvalidData).json({
       'err': {
         'code': 'invalid_data',

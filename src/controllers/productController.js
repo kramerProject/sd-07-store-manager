@@ -3,6 +3,7 @@ const rescue = require('express-rescue');
 const ObjectId = require('mongodb');
 
 const OK = 200;
+const CREATED = 201;
 const INVALID_DATA = 422;
 const validationLength = 0;
 
@@ -33,7 +34,9 @@ const invalidIdError = {
 const getAllProducts = rescue(async (_req, res) => {
   try {
     const productsArray = await productModel.getAllProducts();
-    res.status(OK).json(productsArray);
+    res.status(OK).json({
+      'products': productsArray
+    });
   } catch (error) {
     throw new Error(error);
   }
@@ -63,7 +66,7 @@ const addNewProduct = rescue(async (req, res) => {
     //   return res.status(INVALID_DATA).json(allreadyExistsError);
     // }
     const product = await productModel.addNewProduct(name, quantity);
-    res.status(OK).json(product);
+    res.status(CREATED).json(product);
   } catch (error) {
     throw new Error(error);
   }
