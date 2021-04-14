@@ -56,7 +56,6 @@ const getOneWithValidation = async (id) => {
 };
 
 const updateWithValidation = async (id, name, quantity) => {
-  // VALIDAÇÕES
   const regraQtdCaractere = 5;
   const qtdMinima = 1;
   if (name.length <= regraQtdCaractere) {
@@ -79,9 +78,22 @@ const updateWithValidation = async (id, name, quantity) => {
       message: '"quantity" must be a number',
     };
   }
-  // 
+
   const updatedProduct = await productModel.updateOne(id, name, quantity);
   return updatedProduct;
+};
+
+const excludeWithValidation = async (id) => {
+  const product = await productModel.getOne(id);
+  if (!product) {
+    return {
+      code: 'invalid_data',
+      message: 'Wrong id format',
+    };
+  }
+
+  const excludedProduct = await productModel.excludeOne(id);
+  return excludedProduct;
 };
 
 module.exports = {
@@ -89,4 +101,5 @@ module.exports = {
   getAllWithValidation,
   getOneWithValidation,
   updateWithValidation,
+  excludeWithValidation,
 };

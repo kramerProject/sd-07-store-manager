@@ -28,9 +28,24 @@ const updateOne = async (id, name, quantity) =>
     };
   });
 
+const excludeOne = async (id) => {
+  const product = await getOne(id);
+
+  connect().then(async (db) => 
+    db.collection('products').deleteOne({ _id: ObjectId(id) })
+  );
+
+  return {
+    _id: id,
+    name: product.name,
+    quantity: product.quantity,
+  };
+};
+
 module.exports = {
   add,
   getAll,
   getOne,
   updateOne,
+  excludeOne,
 };

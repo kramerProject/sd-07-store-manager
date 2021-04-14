@@ -58,9 +58,25 @@ const updateProductsById = async (req, res) => {
   }
 };
 
+const excludeProductsById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const excludedProduct = await productServices.excludeWithValidation(id);
+    if (!excludedProduct.code) {
+      res.status(status.get).json(excludedProduct);
+      return;
+    }
+    res.status(status.invalid_data).json({err: excludedProduct});
+  } catch (error) {
+    console.error(error.message);
+    res.status(status.serverError).json({ message: error.message });
+  }
+};
+
 module.exports = {
   addProduct,
   getAllProducts,
   getProductsById,
   updateProductsById,
+  excludeProductsById,
 };
