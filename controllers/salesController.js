@@ -4,11 +4,19 @@ const salesModel = require('../models/salesModel');
 const OK = 200;
 const notFound = 404;
 const serverError = 500;
+const unprocessable = 422;
 
 const wrongId = {
   err: {
     code: 'not_found',
     message: 'Sale not found',
+  },
+};
+
+const notFoundMessage = {
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong sale ID format',
   },
 };
 
@@ -62,9 +70,26 @@ const updateSale = async (req, res) => {
   }
 };
 
+const deleteSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const results = await salesModel.excludeSale(id);
+    
+    if(!results) {
+      return res.status(unprocessable).json(notFoundMessage);
+    }
+    return res.status(OK).json(results);
+
+  } catch (error) {
+    console.log(error);
+    return res.status(serverError).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createSales,
   getAllSales,
   getSaleById,
-  updateSale
+  updateSale,
+  deleteSale
 };

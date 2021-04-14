@@ -14,6 +14,7 @@ router.post('/sales', salesController.createSales);
 router.get('/sales', salesController.getAllSales);
 router.get('/sales/:id', salesController.getSaleById);
 router.put('/sales/:id', salesController.updateSale);
+router.delete('/sales/:id', salesController.deleteSale);
 
 
 

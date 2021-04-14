@@ -25,9 +25,17 @@ const updateSale = async (id, itensSold) => {
   return { _id: id, itensSold };
 };
 
+const excludeSale = async (id) =>{
+  if (!ObjectId.isValid(id)) return null;
+
+  return connection().then((db) => db.collection('sales')
+    .deleteOne({_id: ObjectId(id)}));
+};
+
 module.exports = {
   createSales,
   getAllSales,
   getSaleById,
-  updateSale
+  updateSale,
+  excludeSale
 };
