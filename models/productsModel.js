@@ -22,7 +22,25 @@ const getByName = async (name) => {
   }
 };
 
+const getAll = async () =>
+  connection().then(async (db) => {
+    const products = await db.collection('products')
+      .find().toArray();
+    return {products};
+  });
+
+const getById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const product = await connection().then((db) =>
+    db.collection('products')
+      .findOne(ObjectId(id)),
+  );
+  return product;
+};
+
 module.exports = {
   create,
   getByName,
+  getAll,
+  getById,
 };
