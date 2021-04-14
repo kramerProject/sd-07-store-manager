@@ -9,6 +9,14 @@ const getAll = async () => {
   return allProducts;
 };
 
+const getById = async (id) => {
+  const product = await connection().then((db) =>
+    db.collection('products').findOne(ObjectId(id)),
+  );
+  return product;
+};
+  
+
 const create = async (name, quantity) => {
   const product = await connection().then((db) =>
     db.collection('products').insertOne({ name, quantity }),
@@ -17,4 +25,4 @@ const create = async (name, quantity) => {
   return { _id: product.insertedId, name, quantity };
 };
 
-module.exports = { create, getAll };
+module.exports = { create, getAll, getById };
