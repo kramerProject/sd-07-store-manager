@@ -11,16 +11,13 @@ const createProduct = async ({ name, quantity }) => {
 
   const zero = 0;
 
-  if (product.length > zero) return messageErrorNameExists;
+  if (product.length > zero) {
+    return messageErrorNameExists;
+  } 
  
   const createdProduct = await productModel.postdata(name, quantity);
-
-  const result = {
-    _id: createdProduct.insertedId,
-    name,
-    quantity,
-  };
-  return result;
+  
+  return createdProduct.ops[0];
 };
 
 const getAllProducts = async () => {

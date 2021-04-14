@@ -33,8 +33,8 @@ const getById = async (id) => {
 
 const getByName = async (name) => {
   const product = await connection()
-    .then((db) => db.collection('StoreManager').findOne({ name }))
-    .then((result) => result);
+    .then((db) => db.collection('StoreManager').find({ name }).toArray());
+  // console.log(product)
   if (product === null) return [];
   return product;
 };

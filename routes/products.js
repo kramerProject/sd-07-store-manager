@@ -14,7 +14,7 @@ const {
   validatedName,
   validatedQuantity,
   validatedQuantityString,
-  productExists,
+  // productExists,
 } = require('../middlewares');
 
 router.get('/', getProducts);
