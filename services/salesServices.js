@@ -13,6 +13,7 @@ const addWithValidation = async (sales) => {
   }
 
   const itensSold = await salesModel.add(sales);
+  console.log('services' + itensSold);
   return itensSold;
 };
 

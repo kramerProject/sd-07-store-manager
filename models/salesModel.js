@@ -1,11 +1,29 @@
+const productsModel = require('../models/productsModel');
 const connect = require('../config/conn');
 const { ObjectId } = require('mongodb');
 
-const add = async (sales) =>
+const addAfter = async (sales) =>
   connect().then(async (db) => {
     const itensSold = await db.collection('sales').insertOne({ itensSold: sales });
     return itensSold.ops[0];
   });
+
+const add = async (sales) => {
+  const zero = 0;
+  for (let i = zero; i < sales.length; i += 1) {
+    const { productId, quantity } = sales[i];
+    await productsModel.updateQuantity(productId, quantity);
+  }
+
+  const itensSold = await addAfter(sales);
+  return itensSold;
+
+  // connect().then(async (db) => {
+  //   const itensSold = await db.collection('sales').insertOne({ itensSold: sales });
+  //   console.log('model' + itensSold.ops[0]);
+  //   return itensSold.ops[0];
+  // });
+};
 
 const getAll = async () =>
   connect().then(async (db) => await db.collection('sales').find().toArray());
@@ -29,9 +47,7 @@ const updateOne = async (id, itensSold) =>
 const exclude = async (id) => {
   const sale = await getOne(id);
 
-  connect().then(async (db) => 
-    db.collection('sales').deleteOne({ _id: ObjectId(id) })
-  );
+  connect().then(async (db) => db.collection('sales').deleteOne({ _id: ObjectId(id) }));
 
   return {
     _id: id,
@@ -47,4 +63,9 @@ module.exports = {
   exclude,
 };
 
-// { "itensSold": [{ "productId": "5f43cbf4c45ff5104986e81d", "quantity": 2 }] }
+// { "_id": ObjectId("5f43cbf4c45ff5104986e81d"), "name": "Produto Silva", "quantity": 10 }
+
+//  {
+//    "_id": ObjectId("5f43cc53c45ff5104986e81e"),
+//    "itensSold": [{ "productId": "5f43cbf4c45ff5104986e81d", "quantity": 2 }]
+//  }

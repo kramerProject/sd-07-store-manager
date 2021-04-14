@@ -28,6 +28,15 @@ const updateOne = async (id, name, quantity) =>
     };
   });
 
+const updateQuantity = async (id, quantity) => {
+  product = await getOne(id);
+  const newQuantity = product.quantity - quantity;
+  connect().then(async (db) => {
+    await db.collection('products')
+      .updateOne({ _id: ObjectId(id) }, { $set: {quantity: newQuantity} });
+  });
+};
+
 const excludeOne = async (id) => {
   const product = await getOne(id);
 
@@ -48,4 +57,5 @@ module.exports = {
   getOne,
   updateOne,
   excludeOne,
+  updateQuantity,
 };
