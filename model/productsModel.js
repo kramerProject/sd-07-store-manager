@@ -18,8 +18,7 @@ const findById = async (id) => {
 
 const update = async (id, name, quantity) => 
   connection().then(async (db) => {
-	  const person = await db
-		  .collection('products')
+	  await db.collection('products')
 	  	.updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
     return { _id: id, name, quantity };
   });

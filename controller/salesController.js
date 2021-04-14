@@ -1,7 +1,6 @@
 const SalesModel = require('../model/salesModel');
 const rescue = require('express-rescue');
 
-const CREATED = 201;
 const OK = 200;
 const NOT_FOUND = 404;
 const UNPROCESSABLE_ENTITY = 422;
@@ -37,8 +36,37 @@ const findById = rescue(async (req, res) => {
   return res.status(OK).json(searchResult);
 });
 
+const updateSale = rescue(async (req, res) => {
+  const saleArray = req.body;
+  const { id } = req.params;
+
+  const updatedSale = await SalesModel.update(id, saleArray);
+
+  res.status(OK).json(updatedSale);
+});
+
+const deleteSale = rescue(async (req, res) => {
+  const { id } = req.params;
+
+  const deletedSale = await SalesModel.findById(id);
+
+  if(!deletedSale) {
+    return res.status(UNPROCESSABLE_ENTITY).json({
+      err: {
+        message: 'Wrong sale ID format',
+        code: 'invalid_data',
+      }
+    });
+  }
+
+  await SalesModel.deleteSale(id);
+  return res.status(OK).json(deletedSale);
+});
+
 module.exports = {
   insertSale,
   findAll,
   findById,
+  updateSale,
+  deleteSale,
 };
