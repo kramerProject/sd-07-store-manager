@@ -25,28 +25,25 @@ const sales = async (req, res, next) => {
   }
   const collection = await validators.getAllProject();
   console.log(collection);
-  data.map((body) => {
-    let valido = zero;
+  let valido = zero;
+  data.map((body) => {    
     collection.map((collection) => {
       if (body.productId.toString() === collection._id.toString()) {
         valido += 1;
       } 
-    });
-    if (valido === zero) {
-      return res.status(Status.Unprocessable_Entity).json({
-        err: {
-          code: 'invalid_data',
-          message: 'Wrong product ID or invalid quantity',
-        },
-      });
-    }
-    if (valido >= zero) {
-      return res.status(Status.OK).json({
-        itensSold: data,
-      });
-    }
+    });    
   });
-
+  if (valido !== data.length) {
+    return res.status(Status.Unprocessable_Entity).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong product ID or invalid quantity',
+      },
+    });
+  }
+  return res.status(Status.OK).json({
+    itensSold: data,
+  });
 };
 
 module.exports = sales;
