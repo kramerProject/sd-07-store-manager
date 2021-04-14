@@ -1,5 +1,6 @@
 const Model = require('../model');
 const rescue = require('express-rescue');
+const Service = require('../service');
 
 const OK = 200;
 const NOT_FOUND = 404;
@@ -11,6 +12,8 @@ const insertSale = rescue(async (req, res) => {
   const itensSold = req.body;
   const data = { itensSold }; 
   const newSale = await Model.insert(salesCollection, data);
+
+  // await Service.removeQuantities(newSale.ops[0]);
 
   return res.status(OK).json(newSale.ops[0]);
 });

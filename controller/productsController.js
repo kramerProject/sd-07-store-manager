@@ -1,18 +1,17 @@
 const Model = require('../model');
 
-// const productsService = require('../services/productsService'); -> utilizar caso necessario
+// const productsService = require('../service'); -> utilizar caso necessario
 
 const rescue = require('express-rescue');
 
 const CREATED = 201;
 const OK = 200;
 const UNPROCESSABLE_ENTITY = 422;
-const productsCollection = 'products'; 
+const productsCollection = 'products';
 
 const insertProduct = rescue(async (req, res) => {
   
-  const { name, quantity } = req.body;
-  const data = { name, quantity };
+  const data = req.body;
   const newProduct = await Model.insert(productsCollection, data);
 
   return res.status(CREATED).json(newProduct.ops[0]);
@@ -42,9 +41,8 @@ const findById = rescue(async (req, res) => {
 });
 
 const updateProduct = rescue(async (req, res) => {
-  const { name, quantity } = req.body;
+  const data = req.body;
   const { id } = req.params;
-  const data = { name, quantity };
 
   const updatedProduct = await Model.update(productsCollection, id, data);
 
