@@ -1,11 +1,25 @@
 const express = require('express');
 
-const { createProduct } = require('./controllers/productController');
+const {
+  getAllProductsController,
+  createProductController 
+} = require('./controllers/productController');
 
-const { validateNameMiddleware } = require('./middlewares/productMiddlewares');
+const { 
+  validateNameMiddleware,
+  validateQuantityMiddleware,
+  validateUniqueProductsMiddleware
+} = require('./middlewares/productMiddlewares');
 
 const route = express.Router();
 
-route.post('/products', validateNameMiddleware, createProduct);
+route.get('/products', getAllProductsController);
+
+route.post('/products',
+  validateNameMiddleware,
+  validateQuantityMiddleware,
+  validateUniqueProductsMiddleware,
+  createProductController
+);
 
 module.exports = route;

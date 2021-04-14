@@ -1,18 +1,28 @@
 const Product = require('../models/productModel');
 
-const STATUS_201 = 201;
+const SUCCESS = 200;
+const CREATED = 201;
 
-const createProduct = async (req, res) => {
+const getAllProductsController = async (_req, res, next) => {
+  try {
+	  const products = await Product.getAll();
+    return res.status(SUCCESS).json(products);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const createProductController = async (req, res, next) => {
   try {
     const { name, quantity } = req.body;
     const result = await Product.createProduct(name, quantity);
-    return res.status(STATUS_201).json(result);
+    return res.status(CREATED).json(result);
   } catch (err) {
-    console.log(err);
-    return;
+    next(err);
   }
 };
 
 module.exports = {
-  createProduct,
+  getAllProductsController,
+  createProductController
 };
