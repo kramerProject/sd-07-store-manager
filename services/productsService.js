@@ -4,7 +4,10 @@ const { ObjectId } = require('mongodb');
 
 const verifyName = (allProducts, name) => {
   const minLength = 5;
-  const bool = allProducts.some((element) => element.name === name);
+  let bool;
+  if (allProducts !== undefined) {
+    bool = allProducts.some((element) => element.name === name);
+  }
   if (typeof name !== 'string' || name.length <= minLength) {
     throw new Error('"name" length must be at least 5 characters long');
   } else if (bool) {
@@ -48,4 +51,16 @@ const getProductsById = async (id) => {
   }
 };
 
-module.exports = { createProduct, getAllProducts, getProductsById };
+const updateProduct = async (id, name, quantity) => {
+  try {
+    verifyName(undefined, name);
+    verifyQuantity(quantity);
+
+    const updatedProduct = await productsModel.update(id, name, quantity);
+    return updatedProduct;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+module.exports = { createProduct, getAllProducts, getProductsById, updateProduct };

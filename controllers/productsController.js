@@ -38,4 +38,19 @@ const getProductsById = async (req, res) => {
   }
 };
 
-module.exports = { createProduct, getAllProducts, getProductsById };
+const updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+
+  const result = await productsService.updateProduct(id, name, quantity);
+
+  if (typeof result === 'string') {
+    res
+      .status(STATUS_UNPROCESSABLE_ENTITY)
+      .json({ err: { code: 'invalid_data', message: result } });
+  } else {
+    res.status(STATUS_OK).json({ id, name, quantity });
+  }
+};
+
+module.exports = { createProduct, getAllProducts, getProductsById, updateProduct };
