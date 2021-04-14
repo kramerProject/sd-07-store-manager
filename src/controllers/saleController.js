@@ -2,17 +2,12 @@ const Sale = require('../services/saleService');
 
 const create = async (req, res) => {
   const { body } = req;
-
-  console.log(body);
-
   const { code, newSale } = await Sale.create(body);
-  console.log(newSale);
   res.status(code).json(newSale);
 };
 
 const findAll = async (req, res) => {
   const { code, salesList } = await Sale.findAll();
-  console.log('controller', salesList);
   res.status(code).json({ sales: salesList });
 };
 
