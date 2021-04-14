@@ -6,7 +6,7 @@ const create = async (name, quantity) =>
     const product = await db.collection('products')
       .insertOne({ name, quantity });
 
-      return product.ops[0];
+    return product.ops[0];
   });
 
 const getByName = async (name) => {
@@ -20,7 +20,8 @@ const getByName = async (name) => {
     console.error(err);
     return { err };
   }
-}
+};
+
 module.exports = {
   create,
   getByName,

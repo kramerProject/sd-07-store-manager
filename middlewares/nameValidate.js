@@ -5,8 +5,9 @@ const nameValidate = async (req, res, next) => {
   err.code = 'invalid_data';
   err.statusCode = 422;
 
+  const MIN_CHARACTERS = 5;
   err.message = '"name" length must be at least 5 characters long';
-  if (name.length < 5) next(err);
+  if (name.length < MIN_CHARACTERS) next(err);
 
   err.message = 'Product already exists';
   const nameExists = await productsModel.getByName(name);
