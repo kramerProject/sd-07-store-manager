@@ -3,7 +3,8 @@ const {
   addItem,
   modelGetAll,
   modelGetById,
-  updateById
+  updateById,
+  modelDeleteById
 } = require('../model/productsModel');
 const five = 5;
 
@@ -50,6 +51,14 @@ async function serviceUpdateById(id, name, quantity) {
   }
   return result;
 }
+
+async function serviceDeleteById(id) {
+  const result = await modelDeleteById(id);
+  if (!result) {
+    throw new Error('Wrong id format');
+  }
+  return result;
+}
 module.exports = {
   validateName,
   checkIfExists,
@@ -57,5 +66,6 @@ module.exports = {
   validateQuantity,
   serviceGetAll,
   serviceGetById,
-  serviceUpdateById
+  serviceUpdateById,
+  serviceDeleteById
 };

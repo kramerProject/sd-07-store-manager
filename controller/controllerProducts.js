@@ -5,7 +5,8 @@ const {
   validateQuantity,
   serviceGetAll,
   serviceGetById,
-  serviceUpdateById
+  serviceUpdateById,
+  serviceDeleteById
 } = require('../service/productService');
 const unprocessable_entity = 422;
 const success = 200;
@@ -66,9 +67,23 @@ const updateById = async (req, res) => {
     });
   }
 };
+
+const deleteById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await serviceDeleteById(id);
+    if (result) return res.status(success).json(result);
+  } catch (err) {
+    res.status(unprocessable_entity).json({
+      'err': { 'code': 'invalid_data', 'message': err.message }
+    });
+  }
+
+};
 module.exports = {
   addProduct,
   getAllProducts,
   getById,
-  updateById
+  updateById,
+  deleteById
 };

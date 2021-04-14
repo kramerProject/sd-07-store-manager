@@ -37,22 +37,41 @@ async function modelGetById(id) {
 async function updateById(id, name, quantity) {
   return connect().then((db) => {
     try {
-      const item = db.collection('products').updateOne({_id: ObjectId(id)}, {
+      const item = db.collection('products').updateOne({ _id: ObjectId(id) }, {
         $set: {
           name,
           quantity,
         }
       });;
-      return {_id: item.upsertedId, name, quantity};
+      return { _id: item.upsertedId, name, quantity };
     } catch (err) {
       return false;
     }
   });
+}
+
+async function modelDeleteById(id) {
+  const searchedItem = await connect().then(async (db) => {
+    try {
+      return db.collection('products').findOne({ _id: ObjectId(id) });
+    } catch (err) {
+      return false;
+    };
+  });
+
+  if (searchedItem) {
+    connect().then(async (db) => {
+      db.collection('products').deleteOne({ _id: ObjectId(id) });
+    });
+    return searchedItem;
+  }
+  return false;
 }
 module.exports = {
   addItem,
   findItemByName,
   modelGetAll,
   modelGetById,
-  updateById
+  updateById,
+  modelDeleteById
 };
