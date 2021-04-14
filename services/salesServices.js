@@ -16,6 +16,12 @@ const addWithValidation = async (sales) => {
   return itensSold;
 };
 
+const getAllWithValidation = async () => {
+  const sales = await salesModel.getAll();
+  return sales;
+};
+
 module.exports = {
   addWithValidation,
+  getAllWithValidation,
 };

@@ -16,6 +16,17 @@ const addSales = async (req, res) => {
   }
 };
 
+const getAllSales = async (req, res) => {
+  try {
+    const sales = await salesServices.getAllWithValidation();
+    res.status(status.get).json({ sales });
+  } catch (error) {
+    console.error(error.message);
+    res.status(status.serverError).json({ message: error.message });
+  }
+};
+
 module.exports = {
   addSales,
+  getAllSales,
 };
