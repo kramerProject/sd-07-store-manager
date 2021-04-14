@@ -5,6 +5,7 @@ const five = 5;
 const zero = 0;
 const unprocessable = 422;
 const success = 201;
+const OK = 200;
 
 const nameLenght = {
   err: {
@@ -34,9 +35,9 @@ const stringQuantity = {
   },
 };
 
-const errorValidate = (message) => {
+const validateCustomHTTP = (message, http = unprocessable) => {
   return {
-    http: unprocessable,
+    http,
     message,
   };
 };
@@ -48,7 +49,7 @@ const successValidate = (message) => {
   };
 };
 
-const isValid = async (name, quantity) => {
+const isValidRegister = async (name, quantity) => {
   const productDuplicated = await productsModel.findProductByName(name);
   if (name.length < five) return nameLenght;
   if (productDuplicated) return duplicateProduct;
@@ -58,9 +59,9 @@ const isValid = async (name, quantity) => {
 };
 
 const createProducts = async (name, quantity) => {
-  const validate = await isValid(name, quantity);
+  const validate = await isValidRegister(name, quantity);
   if(validate){
-    return errorValidate(validate);
+    return validateCustomHTTP(validate);
   }
   const productsService = await productsModel.createProducts(name, quantity);
   return successValidate(productsService);
