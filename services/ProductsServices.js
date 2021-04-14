@@ -4,6 +4,7 @@ const productsModel = require('../models/ProductsModel');
 const five = 5;
 const zero = 0;
 const unprocessable = 422;
+const success = 201;
 
 const nameLenght = {
   err: {
@@ -33,30 +34,36 @@ const stringQuantity = {
   },
 };
 
-const isValid = (name, quantity) => {
-  // const productDuplicated = await productsModel.findProductByName(name);
-  if (name.length < five) {
-    const HTTPcode = unprocessable;
-    return HTTPcode, nameLenght;
-  }
-  // if (productDuplicated) {
-  //   return res.status(unprocessable).json(duplicateProduct);
-  // }
-  // if (quantity <= zero) {
-  //   return res.status(unprocessable).json(lowQuantity);
-  // }
-  // if (typeof quantity === 'string') {
-  //   return res.status(unprocessable).json(stringQuantity);
-  // }
-  return isValid;
+const errorValidate = (message) => {
+  return {
+    http: unprocessable,
+    message,
+  };
+};
+
+const successValidate = (message) => {
+  return {
+    http: success,
+    message,
+  };
+};
+
+const isValid = async (name, quantity) => {
+  const productDuplicated = await productsModel.findProductByName(name);
+  if (name.length < five) return nameLenght;
+  if (productDuplicated) return duplicateProduct;
+  if (quantity <= zero) return lowQuantity;
+  if (typeof quantity === 'string') return stringQuantity;
+  return null;
 };
 
 const createProducts = async (name, quantity) => {
-  const validate = isValid(name, quantity,);
-  if(!validate) {
-    const productsService = await productsModel.createProducts(name, quantity);
-    return productsService;
+  const validate = await isValid(name, quantity);
+  if(validate){
+    return errorValidate(validate);
   }
+  const productsService = await productsModel.createProducts(name, quantity);
+  return successValidate(productsService);
 };
 
 module.exports = {

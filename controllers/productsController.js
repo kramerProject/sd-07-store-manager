@@ -6,9 +6,9 @@ const createProducts = async (req, res) => {
   try {
     const { name, quantity } = req.body;
     const products = await Products.createProducts(name, quantity);
-    return res.status(created).json(products);
+    const { http, message } = products;
+    return res.status(http).json(message);
   } catch (error) {
-    console.log('error do controller', error);
     return res.status(serverError).json({ message: error.message });
   }
 };
