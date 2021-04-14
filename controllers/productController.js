@@ -14,7 +14,7 @@ const addProduct = async (req, res) => {
 const getAllProducts = async (req, res) => {
   try {
     const products = await productModel.getAll();
-    res.status(status.OK).json(products);
+    res.status(status.OK).json({ products });
   } catch (err) {
     res.status(status.INTERNAL_SERVER_ERROR).json(err.message);
   }
