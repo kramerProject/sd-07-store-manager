@@ -47,47 +47,47 @@ const getSaleById = async (req, res) => {
   }
 };
 
-// const updateProduct = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const { name, quantity } = req.body;
-//     const { updateProduct } = productsService;
+const updateSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const products = req.body;
+    const { updateSale } = salesService;
 
-//     const updatedProduct = await updateProduct(id, name, quantity);
-//     res.status(OK).json(updatedProduct);
+    const updatedSale = await updateSale(id, products);
+    res.status(OK).json(updatedSale);
     
-//   } catch (error) {
-//     res.status(UNPROCESSABLE_ENTITY).json({
-//       err: {
-//         'code': 'invalid_data',
-//         'message': error.message
-//       }
-//     });
-//   }
-// };
+  } catch (error) {
+    res.status(UNPROCESSABLE_ENTITY).json({
+      err: {
+        'code': 'invalid_data',
+        'message': error.message
+      }
+    });
+  }
+};
 
-// const deleteProduct = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const { deleteProduct } = productsService;
+const deleteSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { deleteSale } = salesService;
 
-//     const deletedProduct = await deleteProduct(id);
-//     res.status(OK).json(deletedProduct);
+    const deletedSale = await deleteSale(id);
+    res.status(OK).json(deletedSale);
     
-//   } catch (error) {
-//     res.status(UNPROCESSABLE_ENTITY).json({
-//       err: {
-//         'code': 'invalid_data',
-//         'message': error.message
-//       }
-//     });
-//   }
-// };
+  } catch (error) {
+    res.status(UNPROCESSABLE_ENTITY).json({
+      err: {
+        'code': 'invalid_data',
+        'message': error.message
+      }
+    });
+  }
+};
 
 module.exports = {
   addSale,
   getAllSales,
   getSaleById,
-  // updateProduct,
-  // deleteProduct
+  updateSale,
+  deleteSale
 };

@@ -42,9 +42,13 @@ const validateProducts = (products) => {
 
 };
 
-const validateSaleId = (id) => {
+const validateSaleId = (id, type) => {
   if (!ObjectId.isValid((id))) {
-    throw new Error('Sale not found');
+    if (type === 'getById') {
+      throw new Error('Sale not found');
+    } else {
+      throw new Error('Wrong sale ID format');
+    }
   }
 };
 
@@ -65,7 +69,7 @@ const getAllSales = async () => {
 };
 
 const getSaleById = async (id) => {
-  validateSaleId(id);
+  validateSaleId(id, 'getById');
 
   const { getSaleById } = salesModel;
   const sale = await getSaleById(id);
@@ -77,27 +81,27 @@ const getSaleById = async (id) => {
   return sale;
 };
 
-// const updateProduct = async (id, name, quantity) => {
-//   validateId(id);
-//   validateNameAndQuantity(name, quantity);
+const updateSale = async (id, products) => {
+  validateId(id);
+  validateProducts(products);
 
-//   const { updateProduct } = productsModel;
-//   const updatedProduct = await updateProduct(id, name, quantity);
-//   return updatedProduct;
-// };
+  const { updateSale } = salesModel;
+  const updatedSale = await updateSale(id,products);
+  return updatedSale;
+};
 
-// const deleteProduct = async (id) => {
-//   validateId(id);
+const deleteSale = async (id) => {
+  validateSaleId(id);
 
-//   const { deleteProduct } = productsModel;
-//   const deletedProduct = await deleteProduct(id);
-//   return deletedProduct;
-// };
+  const { deleteSale } = salesModel;
+  const deletedSale = await deleteSale(id);
+  return deletedSale;
+};
 
 module.exports = {
   addSale,
   getAllSales,
   getSaleById,
-  // updateProduct,
-  // deleteProduct
+  updateSale,
+  deleteSale
 };

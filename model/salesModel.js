@@ -13,26 +13,26 @@ const getAllSales = async () => conn()
 const getSaleById = async (id) => conn()
   .then((db) => db.collection('sales').findOne({_id: ObjectId(id)}));
 
-// const updateSale = async (id, name, quantity) => conn()
-//   .then(async (db) => {
-//     const Sale = await db.collection('Sales').updateOne(
-//       { _id: ObjectId(id) },
-//       { $set: {name, quantity}}
-//     );
-//     return ({ _id: id, name, quantity });
-//   });
+const updateSale = async (id, products) => conn()
+  .then(async (db) => {
+    await db.collection('sales').updateOne(
+      { _id: ObjectId(id) },
+      { $set: {itensSold: products}}
+    );
+    return ({ _id: id, itensSold: products });
+  });
 
-// const deleteSale = async (id) => conn()
-//   .then(async (db) => {
-//     const deletedSale = await getSaleById(id);
-//     await db.collection('Sales').deleteOne({_id: ObjectId(id)});
-//     return deletedSale;
-//   });
+const deleteSale = async (id) => conn()
+  .then(async (db) => {
+    const deletedSale = await getSaleById(id);
+    await db.collection('sales').deleteOne({_id: ObjectId(id)});
+    return deletedSale;
+  });
 
 module.exports = {
   addSale,
   getSaleById,
   getAllSales,
-  // updateSale,
-  // deleteSale,
+  updateSale,
+  deleteSale,
 };
