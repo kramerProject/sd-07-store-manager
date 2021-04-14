@@ -1,7 +1,8 @@
 const {
   productVerify,
   returnProducts,
-  returnProductsForId
+  returnProductsForId,
+  serviceForUpdate,
 } = require('../Services/productService');
 const addProduct = async (req, res) => {
   const resOK = 201;
@@ -38,8 +39,22 @@ const getForId = async (req, res) => {
   }
 };
 
+const updateForId = async (req, res) => {
+  const resOK = 200;
+  const resErr= 422;
+  try {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const updateForId = await serviceForUpdate(id, name, quantity);
+    res.status(resOK).json(updateForId);
+  } catch (err) {
+    res.status(resErr).json({err});
+  }
+};
+
 module.exports = {
   addProduct,
   getAllProduct,
-  getForId
+  getForId,
+  updateForId
 };

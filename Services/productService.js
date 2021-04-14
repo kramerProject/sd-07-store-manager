@@ -37,4 +37,35 @@ const returnProductsForId = async (id) => {
   return await ProductModel.getProductById(id);
 };
 
-module.exports ={ productVerify, returnProducts, returnProductsForId,};
+const serviceForUpdate = async (id, name, quantity) => {
+  const five = 5;
+  if(name.length <= five) {
+    throw { 
+      code: 'invalid_data', 
+      message: '"name" length must be at least 5 characters long'
+    }; 
+  }
+
+  if(quantity < 1) {
+    throw {
+      code: 'invalid_data',
+      message: '"quantity" must be larger than or equal to 1'
+    };
+  }
+
+  if(typeof quantity === 'string') {
+    throw {
+      code: 'invalid_data',
+      message: '"quantity" must be a number'
+    };
+  }
+
+  return await ProductModel.update(id, name, quantity);
+};
+
+module.exports ={
+  productVerify,
+  returnProducts,
+  returnProductsForId,
+  serviceForUpdate,
+};
