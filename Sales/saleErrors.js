@@ -1,4 +1,5 @@
-const validationsToAdd = async (body) => {
+const validations = (body) => {
+  // console.log(body);
   const typeNumber = body.every((sale) => typeof sale.quantity === 'number');
   if (!typeNumber) return true;
   
@@ -6,9 +7,9 @@ const validationsToAdd = async (body) => {
   const isGtZERO = body.every((sale) => sale.quantity > ZERO);
   if (!isGtZERO) return true;
 
-  return undefined;
+  return false;
 };
 
 module.exports = {
-  validationsToAdd,
+  validations,
 };

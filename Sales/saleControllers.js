@@ -9,6 +9,7 @@ const addSale = async (req, res) => {
     const sold = await saleModel.addSale(req.body);
     res.status(OK).json(sold);
   } catch (error) {
+    console.log(req.body);
     res.status(ERROR).json({ err: { code: 'invalid_data', message: error.message }});
   }
 };
@@ -28,31 +29,32 @@ const getSaleById = async (req, res) => {
   }
 };
 
-// const uptadeProduct = async (req, res) => {
-//   try {
-//     const  { id } = req.params;
-//     const { name, quantity } = req.body;
-//     const item = await productModel.uptadeProduct(id, name, quantity);
-//     res.status(OK).json(item);
-//   } catch (error) {
-//     res.status(ERROR).json({ err: { code: 'invalid_data', message: error.message } });
-//   }
-// };
+const uptadeSale = async (req, res) => {
+  try {
+    const  { id } = req.params;
+    const sold = await saleModel.uptadeSale(id, req.body);
+    res.status(OK).json(sold);
+  } catch (error) {
+    console.log(req.body);
+    console.log(error);
+    res.status(ERROR).json({ err: { code: 'invalid_data', message: error.message } });
+  }
+};
 
-// const deleteProduct = async (req, res) => {
-//   try {
-//     const  { id } = req.params;
-//     const item = await productModel.deleteProduct(id);
-//     res.status(OK).json(item);
-//   } catch (error) {
-//     res.status(ERROR).json({ err: { code: 'invalid_data', message: error.message } });
-//   }
-// };
+const deleteSale = async (req, res) => {
+  try {
+    const  { id } = req.params;
+    const sold = await saleModel.deleteSale(id);
+    res.status(OK).json(sold);
+  } catch (error) {
+    res.status(ERROR).json({ err: { code: 'invalid_data', message: error.message } });
+  }
+};
 
 module.exports = {
   addSale,
   getAllSales,
   getSaleById,
-  // uptadeProduct,
-  // deleteProduct
+  uptadeSale,
+  deleteSale
 };
