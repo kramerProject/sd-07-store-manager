@@ -5,20 +5,27 @@ const zero = 0;
 const isValid = ( name, quantity ) => {
   console.log(typeof quantity);
   if (!name || typeof name !== 'string' || name.length < five) return false;
-  if (!quantity || typeof quantity !== 'int' || name.length === zero) return false;
+  if (!quantity || typeof quantity !== 'number' || name.length <= zero) return false;
 
   return true;
 };
 
+const postNewProduct = (productData) => {
+  return {
+    success:true,
+    productData
+  };
+};
 const createProducts = async ( name, quantity ) => {
   const productValid = isValid(name, quantity);
 
   if(!productValid) false;
   
-  const { insertedId } = await Products.create(name, q);
+  const registeredProduct = await Products.createProducts(name, quantity);
+  console.log(registeredProduct);
 
-  return getNewProduct({
-    id: insertedId,
+  return postNewProduct({
+    _id: registeredProduct.insertedId,
     name,
     quantity,
   });

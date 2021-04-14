@@ -1,14 +1,16 @@
 const Products = require('../services/Products');
 const badRequest = 400;
 const created = 201;
+const serverError = 500;
 
 const createProducts = async (req, res) => {
-  const { name, quantity } = req.body;
-
-  const products = await Products.createProducts(name, quantity);
-
-  if (!products) return res.status(badRequest).json({ message: 'Invalid Data'});
-
+  
+  try {
+    const { name, quantity } = req.body;
+    const products = await Products.createProducts(name, quantity);
+  } catch (error) {
+    res.status(serverError).json({message: error.message});
+  }
   res.status(created).json({ message: 'Product successfully registered'});
 };
 
