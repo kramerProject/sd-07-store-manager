@@ -1,6 +1,6 @@
 const connection = require('../connection');
 const { validationsToAdd } = require('./saleErrors');
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 
 const addSale = async (body) => {
   const isNotValid = await validationsToAdd(body);
@@ -11,29 +11,20 @@ const addSale = async (body) => {
   return { _id: body[0].productId, itensSold: body };
 };
 
-// const addProduct = async (name, quantity) => {
-//   const itemName = await connection().then((db) =>
-//     db.collection('products').findOne({ name }));
+const getAllSales = async () => {
+  const sold = await connection().then((db) => db.collection('sales').find({}).toArray());
 
-//   const isNotValid = await validationsToAdd(name, quantity, itemName);
-//   if (isNotValid) throw new Error(isNotValid);
+  return { _id: sold[0].productId, itensSold: sold };
+};
 
-//   const addItem = await connection().then((db) =>
-//     db.collection('products').insertOne({ name, quantity }));
-    
-//   return { _id: addItem.insertedId, name, quantity };
-// };
+const getSaleById = async (id) => {
+  if (!ObjectId.isValid(id)) throw new Error('Sale not found');
 
-// const getAllProducts = async () => {
-//   return await connection().then((db) => db.collection('products').find().toArray());
-// };
+  const sold = await connection().then((db) => 
+    db.collection('sales').findOne(ObjectId(id)));
 
-// const getProductById = async (id) => {
-//   if (!ObjectId.isValid(id)) throw new Error('Wrong id format');
-
-//   return await connection().then((db) =>
-//     db.collection('products').findOne(ObjectId(id)));
-// };
+  return { _id: sold[0].productId, itensSold: sold };
+};
 
 // const uptadeProduct = async (id, name, quantity) => {
 //   const isNotValid = await validationsToUpdate(name, quantity);
@@ -58,8 +49,8 @@ const addSale = async (body) => {
 
 module.exports = {
   addSale,
-  // getAllProducts,
-  // getProductById,
+  getAllSales,
+  getSaleById
   // uptadeProduct,
   // deleteProduct
 };

@@ -1,7 +1,7 @@
 const saleModel = require('./saleModels');
 
 const OK = 200;
-const CREATED = 201;
+const NOTFOUND = 404;
 const ERROR = 422;
 
 const addSale = async (req, res) => {
@@ -13,30 +13,20 @@ const addSale = async (req, res) => {
   }
 };
 
-// const addProduct = async (req, res) => {
-//   try {
-//     const { name, quantity } = req.body;
-//     const item = await productModel.addProduct(name, quantity);
-//     res.status(CREATED).json(item);
-//   } catch (error) {
-//     res.status(ERROR).json({ err: { code: 'invalid_data', message: error.message } });
-//   }
-// };
+const getAllSales = async (_req, res) => {
+  const sold = await saleModel.getAllSales();
+  res.status(OK).json({ sales: [ sold ] });
+};
 
-// const getAllProducts = async (_req, res) => {
-//   const items = await productModel.getAllProducts();
-//   res.status(OK).json({ products: items });
-// };
-
-// const getProductById = async (req, res) => {
-//   try {
-//     const  { id } = req.params;
-//     const item = await productModel.getProductById(id);
-//     res.status(OK).json(item);
-//   } catch (error) {
-//     res.status(ERROR).json({ err: { code: 'invalid_data', message: error.message } });
-//   }
-// };
+const getSaleById = async (req, res) => {
+  try {
+    const  { id } = req.params;
+    const sold = await saleModel.getSaleById(id);
+    res.status(OK).json({ sales: [ sold ] });
+  } catch (error) {
+    res.status(NOTFOUND).json({ err: { code: 'not_found', message: error.message } });
+  }
+};
 
 // const uptadeProduct = async (req, res) => {
 //   try {
@@ -61,8 +51,8 @@ const addSale = async (req, res) => {
 
 module.exports = {
   addSale,
-  // getAllProducts,
-  // getProductById,
+  getAllSales,
+  getSaleById,
   // uptadeProduct,
   // deleteProduct
 };
