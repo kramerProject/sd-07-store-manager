@@ -15,8 +15,8 @@ const findAll = async () => conn()
 const findById = async (id) => conn()
   .then((db) => db.collection(collectionName).findOne(ObjectId(id)));
 
-const update = async (id, name, quantity) => conn()
-  .then((db) => db.collection(collectionName).updateOne(
+const update = async (id, name, quantity) => {
+  conn().then((db) => db.collection(collectionName).updateOne(
     { _id: ObjectId(id) },
     {
       $set: {
@@ -25,11 +25,22 @@ const update = async (id, name, quantity) => conn()
       }
     }
   ));
+  return ({
+    _id: id,
+    name,
+    quantity,
+  });
+};
+
+const remove = async (id) =>
+  conn().then((db) => db.collection(collectionName).deleteOne({ _id: ObjectId(id) }));
+
 
 module.exports = {
   create,
   findAll,
   findById,
   update,
+  remove,
 };
 

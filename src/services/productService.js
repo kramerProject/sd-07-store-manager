@@ -27,9 +27,16 @@ const update = async (id, name, quantity) => {
   return { code: 200, product };
 };
 
+const remove = async (id) => {
+  const { deletedCount } = await Product.remove(id);
+  console.log('service', deletedCount);
+  return { code: 200, deletedCount };
+};
+
 module.exports = {
   create,
   findAll,
   findById,
   update,
+  remove,
 };

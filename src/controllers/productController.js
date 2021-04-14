@@ -25,9 +25,16 @@ const update = async (req, res) => {
   res.status(code).json(product);
 };
 
+const remove = async (req, res) => {
+  const { id } = req.params;
+  const { code, deletedCount } = await Product.remove(id);
+  res.status(code).json(deletedCount);
+};
+
 module.exports = {
   create,
   findAll,
   findById,
   update,
+  remove,
 };

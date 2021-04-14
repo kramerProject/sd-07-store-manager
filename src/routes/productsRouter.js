@@ -9,10 +9,7 @@ router.route('/')
 router.route('/:id')
   .get(Product.findById)
   .put(Product.update)
-  .delete((req, res) => {
-    const { id } = req.params;
-    res.send(`Remove o produto de id ${id}`);
-  });
+  .delete(Product.remove);
 
 
 module.exports = router;
