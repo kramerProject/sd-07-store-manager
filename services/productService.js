@@ -5,7 +5,7 @@ const nameIsString = (name) => typeof name === 'string';
 
 const validNameSize = (name) => name.length >= NAME_MIN_SIZE;
 
-const nameIsUnique = (name, data) => !data.some((product) => product.name === name);
+const nameIsUnique = (size) => size === ZERO;
 
 const validQuantity = (quantity) => quantity > ZERO;
 

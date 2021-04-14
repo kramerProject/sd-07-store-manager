@@ -9,6 +9,9 @@ const productRouter = express.Router();
 productRouter.post('/products',nameValidationMiddleware,
   quantityValidationMiddleware, productController.addProduct);
 
+//requisito 2- get /products /products/:id
+
+
 // vou fazer middlewares de erro?
 // productRouter.use(middlewares.errorMiddleware);
 module.exports = productRouter;

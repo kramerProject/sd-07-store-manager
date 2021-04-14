@@ -6,6 +6,13 @@ const getAll = async () => {
     db.collection('products').find().toArray());
   return products;
 };
+
+const countByName = async (name) => {
+  const product = await connect().then((db) =>
+    db.collection('products').countDocuments({ 'name': name }));
+  return product;
+};
+
 const add = async (name, quantity) => {
   const product = await connect().then((db) =>
     db.collection('products').insertOne({ name, quantity }));
@@ -14,5 +21,6 @@ const add = async (name, quantity) => {
 
 module.exports = {
   add,
-  getAll
+  getAll,
+  countByName
 };
