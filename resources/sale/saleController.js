@@ -2,9 +2,24 @@ const { StatusCodes } = require('http-status-codes');
 const { ErrorHandler } = require('../../helpers/error');
 
 const saleService = require('./saleService');
+const { service: productService } = require('../product');
 
 const addSale = async (req, res) => {
   const itensSold = req.body;
+
+  /* REFATORAR para colocar na camada de Service do Product >> updateQuantity */
+  const foundProduct =  await productService.findById(itensSold[0].productId);
+  foundProduct.quantity -= itensSold[0].quantity;
+  const updatedProduct = await productService
+    .update(foundProduct._id, foundProduct.name, foundProduct.quantity);
+  
+  if (!updatedProduct) {
+    throw new ErrorHandler(
+      StatusCodes.NOT_FOUND,
+      'stock_problem', 
+      'Such amount is not permitted to sell');
+  }
+
   const insertedSale = await saleService.add(itensSold);
   if (insertedSale) {
     res.status(StatusCodes.OK).json(insertedSale);
@@ -49,11 +64,20 @@ const updateSale = async (req, res) => {
 
 const deleteSale = async (req, res) => {
   const { id } = req.params;
+  const foundSale = await saleService.findById(id);
+
+  /* REFATORAR para colocar na camada de Service do Product >> updateQuantity */
+  const foundProduct =  await productService.findById(foundSale.itensSold[0].productId);
+  foundProduct.quantity += foundSale.itensSold[0].quantity;
+  const updatedProduct = await productService
+    .update(foundProduct._id, foundProduct.name, foundProduct.quantity);
+
   const deleteSale = await saleService.del(id);
   if (deleteSale) {
     res.status(StatusCodes.OK).json(deleteSale);
     return;
   }
+
   throw new ErrorHandler(
     StatusCodes.UNPROCESSABLE_ENTITY,
     'invalid_data', 

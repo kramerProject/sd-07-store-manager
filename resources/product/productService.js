@@ -20,8 +20,13 @@ const findAll = async () => {
 };
 
 const update = async (id, name, quantity) => {
-  const updatedProduct = await productModel.update(id, name, quantity);
-  return updatedProduct;
+  const ZERO = 0;
+  if (quantity >= ZERO) { 
+    const updatedProduct = await productModel.update(id, name, quantity);
+    return updatedProduct;
+  } else {
+    return null;
+  }
 };
 
 const del = async (id) => {
