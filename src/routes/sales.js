@@ -7,5 +7,6 @@ routes.get('/', SalesController.index);
 routes.get('/:id', SalesController.get);
 routes.put('/:id', validateSales, SalesController.update);
 routes.post('/', validateSales, SalesController.create);
+routes.delete('/:id', SalesController.delete);
 
 module.exports = routes;

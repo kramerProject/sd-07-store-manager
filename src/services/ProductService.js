@@ -49,7 +49,7 @@ const _delete = async(id) => {
       },
       err_number: UNPROCESSABLE_ENTITY,
     };
-  await ProductModel.delete(id);
+  await ProductModel.delete(ObjectId(id));
   return exists;
 };
 

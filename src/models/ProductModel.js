@@ -1,4 +1,3 @@
-const { ObjectId } = require('mongodb');
 const database = require('../database');
 
 const productCollection = 'products';
@@ -28,6 +27,6 @@ module.exports = {
   },
   delete: async (id) => {
     const db = await database.connect();
-    await db.collection(productCollection).deleteOne({ _id: ObjectId(id) });
+    await db.collection(productCollection).deleteOne({ _id: id });
   }
 };

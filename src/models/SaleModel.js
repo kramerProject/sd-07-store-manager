@@ -25,4 +25,8 @@ module.exports = {
     );
     return { _id: id, itensSold: sales };
   },
+  delete: async (id) => {
+    const db = await database.connect();
+    await db.collection(salesCollection).deleteOne({ _id: id });
+  }
 };
