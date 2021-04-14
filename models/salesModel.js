@@ -14,8 +14,24 @@ const getSaleById = async (id) => {
   return connection().then((db) => db.collection('sales').findOne(ObjectId(id)));
 };
 
+const updateSale = async (id, itensSold) => connection()
+  .then((db) => db.collection('sales')
+	  .updateOne({ _id: ObjectId(id) }, { $set: { itensSold } }))
+  .then(() => {
+    return { _id: id, itensSold };
+  });
+
+const deleteSale = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  return connection()
+    .then((db) => db.collection('sales').deleteOne({ _id: ObjectId(id) }));
+};
+
 module.exports = {
   createSale,
   getAllSales,
-  getSaleById
+  getSaleById,
+  updateSale,
+  deleteSale
 };

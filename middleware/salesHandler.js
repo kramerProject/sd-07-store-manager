@@ -1,4 +1,4 @@
-const salesModel = require('../models/salesModel');
+// const salesModel = require('../models/salesModel');
 const unprocessableEntityStatus = 422;
 const errorObj = {
   err: {
