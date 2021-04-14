@@ -48,9 +48,22 @@ const updateOneWithValidation = async (id, itensSold) => {
   return updatedSale;
 };
 
+const excludeWithValidation = async (id) => {
+  const sale = await salesModel.getOne(id);
+  if (!sale) {
+    return {
+      code: 'invalid_data',
+      message: 'Wrong sale ID format'
+    };
+  }
+  const excludedSale = await salesModel.exclude(id);
+  return excludedSale;
+};
+
 module.exports = {
   addWithValidation,
   getAllWithValidation,
   getOneSaleWithValidation,
   updateOneWithValidation,
+  excludeWithValidation,
 };

@@ -57,9 +57,25 @@ const updateSaleById = async (req, res) => {
   }
 };
 
+const excludeSaleById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const excludedSale = await salesServices.excludeWithValidation(id);
+    if (!excludedSale.code) {
+      res.status(status.get).json(excludedSale);
+      return;
+    }
+    res.status(status.invalid_data).json({ err: excludedSale });
+  } catch (error) {
+    console.error(error.message);
+    res.status(status.serverError).json({ message: error.message });
+  }
+};
+
 module.exports = {
   addSales,
   getAllSales,
   getSaleById,
   updateSaleById,
+  excludeSaleById,
 };

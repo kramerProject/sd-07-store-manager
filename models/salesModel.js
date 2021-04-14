@@ -26,11 +26,25 @@ const updateOne = async (id, itensSold) =>
     };
   });
 
+const exclude = async (id) => {
+  const sale = await getOne(id);
+
+  connect().then(async (db) => 
+    db.collection('sales').deleteOne({ _id: ObjectId(id) })
+  );
+
+  return {
+    _id: id,
+    itensSold: sale.itensSold,
+  };
+};
+
 module.exports = {
   add,
   getAll,
   getOne,
   updateOne,
+  exclude,
 };
 
 // { "itensSold": [{ "productId": "5f43cbf4c45ff5104986e81d", "quantity": 2 }] }
