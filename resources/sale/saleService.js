@@ -17,8 +17,21 @@ const findAll = async () => {
   return { sales: allSales };
 };
 
+const update = async (id, itensSold) => {
+  const foundSale = await saleModel.findById(id);
+  if (foundSale) {
+    const newItensSold = foundSale.itensSold
+      .find(({ productId }) => productId === itensSold.productId);
+    newItensSold[0].quantity = itensSold.quantity;
+    const updatedSale = await saleModel.update(id, newItensSold);
+    return updatedSale;
+  }
+  return null;
+};
+
 module.exports = {
   add,
   findById,
   findAll,
+  update,
 };

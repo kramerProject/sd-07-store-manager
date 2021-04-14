@@ -1,5 +1,5 @@
 const connect = require('../../config/connection');
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 
 const COLLECTION_SALES_NAME = 'sales';
 
@@ -19,6 +19,7 @@ const findById = (id) =>
         .findOne(ObjectId(id));
       return sale;
     } catch(error) {
+      console.error(error.message);
       return null;
     }
     
@@ -30,8 +31,24 @@ const findAll = () =>
     return sales;
   });
 
+const update = (id, itensSold) => 
+  connect().then(async (db) => {
+    const { modifiedCount } =  await db.collection(COLLECTION_SALES_NAME).updateOne(
+      { _id: ObjectId(id) },
+      { $set: { itensSold } },
+    );
+    if (modifiedCount) {
+      return {
+        _id: id,
+        itensSold,
+      };
+    }
+    return null;
+  });
+
 module.exports = {
   add,
   findById,
   findAll,
+  update,
 };
