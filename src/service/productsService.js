@@ -5,6 +5,7 @@ const {
   getAll,
   getById,
   updateById,
+  deleteById,
 } = require('../models/productsModel');
 const { ObjectId } = require('mongodb');
 
@@ -122,9 +123,19 @@ const handleUpdateById = async (id, name, quantity) => {
   return { http: 200, message: updatedProduct };
 };
 
+const handleDeleteById = async (id) => {
+  const validId = isValidId(id);
+  if (validId) return { http: 422, message: validId };
+  const deletedProduct = await getById(id);
+  if (deletedProduct === null) return { http: 422, message: validId };
+  await deleteById(id);
+  return { http: 200, message: deletedProduct };
+};
+
 module.exports = {
   newProductIsValid,
   getAllProducts,
   handleGetById,
   handleUpdateById,
+  handleDeleteById,
 };

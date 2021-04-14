@@ -3,6 +3,7 @@ const {
   getAllProducts,
   handleGetById,
   handleUpdateById,
+  handleDeleteById,
 } = require('../service/productsService');
 
 const handleNewProduct = async (req, res) => {
@@ -45,9 +46,20 @@ const updateById = async (req, res) => {
   }
 };
 
+const deleteById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { http, message } = await handleDeleteById(id);
+    res.status(http).json(message);
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
 module.exports = {
   handleNewProduct,
   getAll,
   getById,
   updateById,
+  deleteById,
 };
