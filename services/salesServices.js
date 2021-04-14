@@ -39,6 +39,20 @@ const createSales = async (data) => {
   return validateCustomHTTP(salesServices, OK);
 };
 
+const updateSale = async (id, data) => {
+  const validate = await isValidRegister(data);
+
+
+  if(validate){
+    return validateCustomHTTP(validate);
+  }
+
+  const saleUpdated = await salesModel.updateSale(id, data);
+
+  return validateCustomHTTP(saleUpdated, OK);
+};
+
 module.exports = {
   createSales,
+  updateSale
 };
