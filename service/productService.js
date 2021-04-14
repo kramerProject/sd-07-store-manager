@@ -40,10 +40,19 @@ const findName = async (name) => {
   }
 };
 
+const deleteProduct = async (id) => {
+  try {
+    return productModel.deleteProduct(id);
+  } catch (error) {
+    console.error({ message: 'Não foi possivel deletar' });
+  }
+};
+
 module.exports = {
   insertProduct,
   findName,
   showAllProducts,
   showProductId,
   updateProduct,
+  deleteProduct,
 };

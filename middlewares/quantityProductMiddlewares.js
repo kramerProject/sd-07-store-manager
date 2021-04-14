@@ -1,7 +1,7 @@
 const unprocessableEntity = 422;
 const minNumber = 0;
-console.log();
-const quantityMiddleware = (req, res, next) => {
+
+const quantityProductMiddlewares = (req, res, next) => {
   const { quantity } = req.body;
   if (typeof quantity !== 'number' || quantity === null) {
     return res.status(unprocessableEntity).send({
@@ -23,4 +23,4 @@ const quantityMiddleware = (req, res, next) => {
   next();
 };
 
-module.exports = quantityMiddleware;
+module.exports = quantityProductMiddlewares;

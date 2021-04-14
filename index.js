@@ -8,8 +8,11 @@ app.get('/', (_request, response) => {
 });
 
 const product = require('./routes/productsRoute');
+const sales = require('./routes/salesRoute');
+
 
 app.use('/products', product);
+app.use('/sales',sales);
 
 const PORT_NUMBER = 3000;
 const PORT = process.env.PORT || PORT_NUMBER;
