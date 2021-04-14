@@ -40,9 +40,20 @@ const uptadeProduct = async (req, res) => {
   }
 };
 
+const deleteProduct = async (req, res) => {
+  try {
+    const  { id } = req.params;
+    const item = await productModel.deleteProduct(id);
+    res.status(OK).json(item);
+  } catch (error) {
+    res.status(ERROR).json({ err: { code: 'invalid_data', message: error.message } });
+  }
+};
+
 module.exports = {
   addProduct,
   getAllProducts,
   getProductById,
-  uptadeProduct
+  uptadeProduct,
+  deleteProduct
 };

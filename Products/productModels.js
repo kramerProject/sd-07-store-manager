@@ -37,9 +37,20 @@ const uptadeProduct = async (id, name, quantity) => {
   return { _id: ObjectId(id), name, quantity };
 };
 
+const deleteProduct = async (id) => {
+  if (!ObjectId.isValid(id)) throw new Error('Wrong id format');
+
+  return await connection().then((db) => {
+    const itemId = new ObjectId(id);
+    return db.collection('products').findOneAndDelete({ _id: itemId })
+      .then((result) => result.value);
+  });
+};
+
 module.exports = {
   addProduct,
   getAllProducts,
   getProductById,
-  uptadeProduct
+  uptadeProduct,
+  deleteProduct
 };
