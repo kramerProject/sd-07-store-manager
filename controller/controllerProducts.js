@@ -7,7 +7,7 @@ const addProduct = async (req, res) => {
   const twoOOne = 201;
   try {
     const { name, quantity } = req.body;
-    // validateName(name);
+    validateName(name);
     const newItem = await productsModel.addItem(name, quantity); //adiciona ao db
     res.status(twoOOne).json({newItem});
   } catch (err) {
