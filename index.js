@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const products = require('./routers/products');
-const { sendError } = require('./configs/utils/erro');
+const { sendError } = require('./configs/erro');
 
 const app = express();
 const PORT = 3000;
