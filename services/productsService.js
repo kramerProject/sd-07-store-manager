@@ -6,19 +6,24 @@ const ERROR422 = 422;
 const STATUS200 = 200;
 const STATUS201 = 201;
 
-const validateText = async (name, number) => {
+const validateProduct = async (name) => {
   const findProduct = await productsModels.getAll();
   const findName = findProduct.find((product) => product.name == name);
+ 
+  if (findName) return err = {
+    response: {err: {
+      'code': 'invalid_data', 'message': 'Product already exists' }},
+    code: ERROR422,
+  };
+  return true;
+};
+
+const validateCaracters = (name, number) => {
   if (name.length < number) return err = {
     response: {err: {
       'code': 'invalid_data',
       'message': '"name" length must be at least 5 characters long',
     }},
-    code: ERROR422,
-  };
-  if (findName) return err = {
-    response: {err: {
-      'code': 'invalid_data', 'message': 'Product already exists' }},
     code: ERROR422,
   };
   return true;
@@ -54,9 +59,11 @@ const validateId = async (id) => {
 };
 
 const addProduct = async (name, quantity) => {
-  const validateName = await validateText(name, FIVE);
+  const validateExists = await validateProduct(name);
+  const validateName = validateCaracters(name, FIVE);
   const validateQuantity = validateNumber(quantity);
   
+  if (validateExists.response) return validateExists;
   if (validateName.response) return validateName;
   if (validateQuantity.response) return validateQuantity;
   const result = await productsModels.addProduct(name, quantity);
@@ -77,7 +84,34 @@ const getByProductId = async (id) => {
   };
 };
 
+const updateById = async (id, name, quantity) => {
+  const validateName = validateCaracters(name, FIVE);
+  const validateQuantity = validateNumber(quantity);
+
+  if (validateName.response) return validateName;
+  if (validateQuantity.response) return validateQuantity;
+
+  const result = await productsModels.updateById(id, name, quantity);
+  return {
+    code: STATUS200,
+    response: result
+  };
+};
+
+const deleteProduct = async (id) => {
+  const idIsValid = await validateId(id);
+  if (idIsValid.response) return idIsValid;
+
+  const result = await productsModels.deleteProduct(id);
+  return {
+    code: STATUS200,
+    response: result
+  };
+};
+
 module.exports = {
   addProduct,
   getByProductId,
+  updateById,
+  deleteProduct,
 };

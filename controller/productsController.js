@@ -39,8 +39,35 @@ const getByProductId = async (req, res) => {
   }
 };
 
+const updateById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const result = await productsValidate.updateById(id, name, quantity);
+  
+    return res.status(result.code).json(result.response);
+  } catch (error) {
+    console.log(error);
+    res.status(STATUS500).json({ message: error.message });
+  }
+};
+
+const deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await productsValidate.deleteProduct(id);
+
+    return res.status(result.code).json(result.response);
+  } catch (error) {
+    console.log(error);
+    res.status(STATUS500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   addProduct,
   getAll,
   getByProductId,
+  updateById,
+  deleteProduct,
 };
