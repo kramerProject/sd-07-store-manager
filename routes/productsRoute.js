@@ -22,7 +22,6 @@ router.put(
 );
 router.post(
   '/products',
-  idValidate,
   nameValidate,
   quantityValidate,
   productExistsValidate,
