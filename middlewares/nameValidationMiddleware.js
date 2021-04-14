@@ -5,8 +5,10 @@ const status = require('../status');
 const nameValidationMiddleware = async (req, res, next) => {
   try {
     const { name } = req.body;
+    const { method } = req;
     const countProductByName = await productModel.countByName(name);
-
+    console.log(method);
+   
     if (!productService.nameIsString(name)) return res.status(status.INVALID_DATA).send({
       err: {
         code: 'invalid_data',
@@ -20,7 +22,7 @@ const nameValidationMiddleware = async (req, res, next) => {
         message: '"name" length must be at least 5 characters long'
       }
     });
-    if (!productService.nameIsUnique(countProductByName)) 
+    if ( method === 'POST' && !productService.nameIsUnique(countProductByName)) 
       return res.status(status.INVALID_DATA).send({
         err: {
           code: 'invalid_data',
