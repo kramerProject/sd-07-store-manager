@@ -13,7 +13,6 @@ const getProductById = async (id) => {
 };
 
 const addNewProduct = async (name, quantity) => {
-  console.log('Estive no model create');
   return connection()
     .then((db) => db.collection('products').insertOne({ name, quantity }))
     .then((item) => item.ops[0]);

@@ -25,9 +25,7 @@ const getProductById = rescue(async (req, res) => {
 const addNewProduct = rescue(async (req, res) => {
   try {
     const { name, quantity } = req.body;
-    console.log('Testando os parametros:' + name + quantity);
     const product = await productModel.addNewProduct(name, quantity);
-    console.log(product);
     res.status(OK).json(product);
   } catch (error) {
     throw new Error(error);
