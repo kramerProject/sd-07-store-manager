@@ -119,7 +119,7 @@ const handleUpdateById = async (id, name, quantity) => {
 
   await updateById(id, name, quantity);
   const updatedProduct = await getById(id);
-  return { http: 201, message: updatedProduct };
+  return { http: 200, message: updatedProduct };
 };
 
 module.exports = {

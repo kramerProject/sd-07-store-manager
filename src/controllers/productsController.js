@@ -39,7 +39,7 @@ const updateById = async (req, res) => {
     const { id } = req.params;
     const { name, quantity } = req.body;
     const { http, message } = await handleUpdateById(id, name, quantity);
-    res.status(http).json(message);  
+    res.status(http).json(message);
   } catch (error) {
     console.error(error.message);
   }
