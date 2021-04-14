@@ -5,9 +5,7 @@ const saleService = require('./saleService');
 
 const addSale = async (req, res) => {
   const itensSold = req.body;
-  // console.log('CONTROLLER itensSold: ', itensSold);
   const insertedSale = await saleService.add(itensSold);
-  // console.log('CONTROLLER insertedSale: ', insertedSale);
   if (insertedSale) {
     res.status(StatusCodes.OK).json(insertedSale);
     return;
@@ -42,7 +40,6 @@ const updateSale = async (req, res) => {
   const { id } = req.params;
   const  [ itensSold ] = req.body;
 
-  // console.log('CONTROLLER updateSale itensSold: ', itensSold);
   const updatedSale= await saleService.update(id, itensSold);
   if(updatedSale) {
     res.status(StatusCodes.OK).json(updatedSale);
@@ -50,9 +47,23 @@ const updateSale = async (req, res) => {
   }
 };
 
+const deleteSale = async (req, res) => {
+  const { id } = req.params;
+  const deleteSale = await saleService.del(id);
+  if (deleteSale) {
+    res.status(StatusCodes.OK).json(deleteSale);
+    return;
+  }
+  throw new ErrorHandler(
+    StatusCodes.UNPROCESSABLE_ENTITY,
+    'invalid_data', 
+    'Wrong sale ID format');
+};
+
 module.exports = {
   addSale,
   getSaleById,
   getAllSales,
   updateSale,
+  deleteSale,
 };

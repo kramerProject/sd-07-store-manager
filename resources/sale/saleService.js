@@ -1,9 +1,7 @@
 const saleModel = require('./saleModel');
 
 const add = async (itensSold) => {
-  // console.log('SERVICE itensSold: ', itensSold);
   const newSale = await saleModel.add(itensSold);
-  // console.log('SERVICE newSale: ', newSale);
   return newSale;
 };
 
@@ -21,11 +19,22 @@ const update = async (id, itensSold) => {
   const foundSale = await saleModel.findById(id);
   if (foundSale) {
     const newItensSold = foundSale.itensSold
-      .find(({ productId }) => productId === itensSold.productId);
+      .filter(({ productId }) => productId === itensSold.productId);
     newItensSold[0].quantity = itensSold.quantity;
     const updatedSale = await saleModel.update(id, newItensSold);
     return updatedSale;
   }
+  return null;
+};
+
+const del = async (id) => {
+  const foundSale = await saleModel.findById(id);
+
+  if (foundSale) {
+    await saleModel.del(id);
+    return foundSale;
+  }
+  
   return null;
 };
 
@@ -34,4 +43,5 @@ module.exports = {
   findById,
   findAll,
   update,
+  del,
 };

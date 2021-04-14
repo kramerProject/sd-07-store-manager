@@ -5,10 +5,8 @@ const COLLECTION_SALES_NAME = 'sales';
 
 const add = async (itensSold) =>
   connect().then(async (db) => {
-    // console.log('MODEL itensSold: ', itensSold);
     const newItensSold = await db.collection(COLLECTION_SALES_NAME)
       .insertOne({ itensSold });
-    // console.log('MODEL newItensSold: ', newItensSold);
     return newItensSold.ops[0];
   });
 
@@ -19,7 +17,6 @@ const findById = (id) =>
         .findOne(ObjectId(id));
       return sale;
     } catch(error) {
-      console.error(error.message);
       return null;
     }
     
@@ -33,22 +30,41 @@ const findAll = () =>
 
 const update = (id, itensSold) => 
   connect().then(async (db) => {
-    const { modifiedCount } =  await db.collection(COLLECTION_SALES_NAME).updateOne(
-      { _id: ObjectId(id) },
-      { $set: { itensSold } },
-    );
-    if (modifiedCount) {
-      return {
-        _id: id,
-        itensSold,
-      };
+    try {
+      const { modifiedCount } =  await db.collection(COLLECTION_SALES_NAME).updateOne(
+        { _id: ObjectId(id) },
+        { $set: { itensSold } },
+      );
+      if (modifiedCount) {
+        return {
+          _id: id,
+          itensSold,
+        };
+      }
+      return null;
+    } catch(error) {
+      return null;
     }
-    return null;
   });
+
+const del = (id) => 
+  connect().then(async (db) => {
+    try {
+      const { deletedCount } =  await db.collection(COLLECTION_SALES_NAME)
+        .deleteOne({ _id: ObjectId(id) });
+      if (deletedCount) {
+        return id;
+      }
+    } catch(error) {
+      return null;
+    }
+  });
+
 
 module.exports = {
   add,
   findById,
   findAll,
   update,
+  del,
 };

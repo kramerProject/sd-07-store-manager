@@ -3,7 +3,6 @@ const { StatusCodes } = require('http-status-codes');
 
 
 const validatQuantity = (quantity) => {
-  // console.log('validatQuantity: ', quantity);
   if(typeof quantity !== 'number' || Math.sign(quantity) !== 1) {
     throw new ErrorHandler( 
       StatusCodes.UNPROCESSABLE_ENTITY,
@@ -14,7 +13,6 @@ const validatQuantity = (quantity) => {
 
 const saleValidateMiddleware = (req, _res, next) => {
   const itensSold = req.body;
-  // console.log('saleValidateMiddleware itensSold: ', itensSold);
   try {
     itensSold.forEach(({ quantity }) => validatQuantity(quantity));
     next();

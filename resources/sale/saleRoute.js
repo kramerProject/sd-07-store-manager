@@ -18,7 +18,7 @@ router.get(`${SALES_PATH}/:id`,
 router.put(`${SALES_PATH}/:id`, 
   saleValidateMiddleware, 
   rescue(saleController.updateSale));
-/*router.delete(`${SALES_PATH}/:id`,
-  rescue(saleController.deleteSale)); */
+router.delete(`${SALES_PATH}/:id`,
+  rescue(saleController.deleteSale)); 
 
 module.exports = router; 
