@@ -8,10 +8,10 @@ const nameValidate = (req, _res, next) => {
 
   const MIN_CHARACTERS = 5;
   err.message = '"name" length must be at least 5 characters long';
-  if (name === undefined) {
-    next(err);
-    return;
-  }
+  // if (name === undefined) {
+  //   next(err);
+  //   return;
+  // }
   if (name.length < MIN_CHARACTERS) next(err);
 
   next();
