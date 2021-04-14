@@ -29,8 +29,20 @@ const getProductById = async (req, res) => {
   }
 };
 
+const uptadeProduct = async (req, res) => {
+  try {
+    const  { id } = req.params;
+    const { name, quantity } = req.body;
+    const item = await productModel.uptadeProduct(id, name, quantity);
+    res.status(OK).json(item);
+  } catch (error) {
+    res.status(ERROR).json({ err: { code: 'invalid_data', message: error.message } });
+  }
+};
+
 module.exports = {
   addProduct,
   getAllProducts,
-  getProductById
+  getProductById,
+  uptadeProduct
 };

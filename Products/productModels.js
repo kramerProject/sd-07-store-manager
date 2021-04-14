@@ -1,5 +1,5 @@
 const connection = require('../connection');
-const { validationsToAdd } = require('./productErrors');
+const { validationsToAdd, validationsToUpdate } = require('./productErrors');
 const { ObjectId } = require('mongodb');
 
 const addProduct = async (name, quantity) => {
@@ -26,8 +26,20 @@ const getProductById = async (id) => {
     db.collection('products').findOne(ObjectId(id)));
 };
 
+const uptadeProduct = async (id, name, quantity) => {
+  const isNotValid = await validationsToUpdate(name, quantity);
+  if (isNotValid) throw new Error(isNotValid);
+
+  await connection().then((db) => db.collection('products')
+    .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } })
+  );
+
+  return { _id: ObjectId(id), name, quantity };
+};
+
 module.exports = {
   addProduct,
   getAllProducts,
-  getProductById
+  getProductById,
+  uptadeProduct
 };
