@@ -45,7 +45,7 @@ const deleteOne = async (req, res) => {
   } catch (error) {
     
   }
-}
+};
 
 module.exports = {
   create,
