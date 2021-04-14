@@ -1,4 +1,16 @@
 // não remova esse endpoint, e para o avaliador funcionar
-app.get('/', (_request, response) => {
-  response.send();
-});
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const port = 3000;
+const route = require('./src/routes/index');
+
+console.log(route.mountpath);
+
+
+app.use(express.json());
+app.use('/', route);
+app.use('/products', route);
+
+
+app.listen(port, () => console.log(`app listening on port ${port}!`));
