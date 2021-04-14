@@ -69,7 +69,15 @@ const update = async (id, name, quantity) => {
   return product;
 };
 
-module.exports = { create,
+const exclude = async (id) => {
+  await validId(id);
+  const excludeObject = await ProductsModel.exclude(id);
+  return excludeObject;
+};
+
+module.exports = {
+  create,
   update,
+  exclude,
   findProductById,
   getAllProducts };
