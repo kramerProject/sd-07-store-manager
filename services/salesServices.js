@@ -21,7 +21,19 @@ const getAllWithValidation = async () => {
   return sales;
 };
 
+const getOneSaleWithValidation = async (id) => {
+  const sale = await salesModel.getOne(id);
+  if (!sale) {
+    return {
+      code: 'not_found',
+      message: 'Sale not found'
+    };
+  }
+  return sale;
+};
+
 module.exports = {
   addWithValidation,
   getAllWithValidation,
+  getOneSaleWithValidation,
 };

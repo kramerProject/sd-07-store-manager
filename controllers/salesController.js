@@ -26,7 +26,23 @@ const getAllSales = async (req, res) => {
   }
 };
 
+const getSaleById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const sale = await salesServices.getOneSaleWithValidation(id);
+    if (!sale.code) {
+      res.status(status.get).json(sale);
+      return;
+    }
+    res.status(status.notFound).json({ err: sale });
+  } catch (error) {
+    console.error(error.message);
+    res.status(status.serverError).json({ message: error.message });
+  }
+};
+
 module.exports = {
   addSales,
   getAllSales,
+  getSaleById,
 };
