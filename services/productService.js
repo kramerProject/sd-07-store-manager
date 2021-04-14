@@ -53,9 +53,18 @@ const updateProduct = async (id, product) => {
   return result;
 };
 
+const deleteProduct = async (id, product) => {
+  const result = productModel.deleteProduct(id);
+
+  if (result === null) throw new Error('Wrong id format');
+
+  return result;
+};
+
 module.exports = {
   createProduct,
   findById,
   findAll,
   updateProduct,
+  deleteProduct,
 };

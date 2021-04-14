@@ -23,7 +23,7 @@ const findByName = (name) => {
 
 const findById = (id) => {
   return connection()
-    .then((db) => db.collection(PRODUCTS_COLLECTION).findOne(ObjectId(id)));
+    .then((db) => db.collection(PRODUCTS_COLLECTION).findOne({_id: ObjectId(id) }));
 };
 
 const getAll = () => {
@@ -37,7 +37,7 @@ const getAll = () => {
 const updateProduct = (id, product) => {
   return connection()
     .then((db) => db.collection(PRODUCTS_COLLECTION).updateOne(
-      {_id: id},
+      {_id: ObjectId(id)},
       {
         $set: {
           name: product.name,
@@ -52,10 +52,16 @@ const updateProduct = (id, product) => {
     }));
 };
 
+const deleteProduct = (id) => {
+  return connection()
+    .then((db) => db.collection(PRODUCTS_COLLECTION).deleteOne({_id: ObjectId(id)}));
+};
+
 module.exports = {
   createProduct,
   findByName,
   findById,
   getAll,
   updateProduct,
+  deleteProduct,
 };

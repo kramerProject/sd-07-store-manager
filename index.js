@@ -20,6 +20,8 @@ app.get(PRODUCT_BASE_URL, productController.findAll);
 
 app.put(`${PRODUCT_BASE_URL}/:id`, productController.updateProduct);
 
+app.delete(`${PRODUCT_BASE_URL}/:id`, productController.deleteProduct);
+
 app.listen(PORT, () => {
   console.log('listening on port ' + PORT);
 });
