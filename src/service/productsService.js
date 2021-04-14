@@ -1,7 +1,12 @@
-const { getAllNames, addNewProduct, getProductByName } = require('../models/productsModel');
+const {
+  getAllNames,
+  addNewProduct,
+  getProductByName,
+} = require('../models/productsModel');
 
 const greaterThanFive = (name) => {
-  if (name.length <= 5) {
+  const maxLength = 5;
+  if (name.length <= maxLength) {
     return {
       err: {
         code: 'invalid_data',

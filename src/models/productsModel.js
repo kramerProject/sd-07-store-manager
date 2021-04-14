@@ -14,7 +14,7 @@ const addNewProduct = async (name, quantity) => {
 const getProductByName = async (name) => {
   const db = await connect();
   return db.collection('products').findOne({ name });
-}
+};
 
 module.exports = {
   getAllNames,
