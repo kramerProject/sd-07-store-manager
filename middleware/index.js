@@ -1,7 +1,7 @@
 const errorMiddleware = require('./errorMiddleware');
-const newProductMiddleware = require('./newProductHandler');
+const productMiddleware = require('./productHandler');
 
 module.exports = { 
   errorMiddleware,
-  newProductMiddleware,
+  productMiddleware,
 };

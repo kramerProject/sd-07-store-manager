@@ -38,7 +38,7 @@ const verifyQuantity = (quantity, res) => {
   }
 };
 
-const newProductMiddleware = async (req, res, next) => {
+const productMiddleware = async (req, res, next) => {
   try {
     const { name, quantity } = req.body;
     const validQuantity = verifyQuantity(quantity, res);
@@ -52,4 +52,4 @@ const newProductMiddleware = async (req, res, next) => {
   next();
 };
 
-module.exports = newProductMiddleware;
+module.exports = productMiddleware;

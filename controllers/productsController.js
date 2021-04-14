@@ -38,6 +38,18 @@ const getProductById = async (req, res) => {
   }
 };
 
+const updateProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const updatedProduct = await productsModel.updateProduct(id, name, quantity);
+
+    res.status(okStatus).json(updatedProduct);
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
 const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
@@ -57,5 +69,6 @@ module.exports = {
   createProduct,
   getAllProducts,
   getProductById,
+  updateProduct,
   deleteProduct
 };
