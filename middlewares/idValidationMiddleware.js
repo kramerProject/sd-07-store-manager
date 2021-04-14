@@ -1,7 +1,7 @@
 const { productModel } = require('../models');
 const status = require('../status');
 
-const idValidationMiddleware = async (req, res) => {
+const idValidationMiddleware = async (req, res, next) => {
   try {
     const { id } = req.params;
     const product = await productModel.getById(id);
