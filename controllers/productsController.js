@@ -53,4 +53,25 @@ const updateProduct = async (req, res) => {
   }
 };
 
-module.exports = { createProduct, getAllProducts, getProductsById, updateProduct };
+const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+
+  const getProductToBeDeleted = await productsService.getProductsById(id);
+  const result = await productsService.deleteProduct(id);
+
+  if (typeof result === 'string') {
+    res
+      .status(STATUS_UNPROCESSABLE_ENTITY)
+      .json({ err: { code: 'invalid_data', message: result } });
+  } else {
+    res.status(STATUS_OK).json(getProductToBeDeleted);
+  }
+};
+
+module.exports = {
+  createProduct,
+  getAllProducts,
+  getProductsById,
+  updateProduct,
+  deleteProduct,
+};
