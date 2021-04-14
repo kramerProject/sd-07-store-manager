@@ -11,6 +11,27 @@ const addProduct = async (req, res) => {
   }
 };
 
+const getAllProducts = async (req, res) => {
+  try {
+    const products = await productModel.getAll();
+    res.status(status.OK).json(products);
+  } catch (err) {
+    res.status(status.INTERNAL_SERVER_ERROR).json(err.message);
+  }
+};
+
+const getPoductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await productModel.getById(id);
+    return res.status(status.OK).json(product);
+  } catch (err) {
+    res.status(status.INTERNAL_SERVER_ERROR).json(err.message);
+  }
+};
+
 module.exports = {
-  addProduct
+  addProduct,
+  getAllProducts,
+  getPoductById
 };
