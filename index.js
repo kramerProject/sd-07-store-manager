@@ -1,4 +1,6 @@
 const express = require('express');
+const productsRoutes = require('./routes/productsRoutes');
+const errorMiddleware = require('./middlewares/error');
 
 const app = express();
 
@@ -8,6 +10,12 @@ app.use(express.json());
 app.get('/', (_request, response) => {
   response.send();
 });
+
+app.use(productsRoutes);
+
+app.use(errorMiddleware);
+
+
 
 const PORT = '3000';
 
