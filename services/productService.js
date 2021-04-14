@@ -1,6 +1,5 @@
 const ProductModel = require('../model/Products');
 
-
 const add = async (name, quantity) => {
   const existProduct = await exists(name);
   // console.log(existProduct);

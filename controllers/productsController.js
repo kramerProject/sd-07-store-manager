@@ -63,7 +63,7 @@ const remove = async (req, res) => {
   const { id } = req.params;  
 
   const result = await ProductsService.remove(id);
-  console.log(result);
+  
   if(result){
     return res.status(code.get_success).json(result);
   }
