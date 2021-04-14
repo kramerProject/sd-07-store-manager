@@ -37,10 +37,13 @@ const getAllProducts = async (req, res) => {
 const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
+
     const results = await productsModel.getProductById(id);
+
     if(!results) {
       return res.status(unprocessable).json(wrongId);
     }
+
     return res.status(OK).json(results);
   } catch (error) {
     console.log(error);
@@ -48,9 +51,22 @@ const getProductById = async (req, res) => {
   }
 };
 
+const updateProduct = async (req, res) => {
+  try {
+    const {name, quantity} = req.body;
+    const { id } = req.params;
+    const product = await productsServices.updateProduct(id, name, quantity);
+    const { http, message } = product;
+    return res.status(http).json(message);
+  } catch (error) {
+    console.log(error);
+    return res.status(serverError).json({ message: error.message });
+  }
+};
 
 module.exports = {
   createProducts,
   getAllProducts,
   getProductById,
+  updateProduct
 };

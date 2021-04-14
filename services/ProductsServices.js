@@ -49,10 +49,10 @@ const successValidate = (message) => {
   };
 };
 
-const isValidRegister = async (name, quantity) => {
+const isValidRegister = async (id, name, quantity) => {
   const productDuplicated = await productsModel.findProductByName(name);
   if (name.length < five) return nameLenght;
-  if (productDuplicated) return duplicateProduct;
+  if (productDuplicated && !id) return duplicateProduct;
   if (quantity <= zero) return lowQuantity;
   if (typeof quantity === 'string') return stringQuantity;
   return null;
@@ -67,6 +67,19 @@ const createProducts = async (name, quantity) => {
   return successValidate(productsService);
 };
 
+const updateProduct = async (id, name, quantity) => {
+  const validate = await isValidRegister(id, name, quantity);
+
+  if(validate){
+    return validateCustomHTTP(validate);
+  }
+
+  const productUpdated = await productsModel.updateProduct(id, name, quantity);
+
+  return validateCustomHTTP(productUpdated, OK);
+};
+
 module.exports = {
   createProducts,
+  updateProduct
 };
