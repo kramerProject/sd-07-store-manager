@@ -1,5 +1,5 @@
 const MIN_CHARACTERS_NAME = 5;
-const validName = async (name) => {
+const validName = (name) => {
 
   if (!name || name.length < MIN_CHARACTERS_NAME) return false;
 

@@ -1,6 +1,5 @@
 const express = require('express');
 
-
 const { productRoute, salesRoute } = require('./controllers');
 
 const errorMiddleware = require('./middlewares/errorMiddleware');

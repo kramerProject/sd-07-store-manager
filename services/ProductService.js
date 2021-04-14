@@ -17,7 +17,7 @@ const findById = async (id) => {
 
 // \/ Req. 3 Crie um endpoint para atualizar um produto
 const editById = async (id, name, quantity) => {
-  if (!await func.validName(name)) {
+  if (!func.validName(name)) {
     return {
       isError: true,
       code: 'invalid_data',
@@ -26,7 +26,7 @@ const editById = async (id, name, quantity) => {
     };
   };
 
-  if (!await func.quantityIsNumber(quantity)) {
+  if (!func.quantityIsNumber(quantity)) {
     return {
       isError: true,
       code: 'invalid_data',
@@ -35,7 +35,7 @@ const editById = async (id, name, quantity) => {
     };
   };
 
-  if (!await func.validInsertQuantity(quantity)) {
+  if (!func.validInsertQuantity(quantity)) {
     return {
       isError: true,
       code: 'invalid_data',

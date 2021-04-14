@@ -1,11 +1,57 @@
 const { Router } = require('express');
+const rescue = require('express-rescue');
 
-const { SalesService } = require('../services');
+const { SalesService, status } = require('../services');
 
 const salesRoute = Router();
 
-salesRoute.get('/', SalesService.getAll);
+salesRoute.get('/', rescue( async (_req, res) => {
+  try {
+    const result = await SalesService.getAll();
 
-salesRoute.post('/', SalesService.create);
+    res.status(status.SUCCESS).json(result);
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
+  }
+}));
+
+salesRoute.post('/', rescue( async (req, res, next) => {
+  try {
+    const product = req.body;
+
+    const result = await SalesService.create(product);
+
+    if (result.isError) return next(result);
+
+    return res.status(status.CREATED).json(result);
+
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
+
+  }
+}));
+
+
+
+/*
+productRoute.post('/', rescue(async (req, res, next) => {
+  try {
+    const { name, quantity } = req.body;
+
+    const result = await ProductService.create(name, quantity);
+
+    if (result.isError) return next(result);
+
+    return res.status(status.CREATED).json(result);
+
+  } catch (err) {
+
+    throw new Error(err);
+
+  }
+}));
+*/
 
 module.exports = salesRoute;
