@@ -15,6 +15,9 @@ const findAll = async () => conn()
 const findById = async (id) => conn()
   .then((db) => db.collection(collectionName).findOne(ObjectId(id)));
 
+const findByName = async (name) => conn()
+  .then((db) => db.collection(collectionName).findOne({name}));
+
 const update = async (id, name, quantity) => {
   conn().then((db) => db.collection(collectionName).updateOne(
     { _id: ObjectId(id) },
@@ -40,6 +43,7 @@ module.exports = {
   create,
   findAll,
   findById,
+  findByName,
   update,
   remove,
 };

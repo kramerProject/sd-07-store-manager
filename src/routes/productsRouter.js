@@ -1,15 +1,17 @@
 var express = require('express');
 var router = express.Router();
 const Product = require('../controllers/productController');
+const { validateProduct, validateId } = require('../middlewares/validationsProduct');
+const existingProduct = require('../middlewares/existingProduct');
 
 router.route('/')
   .get(Product.findAll)
-  .post(Product.create);
+  .post(validateProduct, existingProduct, Product.create);
 
 router.route('/:id')
-  .get(Product.findById)
-  .put(Product.update)
-  .delete(Product.remove);
+  .get(validateId, Product.findById)
+  .put(validateId, validateProduct, Product.update)
+  .delete(validateId, Product.remove);
 
 
 module.exports = router;
