@@ -1,4 +1,5 @@
 const productModel = require('../models/products');
+const { ObjectId } = require('mongodb');
 
 const ZERO = 0;
 const ONE = 1;
@@ -19,21 +20,23 @@ const validateQuantity = (quantity) => {
   }
 };
 
+const validateId = (id) => {
+  if(!ObjectId.isValid(id)) throw new Error('Wrong id format');
+};
+
 const createProduct = async ({ name, quantity }) => {
   validateName(name);
   validateQuantity(quantity);
 
   const registeredNames = await productModel.findByName(name);
 
-  console.log(registeredNames);
   if (registeredNames.length !== ZERO) throw new Error('Product already exists');
   return await productModel.createProduct({ name, quantity });
 };
 
 const findById = async (id) => {
+  validateId(id);
   const result = await productModel.findById(id);
-
-  if (result === null) throw new Error('Wrong id format');
 
   return result;
 };
@@ -45,6 +48,7 @@ const findAll = async () => {
 };
 
 const updateProduct = async (id, product) => {
+  validateId(id);
   validateName(product.name);
   validateQuantity(product.quantity);
 
@@ -53,7 +57,8 @@ const updateProduct = async (id, product) => {
   return result;
 };
 
-const deleteProduct = async (id, product) => {
+const deleteProduct = async (id) => {
+  validateId(id);
   const result = productModel.deleteProduct(id);
 
   if (result === null) throw new Error('Wrong id format');

@@ -53,6 +53,7 @@ const updateProduct = (id, product) => {
 };
 
 const deleteProduct = (id) => {
+  console.log('id', id);
   return connection()
     .then((db) => db.collection(PRODUCTS_COLLECTION).deleteOne({_id: ObjectId(id)}));
 };
