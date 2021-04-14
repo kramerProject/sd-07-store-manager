@@ -1,15 +1,15 @@
 const connection = require('../configs/connection');
-const { throwError } = require('../configs/erro');
+const { sendError } = require('../configs/erro');
 const { status, errors } = require('../configs/status');
 
 const collection = 'products';
 
-const createProduct = async ({ name, quantity }) => {
+const createProduct = async ({ name, quantity }, res) => {
   const product = await connection()
     .then((db) => db.collection(collection).findOne({ name }));
 
   if (product) {
-    throw new throwError(status.unprocessableEntity, errors.productExists);
+    sendError(status.unprocessableEntity, errors.productExists, res);
   }
 
   const created = await connection()

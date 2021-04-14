@@ -1,22 +1,22 @@
-const { throwError } = require('./erro');
+const { sendError } = require('./erro');
 const { status, errors } = require('./status');
 
-const validateProduct = (req, _res, next) => {
+const validateProduct = (req, res, next) => {
   const { name, quantity } = req.body;
 
   const minName = 5;
   const minQuantity = 0;
 
-  if (!(typeof name === 'string' && name.length > minName)) {
-    throw new throwError(status.unprocessableEntity, errors.nameProduct);
+  if (typeof name !== 'string' || name.length <= minName) {
+    sendError(status.unprocessableEntity, errors.nameProduct, res);
   }
 
-  if (!typeof quantity === 'number') {
-    throw new throwError(status.unprocessableEntity, errors.quantityType);
+  if (typeof quantity !== 'number') {
+    sendError(status.unprocessableEntity, errors.quantityType, res);
   }
 
-  if (!quantity > minQuantity) {
-    throw new throwError(status.unprocessableEntity, errors.quntityInvalidation);
+  if (quantity <= minQuantity) {
+    sendError(status.unprocessableEntity, errors.quntityInvalidation, res);
   }
 
   next();

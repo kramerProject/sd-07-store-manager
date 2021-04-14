@@ -7,7 +7,7 @@ const products = new Router();
 
 products.post('/', validateProduct, async (request, response) => {
   const { body } = request;
-  const createdProduct = await productService.createProduct(body);
+  const createdProduct = await productService.createProduct(body, res);
 
   response.status(status.created).json(createdProduct);
 });

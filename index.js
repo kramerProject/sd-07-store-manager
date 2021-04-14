@@ -13,8 +13,5 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/products', products);
-app.use((err, _req, res, _next) => {
-  sendError(err, res);
-});
 
 app.listen(PORT);
