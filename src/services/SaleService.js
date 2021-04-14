@@ -29,8 +29,14 @@ const get = async (id) => {
   return await SaleModel.get(id);
 };
 
+const update = async (id, sales) => {
+  id = convertToObjectID(id);
+  return await SaleModel.update(id, sales);
+};
+
 module.exports = {
   find,
   get,
   create,
+  update,
 };

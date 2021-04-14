@@ -16,5 +16,13 @@ module.exports = {
   get: async (id) => {
     const db = await database.connect();
     return await db.collection(salesCollection).find({ _id: id }).toArray();
-  }
+  },
+  update: async (id, sales) => {
+    const db = await database.connect();
+    await db.collection(salesCollection).updateOne(
+      { _id: id },
+      { $set: { itensSold: sales } }
+    );
+    return { _id: id, itensSold: sales };
+  },
 };

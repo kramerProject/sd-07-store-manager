@@ -39,4 +39,13 @@ module.exports = {
       return res.status(err_number).json({ err });
     }
   },
+  update: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const sales = await SaleService.update(id, req.body);
+      return res.status(SUCCESS).json(sales);
+    } catch ({ err, err_number }) {
+      return res.status(err_number).json({ err });
+    }
+  },
 };
