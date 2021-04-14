@@ -5,9 +5,11 @@ const addSales = async (req, res) => {
   try {
     const sales = req.body;
     const itensSold = await salesServices.addWithValidation(sales);
-    console.log('controller' + itensSold);
     if (!itensSold.code) {
       res.status(status.get).json(itensSold);
+      return;
+    } else if (itensSold.code === 'stock_problem') {
+      res.status(status.notFound).json({ err: itensSold });
       return;
     }
     res.status(status.invalid_data).json({err: itensSold});

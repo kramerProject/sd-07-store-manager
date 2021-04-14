@@ -1,4 +1,5 @@
 const salesModel = require('../models/salesModel');
+const productsModel = require('../models/productsModel');
 
 const addWithValidation = async (sales) => {
   const zero = 0;
@@ -10,10 +11,17 @@ const addWithValidation = async (sales) => {
         message: 'Wrong product ID or invalid quantity',
       };
     }
+
+    const stock = await productsModel.getOne(product.productId);
+    if (stock.quantity < product.quantity) {
+      return {
+        code: 'stock_problem',
+        message: 'Such amount is not permitted to sell'
+      };
+    }
   }
 
   const itensSold = await salesModel.add(sales);
-  console.log('services' + itensSold);
   return itensSold;
 };
 

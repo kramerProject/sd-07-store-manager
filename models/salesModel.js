@@ -17,12 +17,6 @@ const add = async (sales) => {
 
   const itensSold = await addAfter(sales);
   return itensSold;
-
-  // connect().then(async (db) => {
-  //   const itensSold = await db.collection('sales').insertOne({ itensSold: sales });
-  //   console.log('model' + itensSold.ops[0]);
-  //   return itensSold.ops[0];
-  // });
 };
 
 const getAll = async () =>
@@ -68,10 +62,3 @@ module.exports = {
   updateOne,
   exclude,
 };
-
-// { "_id": ObjectId("5f43cbf4c45ff5104986e81d"), "name": "Produto Silva", "quantity": 10 }
-
-//  {
-//    "_id": ObjectId("5f43cc53c45ff5104986e81e"),
-//    "itensSold": [{ "productId": "5f43cbf4c45ff5104986e81d", "quantity": 2 }]
-//  }
