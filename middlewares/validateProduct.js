@@ -24,7 +24,7 @@ const nameExists = async (name) => {
 };
 
 const shortName = (name) =>  name.length < CINCO ? true : false;
-const lagerThenZero = (qty) => qty > ZERO ? true : false;
+const largerThenZero = (qty) => qty > ZERO ? true : false;
 const isString = (qty) => typeof qty === 'string' ? true : false;
 
 module.exports = async (req, res, next) => {
@@ -32,7 +32,7 @@ module.exports = async (req, res, next) => {
   if (shortName(name)) return res.status(ERR_UNPR_ENTITY).json(errorReturn(shortNameMsg));
   if (isString(quantity))
     return res.status(ERR_UNPR_ENTITY).json(errorReturn(isStringMsg));
-  if (!lagerThenZero(quantity))
+  if (!largerThenZero(quantity))
     return res.status(ERR_UNPR_ENTITY).json(errorReturn(lessThanZeroMsg));
   if (await nameExists(name)) {
     return await res.status(ERR_UNPR_ENTITY).json(errorReturn(nameExistsMsg));

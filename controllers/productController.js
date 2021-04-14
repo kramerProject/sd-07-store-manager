@@ -3,10 +3,9 @@ const Product = require('../models/productModel');
 const OK = 200;
 const CREATED = 201;
 const SERVERROR = 500;
-const DELETED = 204;
 const ERR_UNPR_ENTITY = 422;
 
-const getAll = async (req, res) => {
+const getAll = async (_req, res) => {
   try {
     const results = { products: await Product.getAll() };
     res.status(OK).json(results);
