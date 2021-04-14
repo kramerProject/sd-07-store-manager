@@ -19,7 +19,10 @@ const serviceValidadeProduct = async (name, quantity) => {
 
   if (await ProductsModel.getProductByName(name))
     throw { code: 'invalid_data', message: 'Product already exists' };
+};
 
+const serviceAddProduct = async (name, quantity) => {
+  await serviceValidadeProduct(name, quantity);
   return await ProductsModel.add(name, quantity);
 };
 
@@ -34,8 +37,17 @@ const serviceGetById = async (id) => {
   return await ProductsModel.getById(id);
 };
 
+const serviceUpdateProduct = async (id, name, quantity) => {
+  await serviceValidadeProduct(name, quantity);
+  const productID = await ProductsModel.getById(id);
+  if (!productID)
+    throw { code: 'invalid_data', message: 'Wrong id format' };
+  return await ProductsModel.update(id, name, quantity);
+};
+
 module.exports = {
-  serviceValidadeProduct,
+  serviceAddProduct,
   serviceGetAllProducts,
-  serviceGetById
+  serviceGetById,
+  serviceUpdateProduct
 };

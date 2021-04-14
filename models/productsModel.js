@@ -21,14 +21,14 @@ async function getById(id) {
   return connect().then((db) => db.collection('products').findOne(ObjectId(id)));
 }
 
-// async function update(id, name, quantity) {
-//   connect().then(async (db) => {
-//     const product = await db
-//       .collection('products')
-//       .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
-//     return { _id: id, name, quantity };
-//   });
-// }
+async function update(id, name, quantity) {
+  return await connect().then(async (db) => {
+    const product = await db
+      .collection('products')
+      .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
+    return { _id: id, name, quantity };
+  });
+}
 
 // async function exclude(id) {
 //   connect().then(async (db) => db.collection('products').deleteOne({ _id: ObjectId(id) }));
@@ -40,6 +40,6 @@ module.exports = {
   getProductByName,
   getAllProducts,
   getById,
-  // update,
+  update,
   // exclude,
 };

@@ -5,7 +5,7 @@ async function addProduct(req, res) {
   const responseError = 422;
   try {
     const { name, quantity } = req.body;
-    const newProduct = await ServiceProduct.serviceValidadeProduct(name, quantity);
+    const newProduct = await ServiceProduct.serviceAddProduct(name, quantity);
     res.status(responseOK).json(newProduct);
   } catch (err) {
     res.status(responseError).json( { err: {
@@ -45,19 +45,23 @@ async function getProductById (req, res) {
   }
 };
 
-// async function updateProduct (req, res) {
-//   try {
-//     const { name, quantity } = req.body;
-//     const { id } = req.params;
+async function updateProduct (req, res) {
+  const responseOK = 200;
+  const responseError = 422;
+  try {
+    const { name, quantity } = req.body;
+    const { id } = req.params;
 
-//     const people = await ProductsModel.update(id, name, quantity);
+    const people = await ServiceProduct.serviceUpdateProduct(id, name, quantity);
 
-//     res.status(200).json(people);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).json({ message: err.message });
-//   }
-// };
+    res.status(responseOK).json(people);
+  } catch (err) {
+    res.status(responseError).json( { err: {
+      code: err.code,
+      message: err.message,
+    }});
+  }
+};
 
 // const deleteProduct = async (req, res) => {
 //   try {
@@ -74,6 +78,6 @@ module.exports = {
   addProduct,
   getProducts,
   getProductById,
-  // updateProduct,
+  updateProduct,
   // deleteProduct,
 };
