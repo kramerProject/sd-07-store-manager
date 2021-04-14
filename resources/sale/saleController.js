@@ -64,13 +64,15 @@ const updateSale = async (req, res) => {
 
 const deleteSale = async (req, res) => {
   const { id } = req.params;
-  const foundSale = await saleService.findById(id);
-
+  
   /* REFATORAR para colocar na camada de Service do Product >> updateQuantity */
-  const foundProduct =  await productService.findById(foundSale.itensSold[0].productId);
-  foundProduct.quantity += foundSale.itensSold[0].quantity;
-  const updatedProduct = await productService
-    .update(foundProduct._id, foundProduct.name, foundProduct.quantity);
+  const foundSale = await saleService.findById(id);
+  if (foundSale) {
+    const foundProduct =  await productService.findById(foundSale.itensSold[0].productId);
+    foundProduct.quantity += foundSale.itensSold[0].quantity;
+    const updatedProduct = await productService
+      .update(foundProduct._id, foundProduct.name, foundProduct.quantity);
+  }
 
   const deleteSale = await saleService.del(id);
   if (deleteSale) {
