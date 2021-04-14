@@ -49,9 +49,23 @@ const updateProduct = async (req, res) => {
   }
 };
 
+const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+  const deletedProduct = await productService.del(id);
+  if (deletedProduct) {
+    res.status(StatusCodes.OK).json(deletedProduct);
+    return;
+  }
+  throw new ErrorHandler(
+    StatusCodes.UNPROCESSABLE_ENTITY,
+    'invalid_data', 
+    'Wrong id format');
+};
+
 module.exports = {
   addProduct,
   getProductById,
   getAllProducts,
   updateProduct,
+  deleteProduct,
 };

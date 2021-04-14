@@ -12,6 +12,6 @@ router.get('/products/:id', rescue(productController.getProductById));
 router.put('/products/:id', 
   productValidateMiddleware, 
   rescue(productController.updateProduct));
-// router.delete('/products/:id', productController.deleteProduct);
+router.delete('/products/:id', rescue(productController.deleteProduct));
 
 module.exports = router; 

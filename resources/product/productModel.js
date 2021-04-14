@@ -47,6 +47,15 @@ const update = (id, name, quantity) =>
     return null;
   });
 
+const del = (id) => 
+  connect().then(async (db) => {
+    const { deletedCount } =  await db.collection('products')
+      .deleteOne({ _id: ObjectId(id) });
+    if (deletedCount) {
+      return id;
+    }
+    return null;
+  });
 
 
 module.exports = {
@@ -55,4 +64,5 @@ module.exports = {
   findById,
   findAll,
   update,
+  del,
 };
