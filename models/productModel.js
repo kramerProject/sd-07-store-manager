@@ -26,9 +26,20 @@ const add = async (name, quantity) => {
   return product.ops[0];
 };
 
+const update = async (updateData) => {
+  const result = await connect().then((db) =>
+    db.collection('products')
+      .updateOne(
+        {_id: ObjectId(updateData._id) },
+        { $set: {name: updateData.name, quantity: updateData.quantity }}
+      ));
+  return updateData;
+};
+
 module.exports = {
   add,
   getAll,
   getById,
-  countByName
+  countByName,
+  update
 };

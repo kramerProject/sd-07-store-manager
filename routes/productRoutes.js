@@ -14,6 +14,8 @@ productRouter.post('/products',nameValidationMiddleware,
 productRouter.get('/products', productController.getAllProducts);
 productRouter.get('/products/:id', idValidationMiddleware,
   productController.getPoductById);
+productRouter.put('/products/:id', idValidationMiddleware, nameValidationMiddleware,
+  quantityValidationMiddleware, productController.updateProduct) ;
 
 
 module.exports = productRouter;
