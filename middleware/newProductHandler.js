@@ -41,8 +41,10 @@ const verifyQuantity = (quantity, res) => {
 const newProductMiddleware = async (req, res, next) => {
   try {
     const { name, quantity } = req.body;
-    verifyQuantity(quantity, res);
-    await verifyName(name, res);
+    const validQuantity = verifyQuantity(quantity, res);
+    const validName = await verifyName(name, res);
+
+    if(validQuantity || validName) return;
   } catch (err) {
     throw new Error(err);
   }

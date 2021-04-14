@@ -4,7 +4,8 @@ const { newProductMiddleware } = require('../middleware');
 
 const router = express.Router();
 
-router.get('/products', productsController.getAllProducts)
-  .post('/products', newProductMiddleware, productsController.createProduct);
+router.post('/products', newProductMiddleware, productsController.createProduct);
+router.get('/products', productsController.getAllProducts);
+router.get('/products/:id', productsController.getProductById);
 
 module.exports = router;
