@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const products = require('./src/routers/products');
+const { sendError } = require('./configs/utils/erro');
 
 const app = express();
 const PORT = 3000;
@@ -8,6 +10,11 @@ app.use(bodyParser.json());
 
 app.get('/', (_request, response) => {
   response.send();
+});
+
+app.use('/products', products);
+app.use((err, _req, res, _next) => {
+  sendError(err, res);
 });
 
 app.listen(PORT);
