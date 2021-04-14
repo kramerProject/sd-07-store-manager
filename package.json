@@ -26,6 +26,7 @@
     "express": "^4.17.1",
     "express-rescue": "^1.1.26",
     "faker": "^4.1.0",
+    "flatted": "^3.1.1",
     "frisby": "^2.1.2",
     "jest": "^26.4.1",
     "mongodb": "^3.6.6",

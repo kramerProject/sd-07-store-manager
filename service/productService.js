@@ -1,4 +1,9 @@
-const { findItemByName, addItem } = require('../model/productsModel');
+const {
+  findItemByName,
+  addItem,
+  modelGetAll,
+  modelGetById
+} = require('../model/productsModel');
 const five = 5;
 
 async function validateName(name) {
@@ -25,9 +30,21 @@ async function serviceAddItem(name, quantity) {
   const newItem = await addItem(name, quantity);
   return newItem;
 }
+async function serviceGetAll() {
+  return await modelGetAll();
+}
+async function serviceGetById(id) {
+  const result = await modelGetById(id);
+  if (!result) {
+    throw new Error('Wrong id format');
+  }
+  return result;
+}
 
 module.exports = {
   validateName,
   serviceAddItem,
-  validateQuantity
+  validateQuantity,
+  serviceGetAll,
+  serviceGetById
 };
