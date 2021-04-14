@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const products = require('./src/routers/products');
+const products = require('./routers/products');
 const { sendError } = require('./configs/utils/erro');
 
 const app = express();
