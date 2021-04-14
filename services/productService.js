@@ -3,7 +3,7 @@ const zero = 0;
 
 const productIsValid = async (name, quantity) => {
   const productList = await allProducts.getAll();
-  const productExists = productList.find((product) => product.name === name);
+  const productExists = await productList.find((product) => product.name === name);
   const prodMinSize = 5;
 
   if(name.lenght < prodMinSize) return err = {
