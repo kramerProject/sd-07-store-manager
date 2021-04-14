@@ -41,8 +41,25 @@ const getSaleById = async (req, res) => {
   }
 };
 
+const updateSaleById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const itensSold = req.body;
+    const updatedSale = await salesServices.updateOneWithValidation(id, itensSold);
+    if (!updatedSale.code) {
+      res.status(status.get).json(updatedSale);
+      return;
+    }
+    res.status(status.invalid_data).json({ err: updatedSale });
+  } catch (error) {
+    console.error(error.message);
+    res.status(status.serverError).json({ message: error.message });
+  }
+};
+
 module.exports = {
   addSales,
   getAllSales,
   getSaleById,
+  updateSaleById,
 };

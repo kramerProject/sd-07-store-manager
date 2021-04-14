@@ -7,7 +7,7 @@ const add = async (sales) =>
     return itensSold.ops[0];
   });
 
-const getAll = async () => 
+const getAll = async () =>
   connect().then(async (db) => await db.collection('sales').find().toArray());
 
 const getOne = async (id) => {
@@ -15,10 +15,22 @@ const getOne = async (id) => {
   return connect().then((db) => db.collection('sales').findOne(ObjectId(id)));
 };
 
+const updateOne = async (id, itensSold) =>
+  connect().then(async (db) => {
+    await db.collection('sales')
+      .updateOne({ _id: ObjectId(id) }, { $set: { itensSold } });
+
+    return {
+      _id: id,
+      itensSold,
+    };
+  });
+
 module.exports = {
   add,
   getAll,
   getOne,
+  updateOne,
 };
 
 // { "itensSold": [{ "productId": "5f43cbf4c45ff5104986e81d", "quantity": 2 }] }

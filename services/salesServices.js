@@ -32,8 +32,25 @@ const getOneSaleWithValidation = async (id) => {
   return sale;
 };
 
+const updateOneWithValidation = async (id, itensSold) => {
+  const zero = 0;
+  const qtdMinima = 1;
+  for (let i = zero; i < itensSold.length; i += 1) {
+    const iten = itensSold[i];
+    if (iten.quantity < qtdMinima || typeof(iten.quantity) != 'number') {
+      return {
+        code: 'invalid_data',
+        message: 'Wrong product ID or invalid quantity'
+      };
+    }
+  }
+  const updatedSale = await salesModel.updateOne(id, itensSold);
+  return updatedSale;
+};
+
 module.exports = {
   addWithValidation,
   getAllWithValidation,
   getOneSaleWithValidation,
+  updateOneWithValidation,
 };
