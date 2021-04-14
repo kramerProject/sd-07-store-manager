@@ -20,7 +20,7 @@ const getProductsById = async (id) => {
 const update = async (id, name, quantity) =>
   connect().then(async (db) => {
     const product = await db
-      .collection('people')
+      .collection('products')
       .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
 
     return { _id: id, name, quantity };
