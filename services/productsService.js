@@ -1,8 +1,9 @@
 const productsModel = require('../models/productsModel');
 
 const verifyName = (allProducts, name) => {
+  const minLength = 5;  
   const bool = allProducts.some((element) => element.name === name);
-  if (typeof name !== string || string.length <= 5) {
+  if (typeof name !== 'string' || name.length <= minLength) {
     throw new Error('"name" length must be at least 5 characters long');
   } else if (bool) {
     throw new Error('Product already exists');
@@ -10,9 +11,10 @@ const verifyName = (allProducts, name) => {
 };
 
 const verifyQuantity = (quantity) => {
-  if (!Number.isInteger(quantity) || quantity <= 0) {
+  const minSize = 0;
+  if (!Number.isInteger(quantity) || quantity <= minSize) {
     throw new Error('"quantity" must be larger then or equal to 1');
-  } else if (typeof quantity !== number) {
+  } else if (typeof quantity !== 'number') {
     throw new Error('"quantity" must be a number');
   }
 };
