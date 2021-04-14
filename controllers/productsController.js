@@ -47,7 +47,11 @@ const updateProductsById = async (req, res) => {
     const { id } = req.params;
     const { name, quantity } = req.body;
     const updatedProduct = await productServices.updateWithValidation(id, name, quantity);
-    res.status(status.get).json(updatedProduct);
+    if (!updatedProduct.code) {
+      res.status(status.get).json(updatedProduct);
+      return;  
+    }
+    res.status(status.invalid_data).json({err: updatedProduct});
   } catch (error) {
     console.error(error.message);
     res.status(status.serverError).json({ message: error.message });
