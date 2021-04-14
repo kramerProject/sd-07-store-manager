@@ -6,12 +6,19 @@ const productValidateMiddleware = require('./productValidateMiddleware');
 
 const router = express.Router();
 
-router.post('/products', productValidateMiddleware, rescue(productController.addProduct));
-router.get('/products', rescue(productController.getAllProducts));
-router.get('/products/:id', rescue(productController.getProductById));
-router.put('/products/:id', 
+const PRODUCTS_PATH = '/products';
+
+router.post(PRODUCTS_PATH,
+  productValidateMiddleware,
+  rescue(productController.addProduct));
+router.get(PRODUCTS_PATH,
+  rescue(productController.getAllProducts));
+router.get(`${PRODUCTS_PATH}/:id`,
+  rescue(productController.getProductById));
+router.put(`${PRODUCTS_PATH}/:id`, 
   productValidateMiddleware, 
   rescue(productController.updateProduct));
-router.delete('/products/:id', rescue(productController.deleteProduct));
+router.delete(`${PRODUCTS_PATH}/:id`,
+  rescue(productController.deleteProduct));
 
 module.exports = router; 
