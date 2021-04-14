@@ -13,10 +13,20 @@ const router = express.Router();
 router.get('/products/:id', idValidate, rescue(productsController.getById));
 router.get('/products', rescue(productsController.getAll));
 router.delete('/products/:id', idValidate, rescue(productsController.deleteProduct));
-router.use(nameValidate);
-router.use(quantityValidate);
-router.put('/products/:id', idValidate, rescue(productsController.update));
-router.use(productExistsValidate);
-router.post('/products', rescue(productsController.create));
+router.put(
+  '/products/:id',
+  idValidate,
+  nameValidate,
+  quantityValidate,
+  rescue(productsController.update),
+);
+router.post(
+  '/products',
+  idValidate,
+  nameValidate,
+  quantityValidate,
+  productExistsValidate,
+  rescue(productsController.create)
+);
 
 module.exports = router;
