@@ -1,18 +1,20 @@
-const productsModel = require('../model/productsModel');
-const connection = require('../config/connection');
-const {validateName} = require('../service/productService');
+const {
+  validateName,
+  serviceAddItem,
+  validateQuantity
+} = require('../service/productService');
 
 const addProduct = async (req, res) => {
-  const quinhentos = 500;
+  const unprocessable_entity = 422;
   const twoOhOne = 201;
   try {
     const { name, quantity } = req.body;
-    //fazendo validação
     validateName(name);
-    const newItem = await productsModel.addItem(name, quantity);
-    return res.status(twoOhOne).json({newItem});
+    validateQuantity(quantity);
+    const newItem = await serviceAddItem(name, quantity);
+    return res.status(twoOhOne).json({ newItem });
   } catch (err) {
-    res.status(quinhentos).json({ message: err.message });
+    res.status(unprocessable_entity).json({ message: err.message });
   }
 };
 
