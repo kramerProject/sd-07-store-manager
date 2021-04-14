@@ -49,9 +49,9 @@ const deleteById = async (id) => {
     return null;
   }
   const product = await connection().then((db) =>
-  db.collection('products').deleteOne({ _id: ObjectId(id) }));
+    db.collection('products').deleteOne({ _id: ObjectId(id) }));
   return product;
-}
+};
 
 module.exports = {
   getAll,

@@ -81,7 +81,7 @@ const deleteById = async (request, response) => {
     response.status(status.INTERNAL_SERVER_ERROR)
       .json({ message: error.message });
   }
-}
+};
 
 module.exports = {
   createProduct,
