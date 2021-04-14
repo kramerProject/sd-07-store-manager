@@ -1,5 +1,4 @@
 const validations = (body) => {
-  // console.log(body);
   const typeNumber = body.every((sale) => typeof sale.quantity === 'number');
   if (!typeNumber) return true;
   

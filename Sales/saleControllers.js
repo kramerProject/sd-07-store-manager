@@ -9,7 +9,6 @@ const addSale = async (req, res) => {
     const sold = await saleModel.addSale(req.body);
     res.status(OK).json(sold);
   } catch (error) {
-    console.log(req.body);
     res.status(ERROR).json({ err: { code: 'invalid_data', message: error.message }});
   }
 };
@@ -35,8 +34,6 @@ const uptadeSale = async (req, res) => {
     const sold = await saleModel.uptadeSale(id, req.body);
     res.status(OK).json(sold);
   } catch (error) {
-    console.log(req.body);
-    console.log(error);
     res.status(ERROR).json({ err: { code: 'invalid_data', message: error.message } });
   }
 };

@@ -42,9 +42,7 @@ const deleteSale = async (id) => {
   if (!ObjectId.isValid(id)) throw new Error('Wrong sale ID format');
 
   return await connection().then((db) => {
-    const soldId = new ObjectId(id);
-    return db.collection('sales').findOneAndDelete({ _id: soldId })
-      .then((result) => result.value);
+    return db.collection('sales').deleteOne({ _id: ObjectId(id) });
   });
 };
 
