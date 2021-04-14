@@ -9,7 +9,8 @@ const {
 const {
   controllerAddSales,
   getAllSales,
-  getSalesById
+  getSalesById,
+  updateSalesById
 } =require('./controller/controllerSales');
 
 
@@ -33,5 +34,6 @@ app.delete('/products/:id', deleteById);
 app.post('/sales', controllerAddSales);
 app.get('/sales', getAllSales);
 app.get('/sales/:id', getSalesById);
+app.put('/sales/:salesId', updateSalesById);
 
 app.listen(PORT, () => { console.log('Online'); });

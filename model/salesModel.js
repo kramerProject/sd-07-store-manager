@@ -26,8 +26,27 @@ async function modelGetSalesById(id) {
     }
   });
 }
+
+async function modelUpdateSalesById(salesId, productId, quantity) {
+  return connect().then((db) => {
+    try {
+      const item = db.collection('products').updateOne({ _id: ObjectId(salesId) }, {
+        $push: {
+          itensSold: { productId, quantity, }
+        }
+      });;
+      return { _id: salesId, itensSold: [
+        {productId, quantity,}
+      ] };
+    } catch (err) {
+      return false;
+    }
+  });
+}
+
 module.exports = {
   modelAddToSales,
   modelGetAllSales,
-  modelGetSalesById
+  modelGetSalesById,
+  modelUpdateSalesById
 };

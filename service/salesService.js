@@ -1,11 +1,16 @@
 const {
   modelAddToSales,
   modelGetAllSales,
-  modelGetSalesById
+  modelGetSalesById,
+  modelUpdateSalesById
 } = require('../model/salesModel');
 const ObjectId = require('mongodb').ObjectId;
 const five = 5;
-
+function checkQuantity(quantity) {
+  if (quantity < 1 || typeof quantity !== 'number') {
+    throw new Error('Wrong product ID or invalid quantity');
+  }
+}
 function checkQuantities(salesList) {
   salesList.forEach(sale => {
     if (sale.quantity < 1 || typeof sale.quantity !== 'number') {
@@ -38,10 +43,20 @@ async function serviceGetSalesById(id) {
   return result;
 }
 
+serviceUpdateSalesById;
+async function serviceUpdateSalesById(salesId, productId, quantity) {
+  const result = await modelUpdateSalesById(salesId, productId, quantity);
+  if (!result) {
+    throw new Error('Wrong id format');
+  }
+  return result;
+}
 module.exports = {
   checkQuantities,
+  checkQuantity,
   // checkIds,
   addToSales,
   serviceGetAllSales,
-  serviceGetSalesById
+  serviceGetSalesById,
+  serviceUpdateSalesById
 };
