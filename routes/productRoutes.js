@@ -16,6 +16,7 @@ productRouter.get('/products/:id', idValidationMiddleware,
   productController.getPoductById);
 productRouter.put('/products/:id', idValidationMiddleware, nameValidationMiddleware,
   quantityValidationMiddleware, productController.updateProduct) ;
-
+productRouter.delete('/products/:id', idValidationMiddleware,
+  productController.deleteProduct);
 
 module.exports = productRouter;
