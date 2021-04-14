@@ -44,6 +44,7 @@ const deleteSale = async (req, res) => {
     const sold = await saleModel.deleteSale(id);
     res.status(OK).json(sold);
   } catch (error) {
+    console.log(error);
     res.status(ERROR).json({ err: { code: 'invalid_data', message: error.message } });
   }
 };

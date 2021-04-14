@@ -23,6 +23,8 @@ const getSaleById = async (id) => {
   const sold = await connection().then((db) => 
     db.collection('sales').findOne(ObjectId(id)));
 
+  if (!sold) throw new Error('Sale not found');
+    
   return { _id: sold[0].productId, itensSold: sold };
 };
 
