@@ -1,6 +1,3 @@
-const { StatusCodes } = require('http-status-codes');
-const { ErrorHandler } = require('../../helpers/error');
-
 const productModel = require('./productModel');
 
 const add = async (name, quantity) => {

@@ -1,7 +1,7 @@
 const express = require('express');
 
 const middlewares = require('./middlewares');
-const product = require('./resources/product');
+const resources = require('./resources');
 
 const app = express();
 const PORT = 3000;
@@ -13,7 +13,8 @@ app.get('/', (_request, response) => {
 
 app.use(express.json());
 app.use(middlewares.logMiddleware);
-app.use(product.route);
+app.use(resources.product.route);
+app.use(resources.sale.route);
 app.use(middlewares.errorMiddleware);
 
 app.listen(PORT, () => {
