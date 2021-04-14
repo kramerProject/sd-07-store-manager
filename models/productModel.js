@@ -8,8 +8,9 @@ const register = async (name, quantity) =>
     return {_id: products.insertedId, name, quantity };
   });
 
-const getAllProducts = async () => 
-  connect().then((db) => db.collection('products').find().toArray());
+const getAllProducts = async () => {
+  return await connect().then((db) => db.collection('products').find().toArray());
+};
 
 const getProductsById = async (id) => {
   if (!ObjectId.isValid(id)) return null;

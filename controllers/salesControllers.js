@@ -3,48 +3,36 @@ const connection = require('../config/connection');
 
 const sucess = 200;
 const notFound = 404;
+const unprocessable = 422;
+const zero = 0;
+
+//Dinâmica da função registerSale: primeiramente, é preciso verificar a questão das quantidades, se é negativa ou string. A solução foi pegar o req.body (que é um array) e executar um forEach, e para cada item verificar o 'quantity'. Superando os ifs, o req.body é enviado por completo para o model, que vai dar o tratamento necessário.
 
 const registerSale = async (req, res) => {
-
   try {
-    const { name, quantity } = req.body;
-    const checkProductExist = await connection()
-      .then((db) => db.collection('products').findOne({ name: name }));
-    if(name.length < five) {
-      return res.status(unprocessable).send({
-        'err': 
-    		{'code': 'invalid_data',
-    		  'message': '"name" length must be at least 5 characters long'} });
-    }
-    if(checkProductExist){
-      return res.status(unprocessable).send({'err': 
+    req.body.forEach((sale) => {
+      if(sale.quantity <= zero) {
+        return res.status(unprocessable).send({'err': 
     	{'code': 'invalid_data',
-    	  'message': 'Product already exists'} });
-    }
-    if(quantity <= zero) {
-      return res.status(unprocessable).send({'err': 
+    	  'message': 'Wrong product ID or invalid quantity'} });
+      }
+      if(typeof sale.quantity === 'string') {
+        return res.status(unprocessable).send({'err': 
     	{'code': 'invalid_data',
-    	  'message': '"quantity" must be larger than or equal to 1'} });
-    }
-    if(typeof quantity === 'string') {
-      return res.status(unprocessable).send({'err': 
-    	{'code': 'invalid_data',
-    	  'message': '"quantity" must be a number'} });
-    }
-    const newProduct = await productModel.register(name, quantity);
-    res.status(created).json(newProduct);
+    	  'message': 'Wrong product ID or invalid quantity'} });
+      }
+    });
+    const newSale = await saleModel.register(req.body);
+    return res.status(sucess).json(newSale);
   } catch (err) {
     console.error(err.message);
-    res.status(internalError).json({ message: err.message });
   }
 };
 
 const getAll = async (req, res) => {
   try {
     const sales = await saleModel.getAllSales();
-    res.status(sucess).json({
-      'sales': sales
-    });
+    res.status(sucess).json({ sales });
   } catch (err) {
     console.error(err.message);
   }
@@ -71,5 +59,6 @@ const getById = async (req, res) => {
 
 module.exports = {
   getAll,
-  getById
+  getById,
+  registerSale
 };
