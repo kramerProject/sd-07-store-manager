@@ -1,4 +1,3 @@
-const productsModel = require('../models/productsModel');
 const { UNPROCESSABLE_ENTITY } = require('../utils/statusCode.json');
 
 const nameValidate = async (req, res, next) => {

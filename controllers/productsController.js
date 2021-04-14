@@ -1,5 +1,5 @@
 const productsModel = require('../models/productsModel');
-const { CREATED, SUCCESS, UNPROCESSABLE_ENTITY } = require('../utils/statusCode.json');
+const { CREATED, SUCCESS } = require('../utils/statusCode.json');
 
 const create = async (req, res) => {
   const { name, quantity } = req.body;
@@ -21,13 +21,13 @@ const getAll = async (_req, res) => {
 
 const getById = async (req, res) => {
   const { id } = req.params;
-  const err = new Error();
-  err.code = 'invalid_data';
-  err.statusCode = UNPROCESSABLE_ENTITY;
-  err.message = 'Wrong id format';
-
   const product = await productsModel.getById(id);
-  if (!product) throw err;
+  res.status(SUCCESS).json(product);
+};
+
+const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+  const product = await productsModel.deleteProduct(id);
   res.status(SUCCESS).json(product);
 };
 
@@ -36,4 +36,5 @@ module.exports = {
   getAll,
   getById,
   update,
+  deleteProduct,
 };
