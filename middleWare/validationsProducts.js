@@ -1,10 +1,6 @@
-const dbProject = require('../models/dbProject');
+const validators = require('../models/validators');
 
-const Status = {
-  OK: 200,
-  Created: 201,
-  Unprocessable_Entity: 422,
-};
+const Status = require('./Status');
 
 const minNameLength = 5;
 const nameValidations = (req, res, next) => {
@@ -19,7 +15,7 @@ const nameValidations = (req, res, next) => {
 };
 const nameAlreayExist = async (req, res, next) => {
   const { name, quantity } = req.body;
-  let documents = await dbProject.getAllProject();
+  let documents = await validators.getAllProject();
   const alreadyExist = documents.find((e) => e.name === name);
   if (alreadyExist) return res.status(Status.Unprocessable_Entity).send({
     err: {

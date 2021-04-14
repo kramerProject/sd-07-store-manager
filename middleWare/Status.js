@@ -4,4 +4,4 @@ const Status = {
   Unprocessable_Entity: 422,
 };
 
-module.exports = {Status};
+module.exports = Status;

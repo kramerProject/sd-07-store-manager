@@ -10,7 +10,6 @@ const getAllProject = async () => {
 };
 
 const getById = async (id) => {
-
   if (ObjectId.isValid(id)) {
     return connectionProject()
       .then((db) =>
@@ -32,8 +31,30 @@ const insert = async (name, quantity) => {
     .then((result) => ({ _id: result.insertedId, name, quantity }));
 };
 
+const update = async (id, name, quantity) => {
+  if (ObjectId.isValid(id)) {
+    return connectionProject()
+      .then((db) => db.collection('products')
+        .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } })
+        
+      ).then(() => ({ _id: id, name, quantity }));
+  }
+};
+
+const remove = async (id) => {
+  if (ObjectId.isValid(id)) {
+    return connectionProject()
+      .then((db) => db.collection('products')
+        .remove({ _id: ObjectId(id) })
+        
+      );
+  }
+};
+
 module.exports = {
   getAllProject,
   insert,
   getById,
+  update,
+  remove,
 };
