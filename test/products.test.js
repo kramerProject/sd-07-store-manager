@@ -5,7 +5,7 @@ const mongoDbUrl = 'mongodb://localhost:27017';
 const url = 'http://localhost:3000';
 const invalidId = 99999;
 
-describe('1 - Crie um endpoint para o cadastro de produtos', () => {
+describe.only('1 - Crie um endpoint para o cadastro de produtos', () => {
   let connection;
   let db;
 
@@ -129,6 +129,7 @@ describe('1 - Crie um endpoint para o cadastro de produtos', () => {
       .then((res) => {
         let { body } = res;
         body = JSON.parse(body);
+        console.log('body do teste', body)
         const productName = body.name;
         const quantityProduct = body.quantity;
         expect(productName).toEqual('Arco do Gavião Arqueiro');
