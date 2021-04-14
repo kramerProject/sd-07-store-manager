@@ -42,6 +42,12 @@ const validateProducts = (products) => {
 
 };
 
+const validateSaleId = (id) => {
+  if (!ObjectId.isValid((id))) {
+    throw new Error('Sale not found');
+  }
+};
+
 const addSale = async (products) => {
   const { addSale } = salesModel;
   validateProducts(products);
@@ -50,22 +56,26 @@ const addSale = async (products) => {
   return sale;
 };
 
-// const getAllProducts = async () => {
-//   const { getAllProducts } = productsModel;
-//   const products = await getAllProducts();
-//   return ({
-//     products: products
-//   });
-// };
+const getAllSales = async () => {
+  const { getAllSales } = salesModel;
+  const sales = await getAllSales();
+  return ({
+    sales: sales
+  });
+};
 
-// const getProductById = async (id) => {
-//   validateId(id);
+const getSaleById = async (id) => {
+  validateSaleId(id);
 
-//   const { getProductById } = productsModel;
-//   const product = await getProductById(id);
-//   console.log(product);
-//   return product;
-// };
+  const { getSaleById } = salesModel;
+  const sale = await getSaleById(id);
+
+  if (!sale) {
+    throw new Error('Sale not found');
+  }
+
+  return sale;
+};
 
 // const updateProduct = async (id, name, quantity) => {
 //   validateId(id);
@@ -86,8 +96,8 @@ const addSale = async (products) => {
 
 module.exports = {
   addSale,
-  // getAllProducts,
-  // getProductById,
+  getAllSales,
+  getSaleById,
   // updateProduct,
   // deleteProduct
 };

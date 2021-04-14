@@ -2,7 +2,8 @@ const salesService = require('../service/salesService');
 const {
   UNPROCESSABLE_ENTITY,
   CREATED,
-  OK
+  OK,
+  NOT_FOUND
 } = require('../httpsStatus.json');
 
 const addSale = async (req, res) => {
@@ -24,27 +25,27 @@ const addSale = async (req, res) => {
   }
 };
 
-// const getAllProducts = async (req, res) => {
-//   const { getAllProducts } = productsService;
-//   const allProducts = await getAllProducts();
-//   res.status(OK).json(allProducts);
-// };
+const getAllSales = async (req, res) => {
+  const { getAllSales } = salesService;
+  const allSales = await getAllSales();
+  res.status(OK).json(allSales);
+};
 
-// const getProductById = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const { getProductById } = productsService;
-//     const product = await getProductById(id);
-//     res.status(OK).json(product);
-//   } catch (error) {
-//     res.status(UNPROCESSABLE_ENTITY).json({
-//       err: {
-//         'code': 'invalid_data',
-//         'message': error.message
-//       }
-//     });
-//   }
-// };
+const getSaleById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { getSaleById } = salesService;
+    const sale = await getSaleById(id);
+    res.status(OK).json(sale);
+  } catch (error) {
+    res.status(NOT_FOUND).json({
+      err: {
+        'code': 'not_found',
+        'message': error.message
+      }
+    });
+  }
+};
 
 // const updateProduct = async (req, res) => {
 //   try {
@@ -85,8 +86,8 @@ const addSale = async (req, res) => {
 
 module.exports = {
   addSale,
-  // getAllProducts,
-  // getProductById,
+  getAllSales,
+  getSaleById,
   // updateProduct,
   // deleteProduct
 };

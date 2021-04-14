@@ -2,22 +2,22 @@ const express = require('express');
 
 const {
   addSale,
+  getAllSales,
+  getSaleById,
+  // updateProduct,
+  // deleteProduct,
 } = require('../controller/salesController');
-// getAllProducts,
-// getProductById,
-// updateProduct,
-// deleteProduct,
 
 const router = express.Router();
 
 router
   .route('/sales')
-  // .get(getAllProducts)
+  .get(getAllSales)
   .post(addSale);
 
-// router
-//   .route('/products/:id')
-//   .get(getProductById)
+router
+  .route('/sales/:id')
+  .get(getSaleById);
 //   .put(updateProduct)
 //   .delete(deleteProduct);
 

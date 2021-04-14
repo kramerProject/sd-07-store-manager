@@ -7,14 +7,11 @@ const addSale = async (products) => conn()
     return sale.ops[0];
   });
 
-// const getAllSales = async () => conn()
-//   .then((db) => db.collection('Sales').find().toArray());
+const getAllSales = async () => conn()
+  .then((db) => db.collection('sales').find().toArray());
 
-// const getSaleByName = async (name) => conn()
-//   .then((db) => db.collection('Sales').findOne({name}));
-
-// const getSaleById = async (id) => conn()
-//   .then((db) => db.collection('Sales').findOne({_id: ObjectId(id)}));
+const getSaleById = async (id) => conn()
+  .then((db) => db.collection('sales').findOne({_id: ObjectId(id)}));
 
 // const updateSale = async (id, name, quantity) => conn()
 //   .then(async (db) => {
@@ -34,9 +31,8 @@ const addSale = async (products) => conn()
 
 module.exports = {
   addSale,
-  // getSaleById,
-  // getSaleByName,
-  // getAllSales,
+  getSaleById,
+  getAllSales,
   // updateSale,
   // deleteSale,
 };
