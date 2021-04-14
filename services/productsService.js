@@ -14,10 +14,10 @@ const verifyName = (allProducts, name) => {
 
 const verifyQuantity = (quantity) => {
   const minSize = 0;
-  if (!Number.isInteger(quantity) || quantity <= minSize) {
-    throw new Error('"quantity" must be larger then or equal to 1');
-  } else if (typeof quantity !== 'number') {
+  if (typeof quantity !== 'number' && !Number.isInteger(quantity)) {
     throw new Error('"quantity" must be a number');
+  } else if (quantity <= minSize) {
+    throw new Error('"quantity" must be larger than or equal to 1');
   }
 };
 
