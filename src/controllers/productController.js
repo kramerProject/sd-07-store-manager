@@ -1,7 +1,34 @@
 const productModel = require('../models/productModel');
 const rescue = require('express-rescue');
+const ObjectId = require('mongodb');
 
 const OK = 200;
+const INVALID_DATA = 422;
+const validationLength = 0;
+
+const productExistsValidation = async (name) => {
+  const allProducts = await productModel.getAllProducts();
+  return allProducts.some(product => product.name === name);
+};
+
+const idValidation = async (id) => {
+  const allProducts = await productModel.getAllProducts();
+  return allProducts.some(product => product._id === ObjectId(id));
+};
+
+const allreadyExistsError = {
+  'err': {
+    'code': 'invalid_data',
+    'message': 'Product already exists'
+  }
+};
+
+const invalidIdError = {
+  'err': {
+    'code': 'invalid_data',
+    'message': 'Wrong id format'
+  }
+};
 
 const getAllProducts = rescue(async (_req, res) => {
   try {
@@ -14,8 +41,11 @@ const getAllProducts = rescue(async (_req, res) => {
 
 const getProductById = rescue(async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
     const product = await productModel.getProductById(id);
+    if (product === null) {
+      return res.status(INVALID_DATA).json(invalidIdError);
+    }
     res.status(OK).json(product);
   } catch (error) {
     throw new Error(error);
@@ -25,6 +55,13 @@ const getProductById = rescue(async (req, res) => {
 const addNewProduct = rescue(async (req, res) => {
   try {
     const { name, quantity } = req.body;
+    const productsByName = await productModel.getAllProcutsByName(name);
+    if (productsByName.length > validationLength) {
+      return res.status(INVALID_DATA).json(allreadyExistsError);
+    }
+    // if (productExistsValidation(name)) {
+    //   return res.status(INVALID_DATA).json(allreadyExistsError);
+    // }
     const product = await productModel.addNewProduct(name, quantity);
     res.status(OK).json(product);
   } catch (error) {
@@ -34,7 +71,8 @@ const addNewProduct = rescue(async (req, res) => {
 
 const updateProduct = rescue(async (req, res) => {
   try {
-    const { id, name, quantity } = req.body;
+    const { id } = req.params;
+    const { name, quantity } = req.body;
     const product = await productModel.updateProduct(id, name, quantity);
     res.status(OK).json(product);
   } catch (error) {
@@ -44,9 +82,13 @@ const updateProduct = rescue(async (req, res) => {
 
 const deleteProduct = rescue(async (req, res) => {
   try {
-    const { id } = req.body;
-    const product = await productModel.deleteProduct(id);
-    res.status(OK).json(product);
+    const { id } = req.params;
+    const product = await productModel.getProductById(id);
+    if (product === null) {
+      return res.status(INVALID_DATA).json(invalidIdError);
+    }
+    await productModel.deleteProduct(id);
+    res.status(OK).json({});
   } catch (error) {
     throw new Error(error);
   }

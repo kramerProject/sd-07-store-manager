@@ -5,6 +5,11 @@ const getAllProducts = async () => {
   return connection().then((db) => db.collection('products').find().toArray());
 };
 
+const getAllProcutsByName = async (name) => {
+  return connection()
+    .then((db) => db.collection('products').find({ name: name}).toArray());
+};
+
 const getProductById = async (id) => {
   if (!ObjectId.isValid(id)) {
     return null;
@@ -37,4 +42,5 @@ module.exports = {
   addNewProduct,
   updateProduct,
   deleteProduct,
+  getAllProcutsByName,
 };
