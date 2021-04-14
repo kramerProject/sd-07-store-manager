@@ -11,5 +11,6 @@ app.get('/', (_request, response) => {
 
 app.use(express.json());
 app.use(routes.productsRoutes);
+app.use(routes.salesRoutes);
 
 app.listen(PORTA, () => console.log(`App ouvindo a porta ${PORTA}!`));
