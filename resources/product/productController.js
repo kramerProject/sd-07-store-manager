@@ -19,6 +19,27 @@ const addProduct = async (req, res) => {
     'Product already exists');
 };
 
+const getProductById = async (req, res) => {
+  const { id } = req.params;
+
+  const foundProduct = await productService.findById(id);
+  if (foundProduct) {
+    res.status(StatusCodes.OK).json(foundProduct);
+    return;
+  }
+  throw new ErrorHandler(
+    StatusCodes.UNPROCESSABLE_ENTITY,
+    'invalid_data', 
+    'Wrong id format');
+};
+
+const getAllProducts = async (req,res) => {
+  const allProducts = await productService.findAll();
+  res.status(StatusCodes.OK).json(allProducts);
+};
+
 module.exports = {
   addProduct,
+  getProductById,
+  getAllProducts,
 };
