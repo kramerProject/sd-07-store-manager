@@ -73,7 +73,7 @@ const deleteProduct = rescue(async (req, res) => {
   try {
     await productsModel.exclude(req.params.id);
 
-    res.status(STATUS_204).end();
+    res.status(STATUS_200).end();
   } catch (err) {
     throw new Error(err);
   }

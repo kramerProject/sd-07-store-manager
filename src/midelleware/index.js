@@ -1,3 +1,5 @@
+const productsModel = require('../models/productsModel');
+
 const {
   STATUS_422,
   SIZE_MIN_NAME,
@@ -19,7 +21,6 @@ const checkDateCreationMidlleware = (req, res, next) => {
       message: '"quantity" must be a number'}});
   }
 
-  console.log(typeof quantity === 'string');
   if (quantity <= ZERO) {
     return res.status(STATUS_422).send({ err: {
       code: CODE_ERROR,
@@ -29,6 +30,20 @@ const checkDateCreationMidlleware = (req, res, next) => {
   next();
 };
 
+const checkIdExists = async (req, res, next) => {
+  const { id } = req.params;
+  const result = await productsModel.getById(id);
+
+  if (!result) {
+    return res.status(STATUS_422).send({ err: {
+      code: CODE_ERROR,
+      message: 'Wrong id format'}});
+  }
+
+  next();
+};
+
 module.exports = {
   checkDateCreationMidlleware,
+  checkIdExists,
 };

@@ -1,6 +1,7 @@
 const express = require('express');
 const productsController = require('../controllers/productsController');
-const { checkDateCreationMidlleware } = require('../midelleware');
+const { checkDateCreationMidlleware,
+  checkIdExists, } = require('../midelleware');
 
 const router = express.Router();
 
@@ -10,6 +11,6 @@ router.post('/products', checkDateCreationMidlleware, productsController.addProd
 router.put('/products/:id',
   checkDateCreationMidlleware,
   productsController.updateProduct);
-router.delete('/products/:id', productsController.deleteProduct);
+router.delete('/products/:id', checkIdExists, productsController.deleteProduct);
 
 module.exports = router;
