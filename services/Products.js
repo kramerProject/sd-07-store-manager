@@ -1,4 +1,4 @@
-const Products = require('../models/Products');
+const productsModel = require('../models/Products');
 const five = 5;
 const zero = 0;
 
@@ -21,7 +21,7 @@ const createProducts = async ( name, quantity ) => {
 
   if(!productValid) false;
   
-  const registeredProduct = await Products.createProducts(name, quantity);
+  const registeredProduct = await productsModel.createProducts(name, quantity);
   console.log(registeredProduct);
 
   return postNewProduct({

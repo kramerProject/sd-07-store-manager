@@ -8,16 +8,16 @@ const OPTIONS = {
 // const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager';
 const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
 const DB_NAME = 'StoreManager';
-
 let db = null;
 
 const connection = () => {
-  return db
-    ? Promise.resolve(db)
-    : MongoClient.connect(MONGO_DB_URL, OPTIONS, DB_NAME).then((conn) => {
-      db = conn.db('model_example');
-      return db;
+  return MongoClient.connect(MONGO_DB_URL, OPTIONS).then((conn) => {
+    conn.db(DB_NAME).catch((err) => {
+      console.log('Error da connection');
+      console.error(err);
+      process.exit(1);
     });
+  });
 };
 
 module.exports = connection;

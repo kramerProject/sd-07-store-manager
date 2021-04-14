@@ -1,8 +1,8 @@
-const connection = require('./connections');
+const connection = require('../config/connections');
 const { ObjectId } = require('mongodb');
 
 const createProducts = async (name, quantity) => {
-  console.log(name, quantity);
+  console.log('model', name, quantity);
   const newProduct = await connection()
     .then((db) =>
       db.collection('products').insertOne({name, quantity})
