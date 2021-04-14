@@ -1,8 +1,7 @@
-const rescue = require('express-rescue');
 const { throwError } = require('./erro');
 const { status, errors } = require('./status');
 
-const validateProduct = rescue((req, _res, next) => {
+const validateProduct = (req, _res, next) => {
   const { name, quantity } = req.body;
 
   const minName = 5;
@@ -21,7 +20,7 @@ const validateProduct = rescue((req, _res, next) => {
   }
 
   next();
-});
+};
 
 module.exports = {
   validateProduct,

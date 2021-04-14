@@ -12,11 +12,11 @@ const createProduct = async ({ name, quantity }) => {
     throw new throwError(status.unprocessableEntity, errors.productExists);
   }
 
-  const createdProduct = await connection()
+  const created = await connection()
     .then((db) => db.collection(collection).insertOne({ name, quantity }));
 
   const result = {
-    _id: createdProduct.insertedId,
+    _id: created.insertedId,
     name,
     quantity,
   };

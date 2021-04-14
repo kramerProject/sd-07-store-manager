@@ -1,5 +1,8 @@
 const codeStatus = {
+  404: 'not_found',
   422: 'invalid_data',
+  500: 'internal_server_error',
+  405: 'stock_problem',
 };
 
 class throwError extends Error {
