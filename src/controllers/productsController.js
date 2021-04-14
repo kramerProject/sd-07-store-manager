@@ -15,7 +15,7 @@ const rescue = require('express-rescue');
 const getAllproducts = rescue(async (req, res) => {
   try {
     const products = await productsModel.getAll();
-    res.status(STATUS_200).json(products);
+    res.status(STATUS_200).json({ products: products });
   } catch (err) {
     throw new Error(err);
   }
@@ -28,7 +28,9 @@ const getProductById = rescue(async (req, res) => {
     const result = await productsModel.getById(id);
 
     if (!result) {
-      return res.status(STATUS_404).json({ message: 'Produto não encontrada :(' });
+      return res.status(STATUS_422).send({ err: {
+        code: CODE_ERROR,
+        message: 'Wrong id format'}});
     }
 
     res.status(STATUS_200).json(result);
