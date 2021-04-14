@@ -1,8 +1,8 @@
 const connect = require('../config/connection');
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 
 async function add(name, quantity) {
-  return connect().then(async (db) => {
+  return await connect().then(async (db) => {
     const product = await db.collection('products').insertOne({ name, quantity });
     return product.ops[0];
   });
@@ -12,14 +12,14 @@ async function getProductByName(name) {
   return await connect().then((db) => db.collection('products').findOne({ name }));
 }
 
-// async function getAllProducts() {
-//   connect().then((db) => db.collection('products').find().toArray());
-// }
+async function getAllProducts() {
+  return await connect().then((db) => db.collection('products').find().toArray());
+}
 
-// async function getById(id) {
-//   if (!ObjectId.isValid(id)) return null;
-//   return connect().then((db) => db.collection('products').findOne(ObjectId(id)));
-// }
+async function getById(id) {
+  if (!ObjectId.isValid(id)) return null;
+  return connect().then((db) => db.collection('products').findOne(ObjectId(id)));
+}
 
 // async function update(id, name, quantity) {
 //   connect().then(async (db) => {
@@ -38,8 +38,8 @@ async function getProductByName(name) {
 module.exports = {
   add,
   getProductByName,
-  // getAllProducts,
-  // getById,
+  getAllProducts,
+  getById,
   // update,
   // exclude,
 };

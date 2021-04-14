@@ -23,4 +23,19 @@ const serviceValidadeProduct = async (name, quantity) => {
   return await ProductsModel.add(name, quantity);
 };
 
-module.exports = serviceValidadeProduct;
+const serviceGetAllProducts = async () => {
+  return await ProductsModel.getAllProducts();
+};
+
+const serviceGetById = async (id) => {
+  const productID = await ProductsModel.getById(id);
+  if (!productID)
+    throw { code: 'invalid_data', message: 'Wrong id format' };
+  return await ProductsModel.getById(id);
+};
+
+module.exports = {
+  serviceValidadeProduct,
+  serviceGetAllProducts,
+  serviceGetById
+};

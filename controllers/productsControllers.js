@@ -1,45 +1,49 @@
-const serviceValidadeProduct = require('../service/serviceValidadeProduct');
+const ServiceProduct = require('../service/servicesProducts');
 
 async function addProduct(req, res) {
   const responseOK = 201;
   const responseError = 422;
   try {
     const { name, quantity } = req.body;
-    const newProduct = await serviceValidadeProduct(name, quantity);
+    const newProduct = await ServiceProduct.serviceValidadeProduct(name, quantity);
     res.status(responseOK).json(newProduct);
   } catch (err) {
-    res.status(responseError).json({ err: {
+    res.status(responseError).json( { err: {
       code: err.code,
       message: err.message,
     }});
   }
 }
 
-// async function getProducts (req, res) {
-//   try {
-//     const products = await ProductsModel.getAllProducts();
-//     res.status(200).json(products);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).json({ message: err.message });
-//   }
-// };
+async function getProducts(req, res) {
+  const responseOK = 200;
+  const responseError = 500;
+  try {
+    const products = await ServiceProduct.serviceGetAllProducts();
+    res.status(responseOK).json({ products });
+  } catch (err) {
+    rres.status(responseError).json( { err: {
+      code: err.code,
+      message: err.message,
+    }});
+  }
+};
 
-// async function getProductById (req, res) {
-//   try {
-//     const { id } = req.params;
+async function getProductById (req, res) {
+  const responseOK = 200;
+  const responseError = 422;
+  try {
+    const { id } = req.params;
 
-//     const result = await ProductsModel.getById(id);
-
-//     if (!result) {
-//       return res.status(404).json({ message: 'Pessoa não encontrada :(' });
-//     }
-
-//     res.status(200).json(result);
-//   } catch (err) {
-//     res.status(500).json({ message: err.message, code: err.code });
-//   }
-// };
+    const product = await ServiceProduct.serviceGetById(id);
+    res.status(responseOK).json(product);
+  } catch (err) {
+    res.status(responseError).json( { err: {
+      code: err.code,
+      message: err.message,
+    }});
+  }
+};
 
 // async function updateProduct (req, res) {
 //   try {
@@ -68,8 +72,8 @@ async function addProduct(req, res) {
 
 module.exports = {
   addProduct,
-  // getProducts,
-  // getProductById,
+  getProducts,
+  getProductById,
   // updateProduct,
   // deleteProduct,
 };
