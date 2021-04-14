@@ -19,7 +19,7 @@ const getAllProducts = async (_req, res) => {
   try {
     const products = await productsModel.getAllProducts();
     
-    res.status(okStatus).json(products);
+    res.status(okStatus).json({products});
   } catch (err) {
     throw new Error(err);
   }
@@ -38,8 +38,24 @@ const getProductById = async (req, res) => {
   }
 };
 
+const deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedProduct = await productsService.deleteProduct(id);
+
+    if(deletedProduct.err) {
+      return res.status(unprocessableEntityStatus).json(deletedProduct);
+    };
+
+    res.status(okStatus).json(deletedProduct);
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
-  getProductById
+  getProductById,
+  deleteProduct
 };

@@ -14,8 +14,16 @@ const getProductById = async (id) => {
   return connection().then((db) => db.collection('products').findOne(ObjectId(id)));
 };
 
+const deleteProduct = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  return connection()
+    .then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }));
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
-  getProductById
+  getProductById,
+  deleteProduct
 };

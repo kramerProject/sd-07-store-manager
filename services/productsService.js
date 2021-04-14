@@ -21,7 +21,19 @@ const getProductById = async (id) => {
   return productById;
 };
 
+const deleteProduct = async (id) => {
+  const deletedProduct = await productsModel.deleteProduct(id);
+  
+  if(!deletedProduct) {
+    errorObj.err.message = 'Wrong id format';
+    return errorObj;
+  }
+
+  return deletedProduct;
+};
+
 module.exports = {
   createProduct,
-  getProductById
+  getProductById,
+  deleteProduct
 };
