@@ -12,7 +12,7 @@ const add = async (sales) => {
   const zero = 0;
   for (let i = zero; i < sales.length; i += 1) {
     const { productId, quantity } = sales[i];
-    await productsModel.updateQuantity(productId, quantity);
+    await productsModel.updateQuantity(productId, quantity, 'sale');
   }
 
   const itensSold = await addAfter(sales);
@@ -46,6 +46,12 @@ const updateOne = async (id, itensSold) =>
 
 const exclude = async (id) => {
   const sale = await getOne(id);
+  const sales = sale.itensSold;
+  const zero = 0;
+  for (let i = zero; i < sales.length; i += 1) {
+    const { productId, quantity } = sales[i];
+    await productsModel.updateQuantity(productId, quantity, 'devolution');
+  }
 
   connect().then(async (db) => db.collection('sales').deleteOne({ _id: ObjectId(id) }));
 

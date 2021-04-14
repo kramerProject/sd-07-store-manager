@@ -28,9 +28,14 @@ const updateOne = async (id, name, quantity) =>
     };
   });
 
-const updateQuantity = async (id, quantity) => {
-  product = await getOne(id);
-  const newQuantity = product.quantity - quantity;
+const updateQuantity = async (id, quantity, type) => {
+  const product = await getOne(id);
+  let newQuantity = product.quantity;
+  if (type === 'sale') {
+    newQuantity -= quantity;
+  } else if (type === 'devolution') {
+    newQuantity += quantity;
+  }
   connect().then(async (db) => {
     await db.collection('products')
       .updateOne({ _id: ObjectId(id) }, { $set: {quantity: newQuantity} });
