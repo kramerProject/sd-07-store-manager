@@ -19,6 +19,27 @@ const addSale = async (req, res) => {
     'Houston we have a problem');
 };
 
+const getSaleById = async (req, res) => {
+  const { id } = req.params;
+
+  const foundSale = await saleService.findById(id);
+  if (foundSale) {
+    res.status(StatusCodes.OK).json(foundSale);
+    return;
+  }
+  throw new ErrorHandler(
+    StatusCodes.NOT_FOUND,
+    'not_found', 
+    'Sale not found');
+};
+
+const getAllSales = async (_req, res) => {
+  const allSales = await saleService.findAll();
+  res.status(StatusCodes.OK).json(allSales);
+};
+
 module.exports = {
   addSale,
+  getSaleById,
+  getAllSales,
 };

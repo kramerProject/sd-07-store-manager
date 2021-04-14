@@ -11,12 +11,11 @@ const SALES_PATH = '/sales';
 router.post(SALES_PATH,
   saleValidateMiddleware,
   rescue(saleController.addSale));
-
-/* router.get(SALES_PATH,
+router.get(SALES_PATH,
   rescue(saleController.getAllSales));
 router.get(`${SALES_PATH}/:id`,
   rescue(saleController.getSaleById));
-router.put(`${SALES_PATH}/:id`, 
+/*router.put(`${SALES_PATH}/:id`, 
   saleValidateMiddleware, 
   rescue(saleController.updateSale));
 router.delete(`${SALES_PATH}/:id`,
