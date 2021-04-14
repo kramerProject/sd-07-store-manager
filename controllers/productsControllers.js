@@ -63,21 +63,25 @@ async function updateProduct (req, res) {
   }
 };
 
-// const deleteProduct = async (req, res) => {
-//   try {
-//     await ProductsModel.exclude(req.params.id);
-
-//     res.status(204).end();
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).json({ message: err.message });
-//   }
-// };
+const deleteProduct = async (req, res) => {
+  const responseOK = 200;
+  const responseError = 422;
+  try {
+    const { id } = req.params;
+    const product = await ServiceProduct.serviceExcludeProduct(id);
+    res.status(responseOK).json(product);
+  } catch (err) {
+    res.status(responseError).json( { err: {
+      code: err.code,
+      message: err.message,
+    }});
+  }
+};
 
 module.exports = {
   addProduct,
   getProducts,
   getProductById,
   updateProduct,
-  // deleteProduct,
+  deleteProduct,
 };

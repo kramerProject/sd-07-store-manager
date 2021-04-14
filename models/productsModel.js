@@ -30,10 +30,10 @@ async function update(id, name, quantity) {
   });
 }
 
-// async function exclude(id) {
-//   connect().then(async (db) => db.collection('products').deleteOne({ _id: ObjectId(id) }));
-// }
-
+async function exclude(id) {
+  connect().then(async (db) => 
+    db.collection('products').deleteOne({ _id: ObjectId(id) }));
+}
 
 module.exports = {
   add,
@@ -41,5 +41,5 @@ module.exports = {
   getAllProducts,
   getById,
   update,
-  // exclude,
+  exclude,
 };

@@ -45,9 +45,18 @@ const serviceUpdateProduct = async (id, name, quantity) => {
   return await ProductsModel.update(id, name, quantity);
 };
 
+const serviceExcludeProduct = async (id) => {
+  const productID = await ProductsModel.getById(id);
+  if (!productID)
+    throw { code: 'invalid_data', message: 'Wrong id format' };
+  await ProductsModel.exclude(id);
+  return productID;
+};
+
 module.exports = {
   serviceAddProduct,
   serviceGetAllProducts,
   serviceGetById,
-  serviceUpdateProduct
+  serviceUpdateProduct,
+  serviceExcludeProduct
 };
