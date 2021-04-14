@@ -30,6 +30,32 @@ const createProduct = async ({ name, quantity }) => {
   return await productModel.createProduct({ name, quantity });
 };
 
+const findById = async (id) => {
+  const result = await productModel.findById(id);
+
+  if (result === null) throw new Error('Wrong id format');
+
+  return result;
+};
+
+const findAll = async () => {
+  const result = await productModel.getAll();
+
+  return result;
+};
+
+const updateProduct = async (id, product) => {
+  validateName(product.name);
+  validateQuantity(product.quantity);
+
+  const result = await productModel.updateProduct(id, product);
+
+  return result;
+};
+
 module.exports = {
   createProduct,
+  findById,
+  findAll,
+  updateProduct,
 };

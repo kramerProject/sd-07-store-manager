@@ -14,6 +14,12 @@ app.get('/', (_request, response) => {
 
 app.post(PRODUCT_BASE_URL, productController.createProduct);
 
+app.get(`${PRODUCT_BASE_URL}/:id`, productController.getById);
+
+app.get(PRODUCT_BASE_URL, productController.findAll);
+
+app.put(`${PRODUCT_BASE_URL}/:id`, productController.updateProduct);
+
 app.listen(PORT, () => {
   console.log('listening on port ' + PORT);
 });

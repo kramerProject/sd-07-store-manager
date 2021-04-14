@@ -1,4 +1,5 @@
 const connection = require('./connection');
+const { ObjectId } = require('mongodb');
 
 const PRODUCTS_COLLECTION = 'products';
 
@@ -20,7 +21,41 @@ const findByName = (name) => {
     .then((db) => db.collection(PRODUCTS_COLLECTION).find({ name: name }).toArray());
 };
 
+const findById = (id) => {
+  return connection()
+    .then((db) => db.collection(PRODUCTS_COLLECTION).findOne(ObjectId(id)));
+};
+
+const getAll = () => {
+  return connection()
+    .then((db) => db.collection(PRODUCTS_COLLECTION).find().toArray())
+    .then((result) => ({
+      products: result,
+    }));
+};
+
+const updateProduct = (id, product) => {
+  return connection()
+    .then((db) => db.collection(PRODUCTS_COLLECTION).updateOne(
+      {_id: id},
+      {
+        $set: {
+          name: product.name,
+          quantity: product.quantity,
+        }
+      }
+    ))
+    .then((result) => ({
+      _id: result.insertedId,
+      name: product.name,
+      quantity: product.quantity,
+    }));
+};
+
 module.exports = {
   createProduct,
   findByName,
+  findById,
+  getAll,
+  updateProduct,
 };
