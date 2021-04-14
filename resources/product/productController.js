@@ -33,13 +33,25 @@ const getProductById = async (req, res) => {
     'Wrong id format');
 };
 
-const getAllProducts = async (req,res) => {
+const getAllProducts = async (_req, res) => {
   const allProducts = await productService.findAll();
   res.status(StatusCodes.OK).json(allProducts);
+};
+
+const updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+
+  const updatedProduct = await productService.update(id, name, quantity);
+  if(updatedProduct) {
+    res.status(StatusCodes.OK).json(updatedProduct);
+    return;
+  }
 };
 
 module.exports = {
   addProduct,
   getProductById,
   getAllProducts,
+  updateProduct,
 };

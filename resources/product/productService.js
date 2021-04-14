@@ -22,9 +22,15 @@ const findAll = async () => {
   return { products: allProducts };
 };
 
+const update = async (id, name, quantity) => {
+  const updatedProduct = await productModel.update(id, name, quantity);
+  return updatedProduct;
+};
+
 
 module.exports = {
   add,
   findById,
   findAll,
+  update,
 };

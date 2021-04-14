@@ -31,6 +31,22 @@ const findAll = () =>
     return products;
   });
 
+const update = (id, name, quantity) => 
+  connect().then(async (db) => {
+    const { modifiedCount } =  await db.collection('products').updateOne(
+      { _id: ObjectId(id) },
+      { $set: { name, quantity } },
+    );
+    if (modifiedCount) {
+      return {
+        _id: id,
+        name,
+        quantity
+      };
+    }
+    return null;
+  });
+
 
 
 module.exports = {
@@ -38,4 +54,5 @@ module.exports = {
   findByName,
   findById,
   findAll,
+  update,
 };

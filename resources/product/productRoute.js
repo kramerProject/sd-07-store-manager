@@ -9,7 +9,9 @@ const router = express.Router();
 router.post('/products', productValidateMiddleware, rescue(productController.addProduct));
 router.get('/products', rescue(productController.getAllProducts));
 router.get('/products/:id', rescue(productController.getProductById));
-// router.put('/product/:id', productController.updateProduct);
-// router.delete('/product/:id', productController.deleteProduct);
+router.put('/products/:id', 
+  productValidateMiddleware, 
+  rescue(productController.updateProduct));
+// router.delete('/products/:id', productController.deleteProduct);
 
 module.exports = router; 
