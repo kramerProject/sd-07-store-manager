@@ -49,7 +49,7 @@ const successValidate = (message) => {
   };
 };
 
-const isValidRegister = async (id, name, quantity) => {
+const isValidRegister = async (name, quantity, id) => {
   const productDuplicated = await productsModel.findProductByName(name);
   if (name.length < five) return nameLenght;
   if (productDuplicated && !id) return duplicateProduct;
@@ -68,7 +68,7 @@ const createProducts = async (name, quantity) => {
 };
 
 const updateProduct = async (id, name, quantity) => {
-  const validate = await isValidRegister(id, name, quantity);
+  const validate = await isValidRegister(name, quantity, id);
 
   if(validate){
     return validateCustomHTTP(validate);
