@@ -7,6 +7,13 @@ const create = async (req, res) => {
   res.status(CREATED).json(newProduct);
 };
 
+const update = async (req, res) => {
+  const { name, quantity } = req.body;
+  const { id } = req.params;
+  const updatedProduct = await productsModel.update(id, name, quantity);
+  res.status(SUCCESS).json(updatedProduct);
+};
+
 const getAll = async (_req, res) => {
   const products = await productsModel.getAll();
   res.status(SUCCESS).json(products);
@@ -28,4 +35,5 @@ module.exports = {
   create,
   getAll,
   getById,
+  update,
 };
