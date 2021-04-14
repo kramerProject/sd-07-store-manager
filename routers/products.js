@@ -1,7 +1,7 @@
 const { Router } = require('express');
-const { validateProduct } = require('../confings/validations');
+const { validateProduct } = require('../configs/validations');
 const productService = require('../models/productService');
-const { status } = require('../confings/status');
+const { status } = require('../configs/status');
 
 const products = new Router();
 

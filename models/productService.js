@@ -1,6 +1,6 @@
-const connection = require('../confings/connection');
-const { throwError } = require('../confings/erro');
-const { status, errors } = require('../confings/status');
+const connection = require('../configs/connection');
+const { throwError } = require('../configs/erro');
+const { status, errors } = require('../configs/status');
 
 const collection = 'products';
 
