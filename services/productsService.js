@@ -28,7 +28,7 @@ const createProduct = async (name, quantity) => {
     const newProduct = await productsModel.create(name, quantity);
     return newProduct;
   } catch (error) {
-    throw new Error(error.message);
+    return error.message;
   }
 };
 
