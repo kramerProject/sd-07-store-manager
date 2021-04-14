@@ -1,4 +1,4 @@
-const productsService = require('../service/productService');
+const productsService = require('../service/productsService');
 const {
   UNPROCESSABLE_ENTITY,
   CREATED,
