@@ -12,7 +12,7 @@ const connection = async () => {
     .then((connection) => connection.db(DB_NAME))
     .catch((err) => {
       console.error(err);
-      process.exit(1);
+      process.exit(1); 
     });
 };
 
