@@ -1,17 +1,26 @@
 const ProductsModel = require('../models/productsModel');
 
 const serviceValidadeProduct = async (name, quantity) => {
-  if (name.length < 5)
-    throw { code: 422, message: '"name" length must be at least 5 characters long' };
+  const MIN_PRODUCT_NAME_LENGTH = 5;
+  if (name.length < MIN_PRODUCT_NAME_LENGTH)
+    throw {
+      code: 'invalid_data',
+      message: '\"name\" length must be at least 5 characters long'
+    };
 
-  // if (quantity < 0)
-  //   return res.status(422).send({ message: '"quantity" must be larger than or equal to 1' });
+  if (quantity < 1)
+    throw {
+      code: 'invalid_data',
+      message: '"quantity" must be larger than or equal to 1'
+    };
 
-  // if (!Number.isInteger(quantity))
-  //   return res.status(422).send({ message: '"quantity" must be a number' });
+  if (!Number.isInteger(quantity))
+    throw { code: 'invalid_data', message: '"quantity" must be a number' };
 
-  const newProduct = await ProductsModel.add(name, quantity);
-  return newProduct;
+  if (await ProductsModel.getProductByName(name))
+    throw { code: 'invalid_data', message: 'Product already exists' };
+
+  return await ProductsModel.add(name, quantity);
 };
 
 module.exports = serviceValidadeProduct;

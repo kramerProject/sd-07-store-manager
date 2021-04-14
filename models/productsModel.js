@@ -2,11 +2,14 @@ const connect = require('../config/connection');
 // const { ObjectId } = require('mongodb');
 
 async function add(name, quantity) {
-  connect().then(async (db) => {
+  return connect().then(async (db) => {
     const product = await db.collection('products').insertOne({ name, quantity });
-    console.log(product);
     return product.ops[0];
   });
+}
+
+async function getProductByName(name) {
+  return await connect().then((db) => db.collection('products').findOne({ name }));
 }
 
 // async function getAllProducts() {
@@ -34,6 +37,7 @@ async function add(name, quantity) {
 
 module.exports = {
   add,
+  getProductByName,
   // getAllProducts,
   // getById,
   // update,

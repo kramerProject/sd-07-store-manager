@@ -1,16 +1,17 @@
 const serviceValidadeProduct = require('../service/serviceValidadeProduct');
 
-function addProduct(req, res) {
-  console.log('Dentro Controller');
+async function addProduct(req, res) {
+  const responseOK = 201;
+  const responseError = 422;
   try {
     const { name, quantity } = req.body;
-    console.log('ANTES SERVICE');
-    const newProduct = serviceValidadeProduct(name, quantity);
-    console.log('Depois SERVICE');
-    return res.status(201).json(newProduct);
+    const newProduct = await serviceValidadeProduct(name, quantity);
+    res.status(responseOK).json(newProduct);
   } catch (err) {
-    console.error(err.code, err.message);
-    return res.status(500).json({ message: err.message });
+    res.status(responseError).json({ err: {
+      code: err.code,
+      message: err.message,
+    }});
   }
 }
 
