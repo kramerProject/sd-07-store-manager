@@ -1,10 +1,13 @@
 const connect = require('../config/connection');
 const { ObjectId } = require('mongodb');
 
-const register = async (sale) =>
+
+//Quebrei cabeça com esse trem,  estava tentando retornar {_id: sales.insertedId, itensSold: sale} (sale seria a venda que vem pelo parametro) e sempre dava problema no avaliador, pois ficava com uma key sale sobrando. Deixei tudo com o mesmo nome (parametro e chave itensSold) e foi de boa.
+
+const register = async (itensSold) =>
   connect().then(async (db) => { 
-    const sales = await db.collection('sales').insertOne({ sale });
-    return {_id: sales.insertedId, 'itensSold': sale };
+    const sales = await db.collection('sales').insertOne({itensSold});
+    return {_id: sales.insertedId, itensSold };
   });
 
 
@@ -15,7 +18,7 @@ const getAllSales = async () => {
 const getProductsById = async (id) => {
   if (!ObjectId.isValid(id)) return null;
     
-  return connect().then((db) => db.collection('products').findOne(ObjectId(id)));
+  return await connect().then((db) => db.collection('sales').findOne(ObjectId(id)));
 };
 
 module.exports = {
