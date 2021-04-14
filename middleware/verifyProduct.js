@@ -59,6 +59,10 @@ async function verifyExists(req, res, next) {
   next();
 }
 
+async function multipleVerification(req, res, next) {
+  
+}
+
 module.exports = { 
   verifyName, 
   verifyQuantity, 
