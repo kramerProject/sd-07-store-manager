@@ -15,7 +15,6 @@ async function addItem(name, quantity) {
 async function findItemByName(name) {
   return await connect().then(async (db) => {
     const result = await db.collection('products').findOne({ 'name': name });
-    console.log(result);
     return result;
   });
 }
@@ -27,19 +26,33 @@ async function modelGetAll() {
 }
 
 async function modelGetById(id) {
-  console.log(id);
   return connect().then((db) => {
     try {
-      return db.collection('products').findOne(ObjectId(id));  
-    }catch (err) {
+      return db.collection('products').findOne(ObjectId(id));
+    } catch (err) {
       return false;
     }
   });
 }
-
+async function updateById(id, name, quantity) {
+  return connect().then((db) => {
+    try {
+      const item = db.collection('products').updateOne({_id: ObjectId(id)}, {
+        $set: {
+          name,
+          quantity,
+        }
+      });;
+      return {_id: item.upsertedId, name, quantity};
+    } catch (err) {
+      return false;
+    }
+  });
+}
 module.exports = {
   addItem,
   findItemByName,
   modelGetAll,
-  modelGetById
+  modelGetById,
+  updateById
 };

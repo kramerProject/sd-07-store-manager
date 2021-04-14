@@ -1,9 +1,11 @@
 const {
   validateName,
+  checkIfExists,
   serviceAddItem,
   validateQuantity,
   serviceGetAll,
-  serviceGetById
+  serviceGetById,
+  serviceUpdateById
 } = require('../service/productService');
 const unprocessable_entity = 422;
 const success = 200;
@@ -12,7 +14,9 @@ const addProduct = async (req, res) => {
   const success1 = 201;
   try {
     const { name, quantity } = req.body;
-    await validateName(name);
+
+    validateName(name);
+    await checkIfExists(name);
     validateQuantity(quantity);
     const newItem = await serviceAddItem(name, quantity);
     return res.status(success1).json(newItem);
@@ -47,8 +51,24 @@ const getById = async (req, res) => {
     });
   }
 };
+
+const updateById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const { name, quantity } = req.body;
+    await validateName(name);
+    validateQuantity(quantity);
+    const newItem = await serviceUpdateById(id, name, quantity);
+    return res.status(success).json(newItem);
+  } catch (err) {
+    res.status(unprocessable_entity).json({
+      'err': { 'code': 'invalid_data', 'message': err.message }
+    });
+  }
+};
 module.exports = {
   addProduct,
   getAllProducts,
-  getById
+  getById,
+  updateById
 };

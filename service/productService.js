@@ -2,16 +2,18 @@ const {
   findItemByName,
   addItem,
   modelGetAll,
-  modelGetById
+  modelGetById,
+  updateById
 } = require('../model/productsModel');
 const five = 5;
 
-async function validateName(name) {
+function validateName(name) {
   if (name.length < five) {
     throw new Error('"name" length must be at least 5 characters long');
   }
+}
+async function checkIfExists(name) {
   const productFound = await findItemByName(name);
-  console.log(productFound);
   if (productFound) {
     throw new Error('Product already exists');
   };
@@ -41,10 +43,19 @@ async function serviceGetById(id) {
   return result;
 }
 
+async function serviceUpdateById(id, name, quantity) {
+  const result = await updateById(id, name, quantity);
+  if (!result) {
+    throw new Error('Wrong id format');
+  }
+  return result;
+}
 module.exports = {
   validateName,
+  checkIfExists,
   serviceAddItem,
   validateQuantity,
   serviceGetAll,
-  serviceGetById
+  serviceGetById,
+  serviceUpdateById
 };

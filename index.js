@@ -1,7 +1,8 @@
 const {
   addProduct,
   getAllProducts,
-  getById
+  getById,
+  updateById
 } = require('./controller/controllerProducts');
 const express = require('express');
 // const bodyParser = require('body-parser');
@@ -17,5 +18,6 @@ app.get('/', (_request, response) => {
 app.get('/products', getAllProducts);
 app.post('/products', addProduct);
 app.get('/products/:id', getById);
+app.put('/products/:id', updateById);
 
 app.listen(PORT, () => { console.log('Online'); });
