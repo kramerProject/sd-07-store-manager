@@ -1,87 +1,88 @@
-const express = require('express');
 const productsModel = require('../model/productsModel');
-const { validateProducts } = require('../middlewares');
-const codesHTTP = require('../schemas/codesHTTP');
+const {
+  created,
+  ok,
+  serverError,
+  badRequest,
+  unprocessable
+} = require('../schemas/codesHTTP');
 
-const router = express.Router();
-
-router.post('/', validateProducts, async (req, res) => {
+const addProduct =  async (req, res) => {
   const { name, quantity } = req.body;
-
   try {
     const newProduct = await productsModel.addProduct(name, quantity);
     if (newProduct) {
-      return res.status(codesHTTP.created).json(newProduct);
+      return res.status(created).json(newProduct);
     }
   } catch (error) {
-    return res.status(codesHTTP.serverError).json({ message: 'Algo deu errado' });
+    return res.status(serverError).json({ message: 'Algo deu errado' });
   }
-});
+};
 
-router.get('/', async (_req, res) => {
+const getAllProducts = async (_req, res) => {
   try {
     const products = await productsModel.getAll();
     if (products)
-      return res.status(codesHTTP.ok).json({ products });
+      return res.status(ok).json({ products });
   } catch (error) {
-    return res.status(codesHTTP.serverError).json({ message: 'Algo deu errado' });
+    return res.status(serverError).json({ message: 'Algo deu errado' });
   }
-});
+};
 
-router.get('/:id', async (req, res) => {
+const getProductById = async (req, res) => {
   const { id } = req.params;
 
   try {
     const product = await productsModel.getById(id);
 
     if (!product) 
-      return res.status(codesHTTP.badRequest).json({ message: 'Produto não encontrado' });
+      return res.status(badRequest).json({ message: 'Produto não encontrado' });
 
-    return res.status(codesHTTP.ok).json(product);
+    return res.status(ok).json(product);
 
   } catch (error) {
 
-    return res.status(codesHTTP.unprocessable).json({
+    return res.status(unprocessable).json({
       err: {
         code: 'invalid_data',
         message: 'Wrong id format'
       }
     });
   }
-});
+};
 
-router.put('/:id', validateProducts, async (req, res) => {
+const updateProduct = async (req, res) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
 
   try {
     const alteredProduct = await productsModel.updateProduct(id, name, quantity);
-    return res.status(codesHTTP.ok).json(alteredProduct);
+    return res.status(ok).json(alteredProduct);
 
   } catch (error) {
-    return res.status(codesHTTP.unprocessable).json({
+    return res.status(unprocessable).json({
       err: {
         code: 'invalid_data',
         message: 'Wrong id format'
       }
     });
   }
-});
+};
 
-router.delete('/:id', async (req, res) => {
+const deleteProduct = async (req, res) => {
   const { id } = req.params;
 
   try {
     const deletedProduct = await productsModel.deleteProduct(id);
 
     if (!deletedProduct) 
-      return res.status(codesHTTP.badRequest).json({ message: 'Produto não encontrado' });
+      return res.status(badRequest).json({ message: 'Produto não encontrado' });
 
-    return res.status(codesHTTP.ok).json(deletedProduct);
+    return res.status(ok).json(deletedProduct);
 
   } catch (error) {
 
-    return res.status(codesHTTP.unprocessable).json({
+    return res.status(unprocessable).json({
       err: {
         code: 'invalid_data',
         message: 'Wrong id format'
@@ -89,6 +90,12 @@ router.delete('/:id', async (req, res) => {
     });
   }
 
-});
+};
 
-module.exports = router;
+module.exports = {
+  addProduct,
+  getAllProducts,
+  getProductById,
+  updateProduct,
+  deleteProduct,
+};

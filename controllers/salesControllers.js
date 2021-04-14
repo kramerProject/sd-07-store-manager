@@ -1,43 +1,44 @@
-const express = require('express');
-
 const salesModel = require('../model/salesModel');
 const salesServices = require('../services/salesServices');
-const { validateSales, verifyStock } = require('../middlewares');
 
-const codesHTTP = require('../schemas/codesHTTP');
+const {
+  ok,
+  serverError,
+  badRequest,
+  unprocessable
+} = require('../schemas/codesHTTP');
 
-const router = express.Router();
-
-router.post('/', validateSales, verifyStock, async (req, res) => {
+const addSale = async (req, res) => {
   try {
     await salesServices.subtractProduct(req.body);
     const newSale = await salesModel.addSale(req.body);
-    return res.status(codesHTTP.ok).json(newSale);
+    return res.status(ok).json(newSale);
 
   } catch (error) {
-    return res.status(codesHTTP.serverError).json({ message: 'Algo deu errado' });
+    return res.status(serverError).json({ message: 'Algo deu errado' });
   }
 
-});
+};
 
-router.get('/', async (_req, res) => {
+const getAllSales = async (_req, res) => {
   try {
     const sales = await salesModel.getAll();
-    if (sales) return res.status(codesHTTP.ok).json({ sales });
+    if (sales) return res.status(ok).json({ sales });
   } catch (error) {
-    return res.status(codesHTTP.serverError).json({ message: 'Algo deu errado' });
+    return res.status(serverError).json({ message: 'Algo deu errado' });
   }
-});
+};
 
-router.get('/:id', async (req, res) => {
+const getSaleById = async (req, res) => {
   const { id } = req.params;
 
   try {
     const sale = await salesModel.getById(id);
-    if (sale) return res.status(codesHTTP.ok).json(sale);
 
+    if (sale === null) throw new Error; 
+    return res.status(ok).json(sale);
   } catch (error) {
-    return res.status(codesHTTP.badRequest).json(
+    return res.status(badRequest).json(
       {
         err: {
           code: 'not_found',
@@ -46,35 +47,42 @@ router.get('/:id', async (req, res) => {
       }
     );
   }
-});
+};
 
-router.put('/:id', validateSales, async (req, res) => {
+const updateSale = async (req, res) => {
   const { id } = req.params;
 
   try {
     const updatedSale = await salesModel.updateSale(id, req.body);
-    return res.status(codesHTTP.ok).json(updatedSale);
+    return res.status(ok).json(updatedSale);
     
   } catch (error) {
-    return res.status(codesHTTP.serverError).json({ message: 'Algo deu errado' });
+    return res.status(serverError).json({ message: 'Algo deu errado' });
   }
-});
+};
 
-router.delete('/:id', async (req, res) => {
+const deleteSale = async (req, res) => {
   const { id } = req.params;
 
   try {
     const deletedSale = await salesModel.deleteSale(id);
+    if (deletedSale === null) throw new Error; 
     await salesServices.sumProduct(deletedSale.itensSold);
-    return res.status(codesHTTP.ok).json(deletedSale);
+    return res.status(ok).json(deletedSale);
   } catch (error) {
-    return res.status(codesHTTP.unprocessable).json({
+    return res.status(unprocessable).json({
       err: {
         code: 'invalid_data',
         message: 'Wrong sale ID format'
       }
     });
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  addSale,
+  getAllSales,
+  getSaleById,
+  updateSale,
+  deleteSale,
+};

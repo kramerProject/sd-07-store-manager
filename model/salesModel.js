@@ -37,10 +37,12 @@ const updateSale = async (id, itensSold) => {
 };
 
 const deleteSale = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
   const deletedSale = await getById(id);
 
   await connection()
-    .then((db) => db.collection('sales').deleteOne({ _id: new ObjectId(id) }));
+    .then((db) => db.collection('sales').deleteOne({ _id: ObjectId(id) }));
 
   return deletedSale;
 };
