@@ -1,20 +1,22 @@
-const SalesModel = require('../model/salesModel');
+const Model = require('../model');
 const rescue = require('express-rescue');
 
 const OK = 200;
 const NOT_FOUND = 404;
 const UNPROCESSABLE_ENTITY = 422;
+const salesCollection = 'sales';
 
 const insertSale = rescue(async (req, res) => {
   
-  const saleArray = req.body;
-  const newSale = await SalesModel.insert(saleArray);
+  const itensSold = req.body;
+  const data = { itensSold }; 
+  const newSale = await Model.insert(salesCollection, data);
 
   return res.status(OK).json(newSale.ops[0]);
 });
 
 const findAll = rescue(async (_req, res) => {
-  const allSales = await SalesModel.getAll();
+  const allSales = await Model.getAll(salesCollection);
 
   return res.status(OK).json({ sales: allSales});
 });
@@ -22,7 +24,7 @@ const findAll = rescue(async (_req, res) => {
 const findById = rescue(async (req, res) => {
   const { id } = req.params;
 
-  const searchResult = await SalesModel.findById(id);
+  const searchResult = await Model.findById(salesCollection, id);
 
   if(!searchResult) {
     return res.status(NOT_FOUND).json({
@@ -37,10 +39,11 @@ const findById = rescue(async (req, res) => {
 });
 
 const updateSale = rescue(async (req, res) => {
-  const saleArray = req.body;
+  const itensSold = req.body;
   const { id } = req.params;
+  const data = { itensSold };
 
-  const updatedSale = await SalesModel.update(id, saleArray);
+  const updatedSale = await Model.update(salesCollection, id, data);
 
   res.status(OK).json(updatedSale);
 });
@@ -48,7 +51,7 @@ const updateSale = rescue(async (req, res) => {
 const deleteSale = rescue(async (req, res) => {
   const { id } = req.params;
 
-  const deletedSale = await SalesModel.findById(id);
+  const deletedSale = await Model.findById(salesCollection, id);
 
   if(!deletedSale) {
     return res.status(UNPROCESSABLE_ENTITY).json({
@@ -59,7 +62,7 @@ const deleteSale = rescue(async (req, res) => {
     });
   }
 
-  await SalesModel.deleteSale(id);
+  await Model.deleteOne(salesCollection, id);
   return res.status(OK).json(deletedSale);
 });
 

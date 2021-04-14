@@ -1,4 +1,4 @@
-const ProductsModel = require('../model/productsModel');
+const Model = require('../model');
 
 const UNPROCESSABLE_ENTITY = 422;
 const ZERO = 0;
@@ -6,7 +6,7 @@ const ZERO = 0;
 const checkDuplicate = async (req, res, next) => {
   const { name } = req.body;
 
-  const allProducts = await ProductsModel.getAll();
+  const allProducts = await Model.getAll('products');
   const duplicate = allProducts.filter((product) => product.name === name);
 
   if(duplicate.length !== ZERO) {
