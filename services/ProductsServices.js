@@ -33,27 +33,30 @@ const stringQuantity = {
   },
 };
 
-const isValid = async (name, quantity, res) => {
-  const productDuplicated = await productsModel.findProductByName(name);
-  
+const isValid = (name, quantity) => {
+  // const productDuplicated = await productsModel.findProductByName(name);
   if (name.length < five) {
-    return res.status(unprocessable).json(nameLenght);
+    const HTTPcode = unprocessable;
+    return HTTPcode, nameLenght;
   }
-  if (productDuplicated) {
-    return res.status(unprocessable).json(duplicateProduct);
-  }
-  if (quantity <= zero) {
-    return res.status(unprocessable).json(lowQuantity);
-  }
-  if (typeof quantity === 'string') {
-    return res.status(unprocessable).json(stringQuantity);
-  }
+  // if (productDuplicated) {
+  //   return res.status(unprocessable).json(duplicateProduct);
+  // }
+  // if (quantity <= zero) {
+  //   return res.status(unprocessable).json(lowQuantity);
+  // }
+  // if (typeof quantity === 'string') {
+  //   return res.status(unprocessable).json(stringQuantity);
+  // }
+  return isValid;
 };
 
-const createProducts = async (name, quantity, res) => {
-  await isValid(name, quantity, res);
-  const productsService = await productsModel.createProducts(name, quantity);
-  return productsService;
+const createProducts = async (name, quantity) => {
+  const validate = isValid(name, quantity,);
+  if(!validate) {
+    const productsService = await productsModel.createProducts(name, quantity);
+    return productsService;
+  }
 };
 
 module.exports = {
