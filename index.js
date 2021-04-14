@@ -26,6 +26,10 @@ app.delete(`${PRODUCT_BASE_URL}/:id`, productController.deleteProduct);
 
 app.post(SALES_BASE_URL, salesController.createSales);
 
+app.get(`${SALES_BASE_URL}/:id`, salesController.findById);
+
+app.get(SALES_BASE_URL, salesController.getAll);
+
 app.listen(PORT, () => {
   console.log('listening on port ' + PORT);
 });

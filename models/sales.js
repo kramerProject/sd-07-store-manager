@@ -19,18 +19,18 @@ const createSale = (productArray) => {
 //     .then((db) => db.collection(PRODUCTS_COLLECTION).find({ name: name }).toArray());
 // };
 
-// const findById = (id) => {
-//   return connection()
-//     .then((db) => db.collection(PRODUCTS_COLLECTION).findOne({_id: ObjectId(id) }));
-// };
+const findById = (id) => {
+  return connection()
+    .then((db) => db.collection(SALES_COLLECTION).findOne({_id: ObjectId(id) }));
+};
 
-// const getAll = () => {
-//   return connection()
-//     .then((db) => db.collection(PRODUCTS_COLLECTION).find().toArray())
-//     .then((result) => ({
-//       products: result,
-//     }));
-// };
+const getAll = () => {
+  return connection()
+    .then((db) => db.collection(SALES_COLLECTION).find().toArray())
+    .then((result) => ({
+      sales: result,
+    }));
+};
 
 // const updateProduct = (id, product) => {
 //   return connection()
@@ -58,8 +58,8 @@ const createSale = (productArray) => {
 module.exports = {
   createSale,
   // findByName,
-  // findById,
-  // getAll,
+  findById,
+  getAll,
   // updateProduct,
   // deleteProduct,
 };

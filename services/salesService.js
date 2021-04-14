@@ -21,6 +21,20 @@ const createSales = async (sales) => {
   return salesModels.createSale(sales);
 };
 
+const findById = async (id) => {
+  if (!ObjectId.isValid(id)) throw new Error('Sale not found');
+  
+  const result = await salesModels.findById(id);
+
+  if (!result) throw new Error('Sale not found');
+
+  return result;
+};
+
+const getAll = async () => await salesModels.getAll();
+
 module.exports = {
   createSales,
+  findById,
+  getAll,
 };
