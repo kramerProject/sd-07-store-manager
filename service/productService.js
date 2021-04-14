@@ -3,10 +3,7 @@ const five = 5;
 const unprocessable_entity = 422;
 
 function validateName(name) {
-    connect().then(async (db) => {
-        const [productList] = await db.collection('products').find({ "name": name })
-    });
-    console.log(productList)
+   
     if (name.length < five) {
         res.status(unprocessable_entity).send({
             'err': {
@@ -16,8 +13,10 @@ function validateName(name) {
         });
     }
 
-
-    if (productList.length > 0) {
+ connect().then(async (db) => {
+        const [productList] = await db.collection('products').find({ "name": name })
+   
+     if (productList.length > 0) {
         res.status(unprocessable_entity).send({
             'err': {
                 'code': 'invalid_data',
@@ -25,6 +24,8 @@ function validateName(name) {
             }
         });
     }
+    });
+    
 }
 
 module.exports = {
