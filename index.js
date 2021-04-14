@@ -27,5 +27,9 @@ app.put('/products/:id',
 app.delete('/products/:id', verifyProduct.verifyExists, products.deleteOne);
 
 app.post('/sales', verifySales.verifyQuantity, sales.create);
+app.get('/sales', sales.getAll);
+app.get('/sales/:id', verifySales.verifyExists);
+app.put('/sales/:id', verifySales.verifyQuantity, sales.updateSale );
+app.delete('/sales/:id', verifySales.verifyDelete, sales.deleteOne)
 
 app.listen(port, () => console.log('App listening on port 3000!'));

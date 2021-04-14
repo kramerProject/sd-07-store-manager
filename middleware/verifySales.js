@@ -6,7 +6,6 @@ const sales = require('../services/salesService');
 async function verifyQuantity(req, res, next){
   const sold = req.body;
   sold.forEach(sale => {
-    console.log(sale.quantity);
     if(sale.quantity < 1 || typeof sale.quantity !== 'number'){
       return res.status(status.UNPROCESSABLE_ENTITY)
         .json({
@@ -19,7 +18,35 @@ async function verifyQuantity(req, res, next){
   next();
 }
 
+async function verifyExists(req, res, next) {
+  const {id} = req.params;
+  const foundId = await sales.getBySaleId(id);
+  if(!foundId){
+    return res
+      .status(status.NOT_FOUND).json({
+        err:
+          { code: 'not_found', message: 'Sale not found' }
+      });
+  }
+  next();
+}
+
+async function verifyDelete(req, res, next) {
+  const {id} = req.params;
+  const foundId = await sales.getBySaleId(id);
+  if(!foundId){
+    return res
+      .status(status.UNPROCESSABLE_ENTITY).json({
+        err:
+          { code: 'invalid_data', message: 'Wrong sale ID format' }
+      });
+  }
+  next();
+}
+
 
 module.exports = {
-  verifyQuantity
+  verifyQuantity,
+  verifyExists,
+  verifyDelete
 };
