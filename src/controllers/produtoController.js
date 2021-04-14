@@ -67,9 +67,26 @@ const update = async (request, response) => {
   }
 };
 
+const deleteById = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const result = await productModel.deleteById(id);
+    if (!result) {
+      return response.status(status.UNPROCESSABLE)
+        .json({err:{code: CODE, message: 'Wrong id format' }});
+    }
+    response.status(status.OK).json(result);
+  } catch (error) {
+    console.error(error);
+    response.status(status.INTERNAL_SERVER_ERROR)
+      .json({ message: error.message });
+  }
+}
+
 module.exports = {
   createProduct,
   getAll,
   getById,
   update,
+  deleteById,
 };
