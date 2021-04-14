@@ -9,8 +9,8 @@ const addProduct = async (req, res) => {
     const { name, quantity } = req.body;
     //fazendo validação
     validateName(name);
-    const newItem = await productsModel.addItem(name, quantity); //adiciona ao db
-    res.status(twoOhOne).json({newItem});
+    const newItem = await productsModel.addItem(name, quantity);
+    return res.status(twoOhOne).json({newItem});
   } catch (err) {
     res.status(quinhentos).json({ message: err.message });
   }
