@@ -24,7 +24,10 @@ const getProductByName = async (name) => {
   }
 };
 
-const getAllProducts = async () => {};
+const getAllProducts = async () => {
+  const allProducts = await productModel.getAllProducts();
+  return allProducts;
+};
 
 const getProductById = async (id) => {};
 

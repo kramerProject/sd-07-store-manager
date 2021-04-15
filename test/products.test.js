@@ -168,7 +168,7 @@ describe('2 - Crie um endpoint para listar os produtos', () => {
     await connection.close();
   });
 
-  it.skip('Será validado que todos produtos estão sendo retornados', async () => {
+  it('Será validado que todos produtos estão sendo retornados', async () => {
     await frisby
       .get(`${url}/products`)
       .expect('status', 200)

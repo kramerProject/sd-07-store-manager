@@ -10,10 +10,10 @@ const errorMessage = {
 };
 
 const getAllProducts = async (_req, res) => {
-  try {    
-    res.status(statusCode.SUCCESS).json({message: 'funcionou'});
-  } catch (err) {
-    console.error(err.message);
+  try {
+    const allProducts = await productService.getAllProducts();  
+    res.status(statusCode.SUCCESS).json({products: allProducts});
+  } catch (err) {   
     res.status(statusCode.INTERNALERROR).json({ message: err.message});        
   }
 };
