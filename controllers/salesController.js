@@ -7,10 +7,15 @@ const STATUS_UNPROCESSABLE_ENTITY = 422;
 
 const createSale = async (req, res) => {
   const result = await salesService.createSale(req.body);
+
   if (typeof result === 'string') {
     res
       .status(STATUS_UNPROCESSABLE_ENTITY)
       .json({ err: { code: 'invalid_data', message: result } });
+  } else if (result.err) {
+    res
+      .status(STATUS_NOT_FOUND)
+      .json({ err: { code: 'stock_problem', message: result.err } });
   } else {
     res.status(STATUS_OK).json(result);
   }
@@ -48,7 +53,6 @@ const updateSale = async (req, res) => {
     res.status(STATUS_OK).json({ _id: id, itensSold: [{ productId, quantity }] });
   }
 };
-
 
 const deleteSale = async (req, res) => {
   const { id } = req.params;
