@@ -2,7 +2,7 @@ const ProductModel = require('../models/productModel');
 const five = 5;
 const zero = 0;
 
-const add = async (name, quantity) => {
+const addProduct = async (name, quantity) => {
   if(name.length < five) 
     return { code: 422,
       message: '"name" length must be at least 5 characters long' };
@@ -20,7 +20,7 @@ const add = async (name, quantity) => {
     return { code: 422,
       message: 'Product already exists' };
 
-  const newProduct = await ProductModel.add(name, quantity);
+  const newProduct = await ProductModel.addProduct(name, quantity);
   return { code: 201, newProduct };
 };
 
@@ -39,8 +39,26 @@ const getById = async (id) => {
   return {code: 200, product};
 };
 
+const updateProduct = async (id, name, quantity) => {
+  if(name.length < five) 
+    return { code: 422,
+      message: '"name" length must be at least 5 characters long' };
+
+  if(quantity < zero || quantity === zero) 
+    return { code: 422,
+      message: '"quantity" must be larger than or equal to 1' };
+
+  if(typeof quantity === 'string')
+    return { code: 422,
+      message: '"quantity" must be a number' };
+
+  const newProduct = await ProductModel.updateProduct(id, name, quantity);
+  return { code: 200, newProduct };
+};
+
 module.exports = {
-  add,
+  addProduct,
   getAll,
   getById,
+  updateProduct,
 };
