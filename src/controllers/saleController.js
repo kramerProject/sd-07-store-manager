@@ -50,11 +50,11 @@ const getAllsales = rescue(async (_req, res) => {
 const getsaleById = rescue(async (req, res) => {
   try {
     const { id } = req.params;
-    const sale = await saleModel.getSaleById(id);
-    if (sale === null || !ObjectId.isValid(id)) {
+    const saleById = await saleModel.getSaleById(id);
+    if (saleById === null || !ObjectId.isValid(id)) {
       return res.status(NOT_FOUND).json(notFoundError);
     }
-    res.status(OK).json(sale);
+    res.status(OK).json(saleById);
   } catch (error) {
     throw new Error(error);
   }
