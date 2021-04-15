@@ -38,8 +38,7 @@ const validId = async (id) => {
 };
 
 const findSaleById = async (id) => {
-  await validId(id);
-  const sale = await SalesModel.findSaleById(id);
+  const sale = await validId(id);
   return sale;
 };
 

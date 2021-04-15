@@ -8,7 +8,7 @@ const getAllSales = async () => {
 };
 
 const findSaleById = async (id) => {
-  if (!ObjectId.isValid(id)) return null;
+  // if (!ObjectId.isValid(id)) return null;
   const sale = await connect()
     .then((db) => db.collection('sales').findOne(ObjectId(id)));
   return sale;
