@@ -1,20 +1,20 @@
 const connection = require('../Models/connection');
 require('dotenv').config();
 
-const getProduct = (name) => {
-  return name;
+const getProduct = (id, name, quantity) => {
+  return {_id: id, name, quantity};
 };
-const getProductByName = async (name) => {
+const getProductById = async (id) => {
   return connection()
     .then((db) =>
       db.collection('products').findOne({ 
-        name: name, 
+        id: id, 
       }),
     )
-    .then((result) => getProduct(result.name))
+    .then((result) => getProduct(result.id,result.name,result.quantity ))
     .catch((error) => console.log(`Erro na model de produto: ${error}`));
 };
 
 module.exports = {
-  getProductByName,
+  getProductById,
 };
