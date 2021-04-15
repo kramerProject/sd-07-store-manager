@@ -21,7 +21,6 @@ const add = async (name, quantity) => {
       message: 'Product already exists' };
 
   const newProduct = await ProductModel.add(name, quantity);
-  console.log('entro');
   return { code: 201, newProduct };
 };
 
