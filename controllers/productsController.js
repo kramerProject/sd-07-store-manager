@@ -16,7 +16,6 @@ const addProducts = async (req, res, next) => {
 const getAllProducts = async (_req, res, next) => {
   try {
     const list = await productsService.getAllProducts();
-    if (list.code) return next(list);
     return res.status(status.SUCCESS).json(list);
   } catch (error) {
     console.log(error);

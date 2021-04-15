@@ -1,6 +1,5 @@
 const productsModel = require('../models/productsModel');
 const status = require('../config/status');
-const { ObjectId } = require('mongodb');
 
 const ONE = 1;
 const FIVE = 5;
@@ -54,6 +53,7 @@ const getByIdProducts = async (id) => {
       message: 'Wrong id format',
     };
   }
+  return getByIdProducts;
 };
 
 module.exports = {
