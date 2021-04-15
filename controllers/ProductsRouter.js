@@ -16,7 +16,7 @@ router.post('/', async (request, response) => {
 
 router.get('/', ProductsServices.getAllProducts);
 
-// router.get('/:id', ProductsServices.getById);
+router.get('/:id', ProductsServices.getById);
 
 // router.put('/:id', ProductsServices.updateProduct);
 

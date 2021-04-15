@@ -45,11 +45,27 @@ const getAllProducts = async (_request, response) => {
   return response.status(status.code200).json({products: allProducts});
 };
 
+const getById = async (request, response) => {
+  const { id } = request.params;
+
+  if (id.length !== compare.hexObjectedId) {
+    return responseWith(status.code422, message.wrongIdFormat, response);
+  }
+
+  const productFound = await ProductsModels.getById(id);
+
+  if (productFound === null) {
+    return messageError(status.code422, message.wrongIdFormat);
+  }
+
+  return response.status(status.code200).json(productFound);
+};
+
 
 module.exports = {
   getAllProducts,
   createNewProduct,
   // deleteProducts,
-  // getById,
+  getById,
   // updateProduct,
 };
