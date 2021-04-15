@@ -19,8 +19,8 @@ const stockControl = async (req, res, next) => {
     products = req.body;
   }
 
-  products.forEach(async ({ quantity, productId }) => {
-    try {
+  try {
+    products.forEach(async ({ quantity, productId }) => {
       let {_id: id, name, quantity: quant} = await productsModel.getById(productId);
       quant = quant + operation * quantity;
 
@@ -30,18 +30,20 @@ const stockControl = async (req, res, next) => {
 
       if (quant < 1) {
         res.status(NOT_FOUND).json({ err });
-        next(err);
-        return; 
+        throw err;
+        // next(err);
+        // return; 
       }
 
       await productsModel.update(id, name, quant);
-    } catch (error) {
-      next(error);
       return;
-    }
+    });
+  } catch (error) {
+    next(error);
     return;
-  });
+  }
   next();
+  return;
 };
 
 module.exports = stockControl;
