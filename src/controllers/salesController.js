@@ -3,6 +3,7 @@ const {
   getAllSales,
   handleGetById,
   handleUpdateById,
+  handleDeleteById,
 } = require('../service/salesService');
 
 const ERROR = 500;
@@ -47,19 +48,20 @@ const updateById = async (req, res) => {
   }
 };
 
-// const deleteById = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const { http, message } = await handleDeleteById(id);
-//     res.status(http).json(message);
-//   } catch (error) {
-//     console.error(error.message);
-//   }
-// };
+const deleteById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { http, message } = await handleDeleteById(id);
+    return res.status(http).json(message);
+  } catch (error) {
+    return res.status(ERROR).send();
+  }
+};
 
 module.exports = {
   handleNewSale,
   getAll,
   getById,
   updateById,
+  deleteById,
 };

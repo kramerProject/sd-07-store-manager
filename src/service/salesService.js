@@ -3,6 +3,7 @@ const {
   getAll,
   getById,
   updateById,
+  deleteById,
 } = require('../models/salesModel');
 const { ObjectId } = require('mongodb');
 
@@ -10,6 +11,20 @@ const errorMessage = {
   err: {
     code: 'invalid_data',
     message: 'Wrong product ID or invalid quantity',
+  },
+};
+
+const invalidIdForDelete = {
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong sale ID format',
+  },
+};
+
+const errorNotFound = {
+  err: {
+    code: 'not_found',
+    message: 'Sale not found',
   },
 };
 
@@ -80,26 +95,24 @@ const handleUpdateById = async (id, salesArray) => {
     return { http: 422, message: isNotANumber };
   }
 
-  // const existThisSale = await getById(id);
-  // if (!existThisSale)
-
   await updateById(id, salesArray);
   const saleResult = await getById(id);
   return { http: 200, message: saleResult };
 };
 
-// const handleDeleteById = async (id) => {
-//   const validId = isValidId(id);
-//   if (validId) return { http: 422, message: validId };
-//   const deletedProduct = await getById(id);
-//   if (deletedProduct === null) return { http: 422, message: validId };
-//   await deleteById(id);
-//   return { http: 200, message: deletedProduct };
-// };
+const handleDeleteById = async (id) => {
+  const validId = isValidId(id);
+  if (validId) return { http: 422, message: invalidIdForDelete };
+  const deletedProduct = await getById(id);
+  if (!deletedProduct) return { http: 404, message: errorNotFound };
+  await deleteById(id);
+  return { http: 200, message: deletedProduct };
+};
 
 module.exports = {
   newSaleIsValid,
   getAllSales,
   handleGetById,
   handleUpdateById,
+  handleDeleteById,
 };
