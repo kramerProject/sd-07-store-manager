@@ -23,9 +23,26 @@ const add = async (name, quantity) => (
   })
 );
 
+const update = async (name, quantity, id) =>
+  connection().then( async (db) => {
+    await db
+      .collection('products').updateOne({ _id: ObjectId(id) }, 
+        { $set: { name: name, quantity: quantity } });
+    return { _id: id, name, quantity };
+  });
+
+const exclude = async (name, quantity, id) =>
+  connection().then( async (db) => {
+    await db
+      .collection('products').deleteOne({ _id: ObjectId(id) });
+    return { _id: id, name, quantity };
+  });
+
 module.exports = {
   getAll,
   getByName,
   getById,
   add,
+  update,
+  exclude,
 };
