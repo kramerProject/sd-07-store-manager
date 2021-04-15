@@ -6,6 +6,7 @@ const zero = 0;
 const message = {
   ERROR_MESSAGE: 'Wrong product ID or invalid quantity',
   NOT_FOUND: 'Sale not found',
+  ERROR_ID_SALE:'Wrong sale ID format',
 };
 
 const code = {
@@ -98,9 +99,27 @@ const updateSale = async (request, response) => {
   }
 };
 
+const deleteByIdSale = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const result = await vendaModel.deleteByIdSale(id);
+    if (!result) {
+      response.status(status.UNPROCESSABLE)
+        .json({err:{code: code.invalid, message: message.ERROR_ID_SALE}});
+    }
+    return response.status(status.OK).json(result);
+  } catch (error) {
+    console.error(error);
+    response.status(status.INTERNAL_SERVER_ERROR)
+      .json({ message: error.message });
+  }
+};
+
+
 module.exports = {
   createSale,
   getAllSale,
   getByIdSale,
   updateSale,
+  deleteByIdSale
 };
