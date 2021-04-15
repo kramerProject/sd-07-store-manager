@@ -31,4 +31,12 @@ const update = async (id, body) => {
   return sale;
 };
 
-module.exports = { create, getAll, getById, update };
+const deleteSale = async (id, name, quantity) => {
+  const sale = await connection().then((db) =>
+    db.collection('products')
+      .deleteOne({ _id: ObjectId(id) })
+  );
+  return sale;
+};
+
+module.exports = { create, getAll, getById, update, deleteSale };

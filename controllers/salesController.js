@@ -45,8 +45,24 @@ const updateSale = async (req, res) => {
       .status(STATUS_UNPROCESSABLE_ENTITY)
       .json({ err: { code: 'invalid_data', message: result } });
   } else {
-    res.status(STATUS_OK).json({ id, itensSold: [{ productId, quantity }] });
+    res.status(STATUS_OK).json({ _id: id, itensSold: [{ productId, quantity }] });
   }
 };
 
-module.exports = { createSale, getAllSales, getSalesById, updateSale };
+
+const deleteSale = async (req, res) => {
+  const { id } = req.params;
+
+  const getSaleToBeDeleted = await salesService.getProductsById(id);
+  const result = await saleService.deleteProduct(id);
+
+  if (typeof result === 'string') {
+    res
+      .status(STATUS_UNPROCESSABLE_ENTITY)
+      .json({ err: { code: 'invalid_data', message: result } });
+  } else {
+    res.status(STATUS_OK).json(getSaleToBeDeleted);
+  }
+};
+
+module.exports = { createSale, getAllSales, getSalesById, updateSale, deleteSale };

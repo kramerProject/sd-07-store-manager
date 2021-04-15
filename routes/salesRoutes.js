@@ -9,6 +9,6 @@ router.post('/sales', rescue(salesController.createSale));
 router.get('/sales', rescue(salesController.getAllSales));
 router.get('/sales/:id', rescue(salesController.getSalesById));
 router.put('/sales/:id', rescue(salesController.updateSale));
-// router.delete('/sales/:id', rescue(salesController.deleteSale));
+router.delete('/sales/:id', rescue(salesController.deleteSale));
 
 module.exports = router;

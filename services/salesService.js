@@ -48,4 +48,14 @@ const updateSale = async (id, body) => {
   }
 };
 
-module.exports = { createSale, getAllSales, getSalesById, updateSale };
+const deleteSale = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return 'Wrong id format';
+  } else {
+    const deletedSale = await salesModel.deleteSale(id);
+    return deletedSale;
+  }
+};
+
+
+module.exports = { createSale, getAllSales, getSalesById, updateSale, deleteSale };
