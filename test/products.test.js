@@ -320,10 +320,7 @@ describe('3 - Crie um endpoint para atualizar um produto', () => {
       .expect('status', 200)
       .then((response) => {
         const { body } = response;
-        console.log(response)
-        console.log(body)
         result = JSON.parse(body);
-        console.log(result)
         resultProductId = result.products[0]._id;
       });
 

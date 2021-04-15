@@ -62,7 +62,6 @@ const getSale = async (id) => {
   const codeSuccess = 200;
   try {
     const sale = await getById(id);
-    console.log(sale);
     if (!sale) return {
       data: dataErr,
       code: codeErr
