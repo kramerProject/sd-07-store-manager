@@ -52,9 +52,9 @@ async function updateProduct (req, res) {
     const { name, quantity } = req.body;
     const { id } = req.params;
 
-    const people = await ServiceProduct.serviceUpdateProduct(id, name, quantity);
+    const product = await ServiceProduct.serviceUpdateProduct(id, name, quantity);
 
-    res.status(responseOK).json(people);
+    res.status(responseOK).json(product);
   } catch (err) {
     res.status(responseError).json( { err: {
       code: err.code,

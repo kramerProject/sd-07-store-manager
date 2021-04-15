@@ -17,8 +17,18 @@ async function getSalesById(id) {
   return connect().then((db) => db.collection('sales').findOne(ObjectId(id)));
 }
 
+async function updateSale(id, sale) {
+  await connect().then(async (db) => {
+    await db
+      .collection('sales')
+      .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: sale } });
+  });
+  return { _id: id, itensSold: sale };
+}
+
 module.exports = {
   add,
   getAllSales,
   getSalesById,
+  updateSale,
 };

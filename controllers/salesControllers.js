@@ -55,7 +55,30 @@ async function getSaleById(req, res) {
   }
 }
 
-async function updateSale(req, res) {}
+async function updateSale(req, res) {
+  const responseOK = 200;
+  const responseError = 422;
+  const MIN_QUANTITY = 0;
+
+  try {
+    const sales = req.body;
+    const { id } = req.params;
+
+    sales.forEach((product) => {
+      if (product.quantity <= MIN_QUANTITY || typeof product.quantity !== 'number')
+        throw { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' };
+    });
+
+    const salesReturn = await ServiceSales.serviceUpdateSale(id, sales);
+
+    res.status(responseOK).json(salesReturn);
+  } catch (err) {
+    res.status(responseError).json( { err: {
+      code: err.code,
+      message: err.message,
+    }});
+  }
+}
 
 async function deleteSale(req, res) {}
 

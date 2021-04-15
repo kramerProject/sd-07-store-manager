@@ -24,15 +24,22 @@ async function serviceGetAllSales() {
 }
 
 async function serviceGetSalesById(id) {
-  const productID = await SalesModel.getSalesById(id);
-  if (!productID)
+  const salesId = await SalesModel.getSalesById(id);
+  if (!salesId)
     throw { code: 'not_found', message: 'Sale not found' };
-  return productID;
+  return salesId;
 }
 
+const serviceUpdateSale = async (id, sale) => {
+  const salesId = await SalesModel.getSalesById(id);
+  if (!salesId)
+    throw { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' };
+  return await SalesModel.updateSale(id, sale);
+};
 
 module.exports = {
   serviceAddSales,
   serviceGetAllSales,
-  serviceGetSalesById
+  serviceGetSalesById,
+  serviceUpdateSale
 };
