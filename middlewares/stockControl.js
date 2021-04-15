@@ -1,5 +1,6 @@
 const productsModel = require('../models/productsModel');
 const salesModel = require('../models/salesModel');
+const { NOT_FOUND } = require('../utils/statusCode.json');
 
 const stockControl = async (req, res, next) => {
   const { method } = req;
@@ -17,14 +18,22 @@ const stockControl = async (req, res, next) => {
     operation = DECREASE;
     products = req.body;
   }
-  console.log(products);
 
   products.forEach(async ({ quantity, productId }) => {
     try {
       let {_id: id, name, quantity: quant} = await productsModel.getById(productId);
       quant = quant + operation * quantity;
-      console.log(name);
-      console.log(quant);
+
+      const err = new Error();
+      err.code = 'stock_problem';
+      err.message = 'Such amount is not permitted to sell';
+
+      if (quant < 1) {
+        res.status(NOT_FOUND).json({ err });
+        next(err);
+        return; 
+      }
+
       await productsModel.update(id, name, quant);
     } catch (error) {
       next(error);
