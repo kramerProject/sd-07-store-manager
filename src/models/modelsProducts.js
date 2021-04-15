@@ -6,13 +6,14 @@ const getByName = async (name) =>
     .then((db) => db.collection('products'))
     .then((products) => products.findOne({ name }));
 
+// using return
 const create = async (name, quantity) => {
   const productNew = await connection()
     .then((db) => db.collection('products').insertOne({ name, quantity }));
   return productNew;
 };
 
-/* const getAll = async () =>
+const getAll = async () =>
   await connection()
     .then((db) => db.collection('products'))
     .then((products) => products.find().toArray());
@@ -21,23 +22,31 @@ const getById = async (id) =>
   await connection()
     .then((db) => db.collection('products'))
     .then((products) => products.findOne(ObjectId(id)));
+// const getById = async (id) => {
+//   const productsById = await connection()
+//     .then((db) => db.collection('products')).findOne(ObjectId(id));
+//   console.log("model");
+//   return productsById;
+// };
 
 const updateById = async (id, name, quantity) =>
   await connection()
     .then((db) => db.collection('products'))
     .then((products) => products.updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } }));
 
-const excludeById = async (id) =>
-  await connection()
+// using return
+const excludeById = async (id) => {
+  const excludedProd = await connection()
     .then((db) => db.collection('products'))
-    .then((product) => product.findOneAndDelete({ _id: ObjectId(id) }))
-    .then((excludedProd) => excludedProd.value); */
+    .then((product) => product.findOneAndDelete({ _id: ObjectId(id) }));
+  return excludedProd
+};
 
 module.exports = {
   getByName,
-  create
-  /* getAll,
+  create,
+  getAll,
   getById,
   updateById,
-  excludeById */
+  excludeById
 };

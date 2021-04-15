@@ -1,13 +1,16 @@
+const { Router } = require('express');
 const express = require('express');
 const controllersSales = require("../controllers/controllersSales");
 
 const router = express.Router();
+// const saleRouter = new Router();
 
 
-router.get('/products', controllersSales.getAll)
-router.get('/products/:id', controllersSales.getById)
-router.post('/products', controllersSales.createNew)
-router.del('/products/:id', controllersSales.excludeById)
-router.put('/products/:id', controllersSales.updateById)
+/* router.post('/', controllersSales.createNew)
+router.get('/', controllersSales.getAll)
+router.get('/:id', controllersSales.getById)
+router.del('/:id', controllersSales.excludeById)
+router.put('/:id', controllersSales.updateById) */
 
-module.exports = routersSales;
+module.exports = router;
+// module.exports = saleRouter;

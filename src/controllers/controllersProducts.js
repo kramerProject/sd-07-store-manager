@@ -13,21 +13,61 @@ const createNew = async (req, res) => {
     if (err.code === 'invalid_data') {
       return res.status(422).json({ err });
     }
-    console.error(err);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
-// const getAll = async (req, res) => {
-// 	try {
-// 		const results = await product.getAll();
+const getAll = async (req, res) => {
+	try {
+		const allProducts = await servicesProducts.getAll();
+    // const allProducts = await modelsProducts.getAll();
 
-// 		res.status(200).json(results);
-// 	} catch (err) {
-// 		// console.log(err);
-// 		res.status(500).json({ message: err.message });
-// 	}
-// };
+		res.status(200).json(allProducts);
+	} catch (err) {
+		res.status(500).json({ message: 'Internal server error' });
+	}
+};
+
+const getById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const prodById = await servicesProducts.getById(id);
+    console.log("controller");
+    res.status(200).json(prodById);
+  } catch (err) {
+    if (err.code === 'invalid_data') {
+      return res.status(422).json({ err });
+    }
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+const updateById = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  try {
+    const updatedProd = await servicesProducts.updateById(id, name, quantity);
+    res.status(200).json(updatedProd);
+  } catch (err) {
+    if (err.code === 'invalid_data') {
+      return res.status(422).json({ err });
+    }
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+const excludeById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const excludedProd = await servicesProducts.excludeById(id);
+    return res.status(200).json(excludedProd);
+  } catch (err) {
+    if (err.code === 'invalid_data') {
+      return res.status(422).json({ err });
+    }
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
 
 // const getById = async (req, res) => {
 // 	try {
@@ -45,6 +85,10 @@ const createNew = async (req, res) => {
 
 module.exports = {
 	createNew,
+  getAll,
+  getById,
+  updateById,
+  excludeById
 	// getAllSongs,
 	// getById,
 };

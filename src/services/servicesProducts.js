@@ -1,6 +1,7 @@
 const { ObjectId } = require('mongodb');
 const modelsProducts = require("../models/modelsProducts");
 
+// rules for insert products
 const rulesInsProd = async (name, quantity) => {
   if (name.length < 6) {
     throw {
@@ -8,6 +9,13 @@ const rulesInsProd = async (name, quantity) => {
       message: '"name" length must be at least 5 characters long',
     };
   }
+  // const nameCheck = await modelsProducts.getByName(name);
+  // if (nameCheck) {
+  //   throw {
+  //     code: 'invalid_data',
+  //     message: 'Product already exists',
+  //   };
+  // }
   if (quantity < 1) {
     throw {
       code: 'invalid_data',
@@ -15,7 +23,6 @@ const rulesInsProd = async (name, quantity) => {
     };
   }
   if (typeof quantity !== 'number') {
-    // if (!Number.isInteger(quantity)) {
     throw {
       code: 'invalid_data',
       message: '"quantity" must be a number',
@@ -29,17 +36,68 @@ const create = async (name, quantity) => {
   if (!rules) {
     return false
   };
-  const nameInvalid = await modelsProducts.getByName(name);
-  if (nameInvalid) {
+  const nameCheck = await modelsProducts.getByName(name);
+  if (nameCheck) {
     throw {
       code: 'invalid_data',
       message: 'Product already exists',
     };
   }
+
   const productInserted = await modelsProducts.create(name, quantity);
   return productInserted;
 };
 
+const getAll = async () => {
+  const products = await modelsProducts.getAll();
+  const productsList = {
+    products,
+  };
+  return productsList;
+};
+
+// onde passar o erro? aqui ou no controllers?
+const getById = async (id) => {
+  const productId = await modelsProducts.getById(id);
+
+  if (!productId) {
+    throw {
+      code: 'invalid_data',
+      message: 'Wrong id format',
+    };
+  }
+  return productId;
+};
+
+const updateById = async (id, name, quantity) => {
+  const rules = await rulesInsProd(name, quantity);
+  if (!rules) {
+    return false
+  };
+
+  await modelsProducts.updateById(id, name, quantity);
+  return {
+    _id: ObjectId(id),
+    name,
+    quantity,
+  };
+};
+
+const excludeById = async (id) => {
+  const excludedProd = await modelsProducts.excludeById(id);
+  if (!excludedProd) {
+    throw {
+      code: 'invalid_data',
+      message: 'Wrong id format',
+    };
+  }
+  return excludedProd;
+};
+
 module.exports = {
-  create
+  create,
+  getAll,
+  getById,
+  updateById,
+  excludeById
 };

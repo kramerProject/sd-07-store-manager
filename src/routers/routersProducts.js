@@ -1,15 +1,14 @@
-// const { Router } = require('express');
-const express = require('express');
+const { Router } = require('express');
 const controllersProducts = require("../controllers/controllersProducts");
 
-// const routersProducts = new Router();
-const router = express.Router();
+const routersProducts = Router();
 
+routersProducts.post('/', controllersProducts.createNew)
 
-router.post('/products', controllersProducts.createNew)
-/* router.get('/products', controllersProducts.getAll)
-router.get('/products/:id', controllersProducts.getById)
-router.put('/products/:id', controllersProducts.updateById)
-router.delete('/products/:id', controllersProducts.excludeById) */
+routersProducts.get('/', controllersProducts.getAll)
 
-module.exports = router;
+routersProducts.get('/:id', controllersProducts.getById)
+routersProducts.put('/:id', controllersProducts.updateById)
+routersProducts.delete('/:id', controllersProducts.excludeById)
+
+module.exports = routersProducts;
