@@ -1,5 +1,5 @@
 const salesModel = require('../models/salesModel');
-const { CREATED, SUCCESS } = require('../utils/statusCode.json');
+const { SUCCESS } = require('../utils/statusCode.json');
 
 const create = async (req, res) => {
   const products = req.body;
@@ -7,12 +7,12 @@ const create = async (req, res) => {
   res.status(SUCCESS).json(newSale);
 };
 
-// const update = async (req, res) => {
-//   const { name, quantity } = req.body;
-//   const { id } = req.params;
-//   const updatedProduct = await productsModel.update(id, name, quantity);
-//   res.status(SUCCESS).json(updatedProduct);
-// };
+const update = async (req, res) => {
+  const sale = req.body;
+  const { id } = req.params;
+  const updatedSale = await salesModel.update(id, sale);
+  res.status(SUCCESS).json(updatedSale);
+};
 
 const getAll = async (_req, res) => {
   const sales = await salesModel.getAll();
@@ -36,7 +36,7 @@ module.exports = {
   create,
   getAll,
   getById,
-  // update,
+  update,
   // deleteProduct,
 };
 

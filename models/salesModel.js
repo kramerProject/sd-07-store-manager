@@ -9,12 +9,12 @@ const create = async (products) =>
     return sale.ops[0];
   });
 
-// const update = async (id, name, quantity) =>
-//   connection().then(async (db) => {
-//     await db.collection('products')
-//       .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
-//     return { id, name, quantity };
-//   });
+const update = async (id, products) =>
+  connection().then(async (db) => {
+    await db.collection('sales')
+      .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: products } });
+    return { _id: id, itensSold: products };
+  });
 
 // const getByName = async (name) => {
 //   try {
@@ -56,7 +56,7 @@ module.exports = {
   // getByName,
   getAll,
   getById,
-  // update,
+  update,
   // deleteProduct,
 };
 
