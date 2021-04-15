@@ -1,5 +1,5 @@
-const express =  require('express');
-const productController = require('./controllers/ProductController');
+const express = require('express');
+const route = require('./routes');
 
 const app = express();
 const PORT = 3000;
@@ -11,6 +11,7 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.use('/products', productController);
+app.use('/products', route.productController);
+app.use('/sales', route.salesController);
 
 app.listen(PORT, console.log(`App listening on port ${PORT}`));

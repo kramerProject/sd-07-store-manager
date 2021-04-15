@@ -1,13 +1,14 @@
 const { MongoClient } = require('mongodb');
 
-// const MONGODB_URL = 'mongodb://localhost:27017/StoreManager'; // avaliador
-// const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager'; //teste local
-const MONGODB_URL = 'mongodb://127.0.0.1:27017'; //banco na minha maquina
+
+const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager'; //avaliador
+// const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager'; //banco na minha maquina
 const DB_NAME = 'StoreManager';
 
 const connection = async () => {
   try {
-    const conn = await MongoClient.connect(MONGODB_URL, {
+    // const conn = await MongoClient.connect(MONGO_DB_URL, { // -> avaliador
+    const conn = await MongoClient.connect(MONGO_DB_URL, { //-> minha maquina
       useNewUrlParser: true,
       useUnifiedTopology: true
     });

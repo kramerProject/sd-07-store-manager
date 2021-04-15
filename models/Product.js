@@ -5,6 +5,12 @@ const getAll = async () => {
   return await connection().then((db) => db.collection('products').find().toArray());
 };
 
+const create = async (name, quantity) => {
+  return await connection()
+    .then((db) => db.collection('products').insertOne({ name, quantity }));
+};
+
 module.exports = {
   getAll,
+  create
 };
