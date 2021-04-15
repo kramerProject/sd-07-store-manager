@@ -31,11 +31,12 @@ const update = async (name, quantity, id) =>
     return { _id: id, name, quantity };
   });
 
-const exclude = async (name, quantity, id) =>
+const exclude = async (id) =>
   connection().then( async (db) => {
     await db
       .collection('products').deleteOne({ _id: ObjectId(id) });
-    return { _id: id, name, quantity };
+    const { name, quantity } = db.collection('products').findOne(ObjectId(id));
+    return { _id: id, name: name, quantity: quantity };
   });
 
 module.exports = {

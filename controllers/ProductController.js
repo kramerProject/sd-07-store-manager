@@ -10,10 +10,10 @@ const SignProduct = async (req, res) => {
   const statusErr = 500;
   try {
     const data = await createProduct(name, quantity);
-    res.status(data.code).json(data.data);
+    return res.status(data.code).json(data.data);
   } catch (error) {
     console.error(err.message);
-    res.status(statusErr).json('Error');
+    return res.status(statusErr).json('Error');
   }
 };
 
@@ -22,7 +22,7 @@ const setProduct = async (req, res) => {
   const { id } = req.params;
   const statusErr = 500;
   try {
-    const data = await updateProduct(name, quantity);
+    const data = await updateProduct(name, quantity, id);
     res.status(data.code).json(data.data);
   } catch (error) {
     console.error(err.message);
@@ -53,7 +53,7 @@ const excludeProduct = async (req, res) => {
 const allProducts = async (req, res) => {
   const codeSuccess = 200;
   const products = await listProducts();
-  return res.status(codeSuccess).json(products);
+  return res.status(codeSuccess).json({'products': products});
 };
 
 module.exports = {
