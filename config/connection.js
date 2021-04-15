@@ -1,7 +1,7 @@
 const mongoClient = require('mongodb').MongoClient;
 
-// const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager';
-const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
+const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager';
+// const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
 const DB_NAME = 'StoreManager';
 
 const connection = async () => {
@@ -12,7 +12,7 @@ const connection = async () => {
     })
     .then((connection) => connection.db(DB_NAME))
     .catch((err) => {
-      console.error(err);
+      console.error('ERRO CONECTION: ', err);
       process.exit(1);
     });
 };
