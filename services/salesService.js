@@ -6,6 +6,7 @@ const status = require('./status');
 
 const ONE = 1;
 const ZERO = 0;
+const InvalidIDorQuantity = 'Wrong product ID or invalid quantity';
 
 const getAll = async () => {
   const result = await salesModel.getAllSales();
@@ -31,7 +32,7 @@ const create = async (products) => {
     isError: true,
     code: 'invalid_data',
     status: status.UNPROCESSABLE_ENTITY,
-    message: 'Wrong product ID or invalid quantity',
+    message: InvalidIDorQuantity,
   };
 
   const productsCollection = await salesModel.getAllProducts();
@@ -47,7 +48,7 @@ const create = async (products) => {
     isError: true,
     code: 'invalid_data',
     status: status.UNPROCESSABLE_ENTITY,
-    message: 'Wrong product ID or invalid quantity',
+    message: InvalidIDorQuantity,
   };
 
   // const isValidProducts = await func.validProductList(productsList);
@@ -69,7 +70,7 @@ const editById = async (id, products) => {
     isError: true,
     code: 'invalid_data',
     status: status.UNPROCESSABLE_ENTITY,
-    message: 'Wrong product ID or invalid quantity',
+    message: InvalidIDorQuantity,
   };
 
   const filteredQuantitys =
@@ -80,7 +81,7 @@ const editById = async (id, products) => {
     isError: true,
     code: 'invalid_data',
     status: status.UNPROCESSABLE_ENTITY,
-    message: 'Wrong product ID or invalid quantity',
+    message: InvalidIDorQuantity,
   };
 
   const productsCollection = await salesModel.getAllProducts();
@@ -96,7 +97,7 @@ const editById = async (id, products) => {
     isError: true,
     code: 'invalid_data',
     status: status.UNPROCESSABLE_ENTITY,
-    message: 'Wrong product ID or invalid quantity',
+    message: InvalidIDorQuantity,
   };
 
 
@@ -106,7 +107,7 @@ const editById = async (id, products) => {
 
 
   const findSale = await salesModel.updateById(id, products);
-  console.log('>>>>>>>>>>>>>>>', findSale);
+  // console.log('>>>>>>>>>>>>>>>', findSale);
   return findSale;
 };
 
