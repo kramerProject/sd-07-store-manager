@@ -56,9 +56,33 @@ const getById = async (req, res) => {
   }
 };
 
+const updateSale = async (req, res) => {
+  try {
+    // const { productId, quantity } = req.body;
+    const { id } = req.params;
+    req.body.forEach((data) => {
+      if(data.quantity <= zero) {
+        return res.status(unprocessable).send({'err': 
+    	{'code': 'invalid_data',
+    	  'message': 'Wrong product ID or invalid quantity'} });
+      }
+      if(typeof data.quantity === 'string') {
+        return res.status(unprocessable).send({'err': 
+    	{'code': 'invalid_data',
+    	  'message': 'Wrong product ID or invalid quantity'} });
+      }
+    });
+    const sale = await saleModel.update(id, req.body);
+    res.status(sucess).json(sale);
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
 
 module.exports = {
   getAll,
   getById,
-  registerSale
+  registerSale,
+  updateSale
 };
