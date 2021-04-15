@@ -1,7 +1,7 @@
 // não remova esse endpoint, e para o avaliador funcionar
 const express = require('express');
 const productRouter = require('./routers/productRouter');
-const saleRouter = require('./routers/saleRouter')
+const saleRouter = require('./routers/saleRouter');
 const app = express();
 const port = 3000;
 
