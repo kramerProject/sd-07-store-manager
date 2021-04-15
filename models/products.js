@@ -8,7 +8,7 @@ const { status, errors } = require('../utils/status');
 
 const getAll = async () => {
   return await connection()
-    .then((db) => db.collection('StoreManager').find().toArray())
+    .then((db) => db.collection('products').find().toArray())
     .then((value) => {
       return value.map(({ _id, name, quantity }) => {
         return {
@@ -25,36 +25,26 @@ const getById = async (id) => {
   const ident = String(id);
   return await connection().then((db) =>
     db
-      .collection('StoreManager')
+      .collection('products')
       .findOne(ObjectId(ident))
       .then((result) => result),
   );
 };
 
-const getByName = async (name) => {
-  const product = await connection()
-    .then((db) => db.collection('StoreManager').find({ name }).toArray());
-  // console.log(product)
-  if (product === null) return [];
-  return product;
-};
+const getByName = (string) => connection()
+  .then(db => db.collection('products').findOne({ name: string }));
 
 const postdata = async (name, quantity) => {
-  // console.log(name, quantity);
-  const createdProduct = await connection()
-    .then((db) =>
-      db.collection('StoreManager').insertOne({
-        name,
-        quantity
-      }),
-    );
-  return createdProduct;
+  const product = await connection()
+    .then(db => db.collection('products').insertOne({ name, quantity }));
+
+  return { _id: product.insertedId, name, quantity };
 };
 
 const editdata = async (id, name, quantity) => {
   // if (!ObjectId.isValid(id)) return null;
   const updatedProduct = await connection().then((db) =>
-    db.collection('StoreManager')
+    db.collection('products')
       .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } }),
   );
   return updatedProduct;
@@ -64,7 +54,7 @@ const deletedata = async (id) => {
   // if (!ObjectId.isValid(id)) return null;
   const deletedProduct = await connection()
     .then((db) => {
-      db.collection('StoreManager').deleteOne({ _id: ObjectId(id) });
+      db.collection('products').deleteOne({ _id: ObjectId(id) });
     })
     .catch((err) => {
       throw new throwError(status.unprocessableEntity, errors.wrongId);

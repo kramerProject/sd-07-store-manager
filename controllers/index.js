@@ -6,16 +6,36 @@ const {status, errors} = require('../utils/status');
 
 const { throwError } = require('../utils/errorHandler');
 
-const postProduct = async (request, response) => {
-  const { body } = request;
-  const data = await productService.createProduct(body);
-
-  if (data.code) {
-    return response.status(status.unprocessableEntity).json(
-      { err: { code: 'invalid_data', message: 'Product already exists' }}
-    );  
+const OK = 200;
+const CREATE = 201;
+const UNPROCESS = 422;
+const ERROR = 500;
+const objError = {
+  err: {
+    code: 'invalid_data',
+    message: ''
   }
-  return response.status(status.created).json(data);
+};
+
+// luc.zago aluno turma 7
+const postProduct = async (request, response) => {
+  try {
+    const { name, quantity } = request.body;
+    // console.log(name, quantity);
+    const results = await productService.createProduct(name, quantity);
+
+    return response.status(CREATE).json(results);
+  } catch (error) {
+    console.error(error);
+
+    const { message } = error;
+    if (message.includes('quantity')
+    || message.includes('name') || message.includes('Product')) {
+      objError.err.message = error.message;
+      return response.status(UNPROCESS).json(objError);
+    }
+    response.status(ERROR).json({ message: error.message });
+  }
 };
 
 const getProducts = async (request, response) => {

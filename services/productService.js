@@ -1,23 +1,33 @@
 const productModel = require('../models/products');
 
-const createProduct = async ({ name, quantity }) => {
-  
-  const messageErrorNameExists = {
-    'code':'invalid_data',
-    'message': 'Product already exists'
-  };
+const validation = (name, quantity) => {
+  const FIVE = 5;
+  const ZERO = 0;
 
+  if (name.length < FIVE || typeof name !== 'string') {
+    const ERR_MESSAGE = '\"name\" length must be at least 5 characters long';
+    throw new Error(ERR_MESSAGE);
+  }
+  if (typeof quantity !== 'number') {
+    const ERR_MESSAGE = '\"quantity" must be a number';
+    throw new Error(ERR_MESSAGE);
+  }
+  if (quantity < ZERO || quantity === ZERO) {
+    const ERR_MESSAGE = '\"quantity" must be larger than or equal to 1';
+    throw new Error(ERR_MESSAGE);
+  }
+};
+
+const createProduct = async (name, quantity ) => {
+  validation(name, quantity);
   const product = await productModel.getByName(name);
-
-  const zero = 0;
-
-  if (product.length > zero) {
-    return messageErrorNameExists;
-  } 
- 
-  const createdProduct = await productModel.postdata(name, quantity);
   
-  return createdProduct.ops[0];
+  if (product) {
+    const ERR_MESSAGE = 'Product already exists';
+    throw new Error(ERR_MESSAGE);
+  }
+
+  return productModel.postdata(name, quantity);
 };
 
 const getAllProducts = async () => {
