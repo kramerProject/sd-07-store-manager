@@ -17,7 +17,7 @@ const findByName = async (name) => {
 };
 
 const create = async (name, quantity) => {
-  connection()
+  return connection()
     .then((db) => db.collection('products').insertOne({ name, quantity }));
 };
 

@@ -1,10 +1,9 @@
 const productModel = require('../models/productModel');
 
 const create = async (name, quantity) => {
-  await productModel.create(name, quantity);  
-  const product =  await productModel.findByName(name);
+  const product = await productModel.create(name, quantity);  
 
-  return product;
+  return { _id: product.insertedId, name, quantity };
 };
 
 const findAll = async () => {
@@ -36,7 +35,7 @@ const exclude = async (id) => {
 const updateProductsSales = async (id, quantity) => {
   const product = await productModel.findById(id);
 
-  const saleQuantity = product.quantity + quantity;
+  const saleQuantity = await product.quantity + quantity;
 
   await productModel.update(id, product.name, saleQuantity);
 };

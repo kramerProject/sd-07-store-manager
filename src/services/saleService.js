@@ -25,6 +25,12 @@ const findById = async (id) => {
 
 const update = async (id, itensSold) => {
   const [sale] = itensSold;
+  const sales = await saleModel.findById(id);
+  const { itensSold: itens } = sales;
+  const [product] = itens; 
+
+  itensSold.forEach((item) => productUpdate.updateProductsSales(
+    item.productId, -item.quantity + product.quantity));
 
   await saleModel.update(id, sale.quantity, sale.productId);
 

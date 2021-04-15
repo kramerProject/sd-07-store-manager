@@ -10,7 +10,8 @@ router.get('/sales', saleController.findAll);
 router.get('/sales/:id', middleware.saleExistMiddleware,
   saleController.findById);
 router.put('/sales/:id', middleware.saleExistMiddleware,
-  middleware.salePostMiddleware, saleController.update);
+  middleware.salePostMiddleware, middleware.quantityProductMiddleware,
+  saleController.update);
 router.delete('/sales/:id', middleware.saleIdExistMiddleware,
   saleController.exclude);
 
