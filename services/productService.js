@@ -35,11 +35,13 @@ const productIsValid = async (name, quantity) => {
     },
     code: 422,
   };
+  const result = await allProducts.createProduct(name, quantity)
   return {
-    response: productList, 
+    response: result, 
     code: 201
   };
 };
+
 
 module.exports = {
   productIsValid
