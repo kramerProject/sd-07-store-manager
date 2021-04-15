@@ -19,8 +19,9 @@ const add = async (name, quantity) => {
   if (searchProduct !== null)
     return { code: 422,
       message: 'Product already exists' };
-      
+
   const newProduct = await ProductModel.add(name, quantity);
+  console.log('entro');
   return { code: 201, newProduct };
 };
 

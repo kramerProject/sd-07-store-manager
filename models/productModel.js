@@ -4,7 +4,11 @@ const { ObjectId } = require('mongodb');
 const add = async (name, quantity) =>
   connect().then(async (db) => {
     const product = await db.collection('product').insertOne({ name, quantity });
-    return product.ops[0];
+    return {
+      _id: product.insertedId,
+      name,
+      quantity,
+    };;
   });
 
 const findByName = async (name) =>
