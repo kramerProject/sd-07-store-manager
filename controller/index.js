@@ -1,13 +1,12 @@
-const connection = require('../config/conn');
-const { ObjectId } = require('mongodb');
+const productModel = require('../models/productModels');
 
 const SUCESS = 200;
 const FAIL = 500;
 
-const controller = async (req, res) => {
+const createProducts = async (req, res) => {
+  const { name, quantity } = req.body;
   try {
-    const result = await connection()
-      .then((db) => db.collection('products').find().toArray());
+    const result = await productModel.createProducts(name, quantity);
     res.status(SUCESS).json(result);
   } catch (error) {
     console.error(error);
@@ -15,4 +14,4 @@ const controller = async (req, res) => {
   }
 };
 
-module.exports = controller;
+module.exports = { createProducts };
