@@ -54,7 +54,7 @@ const getsaleById = rescue(async (req, res) => {
     if (saleById === null || !ObjectId.isValid(id)) {
       return res.status(NOT_FOUND).json(notFoundError);
     }
-    res.status(OK).json(saleById);
+    return res.status(OK).json(saleById);
   } catch (error) {
     throw new Error(error);
   }
@@ -69,7 +69,7 @@ const addNewsale = rescue(async (req, res) => {
       return res.status(INVALID_DATA).json(wrongIdOrQuantity);
     };
     const sale = await saleModel.addNewSale(req.body);
-    res.status(OK).json(sale);
+    return res.status(OK).json(sale);
   } catch (error) {
     throw new Error(error);
   }
@@ -85,7 +85,10 @@ const updateSale = rescue(async (req, res) => {
       return res.status(INVALID_DATA).json(wrongIdOrQuantity);
     };
     const product = await saleModel.updateSale(id, req.body);
-    res.status(OK).json(product);
+    res.status(OK).json({
+      '_id': id,
+      'itensSold': req.body
+    });
   } catch (error) {
     throw new Error(error);
   }

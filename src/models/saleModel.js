@@ -22,7 +22,6 @@ const updateSale = async (id, arrayOfProducts) => {
   return connection().then((db) =>
     db.collection('Sales')
       .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: arrayOfProducts } })
-      .then(sale => sale.ops[0]),
   );
   // return { _id: id, name, quantity };
 };
