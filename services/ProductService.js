@@ -5,6 +5,11 @@ const create = async (product) => {
   return { _id: insertedId, ...product };
 };
 
+const update = async (id, product) => {
+  const result = await productModel.update(id, product);
+  return (result.n) ? true : false;
+};
+
 const getByName = async (name) => {
   const product = await productModel.findByName(name);
   return product;
@@ -46,4 +51,5 @@ module.exports = {
   productExists,
   getAll,
   getById,
+  update,
 };

@@ -11,6 +11,7 @@ const {
 const OK = 200;
 const CREATED = 201;
 const UNPROCESSABLE_ENTITY = 422;
+const NOT_FOUND = 404;
 
 router.post('/',
   productNameVerify,
@@ -44,5 +45,16 @@ router.get('/', async (_req, res) => {
   res.status(OK).json({ products: productList });
 });
 
+router.put('/:id',
+  productNameVerify,
+  productQuantityTypeVerify,
+  productQuantityVerify,
+  async (req, res) =>{
+    const { body } = req;
+    const { id } = req.params;
+    const updatedProduct = await productService.update(id, body);
+    if (updatedProduct) return res.status(OK).json({ _id: id, ...body });
+    return res.status(NOT_FOUND).json({ message: 'Produto não encontrado' });
+  });
 
 module.exports = router;
