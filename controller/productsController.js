@@ -1,4 +1,5 @@
 const ProductsService = require('../service/productsService');
+const ProductModel = require('../models/productsModel');
 
 const addProducts = async (req, res) => {
   const { name, quantity } = req.body;
@@ -12,63 +13,50 @@ const addProducts = async (req, res) => {
   });
 };
 
-// const getAllProducts = async (_req, res) => {
-//   const products = await ProductsModel.getAll();
-//   res.status(OK).json(products);
-// };
+const getAllProducts = async (_req, res) => {
+  const { code, products }  = await ProductsService.getAll();
+  console.log(products);
+  return res.status(code).json(products);
+};
 
-// const getProductsById = async (req, res) => {
-//   try {
-//     const { id } = req.params;
+const getProductsById = async (req, res) => {
+  const { id } = req.params;
 
-//     const result = await ProductsModel.getById(id);
-
-//     if (!result) {
-//       return res.status(unprocessable).json({
-//         err: {
-//           code: 'invalid_data',
-//           message: 'Wrong id format'
-//         }
-//       });
-//     }
-//     res.status(OK).json(result);
-//   } catch(err) {
-//     console.error(err.message);
-//     res.status(internalError).json({ message: err.message });
-//   }
-// };
-
-// const updateProducts = async (req, res) => {
-//   try {
-//     const { name, quantity } = req.body;
-//     const { id } = req.params;
-
-//     const product = await ProductsModel.update(id, name, quantity);
+  const { code, err, products } = await ProductsService.getById(id);
   
-//     res.status(OK).json(product);
-//   } catch(err) {
-//     console.error(err.message);
-//     res.status(internalError).json({ message: err.message });
-//   }
-// };
-
-// const deleteProducts = async(req, res) => {
-//   try {
-//     const { id } = req.params;
-
-//     const product = await ProductsModel.exclude(id);
+  if(!products) return res.status(code).json({ err });
   
-//     res.status(OK).json(product);
-//   } catch(err) {
-//     console.error(err.message);
-//     res.status(internalError).json({ message: err.message });
-//   }
-// };
+  return res.status(code).json(products);
+};
 
+const updateProducts = async (req, res) => {
+  const { name, quantity } = req.body;
+  const { id } = req.params;
+  console.log(req.body);
+  
+
+  const { code, err, product } = await ProductsService.update(id, name, quantity);
+  if(!product) return res.status(code).json({ err });
+
+  res.status(code).json(product);
+};
+
+
+const deleteProducts = async (req, res) => {
+
+  const { id } = req.params;
+
+  const { code, err, products } = await ProductsService.exclude(id);
+
+  if(!products) return res.status(code).json({ err });
+
+  res.status(code).json(products);
+
+};
 module.exports = {
-  // getAllProducts,
-  // getProductsById,
+  getAllProducts,
+  getProductsById,
   addProducts,
-  // updateProducts,
-  // deleteProducts
+  updateProducts,
+  deleteProducts
 };

@@ -17,6 +17,10 @@ const errors = {
   notANumber: {
     code: 'invalid_data',
     message: '"quantity" must be a number'
+  },
+  notAnId: {
+    code: 'invalid_data',
+    message: 'Wrong id format'
   }
 };
 
@@ -25,10 +29,10 @@ const lowerThen = (value, min) => (value.length < min);
 const lowerThenZ = (value, min) => (value <= min);
 const unprocess = 422;
 
-const validate = async (name, quantity) => {
+const validatePost = async (name, quantity) => {
   const five = 5;
   const zero = 0;
-  productName = await ProductModel.getByProductName(name);
+  const productName = await ProductModel.getByProductName(name);
 
   if (lowerThen(name, five)) return { code: unprocess, err: errors.lowerThenFive};
   if (productName) return { code: unprocess, err: errors.alreadyExists };
@@ -38,6 +42,35 @@ const validate = async (name, quantity) => {
   return {};
 };
 
+const validateGet = async (id) => {
+  const getId = await ProductModel.getById(id);
+  if (!getId) return { code: unprocess, err: errors.notAnId };
+
+  return {};
+};
+
+const validatePut = async (name, quantity) => {
+  const five = 5;
+  const zero = 0;
+
+  if (lowerThen(name, five)) return { code: unprocess, err: errors.lowerThenFive};
+  if (lowerThenZ(quantity, zero)) return { code: unprocess, err: errors.lowerThanZero };
+  if (isNotAnumber(quantity)) return { code: unprocess, err: errors.notANumber };
+
+  return {};
+};
+
+const validateDelete = async (id) => {
+  const productId = await ProductModel.getById(id);
+
+  if (!productId) return { code: unprocess, err: errors.notAnId };
+ 
+  return {};
+};
+
 module.exports = {
-  validate,
+  validatePost,
+  validateGet,
+  validatePut,
+  validateDelete
 };
