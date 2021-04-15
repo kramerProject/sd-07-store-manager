@@ -24,24 +24,29 @@ app.put(
   validationsProducts[0],
   validationsProducts[2],
   validationsProducts[3],
-  change
+  change,
 );
 
 app.delete('/products/:id', remove);
 
 app.get('/products', search.getAll);
 
-app.post(
-  '/products',
-  validationsProducts,
-  async (req, res) => {
-    const { name, quantity } = req.body;
-    const produzei = await validators.insert(name, quantity);
-    return res.status(Status.Created).json(produzei);
-  },
-);
+app.put('/sales/:id',
+  sales.updateSalesId);
 
-app.post('/sales', sales);
+app.get('/sales/:id', sales.salesListId);
+
+app.get('/sales', sales.salesList);
+
+app.post('/products', validationsProducts, async (req, res) => {
+  const { name, quantity } = req.body;
+  const produzei = await validators.insert(name, quantity);
+  return res.status(Status.Created).json(produzei);
+});
+
+app.post('/sales', sales.salesCreate);
+
+app.delete('/sales/:id', sales.deleteSalesId);
 
 app.listen(port, () => {
   console.log(`Example app listening on port 3000! - ${Date()}`);

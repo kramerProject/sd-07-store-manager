@@ -10,6 +10,12 @@ const getAll = async (req, res, next) => {
   return res.status(Status.OK).send({ products: collection });
 };
 
+const getAllSales = async () => {
+  const array = await validators.getAllSales();
+  const xablauFormatado = { sales: array };
+  return xablauFormatado;
+};
+
 const getById = async (req, res) => {
   const { id } = req.params;
   const collection = await validators.getById(id);
@@ -27,4 +33,5 @@ const getById = async (req, res) => {
 module.exports = {
   getAll,
   getById,
+  getAllSales,
 };

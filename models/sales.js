@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const validators = require('./validators');
+const search = require('./search');
 const { ObjectId } = require('mongodb');
 const Status = require('../middleWare/Status');
 const validationsProducts = require('../middleWare/validationsProducts');
@@ -9,11 +10,10 @@ const connectionProject = require('./connectionProject');
 app.use(express.json());
 const zero = 0;
 
-const sales = async (req, res, next) => {
+const salesCreate = async (req, res, next) => {
   const data = req.body;
-  console.log(data);
   const qtdIsValid =
-    data.filter((e) => e.quantity <= zero).length <= zero &&
+    data.filter((e) => e.quantity <= zero).length <= zero  &&
     data.filter((e) => typeof e.quantity === 'string').length <= zero;
   if (!qtdIsValid) {
     return res.status(Status.Unprocessable_Entity).json({
@@ -24,14 +24,13 @@ const sales = async (req, res, next) => {
     });
   }
   const collection = await validators.getAllProject();
-  console.log(collection);
   let valido = zero;
-  data.map((body) => {    
-    collection.map((collection) => {
-      if (body.productId.toString() === collection._id.toString()) {
+  data.map((data) => {
+    collection.map((produtos) => {
+      if (data.productId.toString() === produtos._id.toString()) {
         valido += 1;
-      } 
-    });    
+      }
+    });
   });
   if (valido !== data.length) {
     return res.status(Status.Unprocessable_Entity).json({
@@ -41,9 +40,74 @@ const sales = async (req, res, next) => {
       },
     });
   }
-  return res.status(Status.OK).json({
-    itensSold: data,
-  });
+
+  const salesList = await validators.insertSales(data);
+
+  return res.status(Status.OK).json(salesList);
 };
 
-module.exports = sales;
+const salesList = async (req, res) => {
+  const xablau = await search.getAllSales();
+  return res.status(Status.OK).json(xablau);
+};
+
+const salesListId = async (req, res) => {
+  const { id } = req.params;
+  const xablau = await validators.getSallesById(id);
+  if (xablau === null)
+    return res.status(Status.Not_Found).json({
+      err: {
+        code: 'not_found',
+        message: 'Sale not found',
+      },
+    });
+};
+
+const updateSalesId = async (req, res) => {
+  const { id } = req.params;
+  const { quantity, productId } = req.body[0];
+  if (!quantity || quantity < 1 || typeof quantity !== 'number') {
+    return res.status(Status.Unprocessable_Entity).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong product ID or invalid quantity',
+      },
+    });
+  }
+  const response = await validators.updateSalesId(id, quantity, productId);
+  if (response === null) return res.status(Status.Unprocessable_Entity).json({
+    err: {
+      code: 'invalid_data',
+      message: 'Wrong product ID or invalid quantity',
+    },
+  });
+  return res.status(Status.OK).json(response);
+};
+
+const deleteSalesId = async (req, res) => {
+  const { id } = req.params;
+  console.log(id)
+  const xablau = await validators.getSallesById(id);
+  console.log(xablau)
+  if (xablau === null) {
+    return res.status(Status.Unprocessable_Entity).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format',
+      },
+    });
+  }
+  const response = await validators.deleteSalesId(id);
+  console.log(response)
+  // if (response === null) console.log('id inválido');
+  return res.status(Status.OK).json(response);
+};
+
+
+module.exports = {
+  salesCreate,
+  salesList,
+  salesListId,
+  updateSalesId,
+  deleteSalesId
+};
