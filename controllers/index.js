@@ -21,7 +21,6 @@ const objError = {
 const postProduct = async (request, response) => {
   try {
     const { name, quantity } = request.body;
-    // console.log(name, quantity);
     const results = await productService.createProduct(name, quantity);
 
     return response.status(CREATE).json(results);
@@ -32,21 +31,45 @@ const postProduct = async (request, response) => {
     if (message.includes('quantity')
     || message.includes('name') || message.includes('Product')) {
       objError.err.message = error.message;
-      return response.status(UNPROCESS).json(objError);
+      return response.status(UNPROCESS).json({});
     }
     response.status(ERROR).json({ message: error.message });
   }
 };
 
 const getProducts = async (request, response) => {
-  const data = await productService.getAllProducts();
-  return response.status(status.ok).json(data);
+  try {
+    const data = await productService.getAllProducts();
+    return response.status(status.ok).json(data);
+  } catch (error) {
+    console.error(error);
+    return res.status(ERROR).json({ message: error.message });
+  }
 };
 
 const getProductsId = async (request, response) => {
-  const { id } = request.params;
-  const data = await productService.getProductsId(id);
-  return response.status(status.ok).json(data);
+  try {
+    const { id } = request.params;
+    const data = await productService.getProductsId(id);
+    // console.log(data);
+    if (!data) {
+      return response.status(UNPROCESS).json({
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong id format'
+        }
+      });
+    }
+    return response.status(status.ok).json(data);
+  } catch (error) {
+    console.error(error);
+    const { message } = error;
+    if (message.includes('id')) {
+      objError.err.message = error.message;
+      return res.status(UNPROCESS).json(objError);
+    }
+    return res.status(ERROR).json({ message: error.message });
+  }
 };
 
 const putProduct = async (request, response) => {

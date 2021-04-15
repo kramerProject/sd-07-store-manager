@@ -8,27 +8,12 @@ const { status, errors } = require('../utils/status');
 
 const getAll = async () => {
   return await connection()
-    .then((db) => db.collection('products').find().toArray())
-    .then((value) => {
-      return value.map(({ _id, name, quantity }) => {
-        return {
-          _id,
-          name,
-          quantity,
-        };
-      });
-    });
+    .then((db) => db.collection('products').find().toArray());
 };
 
 const getById = async (id) => {
   if (!ObjectId.isValid(id)) return null;
-  const ident = String(id);
-  return await connection().then((db) =>
-    db
-      .collection('products')
-      .findOne(ObjectId(ident))
-      .then((result) => result),
-  );
+  return await connection().then((db) => db.collection('products').findOne(ObjectId(id)));
 };
 
 const getByName = (string) => connection()
