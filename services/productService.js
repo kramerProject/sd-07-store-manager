@@ -35,7 +35,7 @@ const productIsValid = async (name, quantity) => {
     },
     code: 422,
   };
-  const result = await allProducts.createProduct(name, quantity)
+  const result = await allProducts.createProduct(name, quantity);
   return {
     response: result, 
     code: 201
