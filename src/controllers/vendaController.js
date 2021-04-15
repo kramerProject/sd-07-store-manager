@@ -2,13 +2,50 @@ const vendaModel = require('../models/vendaModel');
 const validQuant = require('../sevices/vendaService');
 
 const zero = 0;
-const CODE = 'invalid_data';
-const ERROR_MESSAGE = 'Wrong product ID or invalid quantity';
+
+const message = {
+  ERROR_MESSAGE: 'Wrong product ID or invalid quantity',
+  NOT_FOUND: 'Sale not found',
+};
+
+const code = {
+  invalid: 'invalid_data',
+  notFound: 'not_found'
+};
 const status = {
   OK: 200,
-  CREATE: 201,
+  NOT_FOUND: 404,
   UNPROCESSABLE: 422,
-  INTERNAL_SERVER_ERROR: 500
+  INTERNAL_SERVER_ERROR: 500,
+};
+
+
+const getAllSale = async (_request, response) => {
+  try {
+    const result = await vendaModel.getAllSale();
+    response.status(status.OK).json({sales: result});
+  } catch (error) {
+    console.error(error);
+    response.status(status.INTERNAL_SERVER_ERROR)
+      .json({ message: error.message });
+  }
+};
+
+const getByIdSale = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const result = await vendaModel.getByIdSale(id);
+
+    if (!result) {
+      return response.status(status.NOT_FOUND)
+        .json({err:{code: code.notFound, message: message.NOT_FOUND }});
+    }
+    response.status(status.OK).json(result);
+  } catch (error) {
+    console.error(error);
+    response.status(status.INTERNAL_SERVER_ERROR)
+      .json({ message: error.message });
+  }
 };
 
 const createSale = async (request, response) => {
@@ -17,13 +54,13 @@ const createSale = async (request, response) => {
     const isTrue =  await vendaModel.validId(newSales);
     if(isTrue) {
       return response.status(status.UNPROCESSABLE)
-        .json({err:{code: CODE, message: ERROR_MESSAGE}});
+        .json({err:{code: code.invalid, message: message.ERROR_MESSAGE}});
     }
     for(let i = zero; i < newSales.length; i = i + 1 ) {
       const {quantity} = newSales[i];
       if (!validQuant(quantity)) {
         return response.status(status.UNPROCESSABLE)
-          .json({err:{code: CODE, message: ERROR_MESSAGE}});
+          .json({err:{code: code.invalid, message: message.ERROR_MESSAGE}});
       }
     }
     const result = await vendaModel.createSale(newSales);
@@ -35,6 +72,35 @@ const createSale = async (request, response) => {
   }
 };
 
+const updateSale = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const newSales = [...request.body];
+    const isTrue =  await vendaModel.validId(newSales);
+    if(isTrue) {
+      return response.status(status.UNPROCESSABLE)
+        .json({err:{code: code.invalid, message: message.ERROR_MESSAGE}});
+    }
+    for(let i = zero; i < newSales.length; i = i + 1 ) {
+      const {quantity} = newSales[i];
+      if (!validQuant(quantity)) {
+        return response.status(status.UNPROCESSABLE)
+          .json({err:{code: code.invalid, message: message.ERROR_MESSAGE}});
+      }
+      const result = await vendaModel.updateSale(id, newSales);
+      response.status(status.OK).json(result);
+    }
+
+  } catch (error) {
+    console.error(error);
+    response.status(status.INTERNAL_SERVER_ERROR)
+      .json({ message: error.message });
+  }
+};
+
 module.exports = {
   createSale,
+  getAllSale,
+  getByIdSale,
+  updateSale,
 };

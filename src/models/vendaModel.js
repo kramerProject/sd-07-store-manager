@@ -3,6 +3,21 @@ const { ObjectId } = require('mongodb');
 
 const{ getById } = require('./produtoModel');
 
+const getAllSale = async () => {
+  const sales = await connection().then((db) =>
+    db.collection('sales').find().toArray());
+  return sales;
+};
+
+const getByIdSale = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+  const sale = await connection().then((db) =>
+    db.collection('sales').findOne(ObjectId(id)));
+
+  return sale;
+};
 
 const validId = async (newSales) => {
   let flag = false;
@@ -21,20 +36,18 @@ const createSale = async (newSales) => {
   return { _id: sale.insertedId, itensSold: newSales };
 };
 
-module.exports = {
-  validId,
-  createSale
-};
-/*
-const createProduct = async (name, quantity) => {
-  const product = await connection().then((db) =>
-    db.collection('products').insertOne({ name, quantity })
-  );
-  return { _id: product.insertedId, name, quantity };
+const updateSale = async(id, newSales) => {
+  const sale = await connection().then((db) => {
+    db.collection('sales')
+      .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: newSales } });
+  });
+  return {_id: id, itensSold: newSales};
 };
 
-itensSold": [
-    {
-      "productId": "5f43ba273200020b101fe49f",
-      "quantity": 2
-*/
+module.exports = {
+  validId,
+  createSale,
+  getAllSale,
+  getByIdSale,
+  updateSale,
+};
