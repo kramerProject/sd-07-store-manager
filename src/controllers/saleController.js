@@ -5,6 +5,7 @@ const ObjectId = require('mongodb');
 
 const OK = 200;
 const CREATED = 201;
+const NOT_FOUND = 404;
 const INVALID_DATA = 422;
 const wrongIdOrQuantity = {
   'err': {
@@ -16,6 +17,13 @@ const wrongIdFormat = {
   'err': {
     'code': 'invalid_data',
     'message': 'Wrong sale ID format'
+  }
+};
+
+const notFoundError = {
+  'err': {
+    'code': 'not_found',
+    'message': 'Sale not found'
   }
 };
 
@@ -43,9 +51,9 @@ const getsaleById = rescue(async (req, res) => {
   try {
     const { id } = req.params;
     const sale = await saleModel.getSaleById(id);
-    // if (sale === null) {
-    //   return res.status(INVALID_DATA).json(invalidIdError);
-    // }
+    if (sale === null || !ObjectId.isValid(id)) {
+      return res.status(NOT_FOUND).json(notFoundError);
+    }
     res.status(OK).json(sale);
   } catch (error) {
     throw new Error(error);

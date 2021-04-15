@@ -87,7 +87,7 @@ const deleteProduct = rescue(async (req, res) => {
   try {
     const { id } = req.params;
     const product = await productModel.getProductById(id);
-    if (product === null || !ObjectId.isValid(id)) {
+    if (product === null) {
       return res.status(INVALID_DATA).json(invalidIdError);
     }
     await productModel.deleteProduct(id);
