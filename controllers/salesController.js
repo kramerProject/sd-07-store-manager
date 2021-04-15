@@ -7,7 +7,7 @@ const create = async (req, res, next) => {
   try{
     const sale = req.body;
     const newSale = await SalesService.create(sale);
-    res.status(GET_SUCESS).json(newSale);
+    return res.status(GET_SUCESS).json(newSale);
   } catch (err) {
     next(err);
   }
@@ -16,7 +16,7 @@ const create = async (req, res, next) => {
 const getAllSales = async (req, res, next) => {
   try {
     const allSales = await SalesService.getAllSales();
-    res.status(GET_SUCESS).json(allSales);
+    return res.status(GET_SUCESS).json(allSales);
   } catch (err) {
     next(err);
   }
@@ -26,7 +26,7 @@ const findSaleById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const sale = await SalesService.findSaleById(id);
-    res.status(GET_SUCESS).json(sale);
+    return res.status(GET_SUCESS).json(sale);
   } catch (err) {
     next(err);
   }

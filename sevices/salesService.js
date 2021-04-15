@@ -40,6 +40,7 @@ const validId = async (id) => {
 const findSaleById = async (id) => {
   const sale = await validId(id);
   return sale;
+
 };
 
 module.exports = { create, getAllSales, findSaleById };
