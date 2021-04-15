@@ -19,7 +19,7 @@ const getProductByIdController = async (req, res, next) => {
   try {
     const { id } = req.params;
     const result = await Product.getById(id);
-    if (result !== null) res.status(SUCCESS).json(result);
+    if (result !== null) return res.status(SUCCESS).json(result);
     throw new UnprocessableException(
       wrongIdFormatErrorMessage
     );
@@ -53,9 +53,25 @@ const updateProductController = async (req, res, next) => {
   }
 };
 
+const deleteProductController = async (req, res, next) => {
+  const wrongIdFormatErrorMessage = 'Wrong id format';
+  try {
+    const { id } = req.params;
+    const result = await Product.excludeProduct(id);
+    if (result !== null) return res.status(SUCCESS).json(result);
+    throw new UnprocessableException(
+      wrongIdFormatErrorMessage
+    );
+  } catch (err) {
+    next(err);
+  }
+};
+
+
 module.exports = {
   getAllProductsController,
   getProductByIdController,
   createProductController,
-  updateProductController
+  updateProductController,
+  deleteProductController
 };

@@ -4,7 +4,8 @@ const {
   getAllProductsController,
   getProductByIdController,
   createProductController,
-  updateProductController
+  updateProductController,
+  deleteProductController
 } = require('./controllers/productController');
 
 const { 
@@ -31,5 +32,7 @@ route.put('/products/:id',
   validateQuantityMiddleware,
   updateProductController
 );
+
+route.delete('/products/:id', deleteProductController);
 
 module.exports = route;
