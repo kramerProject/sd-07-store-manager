@@ -1,6 +1,6 @@
 {
     "code" : "invalid_data",
-    "length_character": "\"name\" length must be at least 5 characters log",
+    "length_character": "\"name\" length must be at least 5 characters long",
     "name_type" : "\name\" must be a string",
     "product_exists": "Product already exists",
     "quantity_length": "\"quantity\" must be larger than or equal to 1",
