@@ -9,4 +9,6 @@ router.get('/', SalesServices.getAllSales);
 
 router.get('/:id', SalesServices.getById);
 
+router.put('/:id', SalesServices.updateSale);
+
 module.exports = router;

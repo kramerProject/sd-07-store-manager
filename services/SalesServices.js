@@ -18,15 +18,6 @@ const registerSale = async (request, response) => {
       mustBeNumber(item.quantity)) {
       return responseWith(status.code422, message.invalidyQuantity, response);
     }
-
-    // switch(true) {
-    // case greaterThan(item.quantity, compare.zeroQuantity):
-    //   return responseWith(status.code422, message.invalidyQuantity, response);
-    // case mustBeNumber(item.quantity):
-    //   return responseWith(status.code422, messsage.invalidyQuantity, response);
-    // default:
-    //   break;
-    // }
   });
 
   const registeredSale = await SalesModels.registerSale(itensSold);
@@ -59,8 +50,33 @@ const getById = async (request, response) => {
   return response.status(status.code200).json(saleFound);
 };
 
+const updateSale = async (request, response) => {
+  const { id } = request.params;
+  const idNotHexObjectId = (id.length !== compare.hexObjectedId);
+  const itensSold = request.body;
+
+  if (idNotHexObjectId) {
+    responseWith(status.code422, message.invalidyQuantity, response);
+  }
+
+  itensSold.map((item) => {
+    switch (true) {
+    case greaterThan(item.quantity, compare.zeroQuantity):
+      responseWith(status.code422, message.invalidyQuantity, response);
+    case mustBeNumber(item.quantity):
+      responseWith(status.code422, message.invalidyQuantity, response);
+    default:
+      break;
+    }
+  });
+
+  await SalesModels.updateSale(id, itensSold);
+  response.status(status.code200).json({ _id: id, itensSold });
+};
+
 module.exports = {
   registerSale,
   getAllSales,
   getById,
+  updateSale,
 };
