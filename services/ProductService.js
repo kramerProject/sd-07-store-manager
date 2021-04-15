@@ -19,16 +19,26 @@ const create = async (name, quantity) => {
 
   if (nameLength.code) return nameLength;
 
-  if ( quantityIsInteger.code) return quantityIsInteger;
+  if (quantityIsInteger.code) return quantityIsInteger;
 
   if (nameType.code) return nameType;
 
   if (quantityLength.code) return quantityLength;
   
-  return await Product.create(name, quantity);
+  const product = await Product.create(name, quantity);
+
+  return product;
 };
 
 const findById = async (id) => {
+  const products = await getAll();
+
+  const iDsearch = await helper.searcIdcontent(products, id);
+
+  if (iDsearch.code) {
+    return iDsearch;
+  }
+
   const product = await Product.findById(id);
   return product;
 };

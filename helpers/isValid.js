@@ -77,6 +77,20 @@ const productExist = async (obj, name) => {
   return { code:false };
 };
 
+const searcIdcontent = async (object, id) => {
+  const product = await object;
+
+  const arrayOfIds = await product.map((product) => product._id.toString());
+
+  if (arrayOfIds.includes(id)) {
+    return { code: false };
+  }
+  const obj = createError(
+    code.Unprocessable_Entity, message.code, message.wrong_id
+  );
+  return obj;
+};
+
 module.exports = {
   nameIsOk,
   quantityIsOk,
@@ -84,4 +98,5 @@ module.exports = {
   IsInteger,
   productExist,
   createError,
+  searcIdcontent
 };

@@ -1,26 +1,24 @@
-const { Router } = require('express');
-
 const code = require('../returnStatus/status.json');
 
 const ProductService = require('../services/ProductService');
 
-// const middleware = midd();
-const router = Router();
-
-router.get('/', async (req, res) => {
+const getAll = async (_req, res) => {
   const products = await ProductService.getAll();
 
   res.status(code.Ok).json(products);
-});
+};
 
-router.get('/:id', async(req, res) => {
-  const product = await ProductService.findById(req.params.id);
+const findById = async(req, res) => {
+  const result = await ProductService.findById(req.params.id);
 
-  res.status(code.Ok).json(product); 
-  
-});
+  if (result.code) {
+    res.status(result.code).json(result.json);
+  }
 
-router.post('/', async (req, res) => {
+  res.status(code.Ok).json(result); 
+};
+
+const create = async (req, res) => {
   const { name, quantity } = req.body;
   
   try {
@@ -35,6 +33,10 @@ router.post('/', async (req, res) => {
   } catch (error) {
     res.status(code.Internal_Server_Error).json({ message: error});
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  getAll,
+  findById,
+  create
+};
