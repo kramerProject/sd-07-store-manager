@@ -1,5 +1,13 @@
 const statusCode = require('../../helpers/HTTPStatus');
+const invalidData = "invalid_data";
 const productService = require('../services/ProductService');
+
+const errorMessage = {
+    "err": {
+        code: invalidData,
+        message: ''
+    }
+}
 
 const getAllProducts = async (_req, res) => {
   try {    
@@ -26,8 +34,9 @@ const createProduct = async (req, res) => {
     const newProduct = await productService.createProduct(name, quantity);
     res.status(statusCode.CREATED).json(newProduct);
   } catch (err) {
-    console.error(err.message);
-    res.status(statusCode.INTERNALERROR).json({ message: err.message});        
+    //console.error(err.message);
+    errorMessage.err.message = err.message;
+    res.status(statusCode.UNPROCESSABLE).json(errorMessage);        
   }
 };
 
