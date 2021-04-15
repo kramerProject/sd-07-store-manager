@@ -32,7 +32,11 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const product = await ProductModel.getById(id);
-  return product;
+  if(product === null) 
+    return { code: 422,
+      message: 'Wrong id format' };
+
+  return {code: 200, product};
 };
 
 module.exports = {

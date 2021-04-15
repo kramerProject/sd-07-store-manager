@@ -29,11 +29,17 @@ const getAll = async (req, resp) => {
 };
 
 const getById = async (req, resp) => {
-  const { id } = req.params;
-  console.log(id);
-  const product = await ProductService.getById(id);
-  console.log(product);
-  resp.status(SUCESS).json(product);
+  try {
+    const { id } = req.params;
+    console.log(id);
+    const {code, message, product} = await ProductService.getById(id);
+    if(message) return resp.status(code).json({ err: { code: 'invalid_data', message } });
+    resp.status(code).json(product);
+  } catch (error) {
+    console.error(error.message);
+	  resp.status(ERROR).json({ message: error.message });
+  }
+ 
 };
 
 module.exports = {
