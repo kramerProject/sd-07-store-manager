@@ -3,7 +3,7 @@ const { ObjectId } = require('mongodb');
 
 const insert = async (collection, data) => {
   return connection()
-    .then((db) => db.collection(collection).insertOne({ ...data }));
+    .then((db) => db.collection(collection).insertOne(data));
 };
 
 const getAll = async (collection) => {
@@ -19,7 +19,7 @@ const findById = async (collection, id) => {
 const update = async (collection, id, data) => 
   connection().then(async (db) => {
 	  await db.collection(collection)
-	  	.updateOne({ _id: ObjectId(id) }, { $set: { ...data } });
+	  	.updateOne({ _id: ObjectId(id) }, { $set: data });
     return { _id: id, ...data };
   });
 

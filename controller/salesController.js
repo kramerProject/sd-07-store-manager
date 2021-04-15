@@ -15,12 +15,13 @@ const insertSale = rescue(async (req, res) => {
 
   const products = await Model.getAll(productsCollection);
 
-  const response = Service.checkStockResponse(products, itensSold);
+  const stockResponse = Service.checkStockResponse(req.method, products, itensSold);
 
-  if(response.code) return res.status(NOT_FOUND).json({ err: response});
+  if(stockResponse.code) return res.status(NOT_FOUND).json({ err: stockResponse });
   
   const newSale = await Model.insert(salesCollection, data);
-  // await Service.updateQuantities(newSale.ops[0]);
+
+  await Service.updateStock(stockResponse);
 
   return res.status(OK).json(newSale.ops[0]);
 });
@@ -71,8 +72,18 @@ const deleteSale = rescue(async (req, res) => {
       }
     });
   }
+  const products = await Model.getAll(productsCollection);
+
+  const stockResponse = Service
+    .checkStockResponse(req.method, products, deletedSale.itensSold);
+
+  if(stockResponse.code) return res.status(NOT_FOUND).json({ err: stockResponse });
 
   await Model.deleteOne(salesCollection, id);
+
+  await Service.updateStock(stockResponse);
+
+
   return res.status(OK).json(deletedSale);
 });
 

@@ -1,7 +1,5 @@
 const Model = require('../model');
 
-// const productsService = require('../service'); -> utilizar caso necessario
-
 const rescue = require('express-rescue');
 
 const CREATED = 201;
