@@ -1,4 +1,5 @@
 const express = require('express');
+const { productsRouter } = require('./src/routes');
 
 const app = express();
 
@@ -11,6 +12,18 @@ app.use(express.json());
 app.get('/', (_request, response) => {
   response.status(SUCESS).send({
     message: 'PROJETO STORE MANAGER',
+  });
+});
+
+app.use(productsRouter);
+
+app.use((err, _req, res, _next) => {
+  const { status, message, code } = err;
+  res.status(status).json({
+    err: {
+      code,
+      message,
+    },
   });
 });
 
