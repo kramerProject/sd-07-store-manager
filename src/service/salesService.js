@@ -1,8 +1,10 @@
 const {
   addNewSale,
-  getProductById,
+  getAll,
+  getById,
+  updateById,
 } = require('../models/salesModel');
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 
 const errorMessage = {
   err: {
@@ -21,10 +23,17 @@ const checkTypeEqualNumber = (quantity) => {
   return false;
 };
 
-// const isValidId = (id) => {
-//   if (!ObjectId.isValid(id)) errorMessage;
-//   return false;
-// };
+const isValidId = (id) => {
+  if (!ObjectId.isValid(id)) {
+    return {
+      err: {
+        code: 'not_found',
+        message: 'Sale not found',
+      },
+    };
+  }
+  return false;
+};
 
 const newSaleIsValid = async (salesArray) => {
   const isGreaterThanZero = salesArray.map(({ quantity }) => greaterThanZero(quantity));
@@ -44,37 +53,40 @@ const newSaleIsValid = async (salesArray) => {
   return { http: 200, message: saleResult };
 };
 
-// const getAllProducts = async () => {
-//   const allProducts = await getAll();
-//   const result = { http: 200, message: { products: allProducts } };
-//   return result;
-// };
+const getAllSales = async () => {
+  const allSales = await getAll();
+  const result = { http: 200, message: { sales: allSales } };
+  return result;
+};
 
-// const handleGetById = async (id) => {
-//   const validId = isValidId(id);
-//   if (validId) return { http: 422, message: validId };
-  
-//   const product = await getById(id);
-//   return { http: 200, message: product };
-// };
+const handleGetById = async (id) => {
+  const validId = isValidId(id);
+  if (validId) return { http: 404, message: validId };
+  const sale = await getById(id);
+  if (!sale) return { http: 404, message: validId };
+  return { http: 200, message: sale };
+};
 
-// const handleUpdateById = async (id, name, quantity) => {
-//   const validId = isValidId(id);
-//   if (validId) return { http: 422, message: validId };
+const handleUpdateById = async (id, salesArray) => {
+  const isGreaterThanZero = salesArray.map(({ quantity }) => greaterThanZero(quantity));
+  const lessOrEqualZero = isGreaterThanZero.find((currentValue) => currentValue);
+  if (lessOrEqualZero) {
+    return { http: 422, message: lessOrEqualZero };
+  }
 
-//   const isGreaterThanFive = greaterThanFive(name);
-//   if (isGreaterThanFive) return { http: 422, message: isGreaterThanFive };
+  const isNumber = salesArray.map(({ quantity }) => checkTypeEqualNumber(quantity));
+  const isNotANumber = isNumber.find((currentValue) => currentValue);
+  if (isNotANumber) {
+    return { http: 422, message: isNotANumber };
+  }
 
-//   const isGreaterThanZero = greaterThanZero(quantity);
-//   if (isGreaterThanZero) return { http: 422, message: isGreaterThanZero };
+  // const existThisSale = await getById(id);
+  // if (!existThisSale)
 
-//   const isNumber = checkTypeEqualNumber(quantity);
-//   if (isNumber) return { http: 422, message: isNumber };
-
-//   await updateById(id, name, quantity);
-//   const updatedProduct = await getById(id);
-//   return { http: 200, message: updatedProduct };
-// };
+  await updateById(id, salesArray);
+  const saleResult = await getById(id);
+  return { http: 200, message: saleResult };
+};
 
 // const handleDeleteById = async (id) => {
 //   const validId = isValidId(id);
@@ -87,4 +99,7 @@ const newSaleIsValid = async (salesArray) => {
 
 module.exports = {
   newSaleIsValid,
+  getAllSales,
+  handleGetById,
+  handleUpdateById,
 };

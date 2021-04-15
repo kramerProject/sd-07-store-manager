@@ -1,17 +1,31 @@
 const connect = require('../config/connection');
 const { ObjectId } = require('mongodb');
 
-// const getProductById = async (id) => {
-//   const db = await connect();
-//   return db.collection('products').findOne(ObjectId(id));
-// };
-
 const addNewSale = async (salesArray) => {
   const db = await connect();
   return db.collection('sales').insertOne({ itensSold: salesArray });
 };
 
+const getAll = async () => {
+  const db = await connect();
+  return db.collection('sales').find().toArray();
+};
+
+const getById = async (id) => {
+  const db = await connect();
+  return db.collection('sales').findOne(ObjectId(id));
+};
+
+const updateById = async (id, salesArray) => {
+  const db = await connect();
+  return db.collection('sales').updateOne(
+    { _id: ObjectId(id) }, { $set: { itensSold: salesArray } },
+  );
+};
+
 module.exports = {
-  // getProductById,
   addNewSale,
+  getAll,
+  getById,
+  updateById,
 };
