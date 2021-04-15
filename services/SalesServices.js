@@ -1,4 +1,5 @@
 const SalesModels = require('../models/SalesModels');
+const ProductsModels = require('../models/ProductsModels');
 
 const {
   compare,
@@ -74,9 +75,30 @@ const updateSale = async (request, response) => {
   response.status(status.code200).json({ _id: id, itensSold });
 };
 
+const removeSales = async (request, response) => {
+  const { id } = request.params;
+  const idNotHexObjectId = (id.length !== compare.hexObjectedId);
+  
+  if (idNotHexObjectId) {
+    responseWith(status.code422, message.wrongSaleId, response);
+  }
+  
+  const removedSale = await SalesModels.getById(id);
+  const [{ productId, name, quantity }] = removedSale.itensSold;
+  if (!removedSale) {
+    return responseWith(status.code422, message.wrongSaleId, response);
+  }
+
+  await ProductsModels.updateProduct(productId, name, quantity);
+  await SalesModels.removeSales(id);
+
+  return response.status(status.code200).json(removedSale);
+};
+
 module.exports = {
   registerSale,
   getAllSales,
   getById,
   updateSale,
+  removeSales
 };
