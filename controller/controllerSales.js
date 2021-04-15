@@ -17,7 +17,6 @@ const controllerAddSales = async (req, res) => {
   const salesList = req.body;
   try {
     //  await checkIds(salesList); não precisa disso?
-
     checkQuantities(salesList);
     const result = await addToSales(salesList);
     return res.status(success).json(result);
@@ -54,9 +53,9 @@ const getSalesById = async (req, res) => {
 const updateSalesById = async (req, res) => {
   const { salesId } = req.params;
   try {
-    const { productId, quantity} = req.body;
-    checkQuantity(quantity);
-    const newItem = await serviceUpdateSalesById(salesId, productId, quantity);
+    const productList = req.body;
+    checkQuantities(productList);
+    const newItem = await serviceUpdateSalesById(salesId, productList);
     return res.status(success).json(newItem);
   } catch (err) {
     res.status(unprocessable_entity).json({

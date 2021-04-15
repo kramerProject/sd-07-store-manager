@@ -7,11 +7,11 @@ const {
 } = require('../model/salesModel');
 const ObjectId = require('mongodb').ObjectId;
 const five = 5;
-function checkQuantity(quantity) {
-  if (quantity < 1 || typeof quantity !== 'number') {
-    throw new Error('Wrong product ID or invalid quantity');
-  }
-}
+// function checkQuantity(quantity) {
+//     if (quantity < 1 || typeof quantity !== 'number') {
+//         throw new Error('Wrong product ID or invalid quantity');
+//     }
+// }
 function checkQuantities(salesList) {
   salesList.forEach(sale => {
     if (sale.quantity < 1 || typeof sale.quantity !== 'number') {
@@ -28,14 +28,14 @@ function checkQuantities(salesList) {
 //     })
 // }
 async function addToSales(salesList) {
-  return result = await modelAddToSales(salesList);
+  return await modelAddToSales(salesList);
 }
 
 async function serviceGetAllSales() {
   return await modelGetAllSales();
 }
 
-  
+
 async function serviceGetSalesById(id) {
   const result = await modelGetSalesById(id);
   if (!result) {
@@ -44,9 +44,9 @@ async function serviceGetSalesById(id) {
   return result;
 }
 
-serviceUpdateSalesById;
-async function serviceUpdateSalesById(salesId, productId, quantity) {
-  const result = await modelUpdateSalesById(salesId, productId, quantity);
+async function serviceUpdateSalesById(salesId, productList) {
+  console.log('entrou no serviceUpdate');
+  const result = await modelUpdateSalesById(salesId, productList);
   if (!result) {
     throw new Error('Wrong id format');
   }
@@ -63,7 +63,7 @@ async function serviceDeleteSalesById(id) {
 }
 module.exports = {
   checkQuantities,
-  checkQuantity,
+  // checkQuantity,
   // checkIds,
   addToSales,
   serviceGetAllSales,

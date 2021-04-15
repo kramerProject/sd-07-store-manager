@@ -27,23 +27,21 @@ async function modelGetSalesById(id) {
   });
 }
 
-async function modelUpdateSalesById(salesId, productId, quantity) {
+async function modelUpdateSalesById(salesId, productList) {
+  console.log('entrou no modelUpdate');
   return connect().then((db) => {
     try {
       const item = db.collection('sales').updateOne({ _id: ObjectId(salesId) }, {
-        $push: {
-          itensSold: { productId, quantity, }
-        }
+        $push: { itensSold: productList }
       });;
-      return { _id: salesId, itensSold: [
-        {productId, quantity,}
-      ] };
+      return {
+        _id: salesId, itensSold: productList
+      };
     } catch (err) {
       return false;
     }
   });
 }
-
 
 async function modelDeleteSalesById(id) {
   const searchedItem = await connect().then(async (db) => {
@@ -53,7 +51,7 @@ async function modelDeleteSalesById(id) {
       return false;
     };
   });
-  
+
   if (searchedItem) {
     connect().then(async (db) => {
       db.collection('sales').deleteOne({ _id: ObjectId(id) });
