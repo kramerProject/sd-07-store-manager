@@ -8,6 +8,16 @@ const addSale = async (bodyReq) => {
   });
 };
 
+const getAll = async () => {
+  return await connect().then((db) => db.collection('sales').find().toArray());
+};
+
+const getForId = async () => {
+  return await connect().then((db) => db.collection('sales').findOne(ObjectId(id)));
+};
+
 module.exports = {
   addSale,
+  getAll,
+  getForId,
 };
