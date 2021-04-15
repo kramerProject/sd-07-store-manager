@@ -33,6 +33,20 @@ const showSalesId = async (req, res) => {
   }
 };
 
+const updateSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(req.body);
+    const sale = await salesService.updateSale(id, req.body);
+    const { value } = sale;
+    return res.status(STATUS_OK).json(
+      [value]
+    );
+  } catch (err) {
+    return res.status(STATUS_UNPROCESSABLE).json({ message: 'Não entrou no controller' });
+  }
+};
+
 const deleteSale = async (req, res) => {
   try {
     const { id } = req.params;
@@ -47,5 +61,6 @@ module.exports = {
   insertSales,
   showAllSales,
   showSalesId,
-  deleteSale
+  deleteSale,
+  updateSale
 };

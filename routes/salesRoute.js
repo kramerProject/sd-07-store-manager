@@ -8,5 +8,6 @@ const deleteSaleMiddleware = require('../middlewares/deleteSaleMiddleware');
 app.post('/',quantitySalesMiddleware, salesController.insertSales);
 app.get('/:id',salesIsPresentMiddleware, salesController.showSalesId);
 app.get('/', salesController.showAllSales);
+app.put('/:id',quantitySalesMiddleware, salesController.updateSale);
 app.delete('/:id',deleteSaleMiddleware,salesController.deleteSale);
 module.exports = app;

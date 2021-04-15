@@ -20,6 +20,13 @@ const insertSales = async (itensSold) => {
     });
   }
 };
+const updateSale = async (id, itensSold) => {
+  try {
+    return await salesModel.updateSale(id, itensSold);
+  } catch (error) {
+    console.error({ message: 'Nem um produto cadastrado' });
+  }
+};
 
 const showAllSales = async () => {
   try {
@@ -50,5 +57,6 @@ module.exports = {
   insertSales,
   showAllSales,
   showSalesId,
-  deleteSale
+  deleteSale,
+  updateSale
 };

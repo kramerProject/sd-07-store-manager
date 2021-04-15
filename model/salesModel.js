@@ -52,9 +52,27 @@ const showSalesId = async (id) => {
     });
   }
 };
+
+const updateSale = async (id, itensSold) => {
+  try {
+    const query = {_id: ObjectID(id)};
+    const update = {$set: { itensSold: [...itensSold]}};
+    const option = {returnOriginal: false};
+    const db = await connection();
+    const sale = await db
+      .collection('sales')
+      .findOneAndUpdate( query , update, option );
+    return sale;
+  } catch (error) {
+    console.error({
+      message: 'Não tem produto com esse nome no banco',
+    });
+  }
+};
 module.exports = {
   insertSales,
   showAllSales,
   showSalesId,
-  deleteSale
+  deleteSale,
+  updateSale
 };
