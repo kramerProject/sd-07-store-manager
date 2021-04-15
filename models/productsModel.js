@@ -36,14 +36,6 @@ const update = async(id, name, quantity) => {
   });
 };
 
-// const update = async (id, name, quantity) =>
-//   connect().then(async (db) => {
-//     const prduct = await db
-//       .collection('products')
-//       .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity} });
-
-//     return prduct;
-//   });
 const exclude = async(id) => {
   connect().then( async (db) => {
     db.collection('products').deleteOne({ _id: ObjectId(id) });

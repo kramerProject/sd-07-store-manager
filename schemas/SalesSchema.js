@@ -33,7 +33,7 @@ const validatePost = async (itensSold) => {
   return {};
 };
 
-const validatePut = async (id) => {
+const validateId = async (id) => {
 
   const salesId = await SalesModel.getById(id);
 
@@ -42,7 +42,19 @@ const validatePut = async (id) => {
   return {};
 };
 
+const validatePut = async (itensSold) => {
+
+  const{ quantity } = itensSold[0];
+  const zero = 0;
+
+  if (lowerThenZ(quantity, zero)) return { code: unprocess, err: errors.lowerThanZero };
+  if (isNotAnumber(quantity)) return { code: unprocess, err: errors.notANumber };
+
+  return {};
+};
+
 module.exports = {
   validatePost,
+  validateId,
   validatePut
 };
