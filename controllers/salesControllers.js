@@ -22,13 +22,42 @@ async function addSale(req, res) {
   }
 }
 
-async function getSales() {}
+async function getSales(req, res) {
+  const responseOK = 200;
+  const responseError = 404;
+  try {
+    const sales = await ServiceSales.serviceGetAllSales();
+    res.status(responseOK).json({ sales });
+  } catch (err) {
+    res.status(responseError).json({
+      err: {
+        code: err.code,
+        message: err.message,
+      },
+    });
+  }
+}
 
-async function getSaleById() {}
+async function getSaleById(req, res) {
+  const responseOK = 200;
+  const responseError = 404;
+  try {
+    const id = req.params;
+    const sales = await ServiceSales.serviceGetSalesById(id);
+    res.status(responseOK).json(sales);
+  } catch (err) {
+    res.status(responseError).json({
+      err: {
+        code: err.code,
+        message: err.message,
+      },
+    });
+  }
+}
 
-async function updateSale() {}
+async function updateSale(req, res) {}
 
-async function deleteSale() {}
+async function deleteSale(req, res) {}
 
 module.exports = {
   addSale,

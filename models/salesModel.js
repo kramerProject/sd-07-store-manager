@@ -8,6 +8,17 @@ async function add(itensSold) {
   });
 }
 
+async function getAllSales() {
+  return await connect().then((db) => db.collection('sales').find().toArray());
+}
+
+async function getSalesById(id) {
+  if (!ObjectId.isValid(id)) return null;
+  return connect().then((db) => db.collection('sales').findOne(ObjectId(id)));
+}
+
 module.exports = {
   add,
+  getAllSales,
+  getSalesById,
 };

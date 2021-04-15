@@ -1,6 +1,5 @@
 const SalesModel = require('../models/salesModel');
 const ProductsModel = require('../models/productsModel');
-const { ObjectId } = require('mongodb');
 
 async function serviceAddSales(itensSold) {
   const allProducts = await ProductsModel.getAllProducts();
@@ -20,6 +19,20 @@ async function serviceAddSales(itensSold) {
   return sale;
 }
 
+async function serviceGetAllSales() {
+  return await SalesModel.getAllSales();
+}
+
+async function serviceGetSalesById(id) {
+  const productID = await SalesModel.getSalesById(id);
+  if (!productID)
+    throw { code: 'not_found', message: 'Sale not found' };
+  return productID;
+}
+
+
 module.exports = {
   serviceAddSales,
+  serviceGetAllSales,
+  serviceGetSalesById
 };
