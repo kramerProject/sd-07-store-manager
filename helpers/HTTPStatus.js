@@ -1,0 +1,13 @@
+const CREATED = 201;
+const UNPROCESSABLE = 422;
+const SUCCESS = 200;
+const NOTFOUND = 404;
+const INTERNALERROR = 500;
+
+module.exports = {
+    CREATED,
+    UNPROCESSABLE,
+    SUCCESS,
+    NOTFOUND,
+    INTERNALERROR
+}
