@@ -42,5 +42,16 @@ const exclude = async (req, res, next) => {
   }
 };
 
-module.exports={ create, getAllSales, findSaleById, exclude };
+const update = async (req, res, next) => {
+  try{
+    const { id } = req.params;
+    const sale = req.body;
+    const updatedSale = await SalesService.update(id, sale);
+    return res.status(GET_SUCESS).json(updatedSale);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports={ create, getAllSales, findSaleById, exclude, update };
 

@@ -31,5 +31,16 @@ const exclude = async (id) => {
   return excludeObject.value;
 };
 
-module.exports = { create, getAllSales, findSaleById, exclude };
+const update = async (id, itensSold) => {
+  if (!ObjectId.isValid(id)) return null;
+  const sale = await connect()
+    .then((db) => db.collection('sales')
+      .findOneAndUpdate({ _id: ObjectId(id) },
+        { $set: { itensSold } },
+        { returnOriginal: false })
+    );
+  return product.value;
+};
+
+module.exports = { create, getAllSales, findSaleById, exclude, update};
 
