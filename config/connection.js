@@ -7,11 +7,11 @@ const OPTIONS = {
   useUnifiedTopology: true,
 };
 
-const MONGO_DB_URL = !process.env.MONGO_DB_URL || process.env.LOCAL_DB_URL;
-const DB_NAME = process.env.DB_NAME;
+//const MONGO_DB_URL = !process.env.MONGO_DB_URL || process.env.LOCAL_DB_URL;
+//const DB_NAME = process.env.DB_NAME;
 
-//const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
-//const DB_NAME = 'StoreManager';
+const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
+const DB_NAME = 'StoreManager';
 
 const connection = () => {
   return MongoClient.connect(MONGO_DB_URL, OPTIONS)
