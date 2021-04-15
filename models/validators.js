@@ -15,8 +15,9 @@ const getAllSales = async () => {
 
 const getSallesById = async (id) => {
   if (ObjectId.isValid(id)) {
-    return connectionProject()
-      .then((db) => db.collection('sales').deleteOne({ _id: ObjectId(id) }));
+    return connectionProject().then((db) =>
+      db.collection('sales').deleteOne({ _id: ObjectId(id) }),
+    );
   }
   return null;
 };
@@ -55,7 +56,8 @@ const update = async (id, name, quantity) => {
   if (ObjectId.isValid(id)) {
     return connectionProject()
       .then((db) =>
-        db.collection('products').updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } }),
+        db.collection('products')
+          .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } }),
       )
       .then(() => ({ _id: id, name, quantity }));
   }
@@ -67,7 +69,8 @@ const updateSalesId = async (id, quantity, productId) => {
       .then((db) =>
         db
           .collection('sales')
-          .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: [{ productId, quantity }] } }),
+          .updateOne(
+            { _id: ObjectId(id) }, { $set: { itensSold: [{ productId, quantity }] } }),
       )
       .then((result) => {
         return {

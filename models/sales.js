@@ -13,7 +13,7 @@ const zero = 0;
 const salesCreate = async (req, res, next) => {
   const data = req.body;
   const qtdIsValid =
-    data.filter((e) => e.quantity <= zero).length <= zero  &&
+    data.filter((e) => e.quantity <= zero).length <= zero &&
     data.filter((e) => typeof e.quantity === 'string').length <= zero;
   if (!qtdIsValid) {
     return res.status(Status.Unprocessable_Entity).json({
@@ -75,20 +75,21 @@ const updateSalesId = async (req, res) => {
     });
   }
   const response = await validators.updateSalesId(id, quantity, productId);
-  if (response === null) return res.status(Status.Unprocessable_Entity).json({
-    err: {
-      code: 'invalid_data',
-      message: 'Wrong product ID or invalid quantity',
-    },
-  });
+  if (response === null)
+    return res.status(Status.Unprocessable_Entity).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong product ID or invalid quantity',
+      },
+    });
   return res.status(Status.OK).json(response);
 };
 
 const deleteSalesId = async (req, res) => {
   const { id } = req.params;
-  console.log(id)
+  console.log(id);
   const xablau = await validators.getSallesById(id);
-  console.log(xablau)
+  console.log(xablau);
   if (xablau === null) {
     return res.status(Status.Unprocessable_Entity).json({
       err: {
@@ -98,16 +99,15 @@ const deleteSalesId = async (req, res) => {
     });
   }
   const response = await validators.deleteSalesId(id);
-  console.log(response)
+  console.log(response);
   // if (response === null) console.log('id inválido');
   return res.status(Status.OK).json(response);
 };
-
 
 module.exports = {
   salesCreate,
   salesList,
   salesListId,
   updateSalesId,
-  deleteSalesId
+  deleteSalesId,
 };
