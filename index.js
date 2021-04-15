@@ -30,6 +30,8 @@ app.get(`${SALES_BASE_URL}/:id`, salesController.findById);
 
 app.get(SALES_BASE_URL, salesController.getAll);
 
+app.put(`${SALES_BASE_URL}/:id`, salesController.updateSales);
+
 app.listen(PORT, () => {
   console.log('listening on port ' + PORT);
 });

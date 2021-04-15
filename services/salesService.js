@@ -3,9 +3,9 @@ const { ObjectId } = require('mongodb');
 
 const ONE = 1;
 
-const validateSales = ({ id, quantity }) => {
+const validateSales = ({ productId, quantity }) => {
   if (
-    ObjectId.isValid(id)
+    !ObjectId.isValid(productId)
     || typeof quantity !== 'number'
     || quantity < ONE
   ) {
@@ -33,8 +33,15 @@ const findById = async (id) => {
 
 const getAll = async () => await salesModels.getAll();
 
+const updateSales = async (id, sales) => {
+  validateSales(sales);
+
+  return await salesModels.updateSales(id, sales);
+};
+
 module.exports = {
   createSales,
   findById,
   getAll,
+  updateSales,
 };

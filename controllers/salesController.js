@@ -53,8 +53,27 @@ const getAll = async (_req, res) => {
   }
 };
 
+const updateSales = async (req, res) => {
+  const sales = req.body[0];
+  const { id } = req.params;
+
+  try {
+    const response = await  salesService.updateSales(id, sales);
+
+    res.status(OK).json(response);
+  } catch (err) {
+    res.status(UNPROCESSABLE).json({
+      err: {
+        code: 'invalid_data',
+        message: err.message,
+      }
+    });
+  }
+};
+
 module.exports = {
   createSales,
   findById,
   getAll,
+  updateSales,
 };

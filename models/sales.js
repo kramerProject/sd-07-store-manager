@@ -14,11 +14,6 @@ const createSale = (productArray) => {
     }));
 };
 
-// const findByName = (name) => {
-//   return connection()
-//     .then((db) => db.collection(PRODUCTS_COLLECTION).find({ name: name }).toArray());
-// };
-
 const findById = (id) => {
   return connection()
     .then((db) => db.collection(SALES_COLLECTION).findOne({_id: ObjectId(id) }));
@@ -32,23 +27,31 @@ const getAll = () => {
     }));
 };
 
-// const updateProduct = (id, product) => {
-//   return connection()
-//     .then((db) => db.collection(PRODUCTS_COLLECTION).updateOne(
-//       {_id: ObjectId(id)},
-//       {
-//         $set: {
-//           name: product.name,
-//           quantity: product.quantity,
-//         }
-//       }
-//     ))
-//     .then((result) => ({
-//       _id: result.insertedId,
-//       name: product.name,
-//       quantity: product.quantity,
-//     }));
-// };
+const updateSales = (id, sales) => {
+  return connection()
+    .then((db) => db.collection(SALES_COLLECTION).updateOne(
+      {_id: ObjectId(id)},
+      {
+        $set: {
+          'itensSold.$[element].quantity': sales.quantity,
+        },
+      },
+      { arrayFilters: [{ 'element._id': ObjectId(sales.id) }] }
+    ))
+    .then((result) => {
+      console.log('result', result);
+      console.log('sales', sales);
+      return {
+        _id: id,
+        itensSold: [
+          {
+            productId: sales.productId,
+            quantity: sales.quantity,
+          }
+        ],
+      };
+    });
+};
 
 // const deleteProduct = (id) => {
 //   return connection()
@@ -57,7 +60,7 @@ const getAll = () => {
 
 module.exports = {
   createSale,
-  // findByName,
+  updateSales,
   findById,
   getAll,
   // updateProduct,
