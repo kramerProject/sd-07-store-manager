@@ -1,22 +1,34 @@
-const Model = require('../model');
+const { ObjectId } = require('mongodb');
 
-const salesCollection = 'sales';
+const ZERO = 0;
 
-const isSaleValid = async (itensSold) => {
-  let result = true;
+const getNewQuantities = (products, itensSold) => {
 
-  for(const item of itensSold) {
-    const productInStock = await Model.findById(salesCollection, item.productId);
+  const newQuantities = itensSold.map(({ productId, quantity }) => {
+    const productStock = products.find(({ _id }) => productId === '' + _id);
 
-    console.log('em estoque:', productInStock, 'item: ', item);
+    const newQuantity = productStock.quantity - quantity;
+    return { productId, quantity: newQuantity };
+  }
+  );
 
-    if(item.quantity > productInStock.quantity) {
-      result = false;
-    }
+  return newQuantities;
+};
+
+const checkStockResponse = (products, itensSold) => {
+  const newQuantities = getNewQuantities(products, itensSold);
+
+  const itemsMissing = newQuantities.some(({ quantity }) => quantity < ZERO);
+
+  if(itemsMissing) return {
+    code: 'stock_problem',
+    message: 'Such amount is not permitted to sell',
   };
 
-  return result;
+  return { ok: true };
 };
+
+
 module.exports = {
-  isSaleValid,
+  checkStockResponse,
 };

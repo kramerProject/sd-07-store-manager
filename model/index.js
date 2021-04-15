@@ -1,5 +1,3 @@
-// refatoração models
-
 const connection = require('../config/connection');
 const { ObjectId } = require('mongodb');
 

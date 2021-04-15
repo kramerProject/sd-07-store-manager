@@ -7,11 +7,11 @@ const {
   deleteSale,
 } = require('../controller/salesController');
 
-const { validateSale, checkStock } = require('../middlewares');
+const { validateSale } = require('../middlewares');
 
 const salesRoute = express.Router();
 
-salesRoute.post('/', validateSale, checkStock, insertSale);
+salesRoute.post('/', validateSale, insertSale);
 
 salesRoute.get('/', findAll);
 

@@ -6,14 +6,21 @@ const OK = 200;
 const NOT_FOUND = 404;
 const UNPROCESSABLE_ENTITY = 422;
 const salesCollection = 'sales';
+const productsCollection = 'products';
 
 const insertSale = rescue(async (req, res) => {
   
   const itensSold = req.body;
-  const data = { itensSold }; 
-  const newSale = await Model.insert(salesCollection, data);
+  const data = { itensSold };
 
-  // await Service.removeQuantities(newSale.ops[0]);
+  const products = await Model.getAll(productsCollection);
+
+  const response = Service.checkStockResponse(products, itensSold);
+
+  if(response.code) return res.status(NOT_FOUND).json({ err: response});
+  // await Service.updateQuantities(newSale.ops[0]);
+
+  const newSale = await Model.insert(salesCollection, data);
 
   return res.status(OK).json(newSale.ops[0]);
 });
