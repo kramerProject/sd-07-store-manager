@@ -22,7 +22,7 @@ const lowerThenZ = (value, min) => (value <= min);
 const unprocess = 422;
 const notFound = 404;
 
-const validatePost = async (itensSold) => {
+const validatePostorPut = async (itensSold) => {
 
   const{ quantity } = itensSold[0];
   const zero = 0;
@@ -42,19 +42,7 @@ const validateId = async (id) => {
   return {};
 };
 
-const validatePut = async (itensSold) => {
-
-  const{ quantity } = itensSold[0];
-  const zero = 0;
-
-  if (lowerThenZ(quantity, zero)) return { code: unprocess, err: errors.lowerThanZero };
-  if (isNotAnumber(quantity)) return { code: unprocess, err: errors.notANumber };
-
-  return {};
-};
-
 module.exports = {
-  validatePost,
+  validatePostorPut,
   validateId,
-  validatePut
 };

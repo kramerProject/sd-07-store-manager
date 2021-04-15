@@ -6,7 +6,7 @@ const created = 201;
 
 const add = async (itensSold) => {
 
-  const validation = await SalesSchema.validatePost(itensSold);
+  const validation = await SalesSchema.validatePostorPut(itensSold);
 
   if (validation.err) return validation;
 
@@ -40,7 +40,7 @@ const getById = async (id) => {
 
 const update = async (id, itensSold) => {
 
-  const validation = await SalesSchema.validatePut(itensSold);
+  const validation = await SalesSchema.validatePostorPut(itensSold);
 
   if (validation.err) return validation;
 
@@ -50,7 +50,8 @@ const update = async (id, itensSold) => {
     _id: id,
     itensSold
   };
-  return sale;
+  return { code: OK, sale };
+
 };
 
 

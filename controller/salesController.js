@@ -41,7 +41,7 @@ const updateSales = async (req, res) => {
   const { code, err, sale } = await saleService.update(id, itemSold);
   if(!sale) return res.status(code).json({ err });
 
-  res.status(200).json(sale);
+  res.status(code).json(sale);
 };
 
 module.exports = {
