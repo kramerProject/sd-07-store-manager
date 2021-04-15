@@ -52,7 +52,7 @@ const deleteProduct = async (req, res) => {
   } catch (error) {
     console.error(error.message);
   }
-}
+};
 
 module.exports = {
   createProduct,
