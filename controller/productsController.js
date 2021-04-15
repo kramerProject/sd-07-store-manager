@@ -16,7 +16,7 @@ const addProducts = async (req, res) => {
 const getAllProducts = async (_req, res) => {
   const { code, products }  = await ProductsService.getAll();
   console.log(products);
-  return res.status(code).json(products);
+  return res.status(code).json({ products });
 };
 
 const getProductsById = async (req, res) => {

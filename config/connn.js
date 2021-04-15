@@ -1,12 +1,12 @@
 const mongoClient = require('mongodb').MongoClient;
 
 //conexão banco local
-// const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager';
-// const DB_NAME = 'StoreManager';
+const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager';
+const DB_NAME = 'StoreManager';
 
 //avaliador
-const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
-const DB_NAME = 'StoreManager';
+// const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
+// const DB_NAME = 'StoreManager';
 
 const connection = async () => {
   return mongoClient

@@ -1,7 +1,8 @@
 const saleModel = require('../models/salesModel');
 const SalestSchema = require('../schemas/SalesSchema');
 
-const created = 200;
+const OK = 200;
+const created = 201;
 
 const add = async (itensSold) => {
 
@@ -16,21 +17,25 @@ const add = async (itensSold) => {
     itensSold
   };
 
-  return { code: created, newSale };
+  return { code: OK, newSale };
 };
 
 const getAll = async () => {
+
   const sales = await saleModel.getAll();
 
-  const resultSales = { sales };
-
-  return resultSales;
+  return { code: OK, sales };
 };
 
 const getById = async (id) => {
-  return await saleModel.getById(id);
 
+  const validation = await SalestSchema.validatePut(id);
 
+  if (validation.err) return validation;
+
+  const sales = await saleModel.getById(id);
+
+  return { code: OK, sales };
 };
 
 

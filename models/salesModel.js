@@ -16,6 +16,7 @@ const getAll = async () =>
     .then((db) => db.collection('sales').find().toArray());
 
 const getById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
   const sale = await connect()
     .then((db) => db.collection('sales').findOne({ _id: ObjectId(id) }));
   return sale;
