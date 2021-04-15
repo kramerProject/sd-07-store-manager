@@ -6,7 +6,7 @@ const middlewareAlreadyIncluded = async (req, res, next) => {
   const { name } = req.body;
   const products = ProductService.getAll();
   const alreadyExist = await helper.productExist(products, name);
-  console.log('Oque ta vindo aqui: ', alreadyExist);
+  
   if (!alreadyExist) {
     next();
   } else {
