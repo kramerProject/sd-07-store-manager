@@ -68,7 +68,7 @@ describe('1 - Crie um endpoint para o cadastro de produtos', () => {
       });
   });
 
-  it.skip('Será validado que não é possível criar um produto com quantidade menor que zero', async () => {
+  it('Será validado que não é possível criar um produto com quantidade menor que zero', async () => {
     await frisby
       .post(`${url}/products`, {
         name: 'Produto do Batista',

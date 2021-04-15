@@ -34,7 +34,6 @@ const createProduct = async (req, res) => {
     const newProduct = await productService.createProduct(name, quantity);
     res.status(statusCode.CREATED).json(newProduct);
   } catch (err) {
-    //console.error(err.message);
     errorMessage.err.message = err.message;
     res.status(statusCode.UNPROCESSABLE).json(errorMessage);        
   }
