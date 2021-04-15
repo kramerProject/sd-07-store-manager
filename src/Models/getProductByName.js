@@ -7,7 +7,7 @@ const getProduct = (name) => {
 const getProductByName = async (name) => {
   return connection()
     .then((db) =>
-      db.collection(process.env.DB_COLLECTION).findOne({ 
+      db.collection('products').findOne({ 
         name: name, 
       }),
     )

@@ -6,7 +6,7 @@ const getProduct = (result) => {
 };
 const getAllProduct = async () => {
   return connection()
-    .then((db) => db.collection(process.env.DB_COLLECTION).find({}).toArray())
+    .then((db) => db.collection('products').find({}).toArray())
     .then((result) => getProduct({ products: result }))
     .catch((error) => console.log(`Erro na model de produto: ${error}`));
 };
