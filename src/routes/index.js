@@ -7,6 +7,8 @@ const {getProductByidController} = require('../Controllers/getProductByIdControl
 const { getByIdMiddleware } = require('../Middleware/middlewareGetProductById');
 const {updateProductMiddleware} = require('../Middleware/middlewareUpdateProduct');
 const {updateProductController} = require('../Controllers/updateProductController');
+const {deleteProductMiddleware} = require('../Middleware/middlewareDelectProduct');
+const {deleteProductController} = require('../Controllers/deleteProductController');
 
 app.get('/', (_request, response) => {
   response.send();
@@ -20,6 +22,8 @@ app.get('/products', getAllProductController);
 app.get('/products/:id',getByIdMiddleware, getProductByidController);
 
 app.put('/products/:id',updateProductMiddleware, updateProductController );
+
+app.delete('/products/:id', deleteProductMiddleware, deleteProductController);
 
 
 module.exports = app;

@@ -5,8 +5,6 @@ const bodyParser = require('body-parser');
 const port = 3000;
 const route = require('./src/routes/index');
 
-console.log(route.mountpath);
-
 
 app.use(express.json());
 app.use('/', route);

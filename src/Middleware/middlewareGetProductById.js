@@ -1,4 +1,4 @@
-const {serviceGetProdutById} = require('../Services/serviceProduct');
+const {serviceGetProductById} = require('../Services/serviceProduct');
 const fail = 422;
 
 
@@ -11,16 +11,18 @@ const getByIdMiddleware = async (req, res, next) => {
         .json({ err: { code: 'invalid_data', message: 'Wrong id format' } });
     }
 
-    const result = await serviceGetProdutById(id);
+    const result = await serviceGetProductById(id);
     
     if (typeof result === 'string' ) {
       res.status(fail)
         .json({ err: { code: 'invalid_data', message: 'Wrong id format' } });
     }
-    next();
+    
   } catch (error) {
     console.log(`Erro na consulta ao banco de dados pelo id: ${error}`);
   }
+  
+  next();
 };
 
 module.exports = {

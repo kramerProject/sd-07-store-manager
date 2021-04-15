@@ -12,7 +12,7 @@ const updateProduct = async (id, name, quantity) => {
   const filter = {_id: ObjectId(id)};
   return connection()
     .then((db) =>
-      db.collection('products')
+      db.collection(process.env.DB_COLLECTION)
         .updateOne(filter, params, options),
     )
     .then((result) => getProduct(id, name, quantity))
