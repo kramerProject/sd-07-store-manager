@@ -49,7 +49,7 @@ const productMiddleware = async (req, res, next) => {
     throw new Error(err);
   }
 
-  next();
+  return next();
 };
 
 module.exports = productMiddleware;

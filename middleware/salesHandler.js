@@ -1,4 +1,3 @@
-// const salesModel = require('../models/salesModel');
 const unprocessableEntityStatus = 422;
 const errorObj = {
   err: {
@@ -7,21 +6,30 @@ const errorObj = {
   }
 };
 
+const verifySaleArray = (saleArray) => {
+  const ZERO = 0;
+  const quantityArray = saleArray.map((item) => item.quantity)
+    .map((quantity) => {
+      if (quantity <= ZERO || typeof quantity !== 'number') {
+        return true;
+      }
+      return false;
+    });
+  return quantityArray;
+};
+
 const saleMiddleware = (req, res, next) => {
   try {
     const saleArray = req.body;
-    const ZERO = 0;
-    saleArray.map((item) => item.quantity)
-      .map((quantity) => {
-        if (quantity <= ZERO || typeof quantity !== 'number') {
-          return res.status(unprocessableEntityStatus).json(errorObj);
-        }
-      });
+    const quantityArray = verifySaleArray(saleArray);
+    const notValidSaleArray = quantityArray.find(item => item === true);
+
+    if(notValidSaleArray) return res.status(unprocessableEntityStatus).json(errorObj);
   } catch (err) {
     throw new Error(err);
   }
 
-  next();
+  return next();
 };
 
 module.exports = saleMiddleware;
