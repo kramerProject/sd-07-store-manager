@@ -6,7 +6,7 @@ const notFound = 404;
 const unprocessable = 422;
 const zero = 0;
 
-//Dinâmica da função registerSale: primeiramente, é preciso verificar a questão das quantidades, se é negativa ou string. A solução foi pegar o req.body (que é um array) e executar um forEach, e para cada item verificar o 'quantity'. Superando os ifs, o req.body é enviado por completo para o model, que vai dar o tratamento necessário.
+//Dinâmica da função registerSale: primeiramente, é preciso verificar a questão das quantidades, se é negativa, igual a zero ou string. A solução foi pegar o req.body (que é um array) e executar um forEach, e para cada item verificar o 'quantity'. Superando os ifs, o req.body é enviado por completo para o model, que vai dar o tratamento necessário.
 
 const registerSale = async (req, res) => {
   try {
@@ -58,7 +58,6 @@ const getById = async (req, res) => {
 
 const updateSale = async (req, res) => {
   try {
-    // const { productId, quantity } = req.body;
     const { id } = req.params;
     req.body.forEach((data) => {
       if(data.quantity <= zero) {
@@ -79,10 +78,22 @@ const updateSale = async (req, res) => {
   }
 };
 
+const deleteSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await saleModel.exclude(id);
+    res.status(sucess).json(product);
+  } catch (err) {
+    res.status(unprocessable).json({'err': 
+    {'code': 'invalid_data',
+      'message': 'Wrong sale ID format'} });
+  }
+};
 
 module.exports = {
   getAll,
   getById,
   registerSale,
-  updateSale
+  updateSale,
+  deleteSale
 };
