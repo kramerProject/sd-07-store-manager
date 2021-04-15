@@ -1,5 +1,6 @@
 const connect = require('../config/connection');
 const ObjectId = require('mongodb').ObjectId;
+const zero = 0;
 
 async function modelAddToSales(salesList) {
   return await connect().then(async (db) => {
@@ -27,15 +28,14 @@ async function modelGetSalesById(id) {
   });
 }
 
-async function modelUpdateSalesById(salesId, productList) {
-  console.log('entrou no modelUpdate');
+async function modelUpdateSalesById(salesId, sale) {
   return connect().then((db) => {
     try {
       const item = db.collection('sales').updateOne({ _id: ObjectId(salesId) }, {
-        $push: { itensSold: productList }
-      });;
+        $push: { itensSold: sale }
+      });
       return {
-        _id: salesId, itensSold: productList
+        _id: salesId, itensSold: [sale]
       };
     } catch (err) {
       return false;
@@ -61,10 +61,48 @@ async function modelDeleteSalesById(id) {
   return false;
 }
 
+async function modelUpdateProductQuantity({ productId, quantity }, addOrDelete) {
+  const searchedItem = await connect().then(async (db) => {
+    try {
+      return db.collection('products').findOne({ _id: ObjectId(productId) });
+    } catch (err) {
+      return false;
+    };
+  });
+
+  if (searchedItem) {
+    let newValue;
+    if (addOrDelete === 'addSales') {
+      newValue = searchedItem.quantity - quantity;
+    } else {
+      newValue = searchedItem.quantity + quantity;
+    }
+    if (newValue < zero) return false;
+    await connect().then(async (db) => {
+      db.collection('products').updateOne({ _id: ObjectId(productId) }, {
+        $set: { quantity:  newValue}
+      });
+    });
+  };
+  return true;
+}
+async function modelFindListById(id) {
+  const item = await connect().then(async (db) => {
+    try {
+      return db.collection('sales').findOne({ _id: ObjectId(id) });
+    } catch (err) {
+      return false;
+    };
+  });
+  return item.itensSold;
+}
+
 module.exports = {
   modelAddToSales,
   modelGetAllSales,
   modelGetSalesById,
   modelUpdateSalesById,
-  modelDeleteSalesById
+  modelDeleteSalesById,
+  modelUpdateProductQuantity,
+  modelFindListById
 };
