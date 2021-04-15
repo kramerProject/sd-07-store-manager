@@ -5,6 +5,7 @@ const productUpdateMiddleware = require('./productUpdateMiddleware');
 const salePostMiddleware = require('./salePostMiddleware');
 const saleExistMiddleware = require('./saleExistMiddleware');
 const saleIdExistMiddleware = require('./saleIdExistMiddleware');
+const quantityProductMiddleware = require('./quantityProductMiddleware');
 
 module.exports = {
   productUpdateMiddleware,
@@ -14,4 +15,5 @@ module.exports = {
   salePostMiddleware,
   saleExistMiddleware,
   saleIdExistMiddleware,
+  quantityProductMiddleware,
 };

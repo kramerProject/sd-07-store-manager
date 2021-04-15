@@ -4,7 +4,8 @@ const middleware = require('../middlewares');
 
 const router = express.Router();
 
-router.post('/sales', middleware.salePostMiddleware, saleController.create);
+router.post('/sales', middleware.salePostMiddleware,
+  middleware.quantityProductMiddleware, saleController.create);
 router.get('/sales', saleController.findAll);
 router.get('/sales/:id', middleware.saleExistMiddleware,
   saleController.findById);

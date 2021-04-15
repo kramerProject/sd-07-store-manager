@@ -1,8 +1,12 @@
 const saleModel = require('../models/saleModel');
+const productUpdate = require('../services/productService');
 
 const create = async (itensSold) => {
   const sales = await saleModel.create(itensSold);
   const [itens] = sales;
+  
+  itensSold.forEach((item) => productUpdate.updateProductsSales(
+    item.productId, -item.quantity));
 
   return { _id: itens._id, itensSold: itens.itensSold };
 };
@@ -29,6 +33,11 @@ const update = async (id, itensSold) => {
 
 const exclude = async (id) => {
   const sale = await saleModel.findById(id);
+  const { itensSold } = sale;
+
+  itensSold.forEach((item) => productUpdate.updateProductsSales(
+    item.productId, item.quantity));
+  
   await saleModel.exclude(id);
 
   return sale;
