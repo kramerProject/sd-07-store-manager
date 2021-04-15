@@ -7,6 +7,7 @@ const app = express();
 app.use(express.json());
 // não remova esse endpoint, e para o avaliador funcionar
 app.use(routes.productsRoute);
+app.use(routes.salesRoute);
 app.use(errorMiddleware);
 app.get('/', (_request, response) => {
   response.send();

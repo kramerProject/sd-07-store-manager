@@ -3,6 +3,7 @@ const nameValidate = require('./nameValidate');
 const quantityValidate = require('./quantityValidate');
 const productExistsValidate = require('./productExistsValidate');
 const idValidate = require('./idValidate');
+const quantityOrWrongId = require('./quantityOrWrongId');
 
 module.exports = {
   errorMiddleware,
@@ -10,4 +11,5 @@ module.exports = {
   quantityValidate,
   productExistsValidate,
   idValidate,
+  quantityOrWrongId,
 };
