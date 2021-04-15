@@ -1,5 +1,5 @@
 const connection = require('../config/connection');
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 
 const getAllSales = () => {
   return connection().then(
@@ -7,13 +7,48 @@ const getAllSales = () => {
   );
 };
 
+const findById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  return connection().then(
+    db => db.collection('sales').findOne(ObjectId(id))
+  );
+};
+
+const updateById = async (id, products) => {
+  return connection().then(
+    db => db.collection('sales')
+      .findOneAndUpdate(
+        { _id: ObjectId(id) },
+        { $set: { itensSold: products } })
+  ).then(() => ({ _id: id, itensSold: products }));
+};
+
+
+
 const createSale = async (products) => {
   return connection().then(
-    db => db.collection('sale').insertOne({ itensSold: [...products]})
+    db => db.collection('sales').insertOne({ itensSold: [...products] })
   ).then((result) => result.ops[0]);
+};
+
+const getAllProducts = async () => {
+  return connection().then(
+    db => db.collection('products').find().toArray()
+  );
+};
+
+const deleteList = async (id) => {
+  return connection().then(
+    db => db.collection('sales').findOneAndDelete({ _id: ObjectId(id) })
+  );
 };
 
 module.exports = {
   getAllSales,
   createSale,
+  getAllProducts,
+  findById,
+  updateById,
+  deleteList,
 };

@@ -1,9 +1,9 @@
-const ProductService = require('../services/ProductService');
+/* const ProductService = require('../services/ProductService');
 const quantityIsNumber = require('./quantityIsNumber');
 const validInsertQuantity = require('./validInsertQuantity');
-const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb'); */
 
-const validProductList = async (productsList) => {
+/* const validProductList = async (productsList) => {
   const productIds = productsList.map((e) => e.productId);
   const productQuantitys = productsList.map((e) => e.quantity);
   console.log(productIds);
@@ -12,8 +12,8 @@ const validProductList = async (productsList) => {
 
   return result;
 
-};
-
+}; */
+/*
 const validIsList = async (productId) => {
   const validateIds = await Promise.all(productId.map( async (e) => {
 
@@ -23,7 +23,7 @@ const validIsList = async (productId) => {
   console.log(validateIds);
 };
 
-
+ */
 
 /* const validProductList = async (productsList) => {
   const result = await Promise.all(productsList.map(async (product) => {
@@ -41,4 +41,4 @@ const validIsList = async (productId) => {
   return result;
 }; */
 
-module.exports = validProductList;
+// module.exports = validProductList;
