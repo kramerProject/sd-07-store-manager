@@ -31,14 +31,6 @@ const validatorProductExists = (product) => {
   }
 };
 
-const validatorId = (id) => {
-  console.log('entrou aki');
-  if(!ObjectId.isValid(id)) {
-    console.log('teste');
-    throw new Error(errorMessage.idNonExistent);
-  }
-};
-
 const getAllProducts = async () => {
   const allProducts = await productModel.getAllProducts();
   return allProducts;
@@ -46,7 +38,6 @@ const getAllProducts = async () => {
 
 const getProductById = async (id) => {
   const productById = await productModel.getProductById(id);
-  //validatorId(id);
   validatorProductExists(productById);
   return productById;
 };
@@ -60,14 +51,17 @@ const createProduct = async (name, quantity) => {
 };
 
 const updateProduct = async (id, name, quantity) => {
-  //validatorId(id);
   validatorNameAndQuanity(name, quantity);
 
   const updatedProduct = await productModel.updateProduct(id, name, quantity);
   return updatedProduct;
 };
 
-const deleteProduct = async (id) => {};
+const deleteProduct = async (id) => {    
+  const deletedProduct = await productModel.deleteProduct(id);
+  validatorProductExists(deletedProduct);
+  return deletedProduct;
+};
 
 module.exports = {
   getAllProducts,

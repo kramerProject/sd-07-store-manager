@@ -47,7 +47,7 @@ const updateProduct = async (req, res) => {
     const { name, quantity } = req.body;
     const updatedProduct = await productService.updateProduct(id, name, quantity);
     res.status(statusCode.SUCCESS).json(updatedProduct);
-  } catch (err) {
+  } catch (err) {    
     errorMessage.err.message = err.message;
     res.status(statusCode.UNPROCESSABLE).json(errorMessage);        
   }
@@ -56,10 +56,11 @@ const updateProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    res.status(statusCode.SUCCESS).json({message: `${id} deletado`});
+    const deletedProduct = await productService.deleteProduct(id);
+    res.status(statusCode.SUCCESS).json(deletedProduct);
   } catch (err) {
-    console.error(err.message);
-    res.status(statusCode.INTERNALERROR).json({ message: err.message});        
+    errorMessage.err.message = err.message;
+    res.status(statusCode.UNPROCESSABLE).json(errorMessage);        
   }
 };
 
