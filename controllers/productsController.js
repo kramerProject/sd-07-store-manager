@@ -11,7 +11,7 @@ const addProduct = async (request, response) => {
     const results = await productsModel.addNewProduct(name, quantity);
     response.status(REQUEST_CREATED).json(results);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     response.status(INTERNAL_SERVER_ERROR).json({ message: error.message });
   }
 };
@@ -21,7 +21,7 @@ const findAll = async (_request, response) => {
     const results = await productsModel.findAllProducts();
     response.status(REQUEST_OK).json({ products: results });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     response.status(INTERNAL_SERVER_ERROR).json({ message: error.message });
   }
 };
@@ -30,9 +30,11 @@ const findById = async (request, response) => {
   try {
     const { id } = request.params;
     const results = await productsModel.findProductById(id);
+    console.log('eu sou o results do controller', results);
     response.status(REQUEST_OK).json(results);
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
+    // console.log(error);
     response.status(UNPROCESSABLE_ENTITY).json({
       err: {
         code: 'invalid_data',
@@ -49,7 +51,7 @@ const updateOne = async (request, response) => {
     const results = await productsModel.updateProduct(id, name, quantity);
     response.status(REQUEST_OK).json(results);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     response.status(UNPROCESSABLE_ENTITY).json({
       err: {
         code: 'invalid_data',
@@ -65,7 +67,7 @@ const deleteOne = async (request, response) => {
     const results = await productsModel.deleteProduct(id);
     response.status(REQUEST_OK).json(results);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     response.status(UNPROCESSABLE_ENTITY).json({
       err: {
         code: 'invalid_data',

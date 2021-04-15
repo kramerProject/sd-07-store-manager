@@ -39,7 +39,7 @@ const checkNameLength = (request, response, next) => {
 
 const checkQuantity = (request, response, next) => {
   const { quantity } = request.body;
-  if (quantity !== EMPTY && !quantity) {
+  if (quantity === undefined || quantity === null) {
     return response.status(UNPROCESSABLE_ENTITY).json({
       err: {
         code: 'invalid_data',

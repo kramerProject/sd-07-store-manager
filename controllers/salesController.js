@@ -1,4 +1,4 @@
-const salesModel = require('../models/productsModel');
+const salesModel = require('../models/salesModel');
 
 const REQUEST_CREATED = 201;
 const REQUEST_OK = 200;
@@ -7,9 +7,9 @@ const UNPROCESSABLE_ENTITY = 422;
 
 const addSale = async (request, response) => {
   try {
-    const { name, quantity } = request.body;
-    const results = await productsModel.addNewProduct(name, quantity);
-    response.status(REQUEST_CREATED).json(results);
+    const sale = request.body;
+    const results = await salesModel.addNewSale(sale);
+    response.status(REQUEST_OK).json(results);
   } catch (error) {
     console.log(error);
     response.status(INTERNAL_SERVER_ERROR).json({ message: error.message });
@@ -17,11 +17,9 @@ const addSale = async (request, response) => {
 };
 
 const findAll = async (_request, response) => {
-  console.log('findAll');
   try {
-    const results = await productsModel.findAllProducts();
-    console.log('findAllResults', results);
-    response.status(REQUEST_OK).json(results);
+    const results = await salesModel.findAllSales();
+    response.status(REQUEST_OK).json({ sales: results });
   } catch (error) {
     console.log(error);
     response.status(INTERNAL_SERVER_ERROR).json({ message: error.message });
@@ -32,15 +30,14 @@ const findById = async (request, response) => {
   console.log('findById');
   try {
     const { id } = request.params;
-    const results = await productsModel.findProductById(id);
-    console.log('findByIdResults', results);
+    const results = await salesModel.findSaleById(id);
     response.status(REQUEST_OK).json(results);
   } catch (error) {
     console.log(error);
     response.status(UNPROCESSABLE_ENTITY).json({
       err: {
         code: 'invalid_data',
-        message: 'Wrong id format',
+        message: 'Sale not found',
       }
     });
   }
