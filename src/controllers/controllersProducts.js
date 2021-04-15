@@ -1,13 +1,13 @@
-const modelsProducts = require("../models/modelsProducts");
-const servicesProducts = require("../services/servicesProducts");
+const modelsProducts = require('../models/modelsProducts');
+const servicesProducts = require('../services/servicesProducts');
 
 const createNew = async (req, res) => {
   const { name, quantity } = req.body;
   try {
     const productNew = await servicesProducts.create(name, quantity);
     if (!productNew) {
-      return res.status(400).json({ message: 'Bad Request - malformed request syntax'})
-    };
+      return res.status(400).json({ message: 'Bad Request - malformed request syntax' });
+    }
     return res.status(201).json(productNew);
   } catch (err) {
     if (err.code === 'invalid_data') {
@@ -18,21 +18,21 @@ const createNew = async (req, res) => {
 };
 
 const getAll = async (req, res) => {
-	try {
-		const allProducts = await servicesProducts.getAll();
+  try {
+    const allProducts = await servicesProducts.getAll();
     // const allProducts = await modelsProducts.getAll();
 
-		res.status(200).json(allProducts);
-	} catch (err) {
-		res.status(500).json({ message: 'Internal server error' });
-	}
+    res.status(200).json(allProducts);
+  } catch (err) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
 const getById = async (req, res) => {
   const { id } = req.params;
   try {
     const prodById = await servicesProducts.getById(id);
-    console.log("controller");
+    console.log('controller');
     res.status(200).json(prodById);
   } catch (err) {
     if (err.code === 'invalid_data') {
@@ -84,11 +84,11 @@ const excludeById = async (req, res) => {
 
 
 module.exports = {
-	createNew,
+  createNew,
   getAll,
   getById,
   updateById,
   excludeById
-	// getAllSongs,
-	// getById,
+  // getAllSongs,
+  // getById,
 };

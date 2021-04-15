@@ -32,14 +32,17 @@ const getById = async (id) =>
 const updateById = async (id, name, quantity) =>
   await connection()
     .then((db) => db.collection('products'))
-    .then((products) => products.updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } }));
+    .then((products) => products.updateOne(
+      { _id: ObjectId(id) },
+      { $set: { name, quantity } }
+    ));
 
 // using return
 const excludeById = async (id) => {
   const excludedProd = await connection()
     .then((db) => db.collection('products'))
     .then((product) => product.findOneAndDelete({ _id: ObjectId(id) }));
-  return excludedProd
+  return excludedProd;
 };
 
 module.exports = {

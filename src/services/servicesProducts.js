@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongodb');
-const modelsProducts = require("../models/modelsProducts");
+const modelsProducts = require('../models/modelsProducts');
 
 // rules for insert products
 const rulesInsProd = async (name, quantity) => {
@@ -34,7 +34,7 @@ const rulesInsProd = async (name, quantity) => {
 const create = async (name, quantity) => {
   const rules = await rulesInsProd(name, quantity);
   if (!rules) {
-    return false
+    return false;
   };
   const nameCheck = await modelsProducts.getByName(name);
   if (nameCheck) {
@@ -72,7 +72,7 @@ const getById = async (id) => {
 const updateById = async (id, name, quantity) => {
   const rules = await rulesInsProd(name, quantity);
   if (!rules) {
-    return false
+    return false;
   };
 
   await modelsProducts.updateById(id, name, quantity);

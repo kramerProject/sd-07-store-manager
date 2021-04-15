@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
-const modelsProducts = require("../models/modelsProducts");
-const modelsSales = require("../models/modelsSales");
+const modelsProducts = require('../models/modelsProducts');
+const modelsSales = require('../models/modelsSales');
 
 // rules for insert sales
 const rulesInsSales = async (name, quantity) => {
