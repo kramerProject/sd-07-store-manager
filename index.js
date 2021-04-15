@@ -1,5 +1,6 @@
 const express = require('express');
 const productsRoutes = require('./routes/productsRoutes');
+const salesRoutes = require('./routes/salesRoutes');
 const errorMiddleware = require('./middlewares/error');
 
 const app = express();
@@ -12,10 +13,9 @@ app.get('/', (_request, response) => {
 });
 
 app.use(productsRoutes);
+app.use(salesRoutes);
 
 app.use(errorMiddleware);
-
-
 
 const PORT = '3000';
 
