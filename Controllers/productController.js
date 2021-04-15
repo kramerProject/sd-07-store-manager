@@ -5,6 +5,7 @@ const {
   serviceForUpdate,
   serviceForDelete,
 } = require('../Services/productService');
+
 const addProduct = async (req, res) => {
   const resOK = 201;
   const resErr= 422;
