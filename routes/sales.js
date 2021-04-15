@@ -3,18 +3,11 @@ const express = require('express');
 const router = express.Router();
 
 const {
-    getAllSales,
-    getSaleId,
-    postSale,
-    putSale,
-    deleteSale,
-  } = require('../controllers/sales');
-
-const {
-    validatedName,
-    validatedQuantity,
-    validatedQuantityString,
-  } = require('../middlewares');
+  getAllSales,
+  getSaleId,
+  postSale,
+  putSale,
+  deleteSale } = require('../controllers/sales');
 
 router.get('/', getAllSales);
 

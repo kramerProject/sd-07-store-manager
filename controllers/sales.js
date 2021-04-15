@@ -99,13 +99,12 @@ const deleteSale = async (request, response) => {
     const data = await serviceSales.getSaleId(id);
 
     if (!data) {
-      console.log('entrou')
       return response.status(UNPROCESS).json({
         err: {
           code: 'invalid_data',
           message: 'Wrong id format',
         },
-    });
+      });
     }
     const result = await serviceSales.deleteSale(data._id);
     return response.status(OK).json(result);

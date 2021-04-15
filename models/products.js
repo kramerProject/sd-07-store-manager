@@ -18,8 +18,8 @@ const getById = async (id) => {
 
 const getByName = async (string) => {
   return await connection()
-  .then(db => db.collection('products').findOne({ name: string }));
-}
+    .then(db => db.collection('products').findOne({ name: string }));
+};
 
 const postdata = async (name, quantity) => {
   const product = await connection()
@@ -42,7 +42,7 @@ const deletedata = async (product) => {
   await connection()
     .then((db) => {
       db.collection('products').deleteOne({ _id });
-    })
+    });
   return product;
 };
 
