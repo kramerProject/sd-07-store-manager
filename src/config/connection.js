@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 
-const MONGODB_URL = 'mongodb://localhost:27017';
+const MONGODB_URL = 'mongodb://localhost:27017/StoreManager';
 
 const connection = async () => {
   try {
