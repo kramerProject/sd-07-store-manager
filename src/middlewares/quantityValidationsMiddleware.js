@@ -1,11 +1,19 @@
+const services = require('../services/productServices');
+
+const {
+  statusHttp,
+  quantityIsNumber,
+  verifyPositiveInteger,
+} = services;
+
+const { C_422 } = statusHttp;
+
 const quantityValidationsMiddleware = (req, res, next) => {
   const { quantity } = req.body;
-  const UNPROCESSABLE = 422;
   try {
-    const AMOUNT = 1;
-    if (!Number.isInteger(quantity)) {
+    if (!quantityIsNumber(quantity)) {
       return res
-        .status(UNPROCESSABLE)
+        .status(C_422)
         .send({
           err: {
             code: 'invalid_data',
@@ -13,9 +21,9 @@ const quantityValidationsMiddleware = (req, res, next) => {
           }
         });
     }
-    if (quantity < AMOUNT) {
+    if (verifyPositiveInteger(quantity)) {
       return res
-        .status(UNPROCESSABLE)
+        .status(C_422)
         .send({
           err: {
             code: 'invalid_data',

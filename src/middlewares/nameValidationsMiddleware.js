@@ -1,15 +1,19 @@
-const { countByNameDuplicate } = require('../models/productModel');
+const services = require('../services/productServices');
+
+const {
+  statusHttp,
+  nameLength,
+  verifyCountName,
+} = services;
+
+const { C_422 } = statusHttp;
 
 const nameValidationsMiddleware = async (req, res, next) => {
   const { name } = req.body;
-  const UNPROCESSABLE = 422;
-  const verifyCountName = await countByNameDuplicate(name);
   try {
-    const SIZE = 5;
-    const COUNT = 0;
-    if (name.length < SIZE) {
+    if (nameLength(name)) {
       return res
-        .status(UNPROCESSABLE)
+        .status(C_422)
         .send({
           err: {
             code: 'invalid_data',
@@ -17,10 +21,10 @@ const nameValidationsMiddleware = async (req, res, next) => {
           }
         });
     }
-    if (verifyCountName > COUNT) {
+    if (await verifyCountName(name)) {
       console.log('Console count', verifyCountName);
       return res
-        .status(UNPROCESSABLE)
+        .status(C_422)
         .send({
           err: {
             code: 'invalid_data',

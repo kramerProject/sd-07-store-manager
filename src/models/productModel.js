@@ -1,12 +1,11 @@
 const connection = require('../../config/connection');
-const { ObjectId, MongoClient } = require('mongodb');
+const { ObjectId } = require('mongodb');
 
-const getAll = async () => {
+const getAllProducts = async () =>
   connection()
     .then((db) =>
       db.collection('products')
         .find().toArray());
-};
 
 const createProduct = async (name, quantity) => {
   const product = await connection()
@@ -14,7 +13,6 @@ const createProduct = async (name, quantity) => {
       db.collection('products')
         .insertOne({ name, quantity })
     );
-
   return { _id: product.insertedId, name, quantity };
 };
 
@@ -26,8 +24,21 @@ const countByNameDuplicate = async (name) => {
   return product;
 };
 
+const getProductById = async (id) => {
+  if(!ObjectId.isValid(id)) {
+    return null;
+  }
+  return connection()
+    .then((db) =>
+      db.collection('products')
+        .findOne(ObjectId(id))
+    );
+};
+
+
 module.exports = {
-  getAll,
+  getAllProducts,
   createProduct,
   countByNameDuplicate,
+  getProductById,
 };

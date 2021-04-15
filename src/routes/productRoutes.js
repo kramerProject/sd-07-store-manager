@@ -4,12 +4,15 @@ const middlewares = require('../middlewares');
 
 const router = express.Router();
 
-const { nameValidationsMiddleware, quantityValidationsMiddleware } = middlewares;
+const {
+  nameValidationsMiddleware,
+  quantityValidationsMiddleware,
+  productIdExistisMiddleware, } = middlewares;
 
-router.get('/products', productController.getAll);
+router.get('/products', productController.getAllProducts);
 router.post('/products', nameValidationsMiddleware,
   quantityValidationsMiddleware, productController.createProduct);
-// router.get('/products/:id', '');
+router.get('/products/:id', productIdExistisMiddleware, productController.getProductById);
 // router.put('/products/:id', '');
 // router.delete('/products/:id', '');
 

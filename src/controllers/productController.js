@@ -1,20 +1,25 @@
 const productModel = require('../models/productModel');
 const fs = require('fs').promises;
 
-const OK = 200;
-const INTERNAL_SERVER_ERROR = 500;
-const OK_CREATE = 201;
+const services = require('../services/productServices');
 
-const getAll = async (req, res) => {
+const {
+  statusHttp,
+} = services;
+
+const { C_200, C_201, C_500 } = statusHttp;
+
+
+const getAllProducts = async (req, res) => {
   try {
-    const result = await productModel.getAll();
+    const result = await productModel.getAllProducts();
     return res
-      .status(OK)
-      .send(result);
+      .status(C_200)
+      .send({ products: result });
   } catch (error) {
     console.error(error);
     return res
-      .status(INTERNAL_SERVER_ERROR)
+      .status(C_500)
       .json({ message: error.message });
   }
 };
@@ -25,17 +30,33 @@ const createProduct = async (req, res) => {
     const result = await productModel.createProduct(name, quantity);
 
     return res
-      .status(OK_CREATE)
+      .status(C_201)
       .send(result);
   } catch (error) {
     console.error(error);
     return res
-      .status(INTERNAL_SERVER_ERROR)
+      .status(C_500)
+      .json({ message: error.message });
+  }
+};
+
+const getProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await productModel.getProductById(id);
+    return res
+      .status(C_200)
+      .send(result);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(C_500)
       .json({ message: error.message });
   }
 };
 
 module.exports = {
-  getAll,
+  getAllProducts,
   createProduct,
+  getProductById,
 };
