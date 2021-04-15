@@ -1,23 +1,21 @@
-const sales = require('../services/sales');
-
-const great = 201;
-const created = 200;
-const notFoud = 404;
-const fail = 422;
+const SUCCESS = 201;
+const SUCCESS_GET = 200;
+const FAILURE = 422;
+const NOT_FOUND = 404;
 
 const getSales = async (req, res) => {
   const result = await sales.getSales();
 
-  return res.status(created).json({ sales: result });
+  return res.status(SUCCESS_GET).json({ sales: result });
 };
 
 const getSaleById = async (req, res) => {
   const { id } = req.params;
   const result = await sales.getSaleById(id);
 
-  if(result.err) return res.status(notFoud).json({ err: result.err });
+  if(result.err) return res.status(NOT_FOUND).json({ err: result.err });
 
-  return res.status(created).json(result);
+  return res.status(SUCCESS_GET).json(result);
 };
 
 const registerSales = async (req, res) => {
@@ -25,9 +23,9 @@ const registerSales = async (req, res) => {
 
   const registeredSales = await sales.registerSales(itensSold);
 
-  if(registeredSales.err) return res.status(fail).json({ err: registeredSales.err });
+  if(registeredSales.err) return res.status(FAILURE).json({ err: registeredSales.err });
 
-  return res.status(created).json(registeredSales.data);
+  return res.status(SUCCESS_GET).json(registeredSales.data);
 };
 
 const updateSales = async (req, res) => {
@@ -36,9 +34,9 @@ const updateSales = async (req, res) => {
 
   const saleUpdated = await sales.updateSale(id, itensSold);
 
-  if(saleUpdated.err) return res.status(fail).json({ err: saleUpdated.err });
+  if(saleUpdated.err) return res.status(FAILURE).json({ err: saleUpdated.err });
 
-  return res.status(created).json(saleUpdated.data);
+  return res.status(SUCCESS_GET).json(saleUpdated.data);
 };
 
 const deleteSale = async (req, res) => {
@@ -47,10 +45,10 @@ const deleteSale = async (req, res) => {
   const deletedSale = await sales.deleteSale(id);
 
   if(deletedSale && deletedSale.err) {
-    return res.status(fail).json({ err: deletedSale.err });
+    return res.status(FAILURE).json({ err: deletedSale.err });
   };
 
-  return res.status(created).json(deletedSale.data);
+  return res.status(SUCCESS_GET).json(deletedSale.data);
 };
 
 module.exports = {

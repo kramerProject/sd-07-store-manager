@@ -1,4 +1,3 @@
-
 const express = require('express');
 const productsController = require('../controllers/products');
 const salesController = require('../controllers/sales');

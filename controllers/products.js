@@ -1,23 +1,23 @@
 const products = require('../services/products');
 
-const great = 201;
-const created = 200;
-const fail = 422;
-const systemError = 500;
+const SUCCESS = 201;
+const SUCCESS_GET = 200;
+const FAILURE = 422;
+const SYSTEM_FAILURE = 500;
 
 const getProducts = async (req, res) => {
   const result = await products.getProducts();
 
-  res.status(created).json({ products: result });
+  res.status(SUCCESS_GET).json({ products: result });
 };
 
 const getProductById = async (req, res) => {
   const { id } = req.params;
   const product = await products.getProductById(id);
 
-  if(product.err) return res.status(fail).json({ err: product.err });
+  if(product.err) return res.status(FAILURE).json({ err: product.err });
 
-  res.status(created).json(product.data);
+  res.status(SUCCESS_GET).json(product.data);
 };
 
 const registerProduct = async (req, res) => {
@@ -25,10 +25,10 @@ const registerProduct = async (req, res) => {
 
   const result = await products.registerProduct(name, quantity);
 
-  if(result && result.err) return res.status(fail).json({ err: result.err });
-  if(!result) return res.status(systemError).send();
+  if(result && result.err) return res.status(FAILURE).json({ err: result.err });
+  if(!result) return res.status(SYSTEM_FAILURE).send();
 
-  res.status(great).json(result.data);
+  res.status(SUCCESS).json(result.data);
 };
 
 const updateProduct = async (req, res) => {
@@ -37,10 +37,10 @@ const updateProduct = async (req, res) => {
 
   const result = await products.updateProduct(id, name, quantity);
 
-  if(result && result.err) return res.status(fail).json({ err: result.err });
-  if(!result) return res.status(systemError).send();
+  if(result && result.err) return res.status(FAILURE).json({ err: result.err });
+  if(!result) return res.status(SYSTEM_FAILURE).send();
 
-  res.status(created).json(result.data);
+  res.status(SUCCESS_GET).json(result.data);
 };
 
 const deleteProduct = async (req, res) => {
@@ -49,12 +49,12 @@ const deleteProduct = async (req, res) => {
   const deletedProduct = await products.deleteProduct(id);
 
   if(deletedProduct && deletedProduct.err) (
-    res.status(fail).json({ err: deletedProduct.err })
+    res.status(FAILURE).json({ err: deletedProduct.err })
   );
 
-  if(!deletedProduct) return res.status(systemError).send();
+  if(!deletedProduct) return res.status(SYSTEM_FAILURE).send();
 
-  res.status(created).json(deletedProduct.data);
+  res.status(SUCCESS_GET).json(deletedProduct.data);
 };
 
 module.exports = {
