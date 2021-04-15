@@ -3,7 +3,8 @@ const express = require('express');
 const {
   getAllProductsController,
   getProductByIdController,
-  createProductController
+  createProductController,
+  updateProductController
 } = require('./controllers/productController');
 
 const { 
@@ -15,6 +16,7 @@ const {
 const route = express.Router();
 
 route.get('/products', getAllProductsController);
+
 route.get('/products/:id', getProductByIdController);
 
 route.post('/products',
@@ -22,6 +24,12 @@ route.post('/products',
   validateQuantityMiddleware,
   validateUniqueProductsMiddleware,
   createProductController
+);
+
+route.put('/products/:id',
+  validateNameMiddleware,
+  validateQuantityMiddleware,
+  updateProductController
 );
 
 module.exports = route;

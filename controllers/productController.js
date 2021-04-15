@@ -38,8 +38,24 @@ const createProductController = async (req, res, next) => {
   }
 };
 
+const updateProductController = async (req, res, next) => {
+  const wrongIdFormatErrorMessage = 'Wrong id format';
+  try {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const result = await Product.updateProduct(id, name, quantity);
+    if (result !== null) return res.status(SUCCESS).json(result);
+    throw new UnprocessableException(
+      wrongIdFormatErrorMessage
+    );
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getAllProductsController,
   getProductByIdController,
-  createProductController
+  createProductController,
+  updateProductController
 };
