@@ -10,7 +10,7 @@ const quantityProductMiddleware = async (req, res, next) => {
 
     if (product.quantity < itensSold[index].quantity) {
       return res.status('404').send({ err: { code: 'stock_problem',
-        message: 'Suck amount is not permitted to shell'
+        message: 'Such amount is not permitted to sell'
       } });
     }
     
