@@ -1,4 +1,6 @@
 const express = require('express');
+const routes = require('./routes');
+const { productMiddleware} = require('./middlewares/errorMiddleware');
 
 const app = express();
 
@@ -10,6 +12,12 @@ const PORT = 3000;
 app.get('/', (_request, response) => {
   response.send();
 });
+
+app.use(routes.productRoutes);
+
+// app.use(middlewares.errorMiddleware);
+app.use(productMiddleware);
+
 
 app.listen(PORT, () => {
   console.log(`App rodando na porta ${PORT}`);
