@@ -39,7 +39,7 @@ const update = async (id, itensSold) => {
         { $set: { itensSold } },
         { returnOriginal: false })
     );
-  return product.value;
+  return sale.value;
 };
 
 module.exports = { create, getAllSales, findSaleById, exclude, update};

@@ -4,7 +4,7 @@ const { ObjectId } = require('mongodb');
 
 const PRODUCT_MIN_QNT = 0;
 
-const validIdAndQuantity = async (sale) => {
+const validQuantity = async (sale) => {
   sale.some((item) => {
     const { quantity } = item;
     if(quantity <= PRODUCT_MIN_QNT || typeof quantity !== 'number') throw({
@@ -15,7 +15,7 @@ const validIdAndQuantity = async (sale) => {
 };
 
 const create = async (sale) => {
-  await validIdAndQuantity(sale);
+  await validQuantity(sale);
   const newSale = await SalesModel.create(sale);
   return newSale;
 };
@@ -62,7 +62,7 @@ const exclude = async (id) => {
 };
 
 const update = async (id, itensSold) => {
-  await validIdAndQuantity(itensSold);
+  await validQuantity(itensSold);
   const sale = await SalesModel.update(id, itensSold);
   return sale;
 };
