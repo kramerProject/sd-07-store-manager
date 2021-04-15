@@ -4,8 +4,6 @@ const routes = require('./routes');
 const app = express();
 
 app.use(express.json());
-app.use(routes.productRoutes);
-app.use(routes.saleRoutes);
 
 const PORT = 3000;
 
@@ -13,6 +11,8 @@ const PORT = 3000;
 app.get('/', (_request, response) => {
   response.send();
 });
+
+app.use(routes.productRoutes, routes.saleRoutes);
 
 app.listen(PORT, () => {
   console.log(`Rodando na porta ${PORT}`);
