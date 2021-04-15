@@ -18,9 +18,9 @@ const insertSale = rescue(async (req, res) => {
   const response = Service.checkStockResponse(products, itensSold);
 
   if(response.code) return res.status(NOT_FOUND).json({ err: response});
-  // await Service.updateQuantities(newSale.ops[0]);
-
+  
   const newSale = await Model.insert(salesCollection, data);
+  // await Service.updateQuantities(newSale.ops[0]);
 
   return res.status(OK).json(newSale.ops[0]);
 });
