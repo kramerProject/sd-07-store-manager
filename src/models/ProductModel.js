@@ -9,6 +9,15 @@ const createProduct = async(name, quantity) => {
   );    
 };
 
+const getProductByName = async(name) => {
+  return (
+    conn().then(async (db) => {
+      const productExist = await db.collection('products').findOne({ name: name });
+      return productExist;
+    })
+  );
+};
 module.exports = {
-  createProduct
+  createProduct,
+  getProductByName
 };

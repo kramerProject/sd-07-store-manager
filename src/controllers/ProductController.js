@@ -1,13 +1,13 @@
 const statusCode = require('../../helpers/HTTPStatus');
-const invalidData = "invalid_data";
+const invalidData = 'invalid_data';
 const productService = require('../services/ProductService');
 
 const errorMessage = {
-    "err": {
-        code: invalidData,
-        message: ''
-    }
-}
+  'err': {
+    code: invalidData,
+    message: ''
+  }
+};
 
 const getAllProducts = async (_req, res) => {
   try {    
