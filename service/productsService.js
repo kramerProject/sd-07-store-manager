@@ -3,7 +3,7 @@ const status = require('../config/status');
 
 const ONE = 1;
 const FIVE = 5;
-const validateProduct = async (name, quantity) => {
+const validateProductService = (name, quantity) => {
   if (!name || name.length < FIVE) {
     return {
       code: 'invalid_data',
@@ -25,7 +25,15 @@ const validateProduct = async (name, quantity) => {
       message: '"quantity" must be a number',
     };
   }
-  const getProductsByName = await productsModel.findProductsByName(name);
+  return 'Validado.';
+};
+
+const addProductService = async (name, quantity) => {
+  const validate = validateProductService(name, quantity);
+  if (validate.code) {
+    return validate;
+  }
+  const getProductsByName = await productsModel.findProductsByNameModel(name);
   if (getProductsByName !== null) {
     return {
       code: 'invalid_data',
@@ -33,19 +41,19 @@ const validateProduct = async (name, quantity) => {
       message: 'Product already exists',
     };
   }
-  const result = await productsModel.addProduct(name, quantity);
+  const result = await productsModel.addProductModel(name, quantity);
   return result;
 };
 
-const getAllProducts = async () => {
-  const getAllProducts = await productsModel.findAllProducts();
+const getAllProductsService = async () => {
+  const getAllProducts = await productsModel.findAllProductsModel();
   return {
     products: getAllProducts,
   };
 };
 
-const getByIdProducts = async (id) => {
-  const getByIdProduct = await productsModel.findByIdProducts(id);
+const getByIdProductsService = async (id) => {
+  const getByIdProduct = await productsModel.findByIdProductsModel(id);
   if (!getByIdProduct) {
     return {
       code: 'invalid_data',
@@ -57,7 +65,8 @@ const getByIdProducts = async (id) => {
 };
 
 module.exports = {
-  validateProduct,
-  getAllProducts,
-  getByIdProducts,
+  validateProductService,
+  getAllProductsService,
+  getByIdProductsService,
+  addProductService,
 };

@@ -1,30 +1,30 @@
 const connect = require('../config/connection');
 const { ObjectId } = require('mongodb');
 
-const addProduct = async (name, quantity) => {
+const addProductModel = async (name, quantity) => {
   return connect()
     .then((db) => db.collection('products').insertOne({ name, quantity }))
     .then((result) => result.ops[0]);
 };
 
-const findProductsByName = async (name) => {
+const findProductsByNameModel = async (name) => {
   return connect().then((db) => db.collection('products').findOne({ name }));
 };
 
-const findAllProducts = async () => {
+const findAllProductsModel = async () => {
   return connect().then((db) => db.collection('products').find().toArray());
 };
 
-const findByIdProducts = async (id) => {
+const findByIdProductsModel = async (id) => {
   if(!ObjectId.isValid(id)) return null;
   return connect().then((db) => db.collection('products').findOne(ObjectId(id)));
 };
 
 module.exports = {
-  addProduct,
-  findProductsByName,
-  findAllProducts,
-  findByIdProducts,
+  addProductModel,
+  findProductsByNameModel,
+  findAllProductsModel,
+  findByIdProductsModel,
 };
 
 /* const createProduct = async (name, quantity) => {
