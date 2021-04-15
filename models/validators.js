@@ -24,7 +24,7 @@ const getSallesById = async (id) => {
 
 const deleteSalesId = async (id) => {
   if (ObjectId.isValid(id)) {
-    console.log('passei aqui')
+    console.log('passei aqui');
     return connectionProject().then((db) =>
       db.collection('sales').deleteOne({ _id: ObjectId(id) }),
     );
