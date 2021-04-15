@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const productService = require('../services/ProductService');
-const productModel = require('../models/ProductModel');
+
 const {
   productNameVerify,
   productExists,
@@ -21,13 +21,14 @@ router.post('/',
   productExists,
   async (req, res) => {
     const { body } = req;
-    const newProduct = await productModel.create(body);
+    const newProduct = await productService.create(body);
     res.status(CREATED).json(newProduct);
   }
 );
 
-router.get('/', function (req, res) {
-  res.status(OK).json('OK');
+router.get('/', async (_req, res) => {
+  const productList = await productService.getAll();
+  res.status(OK).json(productList);
 });
 
 module.exports = router;

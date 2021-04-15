@@ -10,6 +10,10 @@ const getByName = async (name) => {
   return product;
 };
 
+const getAll = async () => {
+  const products = await productModel.findAll();
+};
+
 const nameVerify = (name) => {
   const MIN_NAME_LENGTH = 5;
   if (name.length >= MIN_NAME_LENGTH) return true;
@@ -34,4 +38,5 @@ module.exports = {
   nameVerify,
   quantityVerify,
   productExists,
+  getAll,
 };

@@ -8,7 +8,7 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.use('/product', productController);
+app.use('/products', productController);
 
 const PORT = 3000;
 

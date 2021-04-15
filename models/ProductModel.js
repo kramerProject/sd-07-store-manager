@@ -24,7 +24,19 @@ const findByName = async (name) => {
   }
 };
 
+const findAll = async () => {
+  try {
+    const db = await connection();
+    const products = await db.collection('products').find({}).toArray();
+    return product;  
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
 module.exports = {
   create,
   findByName,
+  findAll,
 };
