@@ -1,5 +1,5 @@
-const { Mongoclient } = require('mongodb');
-const dotenv = require(dotenv);
+const { MongoClient } = require('mongodb');
+const dotenv = require('dotenv');
 
 dotenv.config();
 
