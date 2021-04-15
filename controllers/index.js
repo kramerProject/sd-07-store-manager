@@ -31,7 +31,12 @@ const postProduct = async (request, response) => {
     if (message.includes('quantity')
     || message.includes('name') || message.includes('Product')) {
       objError.err.message = error.message;
-      return response.status(UNPROCESS).json({});
+      return response.status(UNPROCESS).json({
+        err: {
+          code: 'invalid_data',
+          message: error.message
+        }
+      });
     }
     response.status(ERROR).json({ message: error.message });
   }
@@ -81,21 +86,19 @@ const putProduct = async (request, response) => {
 
 const deleteProduct = async (request, response) => {
   const { id } = request.params;
+  const data = await productService.getProductsId(id);
+  console.log(data);
+  if (!data) {
+    return response.status(UNPROCESS).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    });
+  }
+  const result = await productService.deleteProduct(data._id);
 
-  const getProduct = await productService.getProductsId(id);
-
-  if (!getProduct) throw new throwError(status.unprocessableEntity, errors.wrongId);
-
-  await productService.deleteProduct(id);
-
-  const { name, quantity } = getProduct;
-
-  const deleteProduct = {
-    _id: id,
-    name,
-    quantity,
-  };
-  return response.status(status.ok).json(deleteProduct);
+  return response.status(OK).json(result);
 };
 
 module.exports = {

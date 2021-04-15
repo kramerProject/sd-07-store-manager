@@ -16,8 +16,10 @@ const getById = async (id) => {
   return await connection().then((db) => db.collection('products').findOne(ObjectId(id)));
 };
 
-const getByName = (string) => connection()
+const getByName = async (string) => {
+  return await connection()
   .then(db => db.collection('products').findOne({ name: string }));
+}
 
 const postdata = async (name, quantity) => {
   const product = await connection()
@@ -35,16 +37,13 @@ const editdata = async (id, name, quantity) => {
   return updatedProduct;
 };
 
-const deletedata = async (id) => {
-  // if (!ObjectId.isValid(id)) return null;
-  const deletedProduct = await connection()
+const deletedata = async (product) => {
+  const { _id } = product;
+  await connection()
     .then((db) => {
-      db.collection('products').deleteOne({ _id: ObjectId(id) });
+      db.collection('products').deleteOne({ _id });
     })
-    .catch((err) => {
-      throw new throwError(status.unprocessableEntity, errors.wrongId);
-    });
-  return deletedProduct;
+  return product;
 };
 
 module.exports = {

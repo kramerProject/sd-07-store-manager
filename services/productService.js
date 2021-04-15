@@ -21,7 +21,11 @@ const validation = (name, quantity) => {
 const createProduct = async (name, quantity ) => {
   validation(name, quantity);
   const product = await productModel.getByName(name);
-  
+  // console.log(product);
+  // { _id: 6078344978f9f39fea9dcddd,
+  //   name: 'Casa de DEUS 2',
+  //   quantity: 1000 }
+  // Error: Product already exists
   if (product) {
     const ERR_MESSAGE = 'Product already exists';
     throw new Error(ERR_MESSAGE);
@@ -54,8 +58,8 @@ const updateProduct = async (id, name, quantity) => {
 };
 
 const deleteProduct = async (id) => {
-  const deletedProduct = await productModel.deletedata(id);
-  return deletedProduct;
+  const product = await getProductsId(id);
+  return productModel.deletedata(product);
 };
 
 module.exports = {
