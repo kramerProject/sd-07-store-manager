@@ -32,6 +32,8 @@ app.get(SALES_BASE_URL, salesController.getAll);
 
 app.put(`${SALES_BASE_URL}/:id`, salesController.updateSales);
 
+app.delete(`${SALES_BASE_URL}/:id`, salesController.deleteSales);
+
 app.listen(PORT, () => {
   console.log('listening on port ' + PORT);
 });

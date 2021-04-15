@@ -53,10 +53,10 @@ const updateSales = (id, sales) => {
     });
 };
 
-// const deleteProduct = (id) => {
-//   return connection()
-//     .then((db) => db.collection(PRODUCTS_COLLECTION).deleteOne({_id: ObjectId(id)}));
-// };
+const deleteSale = (id) => {
+  return connection()
+    .then((db) => db.collection(SALES_COLLECTION).deleteOne({_id: ObjectId(id)}));
+};
 
 module.exports = {
   createSale,
@@ -64,5 +64,5 @@ module.exports = {
   findById,
   getAll,
   // updateProduct,
-  // deleteProduct,
+  deleteSale,
 };

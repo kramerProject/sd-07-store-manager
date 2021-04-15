@@ -23,7 +23,7 @@ const createSales = async (sales) => {
 
 const findById = async (id) => {
   if (!ObjectId.isValid(id)) throw new Error('Sale not found');
-  
+
   const result = await salesModels.findById(id);
 
   if (!result) throw new Error('Sale not found');
@@ -39,9 +39,16 @@ const updateSales = async (id, sales) => {
   return await salesModels.updateSales(id, sales);
 };
 
+const deleteSale = async (id) => {
+  if (!ObjectId.isValid(id)) throw new Error('Wrong sale ID format');
+
+  return await salesModels.deleteSale(id);
+};
+
 module.exports = {
   createSales,
   findById,
   getAll,
   updateSales,
+  deleteSale,
 };

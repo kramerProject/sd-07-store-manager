@@ -71,9 +71,27 @@ const updateSales = async (req, res) => {
   }
 };
 
+const deleteSales = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const response = await salesService.deleteSale(id);
+
+    res.status(OK).json(response);
+  } catch (err) {
+    res.status(UNPROCESSABLE).json({
+      err: {
+        code: 'invalid_data',
+        message: err.message,
+      }
+    });
+  }
+};
+
 module.exports = {
   createSales,
   findById,
   getAll,
   updateSales,
+  deleteSales,
 };
