@@ -1,9 +1,13 @@
 const productsModel = require('../models/productsModel');
+const salesModel = require('../models/salesModel');
+
 const UNPROCESSABLE_ENTITY = 422;
+const NOT_FOUND = 404;
 const EMPTY = 0;
 
-const checkId = async (request, response, next) => {
+const checkProductId = async (request, response, next) => {
   const sale = request.body;
+
   if (!sale) {
     return response.status(UNPROCESSABLE_ENTITY).json({
       err: {
@@ -27,6 +31,7 @@ const checkId = async (request, response, next) => {
 
 const checkProductQuantity = (request, response, next) => {
   const sale = request.body;
+
   for (const product of sale) {
     if (product.quantity === undefined || product.quantity  === null) {
       return response.status(UNPROCESSABLE_ENTITY).json({
@@ -57,6 +62,6 @@ const checkProductQuantity = (request, response, next) => {
 };
 
 module.exports = {
-  checkId,
+  checkProductId,
   checkProductQuantity,
 };

@@ -19,7 +19,7 @@ const findAllProducts = async () => {
 };
 
 const findProductById = async (id) => {
-  console.log('eu sou o id do model', id);
+  console.log('eu sou o id produto', id);
   if (!ObjectId.isValid(id)) throw new Error ('oi');
   const x = await conn().then((db) =>
     db.collection('products').findOne({ _id: ObjectId(id) }));

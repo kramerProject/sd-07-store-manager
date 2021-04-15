@@ -1,9 +1,9 @@
 const salesModel = require('../models/salesModel');
 
-const REQUEST_CREATED = 201;
 const REQUEST_OK = 200;
 const INTERNAL_SERVER_ERROR = 500;
 const UNPROCESSABLE_ENTITY = 422;
+const NOT_FOUND = 404;
 
 const addSale = async (request, response) => {
   try {
@@ -11,7 +11,6 @@ const addSale = async (request, response) => {
     const results = await salesModel.addNewSale(sale);
     response.status(REQUEST_OK).json(results);
   } catch (error) {
-    console.log(error);
     response.status(INTERNAL_SERVER_ERROR).json({ message: error.message });
   }
 };
@@ -21,60 +20,50 @@ const findAll = async (_request, response) => {
     const results = await salesModel.findAllSales();
     response.status(REQUEST_OK).json({ sales: results });
   } catch (error) {
-    console.log(error);
     response.status(INTERNAL_SERVER_ERROR).json({ message: error.message });
   }
 };
 
 const findById = async (request, response) => {
-  console.log('findById');
-  try {
-    const { id } = request.params;
-    const results = await salesModel.findSaleById(id);
-    response.status(REQUEST_OK).json(results);
-  } catch (error) {
-    console.log(error);
-    response.status(UNPROCESSABLE_ENTITY).json({
-      err: {
-        code: 'invalid_data',
-        message: 'Sale not found',
-      }
-    });
+  const { id } = request.params;
+  const results = await salesModel.findSaleById(id);
+  if (results) {
+    return response.status(REQUEST_OK).json(results);
   }
+  return response.status(NOT_FOUND).json({
+    err: {
+      code: 'not_found',
+      message: 'Sale not found',
+    }
+  });
 };
 
 const updateOne = async (request, response) => {
-  console.log('updateOne');
   try {
     const { id } = request.params;
-    const { name, quantity } = request.body;
-    const results = await productsModel.updateProduct(id, name, quantity);
-    console.log('updateOneResults', results);
+    const sale = request.body;
+    const results = await salesModel.updateSale(id, sale);
     response.status(REQUEST_OK).json(results);
   } catch (error) {
-    console.log(error);
     response.status(UNPROCESSABLE_ENTITY).json({
       err: {
         code: 'invalid_data',
-        message: 'Wrong id format',
+        message: 'Wrong product ID or invalid quantity',
       }
     });
   }
 };
 
 const deleteOne = async (request, response) => {
-  console.log('deleteOne');
   try {
     const { id } = request.params;
-    const results = await productsModel.deleteProduct(id);
-    console.log('deleteOneResults', results);
+    const results = await salesModel.deleteSale(id);
     response.status(REQUEST_OK).json(results);
   } catch (error) {
-    console.log(error);
     response.status(UNPROCESSABLE_ENTITY).json({
       err: {
         code: 'invalid_data',
-        message: 'Wrong id format',
+        message: 'Wrong sale ID format',
       }
     });
   }
