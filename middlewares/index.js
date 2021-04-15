@@ -3,6 +3,7 @@ const nameValidate = require('./nameValidate');
 const quantityValidate = require('./quantityValidate');
 const productExistsValidate = require('./productExistsValidate');
 const idValidate = require('./idValidate');
+const idSaleValidate = require('./idSaleValidate');
 const quantityOrWrongId = require('./quantityOrWrongId');
 
 module.exports = {
@@ -11,5 +12,6 @@ module.exports = {
   quantityValidate,
   productExistsValidate,
   idValidate,
+  idSaleValidate,
   quantityOrWrongId,
 };

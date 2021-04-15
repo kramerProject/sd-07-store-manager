@@ -14,16 +14,17 @@ const create = async (req, res) => {
 //   res.status(SUCCESS).json(updatedProduct);
 // };
 
-// const getAll = async (_req, res) => {
-//   const products = await productsModel.getAll();
-//   res.status(SUCCESS).json(products);
-// };
+const getAll = async (_req, res) => {
+  const sales = await salesModel.getAll();
+  res.status(SUCCESS).json({sales});
+};
 
-// const getById = async (req, res) => {
-//   const { id } = req.params;
-//   const product = await productsModel.getById(id);
-//   res.status(SUCCESS).json(product);
-// };
+const getById = async (req, res) => {
+  const { id } = req.params;
+  const sale = await salesModel
+    .getById(id);
+  res.status(SUCCESS).json(sale);
+};
 
 // const deleteProduct = async (req, res) => {
 //   const { id } = req.params;
@@ -33,8 +34,8 @@ const create = async (req, res) => {
 
 module.exports = {
   create,
-  // getAll,
-  // getById,
+  getAll,
+  getById,
   // update,
   // deleteProduct,
 };

@@ -29,20 +29,20 @@ const create = async (products) =>
 //   }
 // };
 
-// const getAll = async () =>
-//   connection().then(async (db) => {
-//     const products = await db.collection('products')
-//       .find().toArray();
-//     return {products};
-//   });
+const getAll = async () =>
+  connection().then(async (db) => {
+    const products = await db.collection('sales')
+      .find().toArray();
+    return products;
+  });
 
-// const getById = async (id) => {
-//   const product = await connection().then((db) =>
-//     db.collection('products')
-//       .findOne(ObjectId(id)),
-//   );
-//   return product;
-// };
+const getById = async (id) => {
+  const sale = await connection().then((db) =>
+    db.collection('sales')
+      .findOne(ObjectId(id)),
+  );
+  return sale;
+};
 // const deleteProduct = async (id) => {
 //   const product = await connection().then((db) =>
 //     db.collection('products')
@@ -54,8 +54,8 @@ const create = async (products) =>
 module.exports = {
   create,
   // getByName,
-  // getAll,
-  // getById,
+  getAll,
+  getById,
   // update,
   // deleteProduct,
 };
