@@ -24,13 +24,8 @@ router.post('/',
   }
 );
 
-router.get('/', async (_req, res) => {
-  const productList = await productService.getAll();
-  res.status(OK).json({ products: productList });
-});
-
 router.get('/:id', async (req, res) => {
-  const { id } = req.params;
+  const  id  = req.params.id;
   try {
     const product = await productService.getById(id);
     return res.status(OK).json(product);    
@@ -43,5 +38,11 @@ router.get('/:id', async (req, res) => {
     });    
   }
 });
+
+router.get('/', async (_req, res) => {
+  const productList = await productService.getAll();
+  res.status(OK).json({ products: productList });
+});
+
 
 module.exports = router;
