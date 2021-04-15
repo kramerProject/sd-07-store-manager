@@ -31,7 +31,6 @@ const getAll = async (req, resp) => {
 const getById = async (req, resp) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const {code, message, product} = await ProductService.getById(id);
     if(message) return resp.status(code).json({ err: { code: 'invalid_data', message } });
     resp.status(code).json(product);
@@ -39,11 +38,20 @@ const getById = async (req, resp) => {
     console.error(error.message);
 	  resp.status(ERROR).json({ message: error.message });
   }
- 
 };
+
+//  const updateProduct = async (req, resp) => {
+//    try {
+//      const { id } = req.params;
+//    } catch (error) {
+//      console.error(error.message);
+//  	  resp.status(ERROR).json({ message: error.message });
+//    }
+//  };
 
 module.exports = {
   addProduct,
   getAll,
   getById,
+  //  updateProduct,
 };

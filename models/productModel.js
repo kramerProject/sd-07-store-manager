@@ -14,7 +14,6 @@ const add = async (name, quantity) =>
 const findByName = async (name) =>
   connect().then(async (db) => {
     const product = await db.collection('products').findOne({'name': name});
-    console.log(product);
     return product;
   });
 
@@ -27,7 +26,7 @@ const getAll = async () => {
 const getById = async (id) => {
   if (!ObjectId.isValid(id)) return null;
   return await connect().then((db) => {
-    return db.collection('products').findOne({ _id: ObjectId(id) });
+    return db.collection('products').findOne(ObjectId(id));
   });
 };
 
