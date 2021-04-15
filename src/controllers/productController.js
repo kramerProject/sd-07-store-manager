@@ -1,6 +1,6 @@
 const productModel = require('../models/productModel');
 const rescue = require('express-rescue');
-const ObjectId = require('mongodb');
+const { ObjectId } = require('mongodb');
 
 const OK = 200;
 const CREATED = 201;

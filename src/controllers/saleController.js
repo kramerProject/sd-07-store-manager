@@ -1,7 +1,7 @@
 const saleModel = require('../models/saleModel');
 const { verifyProductsId, verifyQuantity } = require('../validations/saleValidations');
 const rescue = require('express-rescue');
-const ObjectId = require('mongodb');
+const { ObjectId } = require('mongodb');
 
 const OK = 200;
 const CREATED = 201;
