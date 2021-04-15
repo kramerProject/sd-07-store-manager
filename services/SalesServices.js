@@ -35,6 +35,32 @@ const registerSale = async (request, response) => {
 
 };
 
+const getAllSales = async (request, response) => {
+  const allSales = await SalesModels.getAllSales();
+
+  return response.status(status.code200).json({ sales: allSales });
+};
+
+const getById = async (request, response) => {
+  const { id } = request.params;
+  const idNotExists = !id;
+  const idNotHexObjectId = (id.length !== compare.hexObjectedId);
+
+  if (idNotExists || idNotHexObjectId) {
+    return responseWithNotFound(response);
+  }
+
+  const saleFound = await SalesModels.getById(id);
+
+  if (!saleFound) {
+    return responseWithNotFound(response);
+  }
+
+  return response.status(status.code200).json(saleFound);
+};
+
 module.exports = {
   registerSale,
+  getAllSales,
+  getById,
 };

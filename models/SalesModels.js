@@ -13,6 +13,19 @@ const registerSale = async (itensSold) => {
   );
 };
 
+const getAllSales = async () => {
+  return await connection().then((db) => db.collection(COLLECTION)
+    .find()
+    .toArray());
+};
+
+const getById = async (id) => {
+  const filter = ObjectId(id);
+  return await connection().then((db) => db.collection(COLLECTION).findOne(filter));
+};
+
 module.exports = {
   registerSale,
+  getAllSales,
+  getById
 };

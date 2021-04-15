@@ -37,7 +37,7 @@ const responseWith = (code, message, response) => {
 };
 
 const responseWithNotFound = (response) => {
-  return response.status(statusCode.NOT_FOUND)
+  return response.status(status.code404)
     .json({
       err: {
         code: 'not_found',
