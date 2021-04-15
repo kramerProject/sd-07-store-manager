@@ -11,13 +11,13 @@ const getNewProduct = ({id, name, quantity}) => {
 const addProduct = async (name, quantity) => {
   return connection()
     .then((db) =>
-      db.collection(process.env.DB_COLLECTION).insertOne({ 
+      db.collection('products').insertOne({ 
         name: name, 
         quantity: quantity 
       }),
     )
     .then((result) => getNewProduct({ id: result.insertedId, name, quantity }))
-    .catch((error) => console.log(`Erro no controller: ${error}`));
+    .catch((error) => console.log(`Erro no model addProduct: ${error}`));
 };
 
 module.exports = {

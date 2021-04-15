@@ -2,7 +2,7 @@ const { serviceGetProductByName } = require('../Services/serviceProduct');
 
 const addProductMiddleware = async (req, res, next) => {
   const { name, quantity } = req.body;
-  console.log(typeof quantity);
+
   const minWordLength = 5;
   const minSizeLength = 0;
   const fail = 422;
