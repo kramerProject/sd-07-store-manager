@@ -40,7 +40,7 @@ const updateSale = async (req, res) => {
     const sale = await salesService.updateSale(id, req.body);
     const { value } = sale;
     return res.status(STATUS_OK).json(
-      [value]
+      value
     );
   } catch (err) {
     return res.status(STATUS_UNPROCESSABLE).json({ message: 'Não entrou no controller' });
