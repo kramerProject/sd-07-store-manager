@@ -14,7 +14,11 @@ const idSaleValidate = (req, res, next) => {
     err.message = 'Wrong sale ID format';
   }
 
-  if (!ObjectId.isValid(id)) return res.json({ err });
+  if (!ObjectId.isValid(id)) {
+    res.json({ err });
+    next(err);
+    return;
+  }
 
   next();
 };

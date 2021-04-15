@@ -31,8 +31,6 @@ const stockControl = async (req, res, next) => {
       if (quant < 1) {
         res.status(NOT_FOUND).json({ err });
         throw err;
-        // next(err);
-        // return; 
       }
 
       await productsModel.update(id, name, quant);
