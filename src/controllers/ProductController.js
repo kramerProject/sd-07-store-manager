@@ -1,7 +1,8 @@
 const statusCode = require('../../helpers/HTTPStatus');
+const productService = require('../services/ProductService');
 
 const getAllProducts = async (_req, res) => {
-  try {
+  try {    
     res.status(statusCode.SUCCESS).json({message: 'funcionou'});
   } catch (err) {
     console.error(err.message);
