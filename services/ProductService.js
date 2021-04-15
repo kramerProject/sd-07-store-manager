@@ -10,8 +10,14 @@ const getByName = async (name) => {
   return product;
 };
 
+const getById = async (id) => {
+  const product = await productModel.findById(id);
+  return product;
+};
+
 const getAll = async () => {
   const products = await productModel.findAll();
+  return products;
 };
 
 const nameVerify = (name) => {
@@ -39,4 +45,5 @@ module.exports = {
   quantityVerify,
   productExists,
   getAll,
+  getById,
 };

@@ -1,5 +1,6 @@
 const express = require('express');
 const productController = require('./controllers/ProductController');
+
 const app = express();
 
 app.use(express.json());
