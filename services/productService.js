@@ -1,48 +1,33 @@
-const allProducts = require('../models/productModel');
-const zero = 0;
+const productModel = require('../models/productModel');
+const {minChar, minQtd, isNumber, isDuplicated} = require('./productValidation');
 
-const productIsValid = async (name, quantity) => {
-  const productList = await allProducts.getAll();
-  const productExists = await productList.find((product) => product.name === name);
-  const prodMinSize = 5;
-
-  if(name.lenght < prodMinSize) return err = {
-    response: {err: {
-      'code': 'invalid_data',
-      'message': '"name" length must be at least 5 characters long'
-    }},
-    code: 422,
-  };
-  if(quantity <= zero) return err = {
-    response: {err: {
-      'code': 'invalid_data',
-      'message': '"quantity" must be larger than or equal to 1'
-    }},
-    code: 422,
-  };
-  if(typeof quantity !== 'number') return err = {
-    response: {err: {
-      'code': 'invalid_data',
-      'message': '"quantity" must be a number'
-    }},
-    code: 422,
-  };
-  if(productExists) return err = {
-    response: {err: {
-      'code': 'invalid_data', 
-      'message': 'Product already exists'
-    }
-    },
-    code: 422,
-  };
-  const result = await allProducts.createProduct(name, quantity);
+const addProduct = async (name, quantity) => {
+  if (await isDuplicated(name)) return await isDuplicated(name);
+  if (minChar(name)) return minChar(name);
+  if (isNumber(quantity)) return isNumber(quantity);
+  if (minQtd(quantity)) return minQtd(quantity);
+  const result = await productModel.createProduct(name, quantity);
   return {
-    response: result, 
+    response: result[0], 
     code: 201
   };
 };
 
+const getAll = async () => {
+  const result = await productModel.getAll();
+  return {'products': result};
+};
+
+const getById = async (id) => {
+  const result = await productModel.getById(id);
+  if(result._id) return {status: 200, response: result};
+  return {status: 422, response: {
+    'err': {'code': 'invalid_data', 'message': 'Wrong id format'}
+  }};
+};
 
 module.exports = {
-  productIsValid
+  addProduct,
+  getAll,
+  getById
 };
