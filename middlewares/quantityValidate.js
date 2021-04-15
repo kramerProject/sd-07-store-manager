@@ -6,10 +6,10 @@ const quantityValidate = async (req, res, next) => {
   err.code = 'invalid_data';
 
   err.message = '"quantity" must be a number';
-  if (typeof quantity !== 'number') res.status(UNPROCESSABLE_ENTITY).json({ err });
+  if (typeof quantity !== 'number') return res.status(UNPROCESSABLE_ENTITY).json({ err });
 
   err.message = '"quantity" must be larger than or equal to 1';
-  if (quantity < 1) res.status(UNPROCESSABLE_ENTITY).json({ err });
+  if (quantity < 1) return res.status(UNPROCESSABLE_ENTITY).json({ err });
   next();
 };
 

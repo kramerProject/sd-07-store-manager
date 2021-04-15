@@ -5,6 +5,7 @@ const productExistsValidate = require('./productExistsValidate');
 const idValidate = require('./idValidate');
 const idSaleValidate = require('./idSaleValidate');
 const quantityOrWrongId = require('./quantityOrWrongId');
+const stockControl = require('./stockControl');
 
 module.exports = {
   errorMiddleware,
@@ -14,4 +15,5 @@ module.exports = {
   idValidate,
   idSaleValidate,
   quantityOrWrongId,
+  stockControl,
 };
