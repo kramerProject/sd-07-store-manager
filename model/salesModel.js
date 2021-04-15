@@ -26,6 +26,19 @@ const showAllSales = async () => {
   }
 };
 
+const deleteSale = async (id) => {
+  try {
+    const db = await connection();
+    const sale = await db
+      .collection('sales')
+      .findOneAndDelete({ _id: ObjectID(id) });
+    return sale;
+  } catch (error) {
+    console.error({
+      message: 'Não tem produto com esse nome no banco',
+    });
+  }
+};
 const showSalesId = async (id) => {
   try {
     const db = await connection();
@@ -43,4 +56,5 @@ module.exports = {
   insertSales,
   showAllSales,
   showSalesId,
+  deleteSale
 };

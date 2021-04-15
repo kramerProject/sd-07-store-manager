@@ -29,6 +29,14 @@ const showAllSales = async () => {
   }
 };
 
+const deleteSale = async (id) => {
+  try {
+    return await salesModel.deleteSale(id);
+  } catch (error) {
+    console.error({ message: 'Não foi possivel deletar' });
+  }
+};
+
 const showSalesId = async (id) => {
   try {
     return await salesModel.showSalesId(id);
@@ -42,4 +50,5 @@ module.exports = {
   insertSales,
   showAllSales,
   showSalesId,
+  deleteSale
 };

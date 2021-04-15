@@ -33,8 +33,19 @@ const showSalesId = async (req, res) => {
   }
 };
 
+const deleteSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const sales = await salesService.showSalesId(id);
+    await salesService.deleteSale(id);
+    return res.status(STATUS_OK).json(sales);
+  } catch (error) {
+
+  }
+};
 module.exports = {
   insertSales,
   showAllSales,
   showSalesId,
+  deleteSale
 };
