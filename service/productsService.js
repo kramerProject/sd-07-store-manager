@@ -64,9 +64,19 @@ const getByIdProductsService = async (id) => {
   return getByIdProduct;
 };
 
+const putByIdProductsService = async (id, name, quantity) => {
+  const validate = validateProductService(name, quantity);
+  if (validate.code) {
+    return validate;
+  }
+  const result = productsModel.updatePoductModel(id, name, quantity);
+  return result;
+};
+
 module.exports = {
   validateProductService,
   getAllProductsService,
   getByIdProductsService,
   addProductService,
+  putByIdProductsService,
 };

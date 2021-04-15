@@ -35,13 +35,15 @@ const getByIdProductsController = async (req, res, next) => {
   }
 };
 
-const putByIdProductsController = async (req, _res, next) => {
+const putByIdProductsController = async (req, res, next) => {
   try {
     const { id } = req.params;
     const product = await productsService.getByIdProductsService(id);
     if(product.code) return next(product);
     const { name, quantity } = req.body;
-
+    const result = await productsService.putByIdProductsService(id, name, quantity);
+    if(result.code) return next(result);
+    return res.status(status.SUCCESS).json(result);
   } catch (error) {
     console.log(error);
     throw new Error(error);
