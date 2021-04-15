@@ -14,17 +14,19 @@ const getAllProducts = async (_req, res) => {
     const allProducts = await productService.getAllProducts();  
     res.status(statusCode.SUCCESS).json({products: allProducts});
   } catch (err) {   
-    res.status(statusCode.INTERNALERROR).json({ message: err.message});        
+    errorMessage.err.message = err.message;
+    res.status(statusCode.UNPROCESSABLE).json(errorMessage);  
   }
 };
 
 const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
-    res.status(statusCode.SUCCESS).json({id});
+    const productById = await productService.getProductById(id);
+    res.status(statusCode.SUCCESS).json(productById);
   } catch (err) {
-    console.error(err.message);
-    res.status(statusCode.INTERNALERROR).json({ message: err.message});        
+    errorMessage.err.message = err.message;
+    res.status(statusCode.UNPROCESSABLE).json(errorMessage);        
   }
 };
 

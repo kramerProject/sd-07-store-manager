@@ -1,3 +1,5 @@
+const { ObjectId } = require('mongodb');
+
 const productModel = require('../models/ProductModel');
 const errorMessage = require('../../helpers/errorMessages');
 
@@ -18,9 +20,14 @@ const validatorNameAndQuanity = (name, quantity) => {
 
 const getProductByName = async (name) => {
   const productExist = await productModel.getProductByName(name);
-  console.log(productExist);
   if (productExist) {
     throw new Error(errorMessage.productAlreadyExists);
+  }
+};
+
+const validatorProductExists = (product) => {
+  if(!product) {
+    throw new Error(errorMessage.idNonExistent);
   }
 };
 
@@ -29,7 +36,11 @@ const getAllProducts = async () => {
   return allProducts;
 };
 
-const getProductById = async (id) => {};
+const getProductById = async (id) => {
+  const productById = await productModel.getProductById(id);
+  validatorProductExists(productById);
+  return productById;
+};
 
 const createProduct = async (name, quantity) => {
   validatorNameAndQuanity(name, quantity);
