@@ -2,6 +2,7 @@ const salesService = require('../services/salesService');
 
 const STATUS_OK = 200;
 const STATUS_CREATED = 201;
+const STATUS_NOT_FOUND = 404;
 const STATUS_UNPROCESSABLE_ENTITY = 422;
 
 const createSale = async (req, res) => {
@@ -15,4 +16,24 @@ const createSale = async (req, res) => {
   }
 };
 
-module.exports = { createSale };
+const getAllSales = async (_req, res) => {
+  const result = await salesService.getAllSales();
+
+  res.status(STATUS_OK).json({ sales: result });
+};
+
+const getSalesById = async (req, res) => {
+  const { id } = req.params;
+
+  const result = await salesService.getSalesById(id);
+
+  if (typeof result === 'string' || null) {
+    res
+      .status(STATUS_NOT_FOUND)
+      .json({ err: { code: 'not_found', message: result } });
+  } else {
+    res.status(STATUS_OK).json(result);
+  }
+};
+
+module.exports = { createSale, getAllSales, getSalesById };

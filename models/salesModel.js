@@ -1,7 +1,8 @@
 const connection = require('../config/connection');
 
-const create = async (body) => {
+const { ObjectId } = require('mongodb');
 
+const create = async (body) => {
   const sale = await connection().then((db) =>
     db.collection('sales').insertOne({ itensSold: [...body] }),
   );
@@ -9,4 +10,17 @@ const create = async (body) => {
   return { _id: sale.insertedId, itensSold: [...body] };
 };
 
-module.exports = { create };
+const getAll = async () => {
+  const allSales = await connection().then((db) => 
+    db.collection('sales').find().toArray());
+  return allSales;
+};
+
+const getById = async (id) => {
+  const sale = await connection().then((db) =>
+    db.collection('sales').findOne(ObjectId(id)),
+  );
+  return sale;
+};
+
+module.exports = { create, getAll, getById };
