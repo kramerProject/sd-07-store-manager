@@ -81,11 +81,24 @@ const updateProduct = async (request, response) => {
   return await response.status(status.code200).json(productUpdate);
 };
 
+const deleteProducts = async (request, response) => {
+  const { id } = request.params;
+
+  if (id.length !== compare.hexObjectedId) {
+    return responseWith(status.code422, message.wrongIdFormat, response);
+  }
+
+  const productRemoved = await ProductsModels.getById(id);
+
+  await ProductsModels.deleteProducts(id);
+
+  return response.status(status.code200).json(productRemoved);
+};  
 
 module.exports = {
-  getAllProducts,
   createNewProduct,
-  // deleteProducts,
+  getAllProducts,
   getById,
   updateProduct,
+  deleteProducts,
 };
