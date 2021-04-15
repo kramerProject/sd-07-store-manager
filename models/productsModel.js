@@ -16,8 +16,8 @@ const findAllProducts = async () => {
 };
 
 const findByIdProducts = async (id) => {
-  if(!ObjectId.isValid) return null;
-  return connect().then((db) => db.collection('products').findOne(id));
+  if(!ObjectId.isValid(id)) return null;
+  return connect().then((db) => db.collection('products').findOne(ObjectId(id)));
 };
 
 module.exports = {

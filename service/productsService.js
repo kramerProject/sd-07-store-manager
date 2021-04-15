@@ -45,15 +45,15 @@ const getAllProducts = async () => {
 };
 
 const getByIdProducts = async (id) => {
-  const getByIdProducts = await productsModel.findByIdProducts(id);
-  if (!getByIdProducts) {
+  const getByIdProduct = await productsModel.findByIdProducts(id);
+  if (!getByIdProduct) {
     return {
       code: 'invalid_data',
       status: status.UNPROCESSABLE_ENTITY,
       message: 'Wrong id format',
     };
   }
-  return getByIdProducts;
+  return getByIdProduct;
 };
 
 module.exports = {
