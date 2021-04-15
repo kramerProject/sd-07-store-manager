@@ -44,10 +44,12 @@ const createProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    res.status(statusCode.SUCCESS).json({message: `${id} atualizado`});
+    const { name, quantity } = req.body;
+    const updatedProduct = await productService.updateProduct(id, name, quantity);
+    res.status(statusCode.SUCCESS).json(updatedProduct);
   } catch (err) {
-    console.error(err.message);
-    res.status(statusCode.INTERNALERROR).json({ message: err.message});        
+    errorMessage.err.message = err.message;
+    res.status(statusCode.UNPROCESSABLE).json(errorMessage);        
   }
 };
 
