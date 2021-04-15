@@ -32,7 +32,7 @@ const update = async (id, name, quantity) => {
   return product;
 };
 
-const deleteProduct = async (id, name, quantity) => {
+const deleteProduct = async (id) => {
   const product = await connection().then((db) =>
     db.collection('products')
       .deleteOne({ _id: ObjectId(id) })

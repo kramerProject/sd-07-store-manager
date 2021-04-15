@@ -53,8 +53,8 @@ const updateSale = async (req, res) => {
 const deleteSale = async (req, res) => {
   const { id } = req.params;
 
-  const getSaleToBeDeleted = await salesService.getProductsById(id);
-  const result = await saleService.deleteProduct(id);
+  const getSaleToBeDeleted = await salesService.getSalesById(id);
+  const result = await salesService.deleteSale(id);
 
   if (typeof result === 'string') {
     res

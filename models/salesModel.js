@@ -31,9 +31,9 @@ const update = async (id, body) => {
   return sale;
 };
 
-const deleteSale = async (id, name, quantity) => {
+const deleteSale = async (id) => {
   const sale = await connection().then((db) =>
-    db.collection('products')
+    db.collection('sales')
       .deleteOne({ _id: ObjectId(id) })
   );
   return sale;

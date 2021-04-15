@@ -50,7 +50,7 @@ const updateSale = async (id, body) => {
 
 const deleteSale = async (id) => {
   if (!ObjectId.isValid(id)) {
-    return 'Wrong id format';
+    return 'Wrong sale ID format';
   } else {
     const deletedSale = await salesModel.deleteSale(id);
     return deletedSale;
