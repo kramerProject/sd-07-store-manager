@@ -37,4 +37,15 @@ const getSalesById = async (id) => {
   }
 };
 
-module.exports = { createSale, getAllSales, getSalesById };
+const updateSale = async (id, body) => {
+  try {
+    verifyQuantity(body);
+
+    const updatedSale = await salesModel.update(id, body);
+    return updatedSale;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+module.exports = { createSale, getAllSales, getSalesById, updateSale };
