@@ -1,5 +1,5 @@
 const salesModel = require('../models/salesModel');
-const { SUCCESS } = require('../utils/statusCode.json');
+const { SUCCESS, NOT_FOUND } = require('../utils/statusCode.json');
 
 const create = async (req, res) => {
   const products = req.body;
@@ -21,22 +21,31 @@ const getAll = async (_req, res) => {
 
 const getById = async (req, res) => {
   const { id } = req.params;
+
   const sale = await salesModel
     .getById(id);
+
+  if (!sale) {
+    const err = new Error();
+    err.code = 'not_found';
+    err.message = 'Sale not found';
+    console.log(sale);
+    return res.status(NOT_FOUND).json({err});
+  }
   res.status(SUCCESS).json(sale);
 };
 
-// const deleteProduct = async (req, res) => {
-//   const { id } = req.params;
-//   const product = await productsModel.deleteProduct(id);
-//   res.status(SUCCESS).json(product);
-// };
+const deleteSale = async (req, res) => {
+  const { id } = req.params;
+  const product = await salesModel.deleteSale(id);
+  res.status(SUCCESS).json(product);
+};
 
 module.exports = {
   create,
   getAll,
   getById,
   update,
-  // deleteProduct,
+  deleteSale,
 };
 

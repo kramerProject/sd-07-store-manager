@@ -16,19 +16,6 @@ const update = async (id, products) =>
     return { _id: id, itensSold: products };
   });
 
-// const getByName = async (name) => {
-//   try {
-//     const product = await connection().then((db) =>
-//       db.collection('products')
-//         .findOne({ name }),
-//     );
-//     return product;
-//   } catch (err) {
-//     console.error(err);
-//     return { err };
-//   }
-// };
-
 const getAll = async () =>
   connection().then(async (db) => {
     const products = await db.collection('sales')
@@ -43,20 +30,20 @@ const getById = async (id) => {
   );
   return sale;
 };
-// const deleteProduct = async (id) => {
-//   const product = await connection().then((db) =>
-//     db.collection('products')
-//       .findOneAndDelete({ _id: ObjectId(id) }),
-//   );
-//   return product.value;
-// };
+
+const deleteSale = async (id) => {
+  const product = await connection().then((db) =>
+    db.collection('sales')
+      .findOneAndDelete({ _id: ObjectId(id) }),
+  );
+  return product.value;
+};
 
 module.exports = {
   create,
-  // getByName,
   getAll,
   getById,
   update,
-  // deleteProduct,
+  deleteSale,
 };
 

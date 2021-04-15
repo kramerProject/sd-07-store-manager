@@ -6,6 +6,7 @@ const { quantityOrWrongId, idSaleValidate } = require('../middlewares');
 const router = express.Router();
 
 router.get('/sales/:id', idSaleValidate, rescue(salesController.getById));
+router.delete('/sales/:id', idSaleValidate, rescue(salesController.deleteSale));
 router.get('/sales', rescue(salesController.getAll));
 router.post('/sales', quantityOrWrongId, rescue(salesController.create));
 router.put(
