@@ -20,9 +20,11 @@ const getProductById = async (req, res) => {
   }
 };
 
-const createProduct = async (_req, res) => {
+const createProduct = async (req, res) => {
   try {
-    res.status(statusCode.CREATED).json({message: 'criado'});
+    const { name, quantity } = req.body;
+    const newProduct = await productService.createProduct(name, quantity);
+    res.status(statusCode.CREATED).json(newProduct);
   } catch (err) {
     console.error(err.message);
     res.status(statusCode.INTERNALERROR).json({ message: err.message});        
