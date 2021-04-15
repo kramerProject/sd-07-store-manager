@@ -9,7 +9,7 @@ const getProductById = async (id) => {
   const params = ObjectId(id);
   return connection()
     .then((db) =>
-      db.collection('products').findOne({ 
+      db.collection(process.env.DB_COLLECTION).findOne({ 
         _id: params, 
       }),
     )
