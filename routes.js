@@ -2,7 +2,8 @@ const express = require('express');
 
 const {
   getAllProductsController,
-  createProductController 
+  getProductByIdController,
+  createProductController
 } = require('./controllers/productController');
 
 const { 
@@ -14,6 +15,7 @@ const {
 const route = express.Router();
 
 route.get('/products', getAllProductsController);
+route.get('/products/:id', getProductByIdController);
 
 route.post('/products',
   validateNameMiddleware,

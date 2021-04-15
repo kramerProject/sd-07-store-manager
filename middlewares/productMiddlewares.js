@@ -4,7 +4,7 @@ const {
   isValidQuantity,
   isQuantityNumber,
   isUniqueProduct
-} = require('../utils/productValidations');
+} = require('../services/productService');
 
 const {
   getAll
