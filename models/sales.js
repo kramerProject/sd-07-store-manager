@@ -87,10 +87,20 @@ const updateSalesId = async (req, res) => {
 
 const deleteSalesId = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
-  const xablau = await validators.getSallesById(id);
-  console.log(xablau);
-  if (xablau === null) {
+  console.log('id', id);
+  // const xablau = await validators.getSallesById(id);
+  // console.log('xablau', xablau);
+  // if (xablau === null) {
+  //   return res.status(Status.Unprocessable_Entity).json({
+  //     err: {
+  //       code: 'invalid_data',
+  //       message: 'Wrong sale ID format',
+  //     },
+  //   });
+  // }
+  const response = await validators.deleteSalesId(id);
+  console.log('response', response);
+  if (response === null) {
     return res.status(Status.Unprocessable_Entity).json({
       err: {
         code: 'invalid_data',
@@ -98,10 +108,8 @@ const deleteSalesId = async (req, res) => {
       },
     });
   }
-  const response = await validators.deleteSalesId(id);
-  console.log(response);
-  // if (response === null) console.log('id inválido');
-  return res.status(Status.OK).json(response);
+  console.log('response', response);
+  return res.status(Status.OK).json({ message: 'deletado' });
 };
 
 module.exports = {

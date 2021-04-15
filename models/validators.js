@@ -15,9 +15,20 @@ const getAllSales = async () => {
 
 const getSallesById = async (id) => {
   if (ObjectId.isValid(id)) {
+    return await connectionProject().then((db) =>
+      db.collection('sales').find({ _id: ObjectId(id) }),
+    );
+  }
+  return null;
+};
+
+const deleteSalesId = async (id) => {
+  if (ObjectId.isValid(id)) {
+    console.log('passei aqui')
     return connectionProject().then((db) =>
       db.collection('sales').deleteOne({ _id: ObjectId(id) }),
     );
+
   }
   return null;
 };
@@ -87,14 +98,7 @@ const updateSalesId = async (id, quantity, productId) => {
   return null;
 };
 
-const deleteSalesId = async (id) => {
-  if (ObjectId.isValid(id)) {
-    return connectionProject().then((db) =>
-      db.collection('sales').findOneAndDelete({ _id: ObjectId(id) }),
-    );
-  }
-  return null;
-};
+
 
 const remove = async (id) => {
   if (ObjectId.isValid(id)) {

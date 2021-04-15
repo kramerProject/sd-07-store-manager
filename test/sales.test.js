@@ -378,7 +378,7 @@ describe('7 - Crie um endpoint para atualizar uma venda', () => {
       .get(`${url}/products/`)
       .expect('status', 200)
       .then((response) => {
-        const { body } = response;  
+        const { body } = response;
         result = JSON.parse(body);
         resultProductId = result.products[0]._id;
       });
