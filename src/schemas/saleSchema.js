@@ -25,12 +25,12 @@ const validateSale = (sale) => {
 
   const validateItens = saleList.every((item) => {
     switch (true) {
-    case (!isValidId(item.productId)):
-    case (isNotNumber(item.quantity)):
-    case (minValue(item.quantity, minQuantity)):
-      err = { ...err, message: 'Wrong product ID or invalid quantity' };
-      return false;
-    default: return true;
+      case (!isValidId(item.productId)):
+      case (isNotNumber(item.quantity)):
+      case (minValue(item.quantity, minQuantity)):
+        err = { ...err, message: 'Wrong product ID or invalid quantity' };
+        return false;
+      default: return true;
     }
   });
 
@@ -42,19 +42,14 @@ const validateSale = (sale) => {
 const isExistingProduct = async (sale) => {
   const validadeProduct = sale.every(async (item) => {
     const product = await findById(item.productId);
-    console.log('teste', product);
     if (product === null) return false;
     return true;
   });
 
-  console.log('validadeProduct', validadeProduct);
-
   if (validadeProduct) return {};
 
   err = { ...err, message: 'isExistingProduct' };
-  console.log('err', err);
   return { code, err };
-
 };
 
 module.exports = {
