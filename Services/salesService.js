@@ -1,5 +1,5 @@
 const { getAllProduct } = require('../Models/productModel');
-const { addSale, getAll, getForId } = require('../Models/salesModel');
+const { addSale, getAll, getForId, update } = require('../Models/salesModel');
 const { ObjectId } = require('mongodb');
 
 const sales = async (bodyReq) => {
@@ -31,8 +31,20 @@ const returnProductsForId = async (_id) => {
   return await getForId(_id);
 };
 
+const updateSales = async (id, bodyReq ) => {
+  if(!ObjectId.isValid(id)) 
+    throw { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' };
+  bodyReq.forEach((sale) => {
+    const zero = 0;
+    if(sale.quantity <= zero || typeof sale.quantity !== 'number') {
+      throw { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' };
+    };
+  });
+  return await update(id, bodyReq );
+};
 module.exports = {
   sales,
   returnAllProducts,
   returnProductsForId,
+  updateSales,
 };

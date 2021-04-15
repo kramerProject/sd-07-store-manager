@@ -2,6 +2,7 @@ const {
   sales,
   returnAllProducts,
   returnProductsForId,
+  updateSales,
 } = require('../Services/salesService');
 
 
@@ -43,8 +44,23 @@ const getAllSalesForId = async (req, res) => {
   }
 };
 
+const upateForId = async (req, res) => {
+  const resOK = 200;
+  const resErr= 422;
+
+  try{
+    const { id } = req.params;
+    const bodyReq = req.body;
+    const upSales = await updateSales(id, bodyReq);
+    res.status(resOK).json(upSales);
+  } catch (err) {
+    res.status(resErr).json({err});
+  }
+};
+
 module.exports = {
   addSales,
   getAllSales,
   getAllSalesForId,
+  upateForId,
 };
