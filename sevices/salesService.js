@@ -25,7 +25,7 @@ const getAllSales = async () => {
   return allSales;
 };
 
-const validId = async (id) => {
+const validIdToSearch = async (id) => {
   const validSale = await SalesModel.findSaleById(id);
   if (!validSale) {
     throw({
@@ -37,10 +37,29 @@ const validId = async (id) => {
   }
 };
 
+const validId = async (id) => {
+  const validSale = await SalesModel.findSaleById(id);
+  if (!validSale) {
+    throw({
+      'code': 'invalid_data',
+      'message': 'Wrong sale ID format',
+    });
+  } else {
+    return validSale;
+  }
+};
+
 const findSaleById = async (id) => {
-  const sale = await validId(id);
+  const sale = await validIdToSearch(id);
   return sale;
 
 };
 
-module.exports = { create, getAllSales, findSaleById };
+const exclude = async (id) => {
+  await validId(id);
+  const excludeObject = await SalesModel.exclude(id);
+  return excludeObject;
+};
+
+
+module.exports = { create, getAllSales, findSaleById, exclude };

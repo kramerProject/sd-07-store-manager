@@ -32,5 +32,15 @@ const findSaleById = async (req, res, next) => {
   }
 };
 
-module.exports={ create, getAllSales, findSaleById };
+const exclude = async (req, res, next) => {
+  try{
+    const { id } = req.params;
+    const excludeObject = await SalesService.exclude(id);
+    return res.status(GET_SUCESS).json(excludeObject);
+  }catch(err){
+    next(err);
+  }
+};
+
+module.exports={ create, getAllSales, findSaleById, exclude };
 

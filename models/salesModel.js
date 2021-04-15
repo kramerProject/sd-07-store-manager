@@ -22,5 +22,14 @@ const create = async (itensSold) => {
   return addProduct.ops[0];
 };
 
-module.exports = { create, getAllSales, findSaleById };
+const exclude = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const excludeObject = await connect()
+    .then((db) => db.collection('sales')
+      .findOneAndDelete({ _id: ObjectId(id) })
+    );
+  return excludeObject.value;
+};
+
+module.exports = { create, getAllSales, findSaleById, exclude };
 
