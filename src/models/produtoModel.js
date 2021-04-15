@@ -32,7 +32,6 @@ const findByName = async (nameRequest) => {
 
   return product;
 };
-
 const update = async (id, name, quantity) => {
   if (!ObjectId.isValid(id)) {
     return null;
@@ -59,5 +58,5 @@ module.exports = {
   createProduct,
   findByName,
   update,
-  deleteById
+  deleteById,
 };

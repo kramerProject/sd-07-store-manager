@@ -1,4 +1,3 @@
-const { request } = require('express');
 const productModel = require('../models/produtoModel');
 
 const CODE = 'invalid_data';
