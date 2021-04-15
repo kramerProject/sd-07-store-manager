@@ -3,31 +3,20 @@ const modelsProducts = require('../models/modelsProducts');
 const modelsSales = require('../models/modelsSales');
 
 // rules for insert sales
-const rulesInsSales = async (name, quantity) => {
-  if (name.length < 6) {
-    throw {
-      code: 'invalid_data',
-      message: '"name" length must be at least 5 characters long',
-    };
-  }
-  const nameInvalid = await modelsProducts.getByName(name);
-  if (nameInvalid) {
-    throw {
-      code: 'invalid_data',
-      message: 'Product already exists',
-    };
-  }
-  if (quantity < 1) {
-    throw {
-      code: 'invalid_data',
-      message: '"quantity" must be larger than or equal to 1',
-    };
-  }
-  if (typeof quantity !== 'number') {
-    throw {
-      code: 'invalid_data',
-      message: '"quantity" must be a number',
-    };
-  }
-  return true;
+// const rulesInsSale = async ()
+// productId === db.productId
+// quantity > 0 && Number
+// newSale === newId
+
+
+const create = async (sale) => {
+  // const rules = rules.productModels.getByid(sale[0].id)
+
+  console.log('sales');
+  const saleInserted = await modelsSales.create(sale);
+  return saleInserted;
+};
+
+module.exports = {
+  create
 };

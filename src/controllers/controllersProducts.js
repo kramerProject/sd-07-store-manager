@@ -1,4 +1,4 @@
-const modelsProducts = require('../models/modelsProducts');
+// const modelsProducts = require('../models/modelsProducts');
 const servicesProducts = require('../services/servicesProducts');
 
 const createNew = async (req, res) => {
@@ -32,13 +32,13 @@ const getById = async (req, res) => {
   const { id } = req.params;
   try {
     const prodById = await servicesProducts.getById(id);
-    console.log('controller');
     res.status(200).json(prodById);
   } catch (err) {
     if (err.code === 'invalid_data') {
       return res.status(422).json({ err });
     }
     res.status(500).json({ message: 'Internal server error' });
+    // res.status(422).json({ err });
   }
 };
 

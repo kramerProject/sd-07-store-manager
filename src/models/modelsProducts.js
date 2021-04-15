@@ -10,7 +10,7 @@ const getByName = async (name) =>
 const create = async (name, quantity) => {
   const productNew = await connection()
     .then((db) => db.collection('products').insertOne({ name, quantity }));
-  return productNew;
+  return productNew.ops[0];
 };
 
 const getAll = async () =>

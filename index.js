@@ -1,10 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 /* const routers = require("../sd-06-store-manager/src/routers"); */
-const { routersProducts } = require('./src/routers');
+const { routersProducts, routersSales } = require('./src/routers');
 
 const app = express();
-
 
 app.use(express.json());
 // app.use(bodyParser.json());
@@ -16,14 +15,14 @@ app.get('/', (request, response) => {
   response.send();
 });
 app.use('/products', routersProducts);
-// app.use('/sales', routersSales);
+app.use('/sales', routersSales);
 
 app.listen(3000, () => console.log('running'));
 
 
 
 // referencias
-// Marcos Silva 07
+// Marcos Silva 07, Vanessa Naara Almeida Oliveira 07,
 // router/index - routerProd/Sale - controllersProd/sales - servideProd/sale - modelsProd
 // https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Status
 // https://expressjs.com/pt-br/guide/routing.html

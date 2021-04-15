@@ -56,7 +56,6 @@ const getAll = async () => {
   return productsList;
 };
 
-// onde passar o erro? aqui ou no controllers?
 const getById = async (id) => {
   const productId = await modelsProducts.getById(id);
 
