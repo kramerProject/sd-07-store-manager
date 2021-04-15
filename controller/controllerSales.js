@@ -5,7 +5,8 @@ const {
   addToSales,
   serviceGetAllSales,
   serviceGetSalesById,
-  serviceUpdateSalesById
+  serviceUpdateSalesById,
+  serviceDeleteSalesById
 } = require('../service/salesService');
 const unprocessable_entity = 422;
 const success = 200;
@@ -63,9 +64,22 @@ const updateSalesById = async (req, res) => {
     });
   }
 };
+
+const deleteSalesById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await serviceDeleteSalesById(id);
+    if (result) return res.status(success).json(result);
+  } catch (err) {
+    res.status(unprocessable_entity).json({
+      'err': { 'code': 'invalid_data', 'message': err.message }
+    });
+  }
+};
 module.exports = {
   controllerAddSales,
   getAllSales,
   getSalesById,
-  updateSalesById
+  updateSalesById,
+  deleteSalesById
 };

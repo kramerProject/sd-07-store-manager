@@ -2,7 +2,8 @@ const {
   modelAddToSales,
   modelGetAllSales,
   modelGetSalesById,
-  modelUpdateSalesById
+  modelUpdateSalesById,
+  modelDeleteSalesById
 } = require('../model/salesModel');
 const ObjectId = require('mongodb').ObjectId;
 const five = 5;
@@ -51,6 +52,15 @@ async function serviceUpdateSalesById(salesId, productId, quantity) {
   }
   return result;
 }
+
+
+async function serviceDeleteSalesById(id) {
+  const result = await modelDeleteSalesById(id);
+  if (!result) {
+    throw new Error('Wrong sale ID format');
+  }
+  return result;
+}
 module.exports = {
   checkQuantities,
   checkQuantity,
@@ -58,5 +68,6 @@ module.exports = {
   addToSales,
   serviceGetAllSales,
   serviceGetSalesById,
-  serviceUpdateSalesById
+  serviceUpdateSalesById,
+  serviceDeleteSalesById
 };

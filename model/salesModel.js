@@ -30,7 +30,7 @@ async function modelGetSalesById(id) {
 async function modelUpdateSalesById(salesId, productId, quantity) {
   return connect().then((db) => {
     try {
-      const item = db.collection('products').updateOne({ _id: ObjectId(salesId) }, {
+      const item = db.collection('sales').updateOne({ _id: ObjectId(salesId) }, {
         $push: {
           itensSold: { productId, quantity, }
         }
@@ -44,9 +44,29 @@ async function modelUpdateSalesById(salesId, productId, quantity) {
   });
 }
 
+
+async function modelDeleteSalesById(id) {
+  const searchedItem = await connect().then(async (db) => {
+    try {
+      return db.collection('sales').findOne({ _id: ObjectId(id) });
+    } catch (err) {
+      return false;
+    };
+  });
+  
+  if (searchedItem) {
+    connect().then(async (db) => {
+      db.collection('sales').deleteOne({ _id: ObjectId(id) });
+    });
+    return searchedItem;
+  }
+  return false;
+}
+
 module.exports = {
   modelAddToSales,
   modelGetAllSales,
   modelGetSalesById,
-  modelUpdateSalesById
+  modelUpdateSalesById,
+  modelDeleteSalesById
 };

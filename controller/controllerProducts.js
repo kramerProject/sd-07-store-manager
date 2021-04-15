@@ -78,7 +78,6 @@ const deleteById = async (req, res) => {
       'err': { 'code': 'invalid_data', 'message': err.message }
     });
   }
-
 };
 module.exports = {
   addProduct,
