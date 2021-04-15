@@ -7,7 +7,7 @@ const createProduct = async (req, res) => {
   try {
     const { name, quantity } = req.body;
     const result = await prodService.addProduct(name, quantity);
-    res.status(result.code).json(result.response);
+    res.status(result.status).json(result.response);
   } catch (error) {
     console.error(error.message);
     res.status(erro500).json({ message: 'Internal Server Error'});
@@ -33,8 +33,20 @@ const getById = async (req, res) => {
   }
 };
 
+const updateProduct = async (req, res) => {
+  try {
+    const {id} = req.params;
+    const {name, quantity} = req.body;
+    const result = await prodService.updateProduct(id, name, quantity);
+    res.status(result.status).json(result.response);
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
 module.exports = {
   createProduct,
   getAll,
-  getById
+  getById,
+  updateProduct
 };

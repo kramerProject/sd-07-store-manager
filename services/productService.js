@@ -8,8 +8,8 @@ const addProduct = async (name, quantity) => {
   if (minQtd(quantity)) return minQtd(quantity);
   const result = await productModel.createProduct(name, quantity);
   return {
-    response: result[0], 
-    code: 201
+    response: result, 
+    status: 201
   };
 };
 
@@ -26,8 +26,20 @@ const getById = async (id) => {
   }};
 };
 
+const updateProduct = async (id, name, quantity) => {
+  if (minChar(name)) return minChar(name);
+  if (isNumber(quantity)) return isNumber(quantity);
+  if (minQtd(quantity)) return minQtd(quantity);
+  const result = await productModel.updateProduct(id, name, quantity);
+  return {
+    response: result.value,
+    status: 200
+  };
+};
+
 module.exports = {
   addProduct,
   getAll,
-  getById
+  getById,
+  updateProduct
 };

@@ -6,18 +6,35 @@ const getAll = async () => {
 };
 
 const createProduct = async (name, quantity) => {
-  return connection().then((db) =>
-    db.collection('products').insertOne({ name, quantity })).then(result => result.ops);
+  return connection()
+    .then((db) => db.collection('products').insertOne({ name, quantity }))
+    .then((result) => result.ops[0]);
 };
 
 const getById = async (id) => {
-  return connection().then((db) => 
-    db.collection('products').findOne(ObjectId(id)))
-    .catch(err => err);
+  return connection()
+    .then((db) => db.collection('products').findOne(ObjectId(id)))
+    .catch((err) => err);
+};
+
+const updateProduct = async (id, name, quantity) => {
+  return connection()
+    .then((db) =>
+      // db.collection('products').updateOne({_id: ObjectId(id)}, {$set: {name, quantity}}))
+      db
+        .collection('products')
+        .findOneAndUpdate(
+          { _id: ObjectId(id) },
+          { $set: { name, quantity } },
+          { returnOriginal: false },
+        ),
+    )
+    .catch((err) => err);
 };
 
 module.exports = {
   getAll,
   createProduct,
-  getById
+  getById,
+  updateProduct,
 };

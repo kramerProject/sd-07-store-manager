@@ -9,7 +9,7 @@ const minChar = (name) => {
       'code': 'invalid_data',
       'message': '"name" length must be at least 5 characters long'
     }},
-    code: 422,
+    status: 422,
   };
 };
 
@@ -22,7 +22,7 @@ const isDuplicated = async (name) => {
       'message': 'Product already exists'
     }
     },
-    code: 422,
+    status: 422,
   };
 };
 
@@ -32,7 +32,7 @@ const minQtd = (quantity) => {
       'code': 'invalid_data',
       'message': '"quantity" must be larger than or equal to 1'
     }},
-    code: 422,
+    status: 422,
   };
 };
 
@@ -42,7 +42,7 @@ const isNumber = (quantity) => {
       'code': 'invalid_data',
       'message': '"quantity" must be a number'
     }},
-    code: 422,
+    status: 422,
   };
 };
 
