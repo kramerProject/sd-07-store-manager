@@ -1,5 +1,3 @@
-const { ObjectId } = require('mongodb');
-
 const productModel = require('../models/ProductModel');
 const errorMessage = require('../../helpers/errorMessages');
 
