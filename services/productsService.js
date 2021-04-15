@@ -138,7 +138,6 @@ const deleteProduct = async (id) => {
       data: dataErr,
       code: codeErr
     };
-
     return {
       data: product,
       code: codeSuccess,
