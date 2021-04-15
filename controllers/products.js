@@ -73,7 +73,7 @@ const getProductsId = async (request, response) => {
       objError.err.message = error.message;
       return res.status(UNPROCESS).json(objError);
     }
-    return res.status(ERROR).json({ message: error.message });
+    return response.status(ERROR).json({ message: error.message });
   }
 };
 

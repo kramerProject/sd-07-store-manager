@@ -8,7 +8,7 @@ const {
   postProduct,
   putProduct,
   deleteProduct,
-} = require('../controllers');
+} = require('../controllers/products');
   
 const {
   validatedName,
