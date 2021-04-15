@@ -78,10 +78,14 @@ const addNewsale = rescue(async (req, res) => {
 const updateSale = rescue(async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(req.body);
-    // const { name, quantity } = req.body;
-    // const product = await productModel.updateProduct(id, name, quantity);
-    // res.status(OK).json(product);
+    if(await verifyProductsId(req.body)) {
+      return res.status(INVALID_DATA).json(wrongIdOrQuantity);
+    };
+    if(verifyQuantity(req.body)) {
+      return res.status(INVALID_DATA).json(wrongIdOrQuantity);
+    };
+    const product = await saleModel.updateSale(id, req.body);
+    res.status(OK).json(product);
   } catch (error) {
     throw new Error(error);
   }
