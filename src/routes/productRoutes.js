@@ -13,7 +13,8 @@ router.get('/products', productController.getAllProducts);
 router.post('/products', nameValidationsMiddleware,
   quantityValidationsMiddleware, productController.createProduct);
 router.get('/products/:id', productIdExistisMiddleware, productController.getProductById);
-// router.put('/products/:id', '');
+router.put('/products/:id', nameValidationsMiddleware,
+  quantityValidationsMiddleware, productController.updateProduct);
 // router.delete('/products/:id', '');
 
 module.exports = router;

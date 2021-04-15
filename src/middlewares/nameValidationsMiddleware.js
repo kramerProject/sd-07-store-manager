@@ -4,6 +4,7 @@ const {
   statusHttp,
   nameLength,
   verifyCountName,
+  verifyVerb,
 } = services;
 
 const { C_422 } = statusHttp;
@@ -21,8 +22,7 @@ const nameValidationsMiddleware = async (req, res, next) => {
           }
         });
     }
-    if (await verifyCountName(name)) {
-      console.log('Console count', verifyCountName);
+    if (await verifyVerb(req) && await verifyCountName(name)) {
       return res
         .status(C_422)
         .send({

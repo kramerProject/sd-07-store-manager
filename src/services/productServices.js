@@ -32,10 +32,18 @@ const verifyPositiveInteger = (quantity) => {
     return true;
 };
 
+const verifyVerb = async (req) => {
+  const { method } = req;
+  if (method === 'POST')
+    return true;
+  return false;
+};
+
 module.exports = services = {
   statusHttp,
   nameLength,
   verifyCountName,
   quantityIsNumber,
   verifyPositiveInteger,
+  verifyVerb,
 };
