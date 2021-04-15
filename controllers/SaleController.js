@@ -1,4 +1,5 @@
-const { createSale, listSales, getSale } = require('../services/salesService');
+const { createSale, listSales,
+  getSale, deleteSale } = require('../services/salesService');
 
 const SignSale = async (req, res) => {
   try {
@@ -25,10 +26,21 @@ const saleByID = async (req, res) => {
     throw new Error(error);
   }
 };
+
+const excludeSale = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const data = await deleteSale(id);
+    return res.status(data.code).json(data.data);
+  } catch (error) {
+    throw new Error(error);
+  }
+};
   
 
 module.exports = {
   SignSale,
   allSales,
   saleByID,
+  excludeSale,
 };

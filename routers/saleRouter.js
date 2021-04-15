@@ -4,6 +4,7 @@ const {
   SignSale,
   allSales,
   saleByID,
+  excludeSale
 } = require('../controllers/SaleController');
 
 router.post('/', SignSale);
@@ -12,6 +13,6 @@ router.get('/:id', saleByID);
 // router.get('/', allProducts);
 // router.get('/:id', ProductById);
 // router.put('/:id', setProduct);
-// router.delete('/:id', excludeProduct);
+router.delete('/:id', excludeSale);
 
 module.exports = router;

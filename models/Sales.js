@@ -14,6 +14,14 @@ const add = async (itensSold) => (
   })
 );
 
+const exclude = async (id) =>
+  connection().then( async (db) => {
+    await db
+      .collection('products').deleteOne({ _id: ObjectId(id) });
+    const { name, quantity } = db.collection('products').findOne(ObjectId(id));
+    return { _id: id, name: name, quantity: quantity };
+  });
+
 const getById = async(id) => {
   if (!ObjectId(id)) return null;
   return connection()
@@ -24,4 +32,5 @@ module.exports = {
   add,
   getAll,
   getById,
+  exclude,
 };

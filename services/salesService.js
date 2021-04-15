@@ -54,11 +54,11 @@ const listSales = async () => {
 const getSale = async (id) => {
   const dataErr = {
     'err': {
-      'code': 'invalid_data',
-      'message': 'Wrong id format'
+      'code': 'not_found',
+      'message': 'Sale not found'
     }
   };
-  const codeErr = 422;
+  const codeErr = 404;
   const codeSuccess = 200;
   try {
     const sale = await getById(id);
@@ -80,8 +80,36 @@ const getSale = async (id) => {
   }
 };
 
+const deleteSale = async (id) => {
+  const dataErr = {
+    'err': {
+      'code': 'invalid_data',
+      'message': 'Wrong sale ID format'
+    }
+  };
+  const codeErr = 422;
+  const codeSuccess = 200;
+  try {
+    const sale = await exclude(id);
+    if (!sale) return {
+      data: dataErr,
+      code: codeErr
+    };
+    return {
+      data: sale,
+      code: codeSuccess,
+    };
+  } catch (error) {
+    return {
+      data: dataErr,
+      code: codeErr
+    };
+  }
+};
+
 module.exports = {
   createSale,
   listSales,
   getSale,
+  deleteSale,
 };
