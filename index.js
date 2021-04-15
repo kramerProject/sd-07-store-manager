@@ -1,7 +1,9 @@
 const express = require('express');
-const routers = require('./router');
+const bodyParser = require('body-parser');
+const router = require('./router');
 
 const app = express();
+app.use(bodyParser.json());
 
 const PORT = 3000;
 
@@ -10,6 +12,6 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.use(routers);
+app.use(router);
 
 app.listen(PORT, () => { console.log(`Online, Ouvindo porta ${PORT}!`); });
