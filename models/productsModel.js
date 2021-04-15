@@ -27,11 +27,7 @@ const create = async (name, quantity) => {
   const newProduct = await connect()
     .then(db => db.collection('products')
       .insertOne({ name, quantity }));
-  return {
-    _id: newProduct.insertedId,
-    name,
-    quantity
-  };
+  return newProduct.ops[0];
 };
 
 const update = async (id, name, quantity) => {
