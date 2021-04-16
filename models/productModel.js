@@ -9,7 +9,19 @@ const create = async (name, quantity) => {
   return { _id: product.insertedId, name, quantity };
 };
 
+const getAll = async () => 
+  connection().then((db) => 
+    db.collection('products').find().toArray());
+
+const getById = async (id) => {
+  return connection().then((db) => 
+    db.collection('products').findOne({ _id: ObjectId(id) }));
+};
+    
+
 
 module.exports = {	
   create,
+  getAll,
+  getById,
 };

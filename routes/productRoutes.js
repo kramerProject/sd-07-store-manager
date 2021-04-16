@@ -4,8 +4,11 @@ const middlewares = require('../middlewares');
 
 const router = express.Router();
 
-//router.get('/products', songController.getAllSongs);
-//router.get('/songs/:id', songController.getSongById);
+router.get('/products', productController.allProducts);
+router.get(
+  '/products/:id',
+  middlewares.validateProductNotExistMiddleware, 
+  productController.oneProduct);
 router.post(
   '/products',
   middlewares.validateNameMiddleware,
