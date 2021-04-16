@@ -28,6 +28,12 @@ const update = async (id, { name, quantity }) => {
   return result;
 };
 
+const remove = async (id) => {
+  const db = await connection();
+  const { result } = await db.collection('products').deleteOne({ '_id': ObjectId(id) });
+  return result;
+};
+
 const findByName = async (name) => {
   const db = await connection();
   const product = await db.collection('products').findOne({ name });
@@ -52,4 +58,5 @@ module.exports = {
   findAll,
   findById,
   update,
+  remove,
 };

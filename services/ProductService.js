@@ -10,6 +10,11 @@ const update = async (id, product) => {
   return (result.n) ? true : false;
 };
 
+const remove = async (id) => {
+  const result = await productModel.remove(id);
+  return (result.n) ? true : false;
+};
+
 const getByName = async (name) => {
   const product = await productModel.findByName(name);
   return product;
@@ -52,4 +57,5 @@ module.exports = {
   getAll,
   getById,
   update,
+  remove,
 };

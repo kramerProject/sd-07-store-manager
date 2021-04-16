@@ -55,6 +55,29 @@ router.put('/:id',
     const updatedProduct = await productService.update(id, body);
     if (updatedProduct) return res.status(OK).json({ _id: id, ...body });
     return res.status(NOT_FOUND).json({ message: 'Produto não encontrado' });
-  });
+  }
+);
+
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const product = await productService.getById(id);
+    const deletedProduct = await productService.remove(id);
+    if (deletedProduct) return res.status(OK).json(product);
+    return res.status(UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format'
+      }
+    });
+  } catch (error) {
+    return res.status(UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format'
+      }
+    });    
+  }
+});
 
 module.exports = router;
