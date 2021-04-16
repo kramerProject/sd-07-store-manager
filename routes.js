@@ -8,11 +8,20 @@ const {
   deleteProductController
 } = require('./controllers/productController');
 
+const {
+  createSaleController
+} = require('./controllers/saleController');
+
 const { 
   validateNameMiddleware,
   validateQuantityMiddleware,
   validateUniqueProductsMiddleware
 } = require('./middlewares/productMiddlewares');
+
+const { 
+  validateSaleMiddleware
+} = require('./middlewares/salesMiddlewares');
+
 
 const route = express.Router();
 
@@ -34,5 +43,7 @@ route.put('/products/:id',
 );
 
 route.delete('/products/:id', deleteProductController);
+
+route.post('/sales', validateSaleMiddleware, createSaleController);
 
 module.exports = route;
