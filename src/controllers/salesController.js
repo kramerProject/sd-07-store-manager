@@ -72,9 +72,9 @@ const saleDelete = async (req, res, next) => {
   } catch (error) {
     console.error(error);
     next({
-      status: NOT_FOUND,
+      status: UNPROCESSABLE,
       message: error.message,
-      code: CODE_NOT_FOUND,
+      code: CODE_INVALID,
     });
   }
 };

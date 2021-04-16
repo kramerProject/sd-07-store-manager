@@ -2,6 +2,11 @@ const { productsModel } = require('../models');
 const { create, exclude, read, update, readById } = productsModel;
 
 const createProduct = async (name, quantity) => {
+  const productsList = await readProducts();
+  if (!productsList) throw new Error('Products undefined');
+  const checkNameExists = productsList.some((product) => product.name === name);
+  if (checkNameExists) throw new Error('Product already exists');
+
   const newProduct = await create(name, quantity);
   if (!newProduct) return undefined;
   return { _id: newProduct.insertedId, name, quantity };
