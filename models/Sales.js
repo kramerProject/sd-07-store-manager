@@ -24,6 +24,16 @@ const exclude = async (id) => {
   });
 };
 
+const update = async (itensSold, id) => {
+  if (!ObjectId(id)) return null;
+  return connection().then( async (db) => {
+    await db
+      .collection('sales')
+      .updateOne({ _id: ObjectId(id) }, { $set: { 'itensSold': itensSold }});
+    return { _id: id, itensSold: itensSold };
+  });
+};
+
 const getById = async(id) => {
   if (!ObjectId(id)) return null;
   return connection()
@@ -35,4 +45,5 @@ module.exports = {
   getAll,
   getById,
   exclude,
+  update
 };

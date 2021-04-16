@@ -1,5 +1,5 @@
 const { createSale, listSales,
-  getSale, deleteSale } = require('../services/salesService');
+  getSale, deleteSale, updateSale } = require('../services/salesService');
 
 const SignSale = async (req, res) => {
   try {
@@ -36,6 +36,16 @@ const excludeSale = async (req, res) => {
     throw new Error(error);
   }
 };
+
+const setSale = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const data = await updateSale(req.body, id);
+    return res.status(data.code).json(data.data);
+  } catch (error) {
+    throw new Error(error);
+  }
+};
   
 
 module.exports = {
@@ -43,4 +53,5 @@ module.exports = {
   allSales,
   saleByID,
   excludeSale,
+  setSale,
 };
