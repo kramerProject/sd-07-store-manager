@@ -1,5 +1,5 @@
 const express = require('express');
-const { productRoutes } = require('./routes');
+const { productRoutes, salesRoutes } = require('./routes');
 
 const app = express();
 const PORT = '3000';
@@ -11,5 +11,6 @@ app.get('/', (_request, response) => {
 });
 
 app.use(productRoutes);
+app.use(salesRoutes);
 
 app.listen(PORT, () => { console.log('Online'); });

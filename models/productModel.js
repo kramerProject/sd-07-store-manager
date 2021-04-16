@@ -44,6 +44,14 @@ const deleteOneProduct = async (id) => {
     db.collection('products').deleteOne({ _id: ObjectId(id) }));
   return product;
 };
+const countExistentIds = async (arrayIds) => {
+  const idsQuantity = arrayIds.length;
+  const objIds = arrayIds.map(id => ObjectId(id));
+
+  const existentsIdsQuantity = await connect().then((db) =>
+    db.collection('products').countDocuments({ _id: { $in: objIds } }));
+  return existentsIdsQuantity;
+};
 
 module.exports = {
   add,
@@ -51,5 +59,6 @@ module.exports = {
   getById,
   countByName,
   update,
-  deleteOneProduct
+  deleteOneProduct,
+  countExistentIds
 };
