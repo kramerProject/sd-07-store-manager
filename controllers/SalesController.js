@@ -4,7 +4,7 @@ const salesService = require('../services/SalesService');
 const {
   saleProductQuantityVerify,
   saleProductQuantityTypeVerify,
-  saleUpdate,
+  saleVerify,
 } = require('../middlewares/SalesMiddlewares');
 
 const OK = 200;
@@ -12,15 +12,11 @@ const CREATED = 201;
 const UNPROCESSABLE_ENTITY = 422;
 const NOT_FOUND = 404;
 
-router.post('/',
-  saleProductQuantityTypeVerify,
-  saleProductQuantityVerify,
-  async (req, res) => {
-    const { body: itens } = req;
-    const sale = await salesService.create(itens);
-    res.status(OK).json(sale);
-  }
-);
+router.post('/', saleVerify, async (req, res) => {
+  const { body: itens } = req;
+  const sale = await salesService.create(itens);
+  res.status(OK).json(sale);
+});
 
 
 router.get('/:id', async (req, res) => {
@@ -43,7 +39,7 @@ router.get('/', async (_req, res) => {
   res.status(OK).json({ sales });
 });
 
-router.put('/:id', saleUpdate, async (req, res) =>{
+router.put('/:id', saleVerify, async (req, res) =>{
   const { body: itens } = req;
   const { id } = req.params;
   const updatedSale = await salesService.update(id, itens);

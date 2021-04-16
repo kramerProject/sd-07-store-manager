@@ -31,9 +31,9 @@ const saleProductQuantityTypeVerify = (req, res, next) => {
     });
 };
 
-const saleUpdate = (req, res, next) => {
+const saleVerify = (req, res, next) => {
   const { body: itens } = req;
-  (salesService.typeVerify && salesService.quantityVerify)
+  (salesService.typeVerify(itens) && salesService.quantityVerify(itens))
     ? next()
     : res.status(UNPROCESSABLE_ENTITY).json({
       err: {
@@ -62,7 +62,7 @@ const productExists = async (req, res, next) => {
 
 module.exports = {
   productExists,
-  saleUpdate,
+  saleVerify,
   saleProductQuantityVerify,
   saleProductQuantityTypeVerify,
 };
