@@ -30,7 +30,6 @@ const remove = async (id) => {
 const findById = async (id) => {
   const db = await connection();
   const sale = await db.collection('sales').findOne(ObjectId(id));
-  console.log(sale);
   return sale;    
 };
 

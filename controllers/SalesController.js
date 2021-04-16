@@ -21,15 +21,24 @@ router.post('/', saleVerify, async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const  id  = req.params.id;
-  const sale = await salesService.getById(id);
-  (sale)
-    ? res.status(OK).json(sale)
-    : res.status(NOT_FOUND).json({
+  try {
+    const sale = await salesService.getById(id);
+    (sale)
+      ? res.status(OK).json(sale)
+      : res.status(NOT_FOUND).json({
+        err: {
+          code: 'not_found',
+          message: 'Sale not found'
+        }
+      });    
+  } catch (error) {
+    return res.status(UNPROCESSABLE_ENTITY).json({
       err: {
         code: 'not_found',
         message: 'Sale not found'
       }
-    });    
+    });
+  }
 });
 
 router.get('/', async (_req, res) => {
