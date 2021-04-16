@@ -19,7 +19,7 @@ const deleteProduct = async (id) => {
   console.log(document);
   return connection()
     .then((db) =>
-      db.collection('products').deleteOne({ 
+      db.collection(process.env.DB_COLLECTION).deleteOne({ 
         _id: product
       }),
     )

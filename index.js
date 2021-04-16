@@ -9,6 +9,7 @@ const route = require('./src/routes/index');
 app.use(express.json());
 app.use('/', route);
 app.use('/products', route);
+app.use('/sales', route);
 
 
 app.listen(port, () => console.log(`app listening on port ${port}!`));
