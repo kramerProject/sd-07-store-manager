@@ -22,11 +22,34 @@ const findById = async (req, res) => {
     const result = await productsService.findById(id);
     res.status(StatusCodes.OK).send(result);
   } catch ({ message }) {
-    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(JSON.parse(message));
+    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(await JSON.parse(message));
+  }
+};
+
+const updateById = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  try {
+    const result = await productsService.updateById(id, name, quantity);
+    res.status(StatusCodes.OK).send(result);
+  } catch ({ message }) {
+    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(await JSON.parse(message));
+  }
+};
+
+const removeById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await productsService.removeById(id);
+    res.status(StatusCodes.OK).send(result);
+  } catch ({message}) {
+    res.status(StatusCodes.UNPROCESSABLE_ENTITY).send(await JSON.parse(message));
   }
 };
 module.exports = {
   insertNewProduct,
   findAll,
   findById,
+  updateById,
+  removeById,
 };

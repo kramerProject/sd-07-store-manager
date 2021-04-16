@@ -22,6 +22,24 @@ const findById = async (id) => {
   return result[0];
 };
 
+const updateById = async (id, name, quantity) => {
+  await conn()
+    .then((db) => db.collection('products')
+      .updateOne({ _id: id }, {$set: { name: name, quantity: quantity}}));
+  return {
+    _id: id,
+    name,
+    quantity,
+  };;
+};
+
+const removeById = async (id) => {
+  const result = await findById(id);
+  await conn().then((db) => db.collection('products').deleteOne({ _id: id }));
+  console.log(result);
+  return result;
+};
+
 const verifyName = async (name) => {
   const emptyResult = 0;
   const result = await conn().then((db) =>
@@ -35,4 +53,6 @@ module.exports = {
   verifyName,
   findAll,
   findById,
+  updateById,
+  removeById,
 };
