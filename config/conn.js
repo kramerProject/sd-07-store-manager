@@ -17,20 +17,4 @@ connection = () =>
       process.exit(1);
     });
 
-
-
-/* connection = async () => {
-  try {
-    const conn = await MongoClient.connect(MONGO_DB_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    return conn.db(DB_NAME);
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
-  
-}; */
-
 module.exports = connection;

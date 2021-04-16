@@ -21,17 +21,15 @@ router.post('/', saleVerify, async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const  id  = req.params.id;
-  try {
-    const sale = await salesService.getById(id);
-    return res.status(OK).json(sale);    
-  } catch (error) {
-    return res.status(NOT_FOUND).json({
+  const sale = await salesService.getById(id);
+  (sale)
+    ? res.status(OK).json(sale)
+    : res.status(NOT_FOUND).json({
       err: {
         code: 'not_found',
         message: 'Sale not found'
       }
     });    
-  }
 });
 
 router.get('/', async (_req, res) => {
@@ -53,7 +51,7 @@ router.delete('/:id', async (req, res) => {
     const sale = await salesService.getById(id);
     const deletedSale = await salesService.remove(id);
     if (deletedSale) return res.status(OK).json(sale);
-    return res.status(UNPROCESSABLE_ENTITY).json({
+    return res.status(NOT_FOUND).json({
       err: {
         code: 'invalid_data',
         message: 'Wrong sale ID format'

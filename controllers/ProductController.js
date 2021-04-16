@@ -27,17 +27,15 @@ router.post('/',
 
 router.get('/:id', async (req, res) => {
   const  id  = req.params.id;
-  try {
-    const product = await productService.getById(id);
-    return res.status(OK).json(product);    
-  } catch (error) {
-    return res.status(UNPROCESSABLE_ENTITY).json({
+  const product = await productService.getById(id);
+  (product)
+    ? res.status(OK).json(product)
+    : res.status(UNPROCESSABLE_ENTITY).json({
       err: {
         code: 'invalid_data',
         message: 'Wrong id format'
       }
-    });    
-  }
+    });
 });
 
 router.get('/', async (_req, res) => {

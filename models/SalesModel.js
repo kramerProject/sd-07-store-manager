@@ -1,12 +1,6 @@
 const connection = require('../config/conn');
 const { ObjectId } = require('mongodb');
 
-/* const create = async (firstName, middleName, lastName) =>
-connection()
-    .then((db) =>
-    db.collection('authors').insertOne({ firstName, middleName, lastName })
-    ).then((result) => result);
- */
 const create = async (itens) => {
   const db = await connection();
   const { insertedId } = await db.collection('sales').insertOne({ itensSold: itens });
@@ -36,6 +30,7 @@ const remove = async (id) => {
 const findById = async (id) => {
   const db = await connection();
   const sale = await db.collection('sales').findOne(ObjectId(id));
+  console.log(sale);
   return sale;    
 };
 
