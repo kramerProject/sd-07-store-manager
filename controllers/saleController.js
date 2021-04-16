@@ -5,7 +5,7 @@ const addSale = async (req, res) => {
   try {
     const sale = req.body;
     const newSale = await saleModel.add(sale);
-    res.status(status.CREATED).json(newSale);
+    res.status(status.OK).json(newSale);
   } catch (err) {
     res.status(status.INTERNAL_SERVER_ERROR).json(err.message);
   }
@@ -13,7 +13,7 @@ const addSale = async (req, res) => {
 const getAllSales = async (req, res) => {
   try {
     const sales = await saleModel.getAll();
-    res.status(status.CREATED).send(sales);
+    res.status(status.OK).send(sales);
   } catch (err) {
     res.status(status.INTERNAL_SERVER_ERROR).json(err.message);
   }
