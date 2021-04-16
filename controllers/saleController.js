@@ -42,7 +42,6 @@ const createSaleController = async (req, res, next) => {
   }
 };
 
-
 const updateSaleController = async (req, res, next) => {
   const wrongIdFormatErrorMessage = 'Wrong id format';
   try {
@@ -58,9 +57,24 @@ const updateSaleController = async (req, res, next) => {
   }
 };
 
+const deleteSaleController = async (req, res, next) => {
+  const wrongIdFormatErrorMessage = 'Wrong sale ID format';
+  try {
+    const { id } = req.params;
+    const result = await Sale.excludeSale(id);
+    if (result !== null) return res.status(SUCCESS).json(result);
+    throw new UnprocessableException(
+      wrongIdFormatErrorMessage
+    );
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   createSaleController,
   getAllSalessController,
   getSaleByIdController,
-  updateSaleController
+  updateSaleController,
+  deleteSaleController
 };

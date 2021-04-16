@@ -12,7 +12,8 @@ const {
   getAllSalessController,
   getSaleByIdController,
   createSaleController,
-  updateSaleController
+  updateSaleController,
+  deleteSaleController
 } = require('./controllers/saleController');
 
 const { 
@@ -54,5 +55,7 @@ route.get('/sales/:id', getSaleByIdController);
 route.post('/sales', validateSaleMiddleware, createSaleController);
 
 route.put('/sales/:id', validateSaleMiddleware, updateSaleController);
+
+route.delete('/sales/:id', deleteSaleController);
 
 module.exports = route;
