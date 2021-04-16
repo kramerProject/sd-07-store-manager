@@ -1,41 +1,25 @@
 const Product = require('../models/productModel');
-
-const OK = 200;
-const CREATED = 201;
-const SERVERROR = 500;
-const ERR_UNPR_ENTITY = 422;
+const productService = require('../services/productService');
+const statusCodes = require('../utils/statusCodes');
 
 const getAll = async (_req, res) => {
   try {
     const results = { products: await Product.getAll() };
-    res.status(OK).json(results);
+    res.status(statusCodes.OK).json(results);
   } catch (err) {
     console.error(err);
-    res.status(SERVERROR).json({ message: err.message });
+    res.status(statusCodes.SERVER).json({ message: err.message });
   }
 };
 
 const getById = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await Product.getById(id);
-
-    if (!result) {
-      res.status(ERR_UNPR_ENTITY).json(
-        {
-          'err': {
-            'code': 'invalid_data',
-            'message': 'Wrong id format'
-          }
-        }
-      );
-      return;
-    }
-
-    res.status(OK).json(result);
+    const result = await productService.getByIdService(id);
+    res.status(result.status).json(result.msg);
   } catch (err) {
     console.error(err);
-    res.status(SERVERROR).json({ message: err.message });
+    res.status(statusCodes.SERVER).json({ message: err.message });
   }
 };
 
@@ -44,11 +28,10 @@ const createProduct = async (req, res) => {
   try {
     const { name, quantity } = req.body;
     const result = await Product.create(name, quantity);
-
-    res.status(CREATED).json(result);
+    res.status(statusCodes.CREATED).json(result);
   } catch (err) {
     console.error(err);
-    res.status(SERVERROR).json({ message: err.message });
+    res.status(statusCodes.SERVER).json({ message: err.message });
   }
 };
 
@@ -56,42 +39,23 @@ const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, quantity } = req.body;
-
-    const result = await Product.update({ id, name, quantity });
-    if (!result) {
-      res.status(SERVERROR).json({ message: 'Não encontrado' });
-      return;
-    }
-
-    res.status(OK).json({ id, name, quantity });
+    const result = await Product.update( id, name, quantity );
+    res.status(statusCodes.OK).json({ id, name, quantity });
 
   } catch (err) {
     console.error(err);
-    res.status(SERVERROR).json({ message: err.message });
+    res.status(statusCodes.SERVER).json({ message: err.message });
   }
 };
 
 const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await Product.exclude(id);
-
-    if (!result) {
-      res.status(ERR_UNPR_ENTITY).json(
-        {
-          'err': {
-            'code': 'invalid_data',
-            'message': 'Wrong id format'
-          }
-        }
-      );
-      return;
-    }
-
-    res.status(OK).json(result);
+    const result = await productService.deleteProductService(id);
+    res.status(result.status).json(result.msg);
   } catch (err) {
     console.error(err);
-    res.status(SERVERROR).json({ message: err.message });
+    res.status(statusCodes.SERVER).json({ message: err.message });
   }
 };
 
