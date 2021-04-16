@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
         }
       });    
   } catch (error) {
-    return res.status(UNPROCESSABLE_ENTITY).json({
+    return res.status(NOT_FOUND).json({
       err: {
         code: 'not_found',
         message: 'Sale not found'
