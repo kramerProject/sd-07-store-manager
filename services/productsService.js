@@ -69,4 +69,24 @@ const updateProduct = async (id, name, quantity) => {
   return upProduct;
 };
 
-module.exports = { insertProduct, getAllProducts, findByIdProduct, updateProduct };
+const deleteProduct = async (id) => {
+  const prodDelete = await productModel.findByIdProduct(id);
+  if (prodDelete === '' || prodDelete === undefined || prodDelete === null) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    };
+  }
+  await productModel.deleteProduct(id);
+  return prodDelete;
+};
+
+module.exports = {
+  insertProduct,
+  getAllProducts,
+  findByIdProduct,
+  updateProduct,
+  deleteProduct,
+};
