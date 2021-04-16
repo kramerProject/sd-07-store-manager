@@ -26,9 +26,17 @@ const quantityMustBeANumberError = {
   },
 };
 
+const invalidIdFormatError = {
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong id format',
+  },
+};
+
 module.exports = {
   productExistsError,
   productNameLengthError,
   quantityMustBeANumberError,
   quantityLargerThanZeroError,
+  invalidIdFormatError,
 };

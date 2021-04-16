@@ -12,8 +12,14 @@ const insertNewProduct = async (name, quantity) => {
 };
 
 const findAll = async () => {
-  const result = await conn().then((db) => db.collection('products').find());
-  return result;
+  const result = await conn().then((db) => db.collection('products').find().toArray());
+  return JSON.stringify({ products: [...result] });
+};
+
+const findById = async (id) => {
+  const result = await conn()
+    .then((db) => db.collection('products').find({ _id: id }).toArray());
+  return result[0];
 };
 
 const verifyName = async (name) => {
@@ -28,4 +34,5 @@ module.exports = {
   insertNewProduct,
   verifyName,
   findAll,
+  findById,
 };

@@ -1,9 +1,11 @@
+const { ObjectId } = require('mongodb');
 const productsModel = require('../model/productsModel');
 const {
   productExistsError,
   productNameLengthError,
   quantityLargerThanZeroError,
   quantityMustBeANumberError,
+  invalidIdFormatError
 } = require('../errors/errors');
 
 const insertNewProduct = async (name, quantity) => {
@@ -22,10 +24,21 @@ const insertNewProduct = async (name, quantity) => {
 };
 
 const findAll = async () => {
-  return productsModel.findAll();
+  const result = await productsModel.findAll();
+  return result;
+};
+
+const findById = async (id) => {
+  if (!ObjectId.isValid(id)) throw new Error((JSON.stringify(invalidIdFormatError)));
+  const result = await productsModel.findById(new ObjectId(id));
+  const emptyValue = 0;
+  if (result.length === emptyValue) throw new Error(JSON.stringify(invalidIdFormatError));
+
+  return result;
 };
 
 module.exports = {
   insertNewProduct,
   findAll,
+  findById,
 };
