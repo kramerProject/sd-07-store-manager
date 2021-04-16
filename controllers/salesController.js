@@ -18,4 +18,17 @@ const addSales = rescue(async (req, res, next) => {
   res.status(OK).json(sales);
 });
 
-module.exports = { addSales };
+const getAllSales = async (_req, res) => {
+  const resultSales = await salesService.getAllSales();
+  res.status(OK).json(resultSales);
+};
+
+const findByIdSales = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  console.log(id);
+  const salesId = await salesService.findByIdSales(id);
+  if (salesId.err) return next(salesId.err);
+  res.status(OK).json(salesId);
+});
+
+module.exports = { addSales, getAllSales, findByIdSales };

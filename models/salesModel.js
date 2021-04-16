@@ -10,4 +10,18 @@ const addSales = async (data) => {
     itensSold: data,
   };
 };
-module.exports = { addSales };
+
+const getAllSales = async () =>
+  await connection().then((db) => db.collection('sales').find({}).toArray());
+
+const findByIdSales = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+  const idSales = await connection()
+    .then((db) => db.collection('sales').findOne(new ObjectId(id)));
+
+  return idSales;
+};
+
+module.exports = { addSales, findByIdSales, getAllSales };

@@ -26,4 +26,25 @@ const addSales = async (data) => {
   return sold;
 };
 
-module.exports = { addSales };
+const getAllSales = async () => {
+  const resultSales = await salesModel.getAllSales();
+  return {
+    sales: resultSales,
+  };
+};
+
+const findByIdSales = async (id) => {
+  const idSales = await salesModel.findByIdSales(id);
+  console.log(idSales);
+  if (idSales === '' || idSales === undefined || idSales === null) {
+    return {
+      err: {
+        code: 'not_found',
+        message: 'Sale not found',
+      },
+    };
+  }
+  return idSales;
+};
+
+module.exports = { addSales, getAllSales, findByIdSales };

@@ -12,10 +12,10 @@ module.exports = (err, _req, res, _next) => {
 
   const statusByErrorCode = {
     invalid_data: 422,
-    alreadyExists: 409,
+    not_found: 404,
   };
 
-  const status = statusByErrorCode[err.code] || SERVER_ERROR;
+  const status = statusByErrorCode[err.code] || not_found;
 
   res.status(status).json({ err });
 };

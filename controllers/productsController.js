@@ -22,7 +22,7 @@ const insertProduct = rescue(async (req, res, next) => {
   res.status(SUCCESS).json(newProduct);
 });
 
-const getAllProducts = async (req, res) => {
+const getAllProducts = async (_req, res) => {
   const products = await productsService.getAllProducts();
   res.status(OK).json(products);
 };
