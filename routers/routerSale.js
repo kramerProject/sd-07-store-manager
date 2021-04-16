@@ -11,6 +11,7 @@ const { deleteSale } = require('../controllers/saleController');
 // Middlewares
 const validateSaleData = require('../middlewares/validateSaleData');
 const validateIdSale = require('../middlewares/validateIdSale');
+const validateIdSaleDelete = require('../middlewares/validateIdSaleDelete');
 
 // routes Sales
 routes.post('/sales', validateSaleData, addSale);
@@ -20,6 +21,7 @@ routes.get('/sales/:id', validateIdSale, getSale);
 
 routes.put('/sales/:id', validateSaleData, updateSale);
 
-routes.delete('/sales/:id', validateIdSale, deleteSale);
+// juntar esses validates de id
+routes.delete('/sales/:id', validateIdSaleDelete, deleteSale);
 
 module.exports = routes;

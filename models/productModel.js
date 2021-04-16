@@ -39,7 +39,7 @@ const getProductByIdDB = async (id) => {
 const updateProductDB = async (id, name, quantity) => {
   const updatedProduct = await connection().then((db) =>
     db.collection('products').updateOne(
-      { id: id },
+      { _id: id },
       { $set: {name: name, quantity: quantity } }),
   );
   console.log(`updatedProduct em updateProductDB: ${updatedProduct}`);
@@ -53,11 +53,11 @@ const updateProductDB = async (id, name, quantity) => {
 
 const deleteProductDB = async (id) => {
   const deletedProduct = await connection().then((db) =>
-    db.collection('products').deleteOne( {id: ObjectId(id)} ),
+    db.collection('products').deleteOne( {_id: ObjectId(id)} )
   );
-  // console.log(`deletedProduct em deleteProductDB: ${deletedProduct}`);
+  // tem que arrumar a comunicação do update e do delete que não estão passando
+  console.log(`deletedProduct em deleteProductDB: ${deletedProduct}`);
   return deletedProduct;
-  // await console.log('Tá deletado, acredita!');
 };
 
 module.exports = {

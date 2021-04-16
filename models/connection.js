@@ -1,9 +1,9 @@
 const { MongoClient } = require('mongodb');
 
 // Rodar banco local
-const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager';
+// const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager';
 // Rodar banco para avaliador
-// const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
+const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
 
 const connection = async () => {
   return MongoClient.connect(MONGO_DB_URL, {
