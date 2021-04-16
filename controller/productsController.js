@@ -41,7 +41,6 @@ const updateProducts = async (req, res) => {
   res.status(code).json(product);
 };
 
-
 const deleteProducts = async (req, res) => {
 
   const { id } = req.params;

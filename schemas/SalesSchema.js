@@ -15,6 +15,10 @@ const errors = {
     code: 'not_found',
     message: 'Sale not found'
   },
+  invalid_sale: {
+    code: 'invalid_data',
+    message: 'Wrong sale ID format'
+  },
 };
 
 const isNotAnumber = (value) => (typeof value !== 'number');
@@ -22,7 +26,7 @@ const lowerThenZ = (value, min) => (value <= min);
 const unprocess = 422;
 const notFound = 404;
 
-const validatePostorPut = async (itensSold) => {
+const validatePost = async (itensSold) => {
 
   const{ quantity } = itensSold[0];
   const zero = 0;
@@ -42,7 +46,31 @@ const validateId = async (id) => {
   return {};
 };
 
+const validatePut = async (itensSold) => {
+
+
+  const{ quantity } = itensSold;
+  
+  const zero = 0;
+
+  if (lowerThenZ(quantity, zero)) return { code: unprocess, err: errors.lowerThanZero };
+  if (isNotAnumber(quantity)) return { code: unprocess, err: errors.notANumber };
+
+  return {};
+};
+
+const validateDelete = async (id) => {
+
+  const productId = await SalesModel.getById(id);
+
+  if (!productId) return { code: unprocess, err: errors.invalid_sale};
+ 
+  return {};
+};
+
 module.exports = {
-  validatePostorPut,
+  validatePost,
   validateId,
+  validatePut,
+  validateDelete
 };

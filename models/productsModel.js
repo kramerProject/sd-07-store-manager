@@ -1,5 +1,6 @@
 const connect = require('../config/connn');
 const { ObjectId } = require('mongodb');
+// querys criadas com auxilio dos exercicios feitos na aula do Lucas Cavalcante 27.3
 
 const getAll = async () => {
   return connect().then((db) => db.collection('products').find().toArray());

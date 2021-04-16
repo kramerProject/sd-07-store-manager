@@ -2,20 +2,14 @@ const saleModel = require('../models/salesModel');
 const SalesSchema = require('../schemas/SalesSchema');
 
 const OK = 200;
-const created = 201;
 
 const add = async (itensSold) => {
 
-  const validation = await SalesSchema.validatePostorPut(itensSold);
+  const validation = await SalesSchema.validatePost(itensSold);
 
   if (validation.err) return validation;
 
-  const id = await saleModel.add(itensSold);
-
-  const newSale = {
-    _id: id,
-    itensSold
-  };
+  const newSale = await saleModel.add(itensSold);
 
   return { code: OK, newSale };
 };
@@ -40,24 +34,32 @@ const getById = async (id) => {
 
 const update = async (id, itensSold) => {
 
-  const validation = await SalesSchema.validatePostorPut(itensSold);
+  const validation = await SalesSchema.validatePut(itensSold);
 
   if (validation.err) return validation;
 
   await saleModel.update(id, itensSold);
 
-  const sale = {
-    _id: id,
-    itensSold
-  };
   return { code: OK, sale };
 
 };
 
+const exclude = async (id) => {
+
+  const validation = await SalesSchema.validateDelete(id);
+
+  if (validation.err) return validation;
+
+  const sales = await saleModel.getById(id);
+  const sale = await saleModel.exclude(id);
+
+  return { code: OK, sale, sales };
+};
 
 module.exports = {
   add,
   getAll,
   getById,
-  update
+  update,
+  exclude
 };
