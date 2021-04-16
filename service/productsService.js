@@ -73,10 +73,16 @@ const putByIdProductsService = async (id, name, quantity) => {
   return result;
 };
 
+const excludeService = async (id) => {
+  const excludeId = productsModel.excludeModel(id);
+  return excludeId;
+};
+
 module.exports = {
   validateProductService,
   getAllProductsService,
   getByIdProductsService,
   addProductService,
   putByIdProductsService,
+  excludeService,
 };

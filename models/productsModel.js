@@ -27,12 +27,18 @@ const updatePoductModel = async (id, name, quantity) => {
   ).then(()=> ({_id: id, name, quantity}));
 };
 
+const excludeModel = async (id) => {
+  return connect().then((db) => 
+    db.collection('products').deleteOne({_id: ObjectId(id)}));
+};
+
 module.exports = {
   addProductModel,
   findProductsByNameModel,
   findAllProductsModel,
   findByIdProductsModel,
   updatePoductModel,
+  excludeModel,
 };
 
 /* const createProduct = async (name, quantity) => {

@@ -50,9 +50,23 @@ const putByIdProductsController = async (req, res, next) => {
   }
 };
 
+const excludeController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const val = await productsService.getByIdProductsService(id);
+    if(val.code) return next(val);
+    const exclude = await productsService.excludeService(id);
+    return res.status(status.SUCCESS).json(exclude);
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);  
+  };
+};
+
 module.exports = {
   addProductsController,
   getAllProductsController,
   getByIdProductsController,
   putByIdProductsController,
+  excludeController,
 };
