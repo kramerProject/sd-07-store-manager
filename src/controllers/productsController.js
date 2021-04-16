@@ -27,7 +27,7 @@ const productCreate = async (req, res, next) => {
   }
 };
 
-const productRead = async (_req, res) => {
+const productRead = async (_req, res, next) => {
   try {
     const result = await readProducts();
     res.status(SUCESS).json({
@@ -35,20 +35,30 @@ const productRead = async (_req, res) => {
     });
   } catch (error) {
     console.error(error);
+    next({
+      status: UNPROCESSABLE,
+      message: error.message,
+      code: CODE_INVALID,
+    });
   }
 };
 
-const productReadById = async (req, res) => {
+const productReadById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const result = await readProductsById(id);
     res.status(SUCESS).json(result);
   } catch (error) {
     console.error(error);
+    next({
+      status: UNPROCESSABLE,
+      message: error.message,
+      code: CODE_INVALID,
+    });
   }
 };
 
-const productUpdate = async (req, res) => {
+const productUpdate = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { name, quantity } = req.body;
@@ -56,16 +66,26 @@ const productUpdate = async (req, res) => {
     res.status(SUCESS).json(result);
   } catch (error) {
     console.error(error);
+    next({
+      status: UNPROCESSABLE,
+      message: error.message,
+      code: CODE_INVALID,
+    });
   }
 };
 
-const productDelete = async (req, res) => {
+const productDelete = async (req, res, next) => {
   try {
     const { id } = req.params;
     const result = await deleteProductById(id);
     res.status(SUCESS).json(result);
   } catch (error) {
     console.error(error);
+    next({
+      status: UNPROCESSABLE,
+      message: error.message,
+      code: CODE_INVALID,
+    });
   }
 };
 

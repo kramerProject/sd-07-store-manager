@@ -26,5 +26,4 @@ Products.post('/products', productCreate);
 
 Products.put('/products/:id', validateIdFormat, productUpdate);
 
-
 module.exports = Products;

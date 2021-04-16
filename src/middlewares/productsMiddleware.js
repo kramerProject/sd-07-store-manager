@@ -1,5 +1,5 @@
 const { productsService } = require('../services');
-const { readProducts, readProductsById } = productsService;
+const { readProductsById } = productsService;
 
 const UNPROCESSABLE = 422;
 const CODE = 'invalid_data';
