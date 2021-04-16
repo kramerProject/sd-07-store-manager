@@ -1,4 +1,5 @@
 const ServiceSales = require('../service/servicesSales');
+const { ObjectId } = require('mongodb');
 
 async function addSale(req, res) {
   const responseOK = 200;
@@ -80,7 +81,19 @@ async function updateSale(req, res) {
   }
 }
 
-async function deleteSale(req, res) {}
+async function deleteSale(req, res) {
+  const responseOK = 200;
+  try {
+    const { id } = req.params;
+    const product = await ServiceSales.serviceExcludeSale(id);
+    res.status(responseOK).json(product);
+  } catch (err) {
+    res.status(err.responseError).json( { err: {
+      code: err.code,
+      message: err.message,
+    }});
+  }
+}
 
 module.exports = {
   addSale,

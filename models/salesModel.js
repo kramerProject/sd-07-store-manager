@@ -26,9 +26,15 @@ async function updateSale(id, sale) {
   return { _id: id, itensSold: sale };
 }
 
+async function excludeSale(id) {
+  return connect().then(async (db) => 
+    db.collection('sales').deleteOne({ _id: ObjectId(id) }));
+}
+
 module.exports = {
   add,
   getAllSales,
   getSalesById,
   updateSale,
+  excludeSale
 };

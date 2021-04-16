@@ -1,5 +1,6 @@
 const SalesModel = require('../models/salesModel');
 const ProductsModel = require('../models/productsModel');
+const { ObjectId } = require('mongodb');
 
 async function serviceAddSales(itensSold) {
   const allProducts = await ProductsModel.getAllProducts();
@@ -26,20 +27,27 @@ async function serviceGetAllSales() {
 async function serviceGetSalesById(id) {
   const salesId = await SalesModel.getSalesById(id);
   if (!salesId)
-    throw { code: 'not_found', message: 'Sale not found' };
+    throw { responseError: 404, code: 'not_found', message: 'Sale not found' };
   return salesId;
 }
 
 const serviceUpdateSale = async (id, sale) => {
   const salesId = await SalesModel.getSalesById(id);
   if (!salesId)
-    throw { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' };
+    throw { responseError: 404, code: 'not_found', message: 'Sale not found' };
   return await SalesModel.updateSale(id, sale);
 };
+
+async function serviceExcludeSale(id) {
+  if (!ObjectId.isValid(id))
+    throw { responseError: 422, code: 'invalid_data', message: 'Wrong sale ID format'};
+  return await serviceGetSalesById(id);
+}
 
 module.exports = {
   serviceAddSales,
   serviceGetAllSales,
   serviceGetSalesById,
-  serviceUpdateSale
+  serviceUpdateSale,
+  serviceExcludeSale
 };
