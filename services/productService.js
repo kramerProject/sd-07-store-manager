@@ -13,16 +13,21 @@ const validQuantity = (quantity) => quantity > ZERO;
 
 const quantityIsInt = (quantity) => Number.isInteger(quantity);
 
-const existsProductId = async (productsIds) => {
-  productsIds.forEach(productId => {
+const existsProductId = (productsIds) => {
+  const validation = productsIds.map(productId => {
     if (!ObjectId.isValid(productId)) return false;
+    return true;
   });
+
+  const notExists = validation.some(validation => validation === false);
+
+  // Refatorar depois essa lógica
   // const idsQuantity = productsIds.length;
   // console.log('qnt original:', idsQuantity, 'qnt com ids unicos:', array);
   // const quantityResult = await productModel.countExistentIds(productsIds);
   
   // if (qntd - quantityResult !== ZERO) return false;
-  return true;
+  return !notExists;
 };
 
 module.exports = {

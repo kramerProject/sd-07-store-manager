@@ -12,8 +12,7 @@ const saleValidationMiddleware = async (req, res, next) => {
     const invalidQuantity = productsQuantity
       .some(item => productService.validQuantity(item) === false);
 
-    const existsProducts = await productService.existsProductId(productsIds);
-
+    const existsProducts = productService.existsProductId(productsIds);
     if (!existsProducts ||
         invalidQuantityType ||
         invalidQuantity)

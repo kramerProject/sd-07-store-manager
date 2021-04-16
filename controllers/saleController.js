@@ -35,8 +35,23 @@ const getSaleById = async (req, res) => {
   }
 };
 
+const updateSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = {
+      _id: id,
+      itensSold: req.body
+    };
+    const sale = await saleModel.update(updateData);
+    return res.status(status.OK).json(sale);
+  } catch (err) {
+    res.status(status.INTERNAL_SERVER_ERROR).json(err.message);
+  }
+};
+
 module.exports = {
   addSale,
   getAllSales,
-  getSaleById
+  getSaleById,
+  updateSale
 };

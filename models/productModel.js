@@ -44,6 +44,8 @@ const deleteOneProduct = async (id) => {
     db.collection('products').deleteOne({ _id: ObjectId(id) }));
   return product;
 };
+
+// Refatorar depois essa lógica
 const countExistentIds = async (arrayIds) => {
   const idsQuantity = arrayIds.length;
   const objIds = arrayIds.map(id => ObjectId(id));
