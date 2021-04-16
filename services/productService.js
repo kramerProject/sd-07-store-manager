@@ -1,4 +1,5 @@
 const { productModel } = require('../models');
+const { ObjectId } = require('mongodb');
 const NAME_MIN_SIZE = 5;
 const ZERO = 0;
 
@@ -13,10 +14,14 @@ const validQuantity = (quantity) => quantity > ZERO;
 const quantityIsInt = (quantity) => Number.isInteger(quantity);
 
 const existsProductId = async (productsIds) => {
-  const idsQuantity = productsIds.length;
-  const quantityResult = await productModel.countExistentIds(productsIds);
-
-  if (idsQuantity - quantityResult !== ZERO) return false;
+  productsIds.forEach(productId => {
+    if (!ObjectId.isValid(productId)) return false;
+  });
+  // const idsQuantity = productsIds.length;
+  // console.log('qnt original:', idsQuantity, 'qnt com ids unicos:', array);
+  // const quantityResult = await productModel.countExistentIds(productsIds);
+  
+  // if (qntd - quantityResult !== ZERO) return false;
   return true;
 };
 
