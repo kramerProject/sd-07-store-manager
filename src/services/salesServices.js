@@ -2,6 +2,9 @@ const { ObjectID } = require('mongodb');
 const { salesModel, productsModel } = require('../models');
 const { create, read, readById, update, exclude } = salesModel;
 
+const NOT_FOUND = 404;
+const CODE_NOT_FOUND = 'stock_problem';
+
 const updateQuantity = async (saleList, operation) => {
   const ProductPromises = saleList.map((sale) => productsModel.readById(sale.productId));
   const ProductList = await Promise.all(ProductPromises);
@@ -13,7 +16,13 @@ const updateQuantity = async (saleList, operation) => {
       let quantitySale = saleList[index].quantity;
       let newQuantity =
         operation === 'subtract' ? quantityProduct - quantitySale : quantityProduct + quantitySale;
-      console.log('atualizou');
+      if (newQuantity < 0)
+        throw new Error(JSON.stringify({
+          ok: 1,
+          message: 'Such amount is not permitted to sell',
+          status: NOT_FOUND,
+          code: CODE_NOT_FOUND,
+        }));
       return productsModel.update(_id, name, newQuantity);
     }),
   );

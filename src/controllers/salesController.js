@@ -3,8 +3,8 @@ const { createSale, readSales, readSalesById, updateSaleById, deleteSaleById } =
 
 const SUCESS = 200;
 const UNPROCESSABLE = 422;
-const NOT_FOUND = 404;
 const CODE_INVALID = 'invalid_data';
+const NOT_FOUND = 404;
 const CODE_NOT_FOUND = 'not_found';
 
 const saleCreate = async (req, res, next) => {
@@ -13,12 +13,21 @@ const saleCreate = async (req, res, next) => {
     const result = await createSale(body);
     res.status(SUCESS).json(result);
   } catch (error) {
-    console.error(error);
-    next({
-      status: UNPROCESSABLE,
-      message: error.message,
-      code: CODE_INVALID,
-    });
+    const err = JSON.parse(error.message);
+    console.log(err);
+    if (err.ok) {
+      next({
+        status: err.status,
+        message: err.message,
+        code: err.code,
+      });
+    } else {
+      next({
+        status: UNPROCESSABLE,
+        message: error.message,
+        code: CODE_INVALID,
+      });
+    }
   }
 };
 
