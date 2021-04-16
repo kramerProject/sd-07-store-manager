@@ -58,10 +58,16 @@ const addSale = rescue(async (req, res) => {
 
 const updateSale = rescue(async (req, res) => {
   try {
-    const { itensSold } = req.body;
+    const { body: itensSold } = req;
     const { id } = req.params;
 
-    const sale = await salesModel.update(id, itensSold);
+    const sale = await salesServices.updateSale(id, itensSold);
+
+    if (sale.cod_err) {
+      return res.status(STATUS_422).send({ err: {
+        code: CODE_ERROR,
+        message: sale.message}});
+    }
 
     res.status(STATUS_200).json(sale);
   } catch (err) {

@@ -11,10 +11,9 @@ const checkedProducts = async (itensSold) => {
       if (product === null) return null;
       return { productId, quantity};
     }));
-  console.log('productSolds: ', productSolds);
+
   return productSolds
     .every((item) => {
-      console.log(item);
       return item !== null && (item.quantity > ZERO && typeof item.quantity !== 'string');
     });
 
@@ -23,7 +22,7 @@ const checkedProducts = async (itensSold) => {
 
 const addSale = async (itensSold) => {
   const isValid = await checkedProducts(itensSold);
-  console.log(isValid);
+  console.log('isValid: ', isValid);
   if (!isValid) return {
     message: 'Wrong product ID or invalid quantity',
     cod_err: true };
@@ -31,7 +30,18 @@ const addSale = async (itensSold) => {
   return await salesModel.add(itensSold);
 };
 
+const updateSale = async (id, itensSold) => {
+  const isValid = await checkedProducts(itensSold);
+
+  if (!isValid) return {
+    message: 'Wrong product ID or invalid quantity',
+    cod_err: true };
+
+  return await salesModel.update(id, itensSold);
+};
+
 
 module.exports = {
-  addSale
+  addSale,
+  updateSale,
 };
