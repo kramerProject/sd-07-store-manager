@@ -49,9 +49,26 @@ const updateSale = async (req, res) => {
   }
 };
 
+const deleteSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const sale = await saleModel.deleteOneSale(id);
+    if (sale === null) return res.status(status.INVALID_DATA).send({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format'
+      }
+    });
+    return res.status(status.OK).json(sale);
+  } catch (err) {
+    res.status(status.INTERNAL_SERVER_ERROR).json(err.message);
+  }
+};
+
 module.exports = {
   addSale,
   getAllSales,
   getSaleById,
-  updateSale
+  updateSale,
+  deleteSale
 };
