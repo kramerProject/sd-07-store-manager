@@ -59,8 +59,8 @@ const updateOne = async (request, response) => {
 const deleteOne = async (request, response) => {
   try {
     const { id } = request.params;
-    const results = await salesModel.deleteSale(id);
     await salesService.restoreStock(id);
+    const results = await salesModel.deleteSale(id);
     response.status(REQUEST_OK).json(results);
   } catch (error) {
     response.status(UNPROCESSABLE_ENTITY).json({

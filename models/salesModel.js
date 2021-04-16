@@ -16,7 +16,7 @@ const findSale = async (name) => {
 
 const findAllSales = async () => {
   return await conn().then((db) =>
-    db.collection('sales').find().toArray());
+    db.collection('sales').find({}).toArray());
 };
 
 const findSaleById = async (id) => {

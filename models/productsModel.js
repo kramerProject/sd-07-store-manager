@@ -15,7 +15,7 @@ const findProduct = async (name) => {
 
 const findAllProducts = async () => {
   return await conn().then((db) =>
-    db.collection('products').find().toArray());
+    db.collection('products').find({}).toArray());
 };
 
 const findProductById = async (id) => {
@@ -25,12 +25,9 @@ const findProductById = async (id) => {
 };
 
 const updateProduct = async (id, name, quantity) => {
-  console.log('entrei com esse id', id);
-  console.log('entrei com esse nome', name);
-  console.log('entrei com essa quantidade', quantity);
   if (!ObjectId.isValid(id)) throw new Error;
   return await conn().then((db) =>
-    db.collection('sales').updateOne({ _id: ObjectId(id) },
+    db.collection('products').updateOne({ _id: ObjectId(id) },
       { $set: { name, quantity } })
       .then(() => ({ _id: ObjectId(id), name, quantity })));
 };
