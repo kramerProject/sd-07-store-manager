@@ -32,9 +32,22 @@ const registerProduct = async (name, amount) => {
   return res.ops[0];
 };
 
+const updatePdtById = async (name, id, amount) => {
+  const connection = await getConnection();
+  try {
+    const res  = await connection.collection('products')
+      .updateOne({ _id: ObjectId(id) }, { $set:{ name: name, quantity: amount } });
+    return res;
+  } catch (err) {
+    console.log(err);
+    return { error: err };
+  }
+};
+
 module.exports = {
   getProductByName,
   getOnePdt,
   getProductsList,
   registerProduct,
+  updatePdtById,
 };

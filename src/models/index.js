@@ -1,13 +1,11 @@
-const {
-  getOnePdt,
-  getProductByName,
-  getProductsList,
-  registerProduct
-} = require('./productsModel');
+const { getOnePdt, getProductByName,
+  getProductsList, registerProduct,
+  updatePdtById } = require('./productsModel');
  
 module.exports = {
   getOnePdt,
   getProductByName,
   getProductsList,
   registerProduct,
+  updatePdtById,
 };

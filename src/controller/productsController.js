@@ -1,6 +1,7 @@
 
 const { Router } = require('express');
-const { insertProduct, getProducts, getOneProduct } = require('../service');
+const { insertProduct, getProducts,
+  getOneProduct, updateProduct } = require('../service');
 const { clientErrCodes, serverErrCodes, successCodes } = require('./statusCodes');
 
 const productsController = Router();
@@ -54,9 +55,25 @@ productsController.post('/', async (req, res, next) => {
     return next({ err, status, message: 'Internal Error' });
   }
 });
-// productsController.put('/:id', async (req, res, next) => {
-
-// });
+productsController.put('/:id', async (req, res, next) => {
+  try {
+    const BAD_INPUT = 'Unprocessable Entity';
+    if (!req.params || !req.body.name || !`${req.body.quantity}`) {
+      next({ status: clientErrCodes[`${BAD_INPUT}`], message: 'Missing id prameter'});
+    }
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const productUpdated = await updateProduct(name, id, quantity);
+    const { err, message, status } = productUpdated;
+    return productUpdated.clientErr
+      ? next({ err, message, status, clientErr: productUpdated.clientErr })
+      : res.status(successCodes[`${productUpdated.status}`])
+        .json(productUpdated.product);
+  } catch (err) {
+    console.log(err);
+    next(serverErrCodes['Internal Server Error'], err);
+  }
+});
 // productsController.delete('/:id', async (req, res, next) => {
 
 // });

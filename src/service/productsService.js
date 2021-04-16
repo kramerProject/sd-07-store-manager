@@ -1,11 +1,10 @@
-const {
-  getOnePdt,
-  getProductByName, getProductsList, registerProduct } = require('../models');
-
-const BAD_INPUT = 'Unprocessable Entity';
+const { getOnePdt, getProductByName,
+  updatePdtById, getProductsList, registerProduct } = require('../models');
+const { authPdtAmount, authPdtName } = require('./validateInputs');
 
 const getOneProduct = async (pdtId) => {
   const product = await getOnePdt(pdtId);
+  const BAD_INPUT = 'Unprocessable Entity';
   return product
     ? { product: product, status: 'OK' }
     : { err: 'invalid_data', status: BAD_INPUT,
@@ -20,33 +19,19 @@ const getProducts = async () => {
 };
 
 const insertProduct = async (name, amount) => {
-  const nameMinLength = 5;
-  if (name.length < nameMinLength) {
-    return {
-      err: 'invalid_data',
-      clientErr: true,
-      status: BAD_INPUT,
-      message: '"name" length must be at least 5 characters long'
-    };
+  const validName = authPdtName(name);  
+  if(validName) {
+    return validName;
   }
-  if (!Number.isInteger(amount)) {
-    return {
-      err: 'invalid_data',
-      clientErr: true,
-      status: BAD_INPUT,
-      message: '"quantity" must be a number'
-    };
+  
+  const validAmount = authPdtAmount(amount);
+  if(validAmount) {
+    return validAmount;
   }
-  if (amount < 1) {
-    return {
-      err: 'invalid_data',
-      clientErr: true,
-      status: BAD_INPUT,
-      message: '"quantity" must be larger than or equal to 1'
-    };
-  }
+
   const productConflict = await getProductByName(name);
   if (productConflict) {
+    const BAD_INPUT = 'Unprocessable Entity';
     return {
       err: 'invalid_data',
       clientErr: true,
@@ -61,8 +46,29 @@ const insertProduct = async (name, amount) => {
   return { status: 'Created', inserted: insertionResult };
 };
 
+const updateProduct = async (name, id, amount) => {
+  const validName = authPdtName(name);  
+  if(validName) {
+    return validName;
+  }
+  
+  const validAmount = authPdtAmount(amount);
+  if(validAmount) {
+    return validAmount;
+  }
+
+  const productUpdated = await updatePdtById(name, id, amount);
+  const BAD_INPUT = 'Unprocessable Entity';
+  const updatedInfo = { _id: id, name, quantity: amount, err: false };
+  return productUpdated.result.ok === 1
+    ? { product: updatedInfo, status: 'OK' }
+    : { err: 'invalid_data', status: BAD_INPUT,
+      clientErr: true, message: 'Wrong id format' };
+};
+
 module.exports = {
   getOneProduct,
-  insertProduct,
   getProducts,
+  insertProduct,
+  updateProduct,
 };
