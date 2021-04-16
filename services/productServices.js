@@ -1,4 +1,10 @@
-const { createProduct, getProductByName } = require('../models/productModel');
+const {
+  createProduct,
+  getProductByName,
+  getAllProducts, 
+  getProductById,
+} = require('../models/productModel');
+const { ObjectId } = require('mongodb');
 
 const createProductValidation = (name, quantity) => {
   const minNameLength = 5;
@@ -16,7 +22,6 @@ const createProductValidation = (name, quantity) => {
 
 const ifProductExist = async (name) => {
   const product = await getProductByName(name);
-  console.log(product);
   if (product !== null) {
     throw new Error ('Product already exists');
   }
@@ -31,6 +36,30 @@ const insertProduct = async (name, quantity) => {
   return product;
 };
 
+const getProducts = async () => {
+  const listOfProducts = await getAllProducts();
+  return listOfProducts;
+};
+
+const validateId = (id) => {
+  if (!ObjectId.isValid(id)) {
+    return true;
+  }
+  return false;
+};
+
+const findProductById = async (id) => {
+  const isValid = validateId(id);
+
+  if (isValid) {
+    throw new Error('Wrong id format');
+  }
+  const product = await getProductById(id);
+  return product;
+};
+
 module.exports = {
   insertProduct,
+  getProducts,
+  findProductById
 };
