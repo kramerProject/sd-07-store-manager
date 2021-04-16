@@ -6,7 +6,7 @@ const {
   productExists,
   productQuantityVerify,
   productQuantityTypeVerify,
-} = require('../middlewares/ProductMiddleware');
+} = require('../middlewares/ProductMiddlewares');
 
 const OK = 200;
 const CREATED = 201;

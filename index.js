@@ -1,5 +1,6 @@
 const express = require('express');
 const productController = require('./controllers/ProductController');
+const saleController = require('./controllers/SalesController');
 
 const app = express();
 
@@ -10,6 +11,8 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/products', productController);
+
+app.use('/sales', saleController);
 
 const PORT = 3000;
 
