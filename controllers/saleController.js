@@ -19,7 +19,24 @@ const getAllSales = async (req, res) => {
   }
 };
 
+const getSaleById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const sale = await saleModel.getById(id);
+    if (sale === null) return res.status(status.NOT_FOUND).send({
+      err: {
+        code: 'not_found',
+        message: 'Sale not found'
+      }
+    });
+    return res.status(status.OK).json(sale);
+  } catch (err) {
+    res.status(status.INTERNAL_SERVER_ERROR).json(err.message);
+  }
+};
+
 module.exports = {
   addSale,
-  getAllSales
+  getAllSales,
+  getSaleById
 };

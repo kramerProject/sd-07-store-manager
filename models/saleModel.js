@@ -13,7 +13,15 @@ const add = async (sale) => {
   return saleResult.ops[0];
 };
 
+const getById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const product = await connect().then((db) =>
+    db.collection('sales').findOne(ObjectId(id)));
+  return product;
+};
+
 module.exports = {
   add,
-  getAll
+  getAll,
+  getById
 };

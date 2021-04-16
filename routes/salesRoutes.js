@@ -7,5 +7,5 @@ const salesRouter = express.Router();
 salesRouter.post('/sales', saleValidationMiddleware, saleController.addSale);
 
 salesRouter.get('/sales', saleController.getAllSales);
-
+salesRouter.get('/sales/:id', saleController.getSaleById);
 module.exports = salesRouter;
