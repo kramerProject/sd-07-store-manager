@@ -31,4 +31,11 @@ const findByIdSales = rescue(async (req, res, next) => {
   res.status(OK).json(salesId);
 });
 
-module.exports = { addSales, getAllSales, findByIdSales };
+const deleteSales = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const salesDelete = await salesService.deleteSales(id);
+  if (salesDelete.err) return next(salesDelete.err);
+  res.status(OK).json(salesDelete);
+});
+
+module.exports = { addSales, getAllSales, findByIdSales, deleteSales };

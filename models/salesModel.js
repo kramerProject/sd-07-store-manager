@@ -24,4 +24,8 @@ const findByIdSales = async (id) => {
   return idSales;
 };
 
-module.exports = { addSales, findByIdSales, getAllSales };
+const deleteSales = async (id) =>
+  await connection()
+    .then((db) => db.collection('sales').deleteOne({ _id: ObjectId(id) }));
+
+module.exports = { addSales, findByIdSales, getAllSales, deleteSales };
