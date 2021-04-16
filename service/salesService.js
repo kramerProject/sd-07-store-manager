@@ -35,17 +35,12 @@ async function serviceGetSalesById(id) {
 }
 
 async function serviceUpdateSalesById(salesId, productList) {
-  let result = true;
-  productList.forEach(async sale => {
-    result = await modelUpdateSalesById(salesId, sale);
-    if (!result) {
-      throw new Error('Wrong id format');
-    }
-  });
-
+  const result = await modelUpdateSalesById(salesId, productList);
+  if (!result) {
+    throw new Error('Wrong id format');
+  }
   return result;
 }
-
 
 async function serviceDeleteSalesById(id) {
   const result = await modelDeleteSalesById(id);
@@ -58,9 +53,10 @@ async function serviceDeleteSalesById(id) {
 async function updateProductAfterSale(salesList, addOrDelete) {
   for (const sale of salesList) {
     const result = await modelUpdateProductQuantity(sale, addOrDelete);
-    // if (result === false) {
-    //     throw new Error('Such amount is not permitted to sell')
-    // } ISSO TÁ ATIVANDO TODA HORA! POR QUE?
+    if (result === false) {
+      throw new Error('Such amount is not permitted to sell');
+    } 
+    // ISSO TÁ  QUEBRANDO AO INVÉS DE SER TRATADO. POR QUE?
   }
 }
 

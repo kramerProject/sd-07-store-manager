@@ -12,13 +12,12 @@ const unprocessable_entity = 422;
 const success = 200;
 const not_found = 404;
 
-//   const addProduct = async (req, res) => {
 const controllerAddSales = async (req, res) => {
   const salesList = req.body;
   try {
     checkQuantities(salesList);
     const result = await addToSales(salesList);
-    updateProductAfterSale(salesList, 'addSales');
+    await updateProductAfterSale(salesList, 'addSales');
     return res.status(success).json(result);
   } catch (err) {
     if (err.message.includes('amount')) {
@@ -62,6 +61,7 @@ const updateSalesById = async (req, res) => {
     const productList = req.body;
     checkQuantities(productList);
     const newItem = await serviceUpdateSalesById(salesId, productList);
+    console.log(newItem);
     return res.status(success).json(newItem);
   } catch (err) {
     res.status(unprocessable_entity).json({
@@ -75,7 +75,7 @@ const deleteSalesById = async (req, res) => {
   const salesList = await serviceFindListById(id);
   try {
     const result = await serviceDeleteSalesById(id);
-    updateProductAfterSale(salesList, 'removeSales');
+    await updateProductAfterSale(salesList, 'removeSales');
     if (result) return res.status(success).json(result);
   } catch (err) {
     if (err.message.includes('amount')) {
