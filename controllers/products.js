@@ -85,26 +85,24 @@ const putProduct = async (request, response) => {
 };
 
 const deleteProduct = async (request, response) => {
-  const { id } = request.params;
-  const data = await productService.getProductsId(id);
-
-  // console.log(data);
-  // { _id: 60783918c6ca1ea3ff1ad7f9,
-  //   name: 'Casa de DEUS 2',
-  //   quantity: 1000 }
-  // ou
-  // null
-
-  if (!data) {
+  try {
+    const { id } = request.params;
+    const data = await productService.getProductsId(id);
+    if (!data) {
+      const ERR_MESSAGE = 'Wrong id format';
+      throw new Error(ERR_MESSAGE);
+    }
+    const result = await productService.deleteProduct(data._id);
+    return response.status(OK).json(result);
+  } catch (error) {
+    console.error(error);
     return response.status(UNPROCESS).json({
       err: {
         code: 'invalid_data',
-        message: 'Wrong id format',
-      },
+        message: error.message
+      }
     });
   }
-  const result = await productService.deleteProduct(data._id);
-  return response.status(OK).json(result);
 };
 
 module.exports = {

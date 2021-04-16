@@ -63,7 +63,6 @@ const updateSale = async (id, sale) => {
 const deleteSale = async (id) => {
   const result = await validateSaleId(id);
   if (!result) {
-    console.log('entrou aquiiiiiiiiiii');
     const ERROR_MESSAGE = 'Wrong sale ID format';
     throw new Error(ERROR_MESSAGE);
   }

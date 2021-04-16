@@ -117,7 +117,6 @@ const deleteSale = async (request, response) => {
       }
     });
   }
-  
 };
 
 module.exports = {
