@@ -1,3 +1,5 @@
+const sales = require('../services/sales');
+
 const SUCCESS = 201;
 const SUCCESS_GET = 200;
 const FAILURE = 422;
