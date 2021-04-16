@@ -9,6 +9,8 @@ const {
 } = require('./controllers/productController');
 
 const {
+  getAllSalessController,
+  getSaleByIdController,
   createSaleController
 } = require('./controllers/saleController');
 
@@ -43,6 +45,10 @@ route.put('/products/:id',
 );
 
 route.delete('/products/:id', deleteProductController);
+
+route.get('/sales', getAllSalessController);
+
+route.get('/sales/:id', getSaleByIdController);
 
 route.post('/sales', validateSaleMiddleware, createSaleController);
 
