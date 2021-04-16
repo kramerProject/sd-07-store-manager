@@ -1,5 +1,6 @@
 const express = require('express');
 const productController = require('./controllers/productsController');
+const salesController = require('./controllers/salesController');
 const errorMiddleware = require('./middlewares/error');
 
 const app = express();
@@ -19,6 +20,9 @@ app.post('/products', productController.insertProduct);
 app.put('/products/:id', productController.updateProduct);
 //DELETE
 app.delete('/products/:id', productController.deleteProduct);
+
+//SALES
+app.post('/sales', salesController.addSales);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
