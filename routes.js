@@ -11,7 +11,8 @@ const {
 const {
   getAllSalessController,
   getSaleByIdController,
-  createSaleController
+  createSaleController,
+  updateSaleController
 } = require('./controllers/saleController');
 
 const { 
@@ -51,5 +52,7 @@ route.get('/sales', getAllSalessController);
 route.get('/sales/:id', getSaleByIdController);
 
 route.post('/sales', validateSaleMiddleware, createSaleController);
+
+route.put('/sales/:id', validateSaleMiddleware, updateSaleController);
 
 module.exports = route;
