@@ -42,13 +42,18 @@ const updateProductDB = async (id, name, quantity) => {
       { id: id },
       { $set: {name: name, quantity: quantity } }),
   );
-  // console.log(`updatedProduct em updateProductDB: ${updatedProduct}`);
-  return updatedProduct;
+  console.log(`updatedProduct em updateProductDB: ${updatedProduct}`);
+  const data = {
+    _id: id,
+    name,
+    quantity    
+  }; 
+  return data;
 };
 
 const deleteProductDB = async (id) => {
   const deletedProduct = await connection().then((db) =>
-    db.collection('products').deleteOne( {id: id} ),
+    db.collection('products').deleteOne( {id: ObjectId(id)} ),
   );
   // console.log(`deletedProduct em deleteProductDB: ${deletedProduct}`);
   return deletedProduct;

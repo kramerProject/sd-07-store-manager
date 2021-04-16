@@ -36,11 +36,20 @@ const updateSaleDB = async (itensSold, salesId) => {
   // console.log(`updateSaleDB em model, updatedProduct: ${updatedProduct}`);
   const data = {
     _id: salesId,
-    itensSold
+    itensSold: itensSold
   }; 
   return data;
 };
 
+const deleteSaleDB = async (id) => {
+  const deletedProduct = await connection().then((db) =>
+    db.collection('products').deleteOne( {id: ObjectId(id)} ),
+  );
+  // console.log(`deletedProduct em deleteProductDB: ${deletedProduct}`);
+  return deletedProduct;
+  // await console.log('Tá deletado, acredita!');
+};
+
 module.exports = {
-  addSaleDB, getSaleDB, gelAllSalesDB, updateSaleDB
+  addSaleDB, getSaleDB, gelAllSalesDB, updateSaleDB, deleteSaleDB
 };
