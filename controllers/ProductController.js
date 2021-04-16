@@ -25,8 +25,9 @@ const create = async (req, res) => {
     const result = await ProductService.create(name, quantity);
     
     if (result.code) {
-      res.status(result.code).json(result.json);
+      return res.status(result.code).json(result.json);
     }
+    
     const _id = result.insertedId;
     res.status(code.Created).json({ _id , name, quantity });
 
