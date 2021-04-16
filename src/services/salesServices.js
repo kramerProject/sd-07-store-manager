@@ -8,31 +8,36 @@ const CODE_NOT_FOUND = 'stock_problem';
 const updateQuantity = async (saleList, operation) => {
   const ProductPromises = saleList.map((sale) => productsModel.readById(sale.productId));
   const ProductList = await Promise.all(ProductPromises);
+  const ZERO_QTD = 0;
 
   await Promise.all(
     ProductList.map((product, index) => {
       const { _id, name, quantity } = product;
       let quantityProduct = quantity;
       let quantitySale = saleList[index].quantity;
-      let newQuantity =
-        operation === 'subtract' ? quantityProduct - quantitySale : quantityProduct + quantitySale;
-      if (newQuantity < 0)
-        throw new Error(JSON.stringify({
-          ok: 1,
-          message: 'Such amount is not permitted to sell',
-          status: NOT_FOUND,
-          code: CODE_NOT_FOUND,
-        }));
+      let newQuantity = operation === 'subtract'
+        ? quantityProduct - quantitySale
+        : quantityProduct + quantitySale;
+      if (newQuantity < ZERO_QTD)
+        throw new Error(
+          JSON.stringify({
+            ok: 1,
+            message: 'Such amount is not permitted to sell',
+            status: NOT_FOUND,
+            code: CODE_NOT_FOUND,
+          }),
+        );
       return productsModel.update(_id, name, newQuantity);
     }),
   );
 };
 
 const createSale = async (productList) => {
+  const ZERO_QTD = 0;
   productList.forEach((product) => {
     if (!ObjectID.isValid(product.productId))
       throw new Error('Wrong product ID or invalid quantity');
-    if (product.quantity <= 0 || typeof product.quantity !== 'number')
+    if (product.quantity <= ZERO_QTD || typeof product.quantity !== 'number')
       throw new Error('Wrong product ID or invalid quantity');
   });
 
@@ -57,9 +62,10 @@ const readSalesById = async (id) => {
 
 const updateSaleById = async (id, body) => {
   const { productId, quantity } = body[0];
+  const ZERO_QTD = 0;
   if (!ObjectID.isValid(id)) throw new Error('Wrong product ID or invalid quantity');
 
-  if (quantity <= 0 || typeof quantity !== 'number')
+  if (quantity <= ZERO_QTD || typeof quantity !== 'number')
     throw new Error('Wrong product ID or invalid quantity');
 
   const newSale = await update(id, productId, quantity);

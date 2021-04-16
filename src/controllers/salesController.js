@@ -1,5 +1,10 @@
 const { salesService } = require('../services');
-const { createSale, readSales, readSalesById, updateSaleById, deleteSaleById } = salesService;
+const {
+  createSale,
+  readSales,
+  readSalesById,
+  updateSaleById,
+  deleteSaleById } = salesService;
 
 const SUCESS = 200;
 const UNPROCESSABLE = 422;
