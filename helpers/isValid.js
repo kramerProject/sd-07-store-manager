@@ -67,22 +67,21 @@ const productExist = async (obj, name) => {
   const arrayOfNames = arrayPromise.map((product) => product.name);
 
   if (arrayOfNames.includes(name)) {
+
     const obj = createError(
       code.Unprocessable_Entity, message.code, message.product_exists
     );
-    
     return obj;
   }
-     
   return { code:false };
 };
 
 const searcIdcontent = async (object, id) => {
   const product = await object;
 
-  const arrayOfIds = await product.map((product) => product._id.toString());
+  const arrayOfIds = await product.some((product) => product._id.toString() === id);
 
-  if (arrayOfIds.includes(id)) {
+  if (arrayOfIds) {
     return { code: false };
   }
   const obj = createError(

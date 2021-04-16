@@ -12,7 +12,7 @@ const findById = async(req, res) => {
   const result = await ProductService.findById(req.params.id);
 
   if (result.code) {
-    res.status(result.code).json(result.json);
+    return res.status(result.code).json(result.json);
   }
 
   res.status(code.Ok).json(result); 
@@ -35,8 +35,44 @@ const create = async (req, res) => {
   }
 };
 
+const update = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+
+  try {
+    const result = await ProductService.update(id, name, quantity);
+  
+    if (result.code) {
+      return res.status(result.code).json(result.json);
+    }
+
+    res.status(code.Ok).json({ _id: id , name, quantity });
+
+  } catch (error) {
+    res.status(code.Internal_Server_Error)
+      .send({ message: 'Houston, we have a problem.', error });
+  }
+};
+
+const exclude = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  try {
+
+    await ProductService.exclude(id);
+    res.status(code.Ok).json({ _id: id, name, quantity });
+
+  } catch (error) {
+
+    res.status(code.Internal_Server_Error)
+      .send({ message: 'Houston, we have a problem.', error });
+  }
+};
+
 module.exports = {
   getAll,
   findById,
-  create
+  create,
+  update,
+  exclude
 };
