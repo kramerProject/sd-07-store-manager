@@ -1,6 +1,6 @@
 
 const { Router } = require('express');
-const { insertProduct, getProducts } = require('../service');
+const { insertProduct, getProducts, getOneProduct } = require('../service');
 const { clientErrCodes, serverErrCodes, successCodes } = require('./statusCodes');
 
 const productsController = Router();
@@ -8,14 +8,32 @@ const productsController = Router();
 productsController.get('/', async (_req, res, next) => {
   try {
     const productsPage = await getProducts();
+    return productsPage.err
+      ? next(productsPage.err)
+      : res.status(successCodes[`${productsPage.status}`])
+        .json({ products: productsPage.products });
   } catch(err) {
     console.log(err);
-    res.status(serverErrCodes['Internal Server Error'])
-      .json({message: err});
+    next(serverErrCodes['Internal Server Error'], err);
   }
 });
-productsController.get('/:id', async (_req, res, next) => {
-
+productsController.get('/:id', async (req, res, next) => {
+  try {
+    const BAD_INPUT = 'Unprocessable Entity';
+    if (!req.params) {
+      next({ status: clientErrCodes[`${BAD_INPUT}`], message: 'Missing id prameter'});
+    }
+    const { id } = req.params;
+    const product = await getOneProduct(id);
+    const { err, message, status } = product;
+    return product.clientErr
+      ? next({ err, message, status, clientErr: product.clientErr })
+      : res.status(successCodes[`${product.status}`])
+        .json(product.product);
+  } catch(err) {
+    console.log(err);
+    next(serverErrCodes['Internal Server Error'], err);
+  }
 });
 productsController.post('/', async (req, res, next) => {
   try {
@@ -26,27 +44,14 @@ productsController.post('/', async (req, res, next) => {
     const { name, quantity } = req.body;
     const insertion = await insertProduct(name, quantity);
     const { status } = insertion;
-    if (insertion.clientErr) {
-      const { err, message } = insertion;
-      return res.status(clientErrCodes[`${status}`])
-        .json({ err: err, message: message });
-    }
-    if (!insertion) {
-      const { err, message } = insertion;
-      return res.status(clientErrCodes[`${status}`])
-        .json({ err: err, message: message });
-    }
-    if (status === 'Unprocessable Entity') {
-      const { err, message } = insertion;
-      return res.status(clientErrCodes[`${status}`])
-        .json({ err: err, message: message });
+    if (status !== 'Created') {
+      return next(insertion);
     }
     const { inserted } = insertion;
-    return res.status(successCodes[`${insertion.status}`]).json(inserted);
+    return res.status(successCodes[`${status}`]).json(inserted);
   } catch(err) {
     console.log(err);
-    return res.status(serverErrCodes['Internal Server Error'])
-      .json({message: 'Internal Error'});
+    return next({ err, status, message: 'Internal Error' });
   }
 });
 // productsController.put('/:id', async (req, res, next) => {
@@ -55,5 +60,7 @@ productsController.post('/', async (req, res, next) => {
 // productsController.delete('/:id', async (req, res, next) => {
 
 // });
+
+// app.use(errorMidlleware);
 
 module.exports = productsController;
