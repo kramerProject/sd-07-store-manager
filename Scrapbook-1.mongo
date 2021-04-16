@@ -1,0 +1,25 @@
+db.products.insertMany(
+[{
+  name: "produto01",
+  quantity: 10
+},
+{
+  name: "produto02",
+  quantity: 20
+},
+{
+  name: "produto03",
+  quantity: 30
+},
+{
+  name: "produto04",
+  quantity: 40
+},
+{
+  name: "produto05",
+  quantity: 50
+},
+{
+  name: "produto06",
+  quantity: 60
+}]);
