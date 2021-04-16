@@ -1,4 +1,5 @@
 const salesModel = require('../models/salesModel');
+const salesService = require('../services/salesService');
 
 const REQUEST_OK = 200;
 const INTERNAL_SERVER_ERROR = 500;
@@ -9,6 +10,7 @@ const addSale = async (request, response) => {
   try {
     const sale = request.body;
     const results = await salesModel.addNewSale(sale);
+    salesService.updateStock(sale);
     response.status(REQUEST_OK).json(results);
   } catch (error) {
     response.status(INTERNAL_SERVER_ERROR).json({ message: error.message });
@@ -58,6 +60,7 @@ const deleteOne = async (request, response) => {
   try {
     const { id } = request.params;
     const results = await salesModel.deleteSale(id);
+    salesService.restoreStock(id);
     response.status(REQUEST_OK).json(results);
   } catch (error) {
     response.status(UNPROCESSABLE_ENTITY).json({

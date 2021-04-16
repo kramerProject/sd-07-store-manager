@@ -1,5 +1,4 @@
 const productsModel = require('../models/productsModel');
-const salesModel = require('../models/salesModel');
 
 const UNPROCESSABLE_ENTITY = 422;
 const NOT_FOUND = 404;
@@ -29,7 +28,7 @@ const checkProductId = async (request, response, next) => {
   next();
 };
 
-const checkProductQuantity = (request, response, next) => {
+const checkProductQuantity = async (request, response, next) => {
   const sale = request.body;
 
   for (const product of sale) {
@@ -54,6 +53,15 @@ const checkProductQuantity = (request, response, next) => {
         err: {
           code: 'invalid_data',
           message: 'Wrong product ID or invalid quantity',
+        }
+      });
+    }
+    if ((await productsModel
+      .findProductById(product.productId)).quantity < product.quantity) {
+      return response.status(NOT_FOUND).json({
+        err: {
+          code: 'stock_problem',
+          message: 'Such amount is not permitted to sell',
         }
       });
     }
