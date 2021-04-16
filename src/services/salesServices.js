@@ -1,3 +1,4 @@
+const { ObjectID } = require('mongodb');
 const { salesModel } = require('../models');
 const { create, read, readById, update, exclude } = salesModel;
 
@@ -28,13 +29,14 @@ const readSalesById = async (id) => {
 
 const updateSaleById = async (id, body) => {
   const { productId, quantity } = body[0];
-  if (id.length !== 24) throw new Error('Wrong product ID or invalid quantity');
+  if (!ObjectID.isValid(id)) throw new Error('Wrong product ID or invalid quantity');
+
   if (quantity <= 0 || typeof quantity !== 'number')
     throw new Error('Wrong product ID or invalid quantity');
 
   const newSale = await update(id, productId, quantity);
-  if (!newSale) return undefined;
-  return { _id: newSale.insertedId, itensSold: body };
+  if (!newSale.result.ok) return undefined;
+  return { _id: id, itensSold: body };
 };
 
 const deleteSaleById = async (id) => {

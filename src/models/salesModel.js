@@ -28,11 +28,10 @@ const readById = async (id) => {
 };
 
 const update = async (id, productId, quantity) => {
-  const update = { productId, quantity };
   const sale = await connection().then((db) => {
     return db
       .collection(NAME_COLLECTION)
-      .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: [update] } });
+      .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: [{ productId, quantity }] } });
   });
   return sale;
 };

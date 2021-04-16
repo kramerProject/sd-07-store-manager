@@ -53,7 +53,7 @@ const saleReadById = async (req, res, next) => {
   }
 };
 
-const saleUpdate = async (req, res) => {
+const saleUpdate = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { body } = req;
@@ -61,6 +61,11 @@ const saleUpdate = async (req, res) => {
     res.status(SUCESS).json(result);
   } catch (error) {
     console.error(error);
+    next({
+      status: UNPROCESSABLE,
+      message: error.message,
+      code: CODE_INVALID,
+    });
   }
 };
 
