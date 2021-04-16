@@ -16,6 +16,7 @@ const getAllSales = rescue(async (req, res) => {
     const sales = await salesModel.getAll();
     res.status(STATUS_200).json({ sales: sales });
   } catch (err) {
+    console.error(err.message);
     throw new Error(err);
   }
 });
@@ -34,6 +35,7 @@ const getSaleById = rescue(async (req, res) => {
 
     res.status(STATUS_200).json(result);
   } catch (err) {
+    console.error(err.message);
     throw new Error(err);
   }
 });
@@ -71,16 +73,41 @@ const updateSale = rescue(async (req, res) => {
 
     res.status(STATUS_200).json(sale);
   } catch (err) {
+    console.error(err.message);
     throw new Error(err);
   }
 });
 
+const checkIdExists = async (req, res, next) => {
+  const { id } = req.params;
+  const result = await productsModel.getById(id);
+
+  if (!result) {
+    return res.status(STATUS_422).send({ err: {
+      code: CODE_ERROR,
+      message: 'Wrong id format'}});
+  }
+
+  next();
+};
+
 const deleteSale = rescue(async (req, res) => {
   try {
+    const { id } = req.params;
+    const result = await salesModel.getById(id);
+
+    if (!result) {
+      return res.status(STATUS_422).send({ err: {
+        code: CODE_ERROR,
+        message: 'Wrong sale ID format'}});
+    }
+
     await salesModel.exclude(req.params.id);
 
     res.status(STATUS_200).end();
   } catch (err) {
+
+    console.error(err.message);
     throw new Error(err);
   }
 });
