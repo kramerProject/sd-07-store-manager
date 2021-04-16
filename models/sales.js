@@ -21,6 +21,14 @@ const postdata = async (sales) => {
     db.collection('sales').insertOne({ itensSold: sales }),
   );
 
+  sales.forEach((sl) => {
+    const { productId, quantity } = sl;
+    connection().then((db) =>
+      db.collection('products')
+        .updateOne({_id: ObjectId(productId)}, {$inc: {quantity: -quantity}})
+    );
+  });
+
   return { _id: sale.insertedId, itensSold: sales };
 };
 
@@ -38,6 +46,15 @@ const editdata = async (id, sale) => {
 };
 
 const deletedata = async (sale) => {
+  const { itensSold } = sale;
+  itensSold.forEach((sl) => {
+    const { productId, quantity } = sl;
+    connection().then((db) =>
+      db.collection('products')
+        .updateOne({_id: ObjectId(productId)}, {$inc: {quantity: quantity}})
+    );
+  });
+
   const { _id } = sale;
   await connection().then((db) => {
     db.collection('sales').deleteOne({ _id });
