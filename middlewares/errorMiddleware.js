@@ -1,4 +1,4 @@
-const UNPROCESSABLE = 404;
+const UNPROCESSABLE = 422;
 
 // const productMiddleware = (err, req, res, _next) => {
 //   res.status(UNPROCESSABLE).json({
@@ -7,7 +7,7 @@ const UNPROCESSABLE = 404;
 // };
 
 const productMiddleware = (err, req, res, _next) => {
-  res.status(UNPROCESSABLE).json(err.message);
+  res.status(UNPROCESSABLE).json(JSON.parse(err.message));
 };
 
 module.exports = {

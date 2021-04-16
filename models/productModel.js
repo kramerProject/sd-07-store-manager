@@ -2,9 +2,13 @@ const connection = require('./conn');
 
 const { ObjectId } = require('mongodb');
 
-const getAllProducts = async () =>
-  await connection()
+const getAllProducts = async () => {
+  const allProducts = await connection()
     .then((db) => db.collection('products').find().toArray());
+  return {
+    products: allProducts
+  };
+};
 
 const getProductById = async (id) => {
   if (!ObjectId.isValid(id)) return null;

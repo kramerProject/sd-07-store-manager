@@ -1,13 +1,24 @@
 const Product = require('../models/productModel');
 
-module.exports = async (id) => {
-  console.log('entrei no teste');
-  console.log(id);
+const code = 'invalid_data';
 
-  const productById = await Products.getProductById(id);
-  console.log(productById);
-  if(!productById) throw ({ err: {
-    code: 'invalid_data',
+const invalidId = {
+  err: {
+    code,
     message: 'Wrong id format'
-  }});
+  }
+};
+
+const idIsValid = async (id) => {
+  const productById = await Product.getProductById(id);
+
+  if(productById === null) throw new Error(JSON.stringify(invalidId));
+};
+
+const productIdValidation = async (id) => {
+  await idIsValid(id);
+};
+
+module.exports = {
+  productIdValidation,
 };

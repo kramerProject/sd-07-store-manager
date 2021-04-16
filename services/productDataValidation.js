@@ -4,15 +4,12 @@ const code = 'invalid_data';
 const nameSize = 5;
 const quantityValue = 1;
 
-// const invalidName = {
-//   err: {
-//     'code': 'invalid_data' ,
-//     'message': '"name" lenght must be at least 5 character long'
-//   }
-// };
-
-// const invalidName = '"name" lenght must be at least 5 character long';
-const invalidName = { teste: '"name" lenght must be at least 5 character long' };
+const invalidName = {
+  err: {
+    code,
+    message: '"name" length must be at least 5 characters long'
+  }
+};
 
 const existentName = {
   err: {
@@ -24,7 +21,7 @@ const existentName = {
 const invalidQuantity = {
   err: {
     code,
-    message: '"quantity" must be larger than ou equal to 1'
+    message: '"quantity" must be larger than or equal to 1'
   }
 };
 
@@ -37,28 +34,28 @@ const notNumberQuantity = {
 
 const nameIsValid = (name) => {
   if (name.length < nameSize ) 
-    throw new Error(invalidName);
+    throw new Error(JSON.stringify(invalidName));
 };
 
 const nameExists = async (name) => {
-  if(await Product.getProductByName(name))
-    throw new Error(existentName);
+  const productByname = await Product.getProductByName(name);
+  if(productByname) throw new Error(JSON.stringify(existentName));
 };
 
 const quantityIsValid = (quantity) => {
   if (quantity < quantityValue) {
-    throw new Error(invalidQuantity);
+    throw new Error(JSON.stringify(invalidQuantity));
   } else if (typeof quantity !== 'number') {
-    throw new Error(notNumberQuantity);
+    throw new Error(JSON.stringify(notNumberQuantity));
   }
 };
 
-const ProductIsValid = (reqProduct) => {
+const productDataValidation = async(reqProduct) => {
   nameIsValid(reqProduct.name);
-  nameExists(reqProduct.name);
   quantityIsValid(reqProduct.quantity);
+  await nameExists(reqProduct.name);
 };
 
 module.exports = {
-  ProductIsValid,
+  productDataValidation,
 };

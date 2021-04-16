@@ -1,19 +1,28 @@
 const Product = require('../models/productModel');
-const { ProductIsValid } = require('../services/validadeProduct');
-const productIdValidation = require('../services/productIdValidation');
+const { productDataValidation } = require('../services/productDataValidation');
+const { productIdValidation } = require('../services/productIdValidation');
 
 const SUCCESS = 200;
 const SERVER_ERROR = 200;
 const NOT_FOUND = 404;
 const CREATED = 201;
 
+// const getAllProducts = async (req, res) => {
+//   try {
+//     const results = await Product.getAllProducts();
+
+//     return res.status(SUCCESS).json(results);
+//   } catch (err) {
+//     res.status(SERVER_ERROR).json({ message: err.message });
+//   }
+// };
+
 const getAllProducts = async (req, res) => {
   try {
-    const results = await Product.getAllProducts();
-
-    res.status(SUCCESS).json(results);
+    const products = await Product.getAllProducts();
+    return res.status(SUCCESS).json(products);
   } catch (err) {
-    res.status(SERVER_ERROR).json({ message: err.message });
+    next(err);
   }
 };
 
@@ -21,7 +30,7 @@ const getProductById = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    productIdValidation(id);
+    await productIdValidation(id);
 
     const result = await Product.getProductById(id);
 
@@ -36,7 +45,7 @@ const createProduct = async (req, res, next) => {
   const reqProduct = req.body;
 
   try {
-    ProductIsValid(reqProduct);
+    await productDataValidation(reqProduct);
 
     const result = await Product.createProduct(name, quantity);
 
@@ -52,8 +61,8 @@ const updateProduct = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    productIdValidation(id);
-    ProductIsValid(reqProduct);
+    await productIdValidation(id);
+    await productDataValidation(reqProduct);
 
     const result = await Product.updateProduct({ id, name, quantity });
     if (!result) {
@@ -71,7 +80,7 @@ const deleteProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    productIdValidation(id);
+    await productIdValidation(id);
 
     const result = await Product.deleteProduct(id);
 
