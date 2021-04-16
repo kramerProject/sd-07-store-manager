@@ -6,6 +6,7 @@ const STATUS_204 = 204;
 const STATUS_404 = 404;
 const STATUS_422 = 422;
 const CODE_ERROR = 'invalid_data';
+const NOT_FOUND = 'not_found';
 
 module.exports = {
   SIZE_MIN_NAME,
@@ -16,4 +17,5 @@ module.exports = {
   STATUS_404,
   STATUS_422,
   CODE_ERROR,
+  NOT_FOUND,
 };

@@ -3,10 +3,9 @@ const salesServices = require('../services/salesServices');
 
 const {
   STATUS_200,
-  STATUS_201,
-  STATUS_204,
   STATUS_404,
   STATUS_422,
+  NOT_FOUND,
   CODE_ERROR } = require('../valuesGlobal');
 
 const rescue = require('express-rescue');
@@ -28,9 +27,9 @@ const getSaleById = rescue(async (req, res) => {
     const result = await salesModel.getById(id);
 
     if (!result) {
-      return res.status(STATUS_422).send({ err: {
-        code: CODE_ERROR,
-        message: 'Wrong id format'}});
+      return res.status(STATUS_404).send({ err: {
+        code: NOT_FOUND,
+        message: 'Sale not found'}});
     }
 
     res.status(STATUS_200).json(result);
