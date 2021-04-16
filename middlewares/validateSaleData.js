@@ -2,8 +2,9 @@ const UnprocessableEntry = 422;
 
 const validateSaleData = async (req, res, next) => {
   const itensSold = req.body;
+  const zero = 0;
   // console.log(`Middleware validateSaleData: itensSold ${req.body[0].productId}`);
-  if (itensSold[0].quantity <= 0) {
+  if (itensSold[0].quantity <= zero) {
     return res.status(UnprocessableEntry).json({
       err: {
         code: 'invalid_data',

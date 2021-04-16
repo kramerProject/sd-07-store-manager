@@ -1,7 +1,8 @@
-const { addSaleDB } = require('../models/saleModel')
+const { addSaleDB } = require('../models/saleModel');
 
 const addSaleService = async (name, quantity) => {
-  if (quantity <= 0) {
+  const zero = 0;
+  if (quantity <= zero) {
     return {
       err: {
         code: 'invalid_data',
@@ -9,10 +10,10 @@ const addSaleService = async (name, quantity) => {
       },
     };
   }
-  const data = await addSaleDB( name, quantity );
+  const data = await addSaleDB(name, quantity);
   return data;
 };
 
 module.exports = {
-  addSaleService
+  addSaleService,
 };

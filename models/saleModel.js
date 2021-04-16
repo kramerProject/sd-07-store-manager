@@ -26,17 +26,17 @@ const gelAllSalesDB = async () => {
   return { sales: allSales};
 };
 
-const updateSaleDB = async (itensSold) => {
-  const { insertedId } = await connection().then((db) =>
+const updateSaleDB = async (itensSold, salesId) => {
+  const updatedSale = await connection().then((db) =>
     db.collection('products').updateOne(
-      { id: insertedId },
+      { id: salesId },
       { $set:  { itensSold: itensSold }}),
   );
-  console.log(`updateSaleDB em model, insertedId: ${insertedId}`);
+  console.log(`updateSaleDB em model, updatedSale: ${updatedSale}`);
   // console.log(`updateSaleDB em model, updatedProduct: ${updatedProduct}`);
   const data = {
-    _id: insertedId,
-    
+    _id: salesId,
+    itensSold
   }; 
   return data;
 };

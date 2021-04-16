@@ -2,7 +2,9 @@ const UnprocessableEntry = 422;
 
 const validateProductData = (req, res, next) => {
   const { name, quantity } = req.body;
-  if (name.length < 5) {
+  const zero = 0;
+  const tamanhoMinProductName = 5;
+  if (name.length < tamanhoMinProductName) {
     return res.status(UnprocessableEntry).json({
       err: {
         code: 'invalid_data',
@@ -18,7 +20,7 @@ const validateProductData = (req, res, next) => {
       },
     });
   }
-  if (quantity <= 0) {
+  if (quantity <= zero) {
     return res.status(UnprocessableEntry).json({
       err: {
         code: 'invalid_data',

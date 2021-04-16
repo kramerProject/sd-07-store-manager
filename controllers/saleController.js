@@ -28,9 +28,10 @@ const gelAllSales = async (req, res) => {
 };
 
 const updateSale = async (req, res) => {
+  const salesId = req.param;
   const itensSold = req.body[0];
   console.log(`updateSale no controller valor productId: ${itensSold}`);
-  const data = await updateSaleDB(itensSold);
+  const data = await updateSaleDB(itensSold, salesId);
   // console.log(`updateSale no controller valor data: ${data}`);
   res.status(SUCCESS).json(data);
 };
