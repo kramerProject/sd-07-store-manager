@@ -50,7 +50,6 @@ const getAllProducts = async () => {
 
 const findByIdProduct = async (id) => {
   const idProduct = await productModel.findByIdProduct(id);
-  console.log(idProduct);
   if (idProduct === '' || idProduct === undefined || idProduct === null) {
     return {
       err: {
@@ -62,4 +61,12 @@ const findByIdProduct = async (id) => {
   return idProduct;
 };
 
-module.exports = { insertProduct, getAllProducts, findByIdProduct };
+const updateProduct = async (id, name, quantity) => {
+  const validations = validate(name, quantity);
+  if (validations.err) return validations;
+  await productModel.updateProduct(id, name, quantity);
+  const upProduct = await findByIdProduct(id);
+  return upProduct;
+};
+
+module.exports = { insertProduct, getAllProducts, findByIdProduct, updateProduct };
