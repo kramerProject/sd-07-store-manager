@@ -25,12 +25,12 @@ const validateSale = (sale) => {
 
   const validateItens = saleList.every((item) => {
     switch (true) {
-      case (!isValidId(item.productId)):
-      case (isNotNumber(item.quantity)):
-      case (minValue(item.quantity, minQuantity)):
-        err = { ...err, message: 'Wrong product ID or invalid quantity' };
-        return false;
-      default: return true;
+    case (!isValidId(item.productId)):
+    case (isNotNumber(item.quantity)):
+    case (minValue(item.quantity, minQuantity)):
+      err = { ...err, message: 'Wrong product ID or invalid quantity' };
+      return false;
+    default: return true;
     }
   });
 
