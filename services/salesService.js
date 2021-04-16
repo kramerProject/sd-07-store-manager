@@ -1,9 +1,12 @@
 const salesModel = require('../models/salesModel');
 
-const validate = (data) => {
+const checkQuantity = (element) => {
   const ZERO = 0;
-  const quantity = data.every((e) => e.quantity > ZERO && typeof e.quantity === 'number');
-  if (!quantity) {
+  return typeof element.quantity === 'number' && element.quantity > ZERO;
+};
+
+const validate = (data) => {
+  if (!data.every(checkQuantity)) {
     return {
       err: {
         code: 'invalid_data',
@@ -16,8 +19,6 @@ const validate = (data) => {
 };
 
 const addSales = async (data) => {
-  /*   const tr = data.every((e) => typeof e.productId === 'string');
-  const num = data.every((e) => e.quantity >= 0 && typeof e.quantity === 'number'); */
   const validationsSold = validate(data);
   if (validationsSold.err) return validationsSold;
 
