@@ -1,4 +1,6 @@
 const express = require('express');
+const productsRouter = require('./routes/productsRouter');
+const logMiddleware = require('./middlewares/logMiddleware');
 
 const app = express();
 app.use(express.json());
@@ -7,5 +9,11 @@ app.use(express.json());
 app.get('/', (_request, response) => {
   response.send();
 });
+
+// middlewares
+app.use(logMiddleware);
+
+// routers
+app.use(productsRouter);
 
 app.listen('3000', () => console.log('Rodando na porta 3000'));
