@@ -1,6 +1,7 @@
 const Sale = require('../models/saleModel');
 const { saleDataValidation } = require('../services/saleDataValidation');
 const { saleIdValidation } = require('../services/saleIdValidation');
+const { deleteSaleValidation } = require('../services/deleteSaleValidation');
 
 const SUCCESS = 200;
 const NOT_FOUND = 404;
@@ -24,8 +25,6 @@ const getSaleById = async (req, res, next) => {
 
     res.status(SUCCESS).json(result);
   } catch (err) {
-    console.log(err.message);
-    console.log(err.status);
     next();
     return res.status(NOT_FOUND).json(JSON.parse(err.message));
   }
@@ -46,7 +45,6 @@ const createSale = async (req, res, next) => {
 };
 
 const updateSale = async (req, res, next) => {
-  const { productId, quantity } = req.body;
   const reqSale = req.body;
   const { id } = req.params;
 
@@ -54,13 +52,13 @@ const updateSale = async (req, res, next) => {
     await saleIdValidation(id);
     await saleDataValidation(reqSale);
 
-    const result = await Sale.updateSale({ id, productId, quantity });
+    const result = await Sale.updateSale({ id, reqSale });
     if (!result) {
       res.status(NOT_FOUND).json({ message: 'Venda não encontrada' });
       return;
     }
 
-    res.status(SUCCESS).json({ id, productId, quantity });
+    res.status(SUCCESS).json({ result });
   } catch (err) {
     next(err);
   }
@@ -70,10 +68,9 @@ const deleteSale = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    // await saleIdValidation(id);
+    await deleteSaleValidation(id);
 
     const result = await Sale.deleteSale(id);
-
     res.status(SUCCESS).json(result);
   } catch (err) {
     next(err);

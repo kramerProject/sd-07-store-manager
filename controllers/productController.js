@@ -55,7 +55,7 @@ const updateProduct = async (req, res, next) => {
 
     const result = await Product.updateProduct({ id, name, quantity });
     if (!result) {
-      res.status(NOT_FOUND).json({ message: 'Produto não encontrada' });
+      res.status(NOT_FOUND).json({ message: 'Produto não encontrado' });
       return;
     }
 
