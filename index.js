@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const productsRoute = require('./routes/productsRoute.js');
+const salesRouter = require('./routes/salesRoute');
 const app = express();
 
 const PORT = 3000;
@@ -12,6 +13,7 @@ app.get('/', (_req, res) => {
 });
 
 app.use(productsRoute);
+app.use(salesRouter);
 
 app.listen(PORT, () => {
   console.log('A API está no ar!');
