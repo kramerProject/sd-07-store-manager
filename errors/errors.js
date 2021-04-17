@@ -40,6 +40,13 @@ const wrongIdOrQuantityError = {
   },
 };
 
+const saleNotFoundError = {
+  err: {
+    code: 'not_found',
+    message: 'Sale not found',
+  },
+};
+
 module.exports = {
   productExistsError,
   productNameLengthError,
@@ -47,4 +54,5 @@ module.exports = {
   quantityLargerThanZeroError,
   invalidIdFormatError,
   wrongIdOrQuantityError,
+  saleNotFoundError,
 };

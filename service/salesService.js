@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
 const salesModel = require('../model/salesModel.js');
-const { wrongIdOrQuantityError } = require('../errors/errors.js');
+const { wrongIdOrQuantityError, saleNotFoundError } = require('../errors/errors.js');
 const productsModel = require('../model/productsModel');
 
 
@@ -15,6 +15,13 @@ const verifySale = async (productId, quantity) => {
   if (typeof quantity !== 'number') 
     throw new Error(JSON.stringify(wrongIdOrQuantityError));
 };
+const verifyId = async (id) => {
+  if (!ObjectId.isValid(id)) throw new Error((JSON.stringify(saleNotFoundError)));
+  const result = await salesModel.findById(new ObjectId(id));
+  const emptyValue = 0;
+  if (result.length === emptyValue) throw new Error(JSON.stringify(saleNotFoundError));
+  return result;
+};
 
 const insertNewSale = async (sales) => {
   const verifyMap = sales.map(({productId, quantity}) => {
@@ -24,6 +31,18 @@ const insertNewSale = async (sales) => {
   return salesModel.insertNewSale(sales);
 };
 
+const findAll = async () => {
+  const result = await salesModel.findAll();
+  return result;
+};
+
+const findById = async (id) => {
+  const result = verifyId(id);
+  return result;
+};
+
 module.exports = {
   insertNewSale,
+  findAll,
+  findById
 };
