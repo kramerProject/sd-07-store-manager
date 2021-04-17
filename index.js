@@ -10,6 +10,7 @@ app.get('/', (_request, response) => {
 
 app.use(express.json());
 app.use(routes.productRoutes);
+app.use(routes.saleRoutes);
 
 app.listen(PORT, () => {
   console.log('Ouvindo a porta 3000!');
