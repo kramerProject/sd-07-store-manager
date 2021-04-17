@@ -23,13 +23,22 @@ const validateSaleId = async (saleId) => {
   return sale;
 };
 
+const validateStock = async (productId, quantity) => {
+  const stock = await productModel.getById(productId);
+  const ZERO = 0;
+  const ERR_MESSAGE = 'Such amount is not permitted to sell';
+  if (stock.quantity < ZERO || stock.quantity < quantity) {
+    throw new Error(ERR_MESSAGE);
+  }
+};
+
 const createSale = async (sales) => {
-  sales.forEach((sale) => {
-    const { productId, quantity } = sale;
+  for await (let sl of sales) {
+    const { productId, quantity } = sl;
     validationQuantity(quantity);
     validateProductId(productId);
-  });
-
+    await validateStock(productId, quantity);
+  }
   return await saleModel.postdata(sales);
 };
  

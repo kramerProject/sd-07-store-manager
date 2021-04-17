@@ -30,6 +30,13 @@ const postSale = async (request, response) => {
       objError.err.message = error.message;
       response.status(UNPROCESS).json(objError);
     }
+
+    if (message.includes('amount')) {
+      objError.err.code = 'stock_problem';
+      objError.err.message = message;
+      response.status(NOMATCH).json(objError);
+    }
+
     response.status(ERROR).json({ message: error.message });
   }
 };

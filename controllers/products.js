@@ -17,7 +17,6 @@ const objError = {
   }
 };
 
-// luc.zago aluno turma 7
 const postProduct = async (request, response) => {
   try {
     const { name, quantity } = request.body;
