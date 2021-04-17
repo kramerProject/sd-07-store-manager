@@ -1,12 +1,6 @@
 const Products = require('../Models/Products');
 const invalid = require('./validateProduct');
 
-const status = {
-  ok: 200,
-  created: 201,
-  unprocessableEntity: 422
-};
-
 const create = async (product, qty) => {
   switch (true) {
   case invalid.productName(product):
@@ -51,7 +45,7 @@ const updateByProductId = async (id, product, qty) => {
 
 const deleteByProductId = async (id) => {
   const result = await Products.deleteByProductId(id);
-  if(result) return {code: status.ok, message: result};
+  if(result) return { message: result};
   throw {message: invalid.message.wrongId};
 };
 

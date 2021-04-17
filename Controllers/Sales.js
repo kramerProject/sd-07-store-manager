@@ -1,31 +1,52 @@
 const Sales = require('../Services/Sales');
+const code = require('./CodeStatus');
 
 const create = async (req, res) => {
-  const result = await Sales.create(req.body);
-  res.status(result.code).json(result.message);
+  try {
+    const result = await Sales.create(req.body);
+    res.status(code.ok).json(result.message);
+  } catch (error) {
+    res.status(code.unprocessableEntity).json(error.message);
+  }
 };
 
 const getSales = async (_req, res) => {
-  const list = await Sales.getSales();
-  res.status(list.code).json(list.message);
+  try {
+    const list = await Sales.getSales();
+    res.status(code.ok).json(list.message);
+  } catch (error) {
+    res.json('Algo deu errado :(');
+  }
 };
 
 const getBySaleId = async (req, res) => {
-  const { id } = req.params;
-  const sale = await Sales.getBySaleId(id);
-  res.status(sale.code).json(sale.message);
+  try {
+    const { id } = req.params;
+    const sale = await Sales.getBySaleId(id);
+    res.status(code.ok).json(sale.message);
+  } catch (error) {
+    res.status(code.notFound).json(error.message);
+  }
 };
 
 const updateSale = async (req, res) => {
-  const { id } = req.params;
-  const updatedSale = await Sales.updateSale(id, req.body);
-  res.status(updatedSale.code).json(updatedSale.message);
+  try {
+    const { id } = req.params;
+    const updatedSale = await Sales.updateSale(id, req.body);
+    res.status(code.ok).json(updatedSale.message);
+  } catch (error) {
+    res.status(code.unprocessableEntity).json(error.message);
+  }
 };
 
 const deleteSale = async (req, res) => {
-  const { id } = req.params;
-  const deletedSale = await Sales.deleteSale(id);
-  res.status(deletedSale.code).json(deletedSale.message);
+  try {
+    const { id } = req.params;
+    const deletedSale = await Sales.deleteSale(id);
+    res.status(code.ok).json(deletedSale.message);
+  } catch (error) {
+    res.status(code.unprocessableEntity).json(error.message);
+  }
 };
 
 module.exports = {

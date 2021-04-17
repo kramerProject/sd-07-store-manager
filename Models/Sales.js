@@ -23,8 +23,9 @@ const getSales = async () =>
 const updateSale = async (id, sale) =>
   Connect()
     .then(db => db.collection('sales')
-      .updateOne({_id: ObjectId(id)}, {$set: { itensSold: sale}}))
-    .then(response => getBySaleId(id))
+      .findOneAndUpdate(
+        {_id: ObjectId(id)}, {$set: { itensSold: sale}}, {returnOriginal: false}
+      ))
     .catch(err => console.log(err));
 
 const deleteSale = async (id) => 
