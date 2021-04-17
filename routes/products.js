@@ -41,12 +41,7 @@ router.put('/:id',
   putProduct
 );
 
-router.delete('/:id', 
-  [
-    validatedName,
-    validatedQuantity,
-    validatedQuantityString
-  ],
+router.delete('/:id',
   deleteProduct
 );
 
