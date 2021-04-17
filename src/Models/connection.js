@@ -15,8 +15,8 @@ const options = {
 
 const connection = () => {
   return MongoClient
-    .connect(process.env.DB_URL_TEST, options)
-    .then((conn) => conn.db(process.env.DB_NAME))
+    .connect(MONGO_DB_URL, options)
+    .then((conn) => conn.db(DB_NAME))
     .catch((err) => {
       console.log(`Erro na conexão do banco: ${err}`);
       process.exit();

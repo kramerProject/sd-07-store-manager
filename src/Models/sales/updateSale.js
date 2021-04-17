@@ -11,7 +11,7 @@ const updateSale = async (id, updateData) => {
   const filter = {_id: ObjectId(id)};
   return connection()
     .then((db) =>
-      db.collection(process.env.DB_COLLECTION_SALES)
+      db.collection('sales')
         .updateOne(filter, params, options),
     )
     .then((result) => getSale(id, updateData))

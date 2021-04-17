@@ -8,7 +8,7 @@ const getNewSale = (salesResult) => {
 };
 const getAllSales = async () => {
   return connection()
-    .then((db) => db.collection(process.env.DB_COLLECTION_SALES).find({}).toArray())
+    .then((db) => db.collection('sales').find({}).toArray())
     .then((result) => getNewSale(result))
     .catch((error) => console.log(`Erro no model getAllSales: ${error}`));
 };

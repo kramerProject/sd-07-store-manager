@@ -17,7 +17,7 @@ const deleteSale = async (id) => {
   const document = await getSaleById(id);
   return connection()
     .then((db) =>
-      db.collection(process.env.DB_COLLECTION_SALES).deleteOne({ 
+      db.collection('sales').deleteOne({ 
         _id: sale
       }),
     )

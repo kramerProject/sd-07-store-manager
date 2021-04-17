@@ -9,7 +9,7 @@ const getSaleById = async (id) => {
   const params = ObjectId(id);
   return connection()
     .then((db) =>
-      db.collection(process.env.DB_COLLECTION_SALES).findOne({ 
+      db.collection('sales').findOne({ 
         _id: params, 
       }),
     )
