@@ -3,7 +3,6 @@ const connection = require('./connection');
 require('dotenv').config();
 
 const getProduct = (id, name, quantity) => {
-  
   return { _id: id, name, quantity };
 };
 const updateProduct = async (id, name, quantity) => {

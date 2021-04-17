@@ -18,7 +18,8 @@ const {addSalesMiddleware} = require('../Middleware/sales/middlewareAddProduct')
 const { getAllSalesController } = require('../Controllers/sales/getAllSalesController');
 const {getSaleByIdMiddleware} = require('../Middleware/sales/getSaleByIdMiddleware');
 const {getSaleByIdController} = require('../Controllers/sales/getSaleByIdController');
-
+const {updateSaleMiddleware} = require('../Middleware/sales/updateSaleMiddleware');
+const {updateSaleController} = require('../Controllers/sales/updateSaleController');
 
 
 
@@ -38,7 +39,7 @@ app.delete('/products/:id', deleteProductMiddleware, deleteProductController);
 app.post('/sales', addSalesMiddleware , addSale);
 app.get('/sales', getAllSalesController);
 app.get('/sales/:id',getSaleByIdMiddleware, getSaleByIdController);
-// app.put('/sales/:id',updateProductMiddleware, updateProductController );
+app.put('/sales/:id',updateSaleMiddleware, updateSaleController );
 // app.delete('/sales/:id', deleteProductMiddleware, deleteProductController);
 
 module.exports = app;
