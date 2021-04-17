@@ -91,16 +91,12 @@ const deleteProduct = async (request, response) => {
       const ERR_MESSAGE = 'Wrong id format';
       throw new Error(ERR_MESSAGE);
     }
-    const result = await productService.deleteProduct(data._id);
+    await productService.deleteProduct(data._id);
     return response.status(OK).json(result);
   } catch (error) {
     console.error(error);
-    return response.status(UNPROCESS).json({
-      err: {
-        code: 'invalid_data',
-        message: error.message
-      }
-    });
+    objError.err.message = 'Wrong id format';
+    return response.status(UNPROCESS).json(objError);
   }
 };
 
