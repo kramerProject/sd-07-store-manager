@@ -23,8 +23,28 @@ const findById = async (req, res) => {
     res.status(StatusCodes.NOT_FOUND).send(message);
   }
 };
+const updateById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await salesService.updateById(id, req.body);
+    res.status(StatusCodes.OK).send(result);
+  } catch ({ message }) {
+    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(await JSON.parse(message));
+  }
+};
+const removeById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await salesService.removeById(id);
+    res.status(StatusCodes.OK).send(result);
+  } catch ({message}) {
+    res.status(StatusCodes.UNPROCESSABLE_ENTITY).send(message);
+  }
+};
 module.exports = {
   insertNewSale,
   findAll,
   findById,
+  updateById,
+  removeById,
 };

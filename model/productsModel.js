@@ -36,7 +36,6 @@ const updateById = async (id, name, quantity) => {
 const removeById = async (id) => {
   const result = await findById(id);
   await conn().then((db) => db.collection('products').deleteOne({ _id: id }));
-  console.log(result);
   return result;
 };
 

@@ -47,6 +47,13 @@ const saleNotFoundError = {
   },
 };
 
+const saleIdFormatError = {
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong sale ID format',
+  },
+};
+
 module.exports = {
   productExistsError,
   productNameLengthError,
@@ -55,4 +62,5 @@ module.exports = {
   invalidIdFormatError,
   wrongIdOrQuantityError,
   saleNotFoundError,
+  saleIdFormatError
 };
