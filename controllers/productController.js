@@ -3,19 +3,8 @@ const { productDataValidation } = require('../services/productDataValidation');
 const { productIdValidation } = require('../services/productIdValidation');
 
 const SUCCESS = 200;
-const SERVER_ERROR = 200;
 const NOT_FOUND = 404;
 const CREATED = 201;
-
-// const getAllProducts = async (req, res) => {
-//   try {
-//     const results = await Product.getAllProducts();
-
-//     return res.status(SUCCESS).json(results);
-//   } catch (err) {
-//     res.status(SERVER_ERROR).json({ message: err.message });
-//   }
-// };
 
 const getAllProducts = async (req, res) => {
   try {

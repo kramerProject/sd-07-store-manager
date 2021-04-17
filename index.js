@@ -1,6 +1,6 @@
 const express = require('express');
 const routes = require('./routes');
-const { productMiddleware} = require('./middlewares/errorMiddleware');
+const { errorMiddleware } = require('./middlewares/errorMiddleware');
 
 const app = express();
 
@@ -14,10 +14,9 @@ app.get('/', (_request, response) => {
 });
 
 app.use(routes.productRoutes);
+app.use(routes.saleRoutes);
 
-// app.use(middlewares.errorMiddleware);
-app.use(productMiddleware);
-
+app.use(errorMiddleware);
 
 app.listen(PORT, () => {
   console.log(`App rodando na porta ${PORT}`);
