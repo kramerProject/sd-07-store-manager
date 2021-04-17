@@ -30,6 +30,7 @@ const getAll = async (req, res) => {
 
 const getById = async (req, res) => {
   const { id } = req.params;
+  console.log("controllersgetById");
   try {
     const prodById = await servicesProducts.getById(id);
     res.status(200).json(prodById);
@@ -37,7 +38,7 @@ const getById = async (req, res) => {
     if (err.code === 'invalid_data') {
       return res.status(422).json({ err });
     }
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ err });
     // res.status(422).json({ err });
   }
 };
@@ -58,6 +59,8 @@ const updateById = async (req, res) => {
 
 const excludeById = async (req, res) => {
   const { id } = req.params;
+  console.log("controllersexcludeById");
+
   try {
     const excludedProd = await servicesProducts.excludeById(id);
     return res.status(200).json(excludedProd);

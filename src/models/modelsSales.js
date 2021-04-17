@@ -6,10 +6,34 @@ const create = async (sale) =>
     .then((db) => db.collection('sales').insertOne({ sale }))
     .then((result) => ({ _id: result.insertedId, sale }));
 
+const getAll = async () =>
+  await connection()
+    .then((db) => db.collection('sales'))
+    .then((sales) => sales.find().toArray());
+
+const getById = async (id) =>
+  await connection()
+    .then((db) => db.collection('sales'))
+    .then((sales) => sales.findOne(ObjectId(id)));
+
+const updateById = async (id, sale) =>
+  connection()
+    .then((db) => db.collection('sales'))
+    .then((sales) => sales.updateOne(
+      { _id: ObjectId(id) },
+      { $set: { itensSold: sale } }
+    ));
+
+const excludeById = async (id) =>
+  connection()
+    .then((db) => db.collection('sales'))
+    .then((sale) => sale.findOneAndDelete({ _id: ObjectId(id) }))
+    .then((excludedSale) => excludedSale.value);
+
 module.exports = {
   create,
-/*   getAll,
+  getAll,
   getById,
   updateById,
-  excludeById */
+  excludeById
 };

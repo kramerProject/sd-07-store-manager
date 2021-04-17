@@ -1,5 +1,6 @@
 const { ObjectId } = require('mongodb');
 const modelsProducts = require('../models/modelsProducts');
+// const { rulesNameInsProd, rulesQuantInsProd } = require('../middlewares/middlewaresProducts');
 
 // rules for insert products
 const rulesInsProd = async (name, quantity) => {
@@ -31,6 +32,7 @@ const rulesInsProd = async (name, quantity) => {
   return true;
 };
 
+// const create = (rulesNameInsProd, rulesQuantInsProd, async (name, quantity) => {
 const create = async (name, quantity) => {
   const rules = await rulesInsProd(name, quantity);
   if (!rules) {
@@ -47,6 +49,7 @@ const create = async (name, quantity) => {
   const productInserted = await modelsProducts.create(name, quantity);
   return productInserted;
 };
+// });
 
 const getAll = async () => {
   const products = await modelsProducts.getAll();
@@ -57,9 +60,19 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  const productId = await modelsProducts.getById(id);
+  // validacao por id
 
+  // if (typeof id === 'undefined' || id === null) {
+  //   console.log("servicegetById-IF01");
+  //   throw {
+  //     code: 'invalid_data',
+  //     message: 'Wrong id format',
+  //   };
+  // }
+  const productId = await modelsProducts.getById(id);
+  console.log("servicegetById");
   if (!productId) {
+    console.log("servicegetById-IF02");
     throw {
       code: 'invalid_data',
       message: 'Wrong id format',
@@ -69,6 +82,7 @@ const getById = async (id) => {
 };
 
 const updateById = async (id, name, quantity) => {
+  // validacao por id
   const rules = await rulesInsProd(name, quantity);
   if (!rules) {
     return false;
@@ -83,7 +97,9 @@ const updateById = async (id, name, quantity) => {
 };
 
 const excludeById = async (id) => {
+  // validacao por id
   const excludedProd = await modelsProducts.excludeById(id);
+  console.log("serviceexcludeById");
   if (!excludedProd) {
     throw {
       code: 'invalid_data',

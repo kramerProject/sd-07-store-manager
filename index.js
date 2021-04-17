@@ -22,7 +22,7 @@ app.listen(3000, () => console.log('running'));
 
 
 // referencias
-// Marcos Silva 07, Vanessa Naara Almeida Oliveira 07,
+// Marcos Silva 07, Vanessa Naara Almeida Oliveira 07, Zambeli 05
 // router/index - routerProd/Sale - controllersProd/sales - servideProd/sale - modelsProd
 // https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Status
 // https://expressjs.com/pt-br/guide/routing.html

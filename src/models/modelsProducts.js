@@ -21,7 +21,11 @@ const getAll = async () =>
 const getById = async (id) =>
   await connection()
     .then((db) => db.collection('products'))
-    .then((products) => products.findOne(ObjectId(id)));
+    .then(console.log("modelsgetById"))
+    .then((products) => products.findOne(ObjectId(id)))
+    .catch((err) => {
+      throw status(422).json({ err });
+    });
 // const getById = async (id) => {
 //   const productsById = await connection()
 //     .then((db) => db.collection('products')).findOne(ObjectId(id));
@@ -41,6 +45,7 @@ const updateById = async (id, name, quantity) =>
 const excludeById = async (id) => {
   const excludedProd = await connection()
     .then((db) => db.collection('products'))
+    .then(console.log("modelsexcludeByid"))
     .then((product) => product.findOneAndDelete({ _id: ObjectId(id) }));
   return excludedProd;
 };
