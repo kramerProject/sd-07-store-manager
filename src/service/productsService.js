@@ -1,10 +1,20 @@
-const { getOnePdt, getProductByName,
+const { delProduct, getOnePdt, getProductByName,
   updatePdtById, getProductsList, registerProduct } = require('../models');
 const { authPdtAmount, authPdtName } = require('./validateInputs');
 
+const BAD_INPUT = 'Unprocessable Entity';
+
+
+const deleteProduct = async (pdtId) => {
+  const deletionRes = await delProduct(pdtId);
+  return deletionRes.result.ok === 1
+    ? { status: 'OK' }
+    : { err: 'invalid_data', status: BAD_INPUT,
+      clientErr: true, message: 'Wrong id format' };
+};
+
 const getOneProduct = async (pdtId) => {
   const product = await getOnePdt(pdtId);
-  const BAD_INPUT = 'Unprocessable Entity';
   return product
     ? { product: product, status: 'OK' }
     : { err: 'invalid_data', status: BAD_INPUT,
@@ -31,7 +41,7 @@ const insertProduct = async (name, amount) => {
 
   const productConflict = await getProductByName(name);
   if (productConflict) {
-    const BAD_INPUT = 'Unprocessable Entity';
+
     return {
       err: 'invalid_data',
       clientErr: true,
@@ -58,7 +68,6 @@ const updateProduct = async (name, id, amount) => {
   }
 
   const productUpdated = await updatePdtById(name, id, amount);
-  const BAD_INPUT = 'Unprocessable Entity';
   const updatedInfo = { _id: id, name, quantity: amount, err: false };
   return productUpdated.result.ok === 1
     ? { product: updatedInfo, status: 'OK' }
@@ -67,6 +76,7 @@ const updateProduct = async (name, id, amount) => {
 };
 
 module.exports = {
+  deleteProduct,
   getOneProduct,
   getProducts,
   insertProduct,

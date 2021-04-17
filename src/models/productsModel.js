@@ -1,6 +1,17 @@
 const getConnection = require('./connection');
 const { ObjectId } = require('mongodb');
 
+const delProduct = async (id) => {
+  try {
+    const connection = await getConnection();
+    const delRes = connection.collection('products')
+      .deleteOne({ _id: ObjectId(id)});
+    return delRes;
+  } catch (err) {
+    return { error: err , result: { ok: false } };
+  }
+};
+
 const getProductByName = async (name) => {
   const connection = await getConnection();
   const res  = await connection.collection('products')
@@ -45,6 +56,7 @@ const updatePdtById = async (name, id, amount) => {
 };
 
 module.exports = {
+  delProduct,
   getProductByName,
   getOnePdt,
   getProductsList,

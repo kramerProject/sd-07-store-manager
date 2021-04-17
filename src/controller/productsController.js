@@ -1,6 +1,6 @@
 
 const { Router } = require('express');
-const { insertProduct, getProducts,
+const { deleteProduct, insertProduct, getProducts,
   getOneProduct, updateProduct } = require('../service');
 const { clientErrCodes, serverErrCodes, successCodes } = require('./statusCodes');
 
@@ -74,9 +74,25 @@ productsController.put('/:id', async (req, res, next) => {
     next(serverErrCodes['Internal Server Error'], err);
   }
 });
-// productsController.delete('/:id', async (req, res, next) => {
-
-// });
+productsController.delete('/:id', async (req, res, next) => {
+  try {
+    const BAD_INPUT = 'Unprocessable Entity';
+    if (!req.params) {
+      next({ status: clientErrCodes[`${BAD_INPUT}`], message: 'Missing id prameter'});
+    }
+    const { id } = req.params;
+    const productDeleted = await deleteProduct(id);
+    const { status } = productDeleted;
+    if (status !== 'OK') {
+      const { err, message, status } = productDeleted;
+      next({ err, message, status, clientErr: productDeleted.clientErr });
+    }
+    return res.status(successCodes[`${productDeleted.status}`]).json({ });
+  } catch (err) {
+    console.log(err);
+    next(serverErrCodes['Internal Server Error'], err);
+  }
+});
 
 // app.use(errorMidlleware);
 
