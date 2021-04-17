@@ -8,13 +8,6 @@ const PORT = 3000;
 
 const app = express();
 
-if (!dotenv) {
-  throw new Error({
-    message: 'Missing env config',
-    status: serverErrCodes['Internal Server Error'],
-  });
-}
-
 app.use(bodyParser.json());
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
