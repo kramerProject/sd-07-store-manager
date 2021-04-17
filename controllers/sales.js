@@ -1,43 +1,41 @@
 const Sales = require('../services/sales');
 const INVALID_DATA = 422;
+const NOT_FOUND = 404;
 const CREATE = 201;
 const retunedProducts = 200;
 
-// const getAll = async (_req, res) => {
-//   const store = await Store.getAll();
-
-//   res.status(retunedProducts).json(store);
-// };
-
-const findById = async (req, res) => {
-  const arr = req.body;
-  for(const index=0; index<arr.length;index += 1){
-
-    let result = await Sales.findById(arr[index]._id);
-    if (result.err) return res.status(INVALID_DATA).json(store);
-  }
+const getAll = async (_req, res) => {
+  const store = await Sales.getAll();
 
   res.status(retunedProducts).json(store);
 };
-// const updateById = async (req, res) => {
-//   const { id } = req.params;
-//   const { name, quantity } = req.body;
 
-//   const result = await Store.updateById(name, quantity,id);
-//   console.log(result);
+const findById = async (req, res) => {
+  const { id } = req.params;
+  const result = await Sales.findById(id);
 
-//   if (result.err) return res.status(INVALID_DATA).json(result);
+  if(result.err) return res.status(NOT_FOUND).json(result);
 
-//   res.status(retunedProducts).json(result);
+  res.status(retunedProducts).json(result);
+};
+const updateById = async (req, res) => {
+  const { id } = req.params;
+  const arr = req.body;
 
-// };
-// const deleteProduct = async (req, res) => {
-//   const { id } = req.params;
-//   const store = await Store.deleteProduct(id);
-//   if (store.err) return res.status(INVALID_DATA).json(store);
+  const result = await Sales.updateById(arr,id);
 
-//   res.status(retunedProducts).json(store);
-// };
+  if (result.err) return res.status(INVALID_DATA).json(result);
+
+  res.status(retunedProducts).json(result);
+
+};
+const deleteSale = async (req, res) => {
+  const { id } = req.params;
+  const result = await Sales.deleteSale(id);
+  if (result.err) return res.status(INVALID_DATA).json(result);
+
+  res.status(retunedProducts).json(result);
+};
 
 const create = async (req, res) => {
   const arr = req.body;
@@ -49,9 +47,9 @@ const create = async (req, res) => {
 };
 
 module.exports = {
-  // deleteProduct,
-  // updateById,
-  // getAll,
+  deleteSale,
+  updateById,
+  getAll,
   findById,
   create,
 };

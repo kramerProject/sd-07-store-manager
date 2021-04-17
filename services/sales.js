@@ -1,22 +1,17 @@
 const Sales = require('../models/sales');
 const Store = require('../services/Store');
 const { ObjectId } = require('mongodb');
-// const LENGTH_NAME = 5;
 const ZERO_QUANTITY = 0;
 
-// const errLastFiveChar ={'err':{
-//   'code':'invalid_data',
-//   'message': '"name" length must be at least 5 characters long'
-// }};
-// const errSameName ={'err':{
-//   'code':'invalid_data',
-//   'message':'Product already exists'
-// }};
-const errLessOrEqualZero ={'err':{
+const errWrongSaleIdFormat ={'err':{
   'code':'invalid_data',
-  'message': 'Wrong product ID or invalid quantity'
+  'message': 'Wrong sale ID format'
 }};
-const errQuantityIsString ={'err':{
+const errSaleNotFound ={'err':{
+  'code':'not_found',
+  'message':'Sale not found'
+}};
+const errWrongIdOrInvalidQuantity ={'err':{
   'code':'invalid_data',
   'message': 'Wrong product ID or invalid quantity'
 }};
@@ -24,22 +19,6 @@ const errWrongIdFormat ={'err':{
   'code':'invalid_data',
   'message': 'Wrong id format'
 }};
-// const getListProducts = (productData) => {
-//   return {
-//     ...productData
-//   };
-// };
-// const isNameAlreadyExist = async(name)=>{
-//   const result = await Store.findByName(name);
-//   if (result !==null) return false;
-
-//   return true;
-// };
-// const verifyName = (name)=>{
-//   if (!name || typeof name !== 'string' || name.length< LENGTH_NAME ) return false;
-
-//   return true;
-// };
 const itensSold = (salesData)=>{
   const itensArr = [];
   itensArr.push(...salesData);
@@ -58,51 +37,44 @@ const verifyTypeOfQuantity = (quantity)=>{
   return true;
 };
 const isValid = async(quantity) => {
-  if (!verifyQuantity(quantity)) return errLessOrEqualZero;
-  if (!verifyTypeOfQuantity(quantity)) return errQuantityIsString;
+  if (!verifyQuantity(quantity)) return  errWrongIdOrInvalidQuantity;
+
+  if (!verifyTypeOfQuantity(quantity)) return  errWrongIdOrInvalidQuantity;
+
 
   return true;
 };
-// const updateValidation = async(name, quantity) => {
-//   if (!verifyName(name) ) return errLastFiveChar;
-//   if (!verifyQuantity(quantity)) return errLessOrEqualZero;
-//   if (!verifyTypeOfQuantity(quantity)) return errQuantityIsString;
+const getAll = async () => {
+  const sales = await Sales.getAll();
+  return {'sales':sales};
 
-//   return true;
-// };
-// const getAll = async () => {
-//   const store = await Store.getAll();
-//   return {'products':store};
-
-//   // return store;
-// };
+};
 
 const findById = async (id) => {
   if (!ObjectId.isValid(id)) {
-    return errWrongIdFormat;
+    return errSaleNotFound;
   }
   const result = await Sales.findById(id);
 
-  if (result === null) return errWrongIdFormat;
+  if (result === null) return errSaleNotFound;
 
   return result;
 };
-// const deleteProduct = async (id) => {
-//   if (!ObjectId.isValid(id)) {
-//     return errWrongIdFormat;
-//   }
-//   const store = await Store.findById(id);
+const deleteSale = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return errWrongSaleIdFormat;
+  }
+  const result = await Sales.findById(id);
 
-//   if (store === null) return errWrongIdFormat;
+  if (result === null) return errWrongSaleIdFormat;
 
 
-//   await Store.deleteById(id);
+  await Sales.deleteById(id);
 
-//   return store;
-// };
+  return result;
+};
 
 const create = async (arr) => {
-  // let index;
   const ZEROINDEX = 0;
   let index;
   for( index= ZEROINDEX;index<arr.length;index += 1){
@@ -123,32 +95,36 @@ const create = async (arr) => {
   return result;
 
 };
-// const updateById = async (name, quantity,id) => {
+const updateById = async (arr,id) => {
+  const arrayProducts = arr;
+  if (!ObjectId.isValid(id)) {
+    return errWrongIdFormat;
+  }
 
-//   if (!ObjectId.isValid(id)) {
-//     return errWrongIdFormat;
-//   }
-//   const productValid = await updateValidation(name,quantity);
+  const ZEROINDEX = 0;
+  let index;
 
-//   if( typeof productValid ==='object') return productValid;
+  for( index= ZEROINDEX;index<arrayProducts.length;index += 1){
+    let resultFindByIdProducts = await Store.findById(arrayProducts[index].productId);
 
+    if(resultFindByIdProducts.err) return resultFindByIdProducts;
 
-//   await Store.updateById(name, quantity,id);
+    let productValid = await isValid(arrayProducts[index].quantity);
 
-//   return {
-//     _id: id,
-//     name,
-//     quantity
-//   };
-// };
+    if( typeof productValid ==='object') return productValid;
 
+    await Sales.updateById(arrayProducts[index].quantity,id,index);
+  }
 
+  const result = await findById(id);
 
+  return result;
+};
 
 module.exports = {
-  // updateById,
-  // deleteProduct,
-  // getAll,
+  updateById,
+  deleteSale,
+  getAll,
   findById,
   create,
 };

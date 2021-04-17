@@ -23,11 +23,7 @@ const errWrongIdFormat ={'err':{
   'code':'invalid_data',
   'message': 'Wrong id format'
 }};
-// const getListProducts = (productData) => {
-//   return {
-//     ...productData
-//   };
-// };
+
 const isNameAlreadyExist = async(name)=>{
   const result = await Store.findByName(name);
   if (result !==null) return false;
@@ -69,8 +65,6 @@ const updateValidation = async(name, quantity) => {
 const getAll = async () => {
   const store = await Store.getAll();
   return {'products':store};
-
-  // return store;
 };
 
 const findById = async (id) => {
@@ -128,9 +122,6 @@ const updateById = async (name, quantity,id) => {
     quantity
   };
 };
-
-
-
 
 module.exports = {
   updateById,

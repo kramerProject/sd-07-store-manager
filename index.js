@@ -15,6 +15,10 @@ app.get('/', (_request, response) => {
 });
 app.post('/products', Store.create);
 app.post('/sales', Sales.create);
+app.get('/sales', Sales.getAll);
+app.get('/sales/:id', Sales.findById);
+app.put('/sales/:id', Sales.updateById);
+app.delete('/sales/:id', Sales.deleteSale);
 app.put('/products/:id', Store.updateById);
 app.get('/products', Store.getAll);
 app.get('/products/:id', Store.findById);

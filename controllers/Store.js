@@ -23,7 +23,6 @@ const updateById = async (req, res) => {
   const { name, quantity } = req.body;
 
   const result = await Store.updateById(name, quantity,id);
-  console.log(result);
 
   if (result.err) return res.status(INVALID_DATA).json(result);
 
