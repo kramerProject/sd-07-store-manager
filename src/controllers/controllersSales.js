@@ -34,8 +34,9 @@ const getById = async (req, res) => {
     const salesById = await servicesSales.getById(id);
     res.status(200).json(salesById);
   } catch (err) {
-    if (err.code === 'invalid_data') {
-      return res.status(422).json({ err });
+    console.log(err);
+    if (err.code === 'not_found') {
+      return res.status(404).json({ err });
     }
     res.status(500).json({ message: 'Internal server error' });
     // res.status(422).json({ err });

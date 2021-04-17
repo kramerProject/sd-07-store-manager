@@ -62,13 +62,13 @@ const getAll = async () => {
 const getById = async (id) => {
   // validacao por id
 
-  // if (typeof id === 'undefined' || id === null) {
-  //   console.log("servicegetById-IF01");
-  //   throw {
-  //     code: 'invalid_data',
-  //     message: 'Wrong id format',
-  //   };
-  // }
+  if (!ObjectId.isValid(id)) {
+    console.log("servicegetById-IF01");
+    throw {
+      code: 'invalid_data',
+      message: 'Wrong id format',
+    };
+  }
   const productId = await modelsProducts.getById(id);
   console.log("servicegetById");
   if (!productId) {
@@ -98,6 +98,13 @@ const updateById = async (id, name, quantity) => {
 
 const excludeById = async (id) => {
   // validacao por id
+  if (!ObjectId.isValid(id)) {
+    console.log("servicegetById-IF01");
+    throw {
+      code: 'invalid_data',
+      message: 'Wrong id format',
+    };
+  }
   const excludedProd = await modelsProducts.excludeById(id);
   console.log("serviceexcludeById");
   if (!excludedProd) {
