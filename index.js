@@ -1,9 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const dotenv = require('dotenv').config();
 const { productsController } = require('./src/controller');
 const { serverErrCodes } = require('./src/controller/statusCodes');
 const { errorMiddleware } = require('./src/middlewares');
+
+const PORT = 3000;
 
 const app = express();
 
@@ -20,8 +21,8 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.listen(process.env.PORT, () => {
-  console.log('Risso @ PORT: ', process.env.PORT);
+app.listen(PORT, () => {
+  console.log('Listening @ PORT: ', PORT);
 });
 
 app.use('/products', productsController);
