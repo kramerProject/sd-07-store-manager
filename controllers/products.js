@@ -55,7 +55,6 @@ const getProductsId = async (request, response) => {
   try {
     const { id } = request.params;
     const data = await productService.getProductsId(id);
-    // console.log(data);
     if (!data) {
       return response.status(UNPROCESS).json({
         err: {
@@ -84,19 +83,20 @@ const putProduct = async (request, response) => {
 };
 
 const deleteProduct = async (request, response) => {
+  const responseOK = 200;
+  const responseError = 422;
   try {
     const { id } = request.params;
-    const data = await productService.getProductsId(id);
-    if (!data) {
-      const ERR_MESSAGE = 'Wrong id format';
-      throw new Error(ERR_MESSAGE);
-    }
-    await productService.deleteProduct(data._id);
-    return response.status(OK).json(result);
+    const product = await modelProducts.getById(id);
+    
+    if (!product) throw { code: 'invalid_data', message: 'Wrong id format' };
+
+    await productService.deleteProduct(product._id);
+
+    return response.status(responseOK).json(product);
   } catch (error) {
-    console.error(error);
-    objError.err.message = 'Wrong id format';
-    return response.status(UNPROCESS).json(objError);
+    console.log(error);
+    return response.status(responseError).json({ err: error});
   }
 };
 
