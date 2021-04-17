@@ -18,21 +18,19 @@ const saleCreate = async (req, res, next) => {
     const result = await createSale(body);
     res.status(SUCESS).json(result);
   } catch (error) {
-    const err = JSON.parse(error.message);
-    console.log(err);
-    if (err.ok) {
+    console.log(error);
+    if (error.code) {
       next({
-        status: err.status,
-        message: err.message,
-        code: err.code,
-      });
-    } else {
-      next({
-        status: UNPROCESSABLE,
+        status: error.code.status,
         message: error.message,
-        code: CODE_INVALID,
+        code: error.code.code,
       });
     }
+    next({
+      status: UNPROCESSABLE,
+      message: error.message,
+      code: CODE_INVALID,
+    });
   }
 };
 

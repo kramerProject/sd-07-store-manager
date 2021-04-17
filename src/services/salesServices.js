@@ -3,7 +3,14 @@ const { salesModel, productsModel } = require('../models');
 const { create, read, readById, update, exclude } = salesModel;
 
 const NOT_FOUND = 404;
-const CODE_NOT_FOUND = 'stock_problem';
+const CODE_STOCK = 'stock_problem';
+
+class NewError extends Error {
+  constructor(message, code) {
+    super(message);
+    this.code = code;
+  }
+}
 
 const updateQuantity = async (saleList, operation) => {
   const ProductPromises = saleList.map((sale) => productsModel.readById(sale.productId));
@@ -15,18 +22,18 @@ const updateQuantity = async (saleList, operation) => {
       const { _id, name, quantity } = product;
       let quantityProduct = quantity;
       let quantitySale = saleList[index].quantity;
+
       let newQuantity = operation === 'subtract'
         ? quantityProduct - quantitySale
         : quantityProduct + quantitySale;
+
       if (newQuantity < ZERO_QTD)
-        throw new Error(
-          JSON.stringify({
-            ok: 1,
-            message: 'Such amount is not permitted to sell',
-            status: NOT_FOUND,
-            code: CODE_NOT_FOUND,
-          }),
-        );
+        throw new NewError('Such amount is not permitted to sell', {
+          ok: 1,
+          status: NOT_FOUND,
+          code: CODE_STOCK,
+        });
+
       return productsModel.update(_id, name, newQuantity);
     }),
   );
@@ -41,9 +48,9 @@ const createSale = async (productList) => {
       throw new Error('Wrong product ID or invalid quantity');
   });
 
-  await updateQuantity(productList, 'subtract');
   const newSale = await create(productList);
   if (!newSale.result.ok) throw new Error('Error from model - create');
+  await updateQuantity(productList, 'subtract');
   return { _id: newSale.insertedId, itensSold: productList };
 };
 
