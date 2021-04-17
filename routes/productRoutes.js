@@ -21,6 +21,8 @@ router.put(
   middlewares.validateNameMiddleware,
   middlewares.validateQuantityMiddleware, 
   productController.updateOneProduct);
-//router.delete('/songs/:id', songController.deleteSong);
+router.delete('/products/:id',
+  middlewares.validateProductNotExistMiddleware,
+  productController.deleteProduct);
 
 module.exports = router;

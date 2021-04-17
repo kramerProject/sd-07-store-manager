@@ -29,6 +29,14 @@ const update = async ({ id, name, quantity }) => {
   return product;
 };
 
+const exclude = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  return connection().then((db) => {
+    return db.collection('products').deleteOne({ _id: ObjectId(id) });
+  });
+};
+
     
 
 
@@ -36,5 +44,6 @@ module.exports = {
   create,
   getAll,
   getById,
-  update
+  update,
+  exclude
 };

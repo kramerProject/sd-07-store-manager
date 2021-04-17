@@ -33,10 +33,18 @@ const updateProduct = async (id, name, quantity) => {
   return productUpdate;
 };
 
+const deleteOneProduct = async (id) => {
+
+  const productDeleted = await product.exclude(id);
+  
+  return  productDeleted;
+};
+
 
 module.exports = {
   createProduct,
   getAllProduct,
   getOneProduct,
-  updateProduct
+  updateProduct,
+  deleteOneProduct
 };
