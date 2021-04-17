@@ -14,4 +14,21 @@ module.exports = {
       console.log(e);
     }
   },
+  async findAll(request, response) {
+    try {
+      const products = await productService.getAll();
+      return response.status(httpStatus.OK).json({ products });
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async findById(request, response){
+    try {
+      const { id } = request.params;
+      const product = await productService.getById(id);
+      return response.status(httpStatus.OK).json(product);
+    } catch (e) {
+      console.log(e);
+    }
+  },
 };

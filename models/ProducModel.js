@@ -1,4 +1,5 @@
 const connection = require('../database/connection');
+const { ObjectId } = require('mongodb');
 
 const connect = async (command, params) => {
   try {
@@ -16,5 +17,11 @@ module.exports = {
   },
   async getByName(name) {
     return await connect('findOne', { name });
+  },
+  async getAll() {
+    return await connect('find', {});
+  },
+  async getById(id) {
+    return await connect('findOne', ObjectId(id));
   }
 };

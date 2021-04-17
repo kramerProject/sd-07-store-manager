@@ -5,9 +5,17 @@ const productMiddleware = require('./middlewares/ProductMiddleware');
 
 const routes = express.Router();
 
-routes.route('/products')
-  .post(
-    productMiddleware.createValidations,
-    productController.create);
+routes.post('/products',
+  productMiddleware.validateLengthName,
+  productMiddleware.validateExistsName,
+  productMiddleware.validateQuantityIsGreaterZero,
+  productMiddleware.validateQuantityNotIsString,
+  productController.create);
+
+routes.get('/products', productController.findAll);
+
+routes.get('/products/:id',
+  productMiddleware.validateExistsId,
+  productController.findById);
 
 module.exports = routes;

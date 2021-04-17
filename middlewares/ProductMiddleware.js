@@ -1,66 +1,87 @@
 const httpStatus = require('../config/httpStatus');
-const { getByName } = require('../models/ProducModel');
+const { getByName, getById } = require('../models/ProducModel');
+const { ObjectId } = require('mongodb');
 
 const numbers = {
   ZERO: 0,
   CINCO: 5,
-};
-
-const validateLengthName = (request, response) => {
-  const { name } = request.body;
-  if (name.length <= numbers.CINCO) {
-    return response.status(httpStatus.INVALID_DATA).json({
-      err: {
-        code: 'invalid_data',
-        message: '"name" length must be at least 5 characters long'
-      }
-    });
-  }
-};
-
-const validateExistsName = async (request, response) => {
-  const { name } = request.body;
-  const product = await getByName(name);
-  if (product) {
-    return response.status(httpStatus.INVALID_DATA).json({
-      err: {
-        code: 'invalid_data',
-        message: 'Product already exists',
-      }
-    });
-  }
-};
-
-const validateQuantityIsGreaterZero = (request, response) => {
-  const { quantity } = request.body;
-  if (parseInt(quantity) <= numbers.ZERO) {
-    return response.status(httpStatus.INVALID_DATA).json({
-      err: {
-        code: 'invalid_data',
-        message: '"quantity" must be larger than or equal to 1',
-      }
-    });
-  }
-};
-
-const validateQuantityNotIsString = (request, response) => {
-  const { quantity } = request.body;
-  if (isNaN(parseInt(quantity))) {
-    return response.status(httpStatus.INVALID_DATA).json({
-      err: {
-        code: 'invalid_data',
-        message: '"quantity" must be a number',
-      }
-    });
-  }
+  VINTE_QUATRO: 24,
 };
 
 module.exports = {
-  async createValidations(request, response, next) {
-    validateLengthName(request, response);
-    validateQuantityIsGreaterZero(request, response);
-    validateQuantityNotIsString(request, response);
-    await validateExistsName(request, response);
+  validateLengthName(request, response, next) {
+    const { name } = request.body;
+    if (name.length <= numbers.CINCO) {
+      return response.status(httpStatus.INVALID_DATA).json({
+        err: {
+          code: 'invalid_data',
+          message: '"name" length must be at least 5 characters long',
+        },
+      });
+    } else {
+      next();
+    }
+  },
+  async validateExistsName(request, response, next) {
+    const { name } = request.body;
+    const product = await getByName(name);
+    if (product) {
+      return response.status(httpStatus.INVALID_DATA).json({
+        err: {
+          code: 'invalid_data',
+          message: 'Product already exists',
+        },
+      });
+    } else {
+      next();
+    }
+  },
+  validateQuantityIsGreaterZero(request, response, next) {
+    const { quantity } = request.body;
+    if (parseInt(quantity) <= numbers.ZERO) {
+      return response.status(httpStatus.INVALID_DATA).json({
+        err: {
+          code: 'invalid_data',
+          message: '"quantity" must be larger than or equal to 1',
+        },
+      });
+    } else {
+      next();
+    }
+  },
+  validateQuantityNotIsString(request, response, next) {
+    const { quantity } = request.body;
+    if (isNaN(parseInt(quantity))) {
+      return response.status(httpStatus.INVALID_DATA).json({
+        err: {
+          code: 'invalid_data',
+          message: '"quantity" must be a number',
+        },
+      });
+    } else {
+      next();
+    }
+  },
+  async validateExistsId(request, response, next) {
+    const { id } = request.params;
+    if (!ObjectId.isValid(id) || id.length !== numbers.VINTE_QUATRO) {
+      return response.status(httpStatus.INVALID_DATA).json({
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong id format',
+        },
+      });
+    }
+    const product = await getById(id);
+    if (!product) {
+      return response.status(httpStatus.INVALID_DATA).json({
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong id format',
+        },
+      });
+    }
+
     next();
   },
 };
