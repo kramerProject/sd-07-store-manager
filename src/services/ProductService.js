@@ -1,7 +1,4 @@
 const ProductModel = require('../models/ProductModel');
-const ProductSchema = require('../schemas/ProductSchema');
-
-
 
 const getProductById = async(id) => {
   const productRes = await ProductModel.getProductById(id);

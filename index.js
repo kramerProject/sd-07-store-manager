@@ -2,8 +2,8 @@
 const express = require('express');
 const app = require('express')();
 
-const { ProductRoute } = require('./routes');
-const { SalesRoute } = require('./routes');
+const { ProductRoute } = require('./src/routes');
+const { SalesRoute } = require('./src/routes');
 
 const PORT = 3000;
 // não remova esse endpoint, e para o avaliador funcionar

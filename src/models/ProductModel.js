@@ -2,7 +2,8 @@ const { ObjectId } = require('bson');
 const connection = require('../configs/connection');
 
 const checkIfExists = async (product) => {
-  const productRes = await connection().then((db) => db.collection('products').findOne({ 'name': product }));
+  const productRes = await connection().then((db) => 
+    db.collection('products').findOne({ 'name': product }));
 
   return productRes;
 };
@@ -34,7 +35,8 @@ const updateProduct = async (id, name, quantity) => {
 };
 
 const getProductById = async (id) => {
-  const res = await connection().then((db) => db.collection('products').findOne(ObjectId(id)));
+  const res = await connection().then((db) => 
+    db.collection('products').findOne(ObjectId(id)));
 
   return res;
 };
@@ -46,7 +48,8 @@ const getAllProducts = async () => {
 };
 
 const createProduct = async (name, quantity) => {
-  const creationRes = await connection().then((db) => db.collection('products').insertOne({ name, quantity }));
+  const creationRes = await connection().then((db) => 
+    db.collection('products').insertOne({ name, quantity }));
 
   return creationRes.ops[0];
 };
