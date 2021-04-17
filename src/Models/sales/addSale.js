@@ -11,7 +11,7 @@ const addSale = async (products) => {
   return connection()
     .then((db) =>
       db.collection(process.env.DB_COLLECTION_SALES).insertOne({
-        products
+        itensSold: products
       }),
     )
     .then((result) => getNewSale(result.insertedId, products))
