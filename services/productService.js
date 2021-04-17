@@ -21,9 +21,22 @@ const getOneProduct = async (id) => {
   return  list;
 };
 
+const updateProduct = async (id, name, quantity) => {
+
+  const objProduct = await product.getById(id);
+  if(!objProduct) {
+    return null;
+  }
+
+  const productUpdate = await product.update({id, name, quantity});
+
+  return productUpdate;
+};
+
 
 module.exports = {
   createProduct,
   getAllProduct,
-  getOneProduct
+  getOneProduct,
+  updateProduct
 };

@@ -16,7 +16,11 @@ router.post(
   middlewares.validateQuantityMiddleware, 
   productController.createProduct
 );
-//router.put('/songs/:id', songController.updateSong);
+router.put(
+  '/products/:id',
+  middlewares.validateNameMiddleware,
+  middlewares.validateQuantityMiddleware, 
+  productController.updateOneProduct);
 //router.delete('/songs/:id', songController.deleteSong);
 
 module.exports = router;
