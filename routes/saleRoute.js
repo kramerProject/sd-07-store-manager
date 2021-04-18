@@ -3,13 +3,14 @@ const saleController = require('../controllers/saleController');
 const middlewares = require('../middlewares');
 
 const router = express.Router();
-/*
-router.get('/products', productController.allProducts);
+
+router.get('/sales', saleController.allSales);
+
 router.get(
-  '/products/:id',
-  middlewares.validateProductNotExistMiddleware, 
-  productController.oneProduct);
-  */
+  '/sales/:id',
+  middlewares.validateSaleExistsMiddleware, 
+  saleController.oneSale);
+
 router.post(
   '/sales',
   middlewares.validateSaleProdQuantityMiddleware, 

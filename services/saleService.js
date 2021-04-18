@@ -1,25 +1,28 @@
 const sale = require('../models/saleModel');
+const { ObjectId } = require('mongodb');
 
 const createSale = async (products) => {
   newSale = await sale.create(products);
 
   return newSale;
 };
-/*
-const getAllProduct = async () => {
 
-  const list = await product.getAll();
-  
-  return  {products: list};
+const getAllSale = async () => {
+  const list = await sale.getAll();
+
+  return  list;
+
 };
 
-const getOneProduct = async (id) => {
-
-  const list = await product.getById(id);
+const getOneSale = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const list = await sale.getById(id);
+  if (!list) return null;
   
   return  list;
+  
 };
-
+/*
 const updateProduct = async (id, name, quantity) => {
 
   const objProduct = await product.getById(id);
@@ -42,8 +45,8 @@ const deleteOneProduct = async (id) => {
 */
 module.exports = {
   createSale,
-  //getAllProduct,
-  //getOneProduct,
+  getAllSale,
+  getOneSale,
   //updateProduct,
   //deleteOneProduct
 };
