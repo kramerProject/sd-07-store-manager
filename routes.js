@@ -25,4 +25,8 @@ routes.put('/products/:id',
   productMiddleware.validateQuantityNotIsString,
   productController.update);
 
+routes.delete('/products/:id',
+  productMiddleware.validateExistsId,
+  productController.delete);
+
 module.exports = routes;

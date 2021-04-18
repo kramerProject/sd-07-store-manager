@@ -31,5 +31,8 @@ module.exports = {
       { _id: ObjectId(id) },
       { $set: { name, quantity } },
     );
+  },
+  async delete(id) {
+    return await connect('deleteOne', { _id: ObjectId(id) });
   }
 };

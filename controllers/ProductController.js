@@ -41,4 +41,13 @@ module.exports = {
       console.log(e);
     }
   },
+  async delete(request, response) {
+    try {
+      const { id } = request.params;
+      const product = await productService.delete(id);
+      return response.status(httpStatus.OK).json(product);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 };

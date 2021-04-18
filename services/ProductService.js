@@ -15,5 +15,10 @@ module.exports = {
   async update(id, data) {
     const product = await productModel.update(id, data);
     return { _id: product.insertedId, name: data.name, quantity: data.quantity };
+  },
+  async delete(id) {
+    const product = await productModel.getById(id);
+    await productModel.delete(id);
+    return product;
   }
 };
