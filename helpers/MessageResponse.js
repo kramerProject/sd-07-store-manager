@@ -5,11 +5,11 @@ const messageResponse = (data) => {
   };
 };
 
-const messageError = (message) => {
+const messageError = (message, code_status) => {
   return {
     status: 'failure',
     err: {
-      code: 'invalid_data',
+      code: code_status ? code_status : 'invalid_data',
       message,
     },
   };
