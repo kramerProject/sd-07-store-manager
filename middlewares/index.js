@@ -4,6 +4,7 @@ const validateQuantityMiddleware = require('./validateQuantity');
 const validateProductNotExistMiddleware = require('./validateProductNotExist');
 const validateSaleProdQuantityMiddleware = require('./validateSaleProdQuantity');
 const validateSaleExistsMiddleware = require('./validateSaleExists');
+const validateSaleExcludeMiddleware = require('./validateSaleExclude');
 
 module.exports = {
   validateNameMiddleware,
@@ -11,5 +12,6 @@ module.exports = {
   validateQuantityMiddleware,
   validateProductNotExistMiddleware,
   validateSaleProdQuantityMiddleware,
-  validateSaleExistsMiddleware   
+  validateSaleExistsMiddleware,
+  validateSaleExcludeMiddleware   
 };

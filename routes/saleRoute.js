@@ -20,9 +20,9 @@ router.put(
   '/sales/:id',
   middlewares.validateSaleProdQuantityMiddleware,  
   saleController.updateOneSale);
-/*
-router.delete('/products/:id',
-  middlewares.validateProductNotExistMiddleware,
-  productController.deleteProduct);
-*/
+
+router.delete('/sales/:id',
+  middlewares.validateSaleExcludeMiddleware,
+  saleController.deleteSale);
+
 module.exports = router;

@@ -38,24 +38,21 @@ const update = async ({ id, arrayProducts }) => {
       .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: arrayProducts } })
   );
   return sale;
-  //return { _id: sale.insertedId, itensSold: arrayProducts };
+  
 };
-/*
+
 const exclude = async (id) => {
   if (!ObjectId.isValid(id)) return null;
 
   return connection().then((db) => {
-    return db.collection('products').deleteOne({ _id: ObjectId(id) });
+    return db.collection('sales').deleteOne({ _id: ObjectId(id) });
   });
 };
-
-*/    
-
 
 module.exports = {	
   create,
   getAll,
   getById,
   update,
-  //exclude
+  exclude
 };

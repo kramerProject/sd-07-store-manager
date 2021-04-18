@@ -34,19 +34,19 @@ const updateSale = async (id, arrayProducts) => {
 
   return saleUpdate;
 };
-/*
-const deleteOneProduct = async (id) => {
 
-  const productDeleted = await product.exclude(id);
+const deleteOneSale = async (id) => {
+
+  const saleDeleted = await sale.exclude(id);
   
-  return  productDeleted;
+  return  saleDeleted;
 };
 
-*/
+
 module.exports = {
   createSale,
   getAllSale,
   getOneSale,
   updateSale,
-  //deleteOneProduct
+  deleteOneSale
 };

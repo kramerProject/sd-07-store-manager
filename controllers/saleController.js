@@ -59,26 +59,26 @@ const updateOneSale = async (req, res) => {
     res.status(HTTP500).json({ message: err.message });
   }
 };
-/*
-const deleteProduct = async (req, res) => {
+
+const deleteSale = async (req, res) => {
   try {
     const { id } = req.params;
-    const oneProductDeleted = await productService.getOneProduct(id);
+    const oneSaleDeleted = await saleService.getOneSale(id);
 
-    const result = await productService.deleteOneProduct(id);
+    const result = await saleService.deleteOneSale(id);
 
-    res.status(HTTP200).json(oneProductDeleted);;
+    res.status(HTTP200).json(oneSaleDeleted);;
   } catch (err) {
     console.log(err);
     res.status(HTTP500).json({ message: err.message });
   }
 };
 
-*/
+
 module.exports = {
   createSale,
   allSales,
   oneSale,
   updateOneSale,
-  //deleteProduct
+  deleteSale
 };
