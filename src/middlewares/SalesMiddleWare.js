@@ -1,4 +1,5 @@
 const SalesModel = require('../models/SalesModel');
+const ProductModel = require('../models/ProductModel');
 const ApiStatusCode = require('../enums/ApiStatusCode');
 
 const errors = {
@@ -10,6 +11,12 @@ const errors = {
     {
       code: 'invalid_data',
       message: 'Wrong sale ID format'
+    }
+  },
+  STOCK_PROBLEM: { err: 
+    {
+      code: 'stock_problem',
+      message: 'Such amount is not permitted to sell'
     }
   }
 };
@@ -49,8 +56,43 @@ const validateSalesExistance = async function (req, res, next) {
   next();
 };
 
+const salesExists = async function (req, res, next) {
+  const { id } = req.params;
+  const min = 24;
+  const code = 'not_found';
+  
+  if (id.length < min) return res.status(ApiStatusCode.NOT_FOUND)
+    .json({ err: { code, message: errors.SALE_NOTFOUND}});
+
+  const isSalesExists = await SalesModel.getSalesById(id);
+
+  if (!isSalesExists) {
+    return res.status(ApiStatusCode.NOT_FOUND)
+      .json({ err: { code, message: errors.SALE_NOTFOUND}});
+  } 
+
+  next();
+}; 
+
+const inStock = async function (req, res, next) {
+
+  const { body } = req;
+  const result = body;
+  const responseProductId = result[0].productId;
+
+  const prod = await ProductModel.getProductById(responseProductId);
+  if (prod && (prod.quantity < result[0].quantity)) 
+    return res.status(ApiStatusCode.NOT_FOUND).json(errors.STOCK_PROBLEM);
+
+  next();
+};
+
+
+
 module.exports = {
   validateQuantity,
   validateSalesExistance,
-  errors
+  errors,
+  inStock,
+  salesExists
 };

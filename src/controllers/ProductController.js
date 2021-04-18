@@ -35,7 +35,7 @@ router.get('/products/:id', async (req, res) => {
   
   try {
     const result = await ProductService.getProductById(id);
-    return res.status(ApiStatusCode.SUCCESS).json(result);
+    return res.status(ApiStatusCode.SUCCESS).send(result);
   } catch (error) {
     return res.status(ApiStatusCode.WRONG_PRODUCT_FORMAT)
       .json(ProductSchema.errors.WRONG_ID_FORMAT);

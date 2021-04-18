@@ -34,6 +34,18 @@ const updateProduct = async (id, name, quantity) => {
   };
 };
 
+const updateAfterSales = async (id, qt) => {
+  const res = await connection().then((db) => db
+    .collection('products')
+    .updateOne({ _id: ObjectId(id)}, { $inc: { quantity: qt } }));
+
+  
+  return {
+    _id: id,
+    qt
+  };
+};
+
 const getProductById = async (id) => {
   const res = await connection().then((db) => 
     db.collection('products').findOne(ObjectId(id)));
@@ -60,5 +72,6 @@ module.exports = {
   getAllProducts,
   getProductById,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  updateAfterSales
 };

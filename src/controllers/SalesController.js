@@ -8,11 +8,13 @@ const ApiStatusCode = require('../enums/ApiStatusCode');
 
 const { validateQuantity,
   validateSalesExistance,
-  errors } = require('../middlewares/SalesMiddleWare');
+  errors, 
+  inStock, 
+  salesExists} = require('../middlewares/SalesMiddleWare');
 
 const rescue = require('express-rescue');
 
-router.post('/sales', validateQuantity, async (req, res) => {
+router.post('/sales', validateQuantity, inStock, async (req, res) => {
   const sales = req.body;
   
   try {
@@ -32,7 +34,7 @@ router.get('/sales', async (req, res) => {
   }
 });
 
-router.get('/sales/:id', async (req, res) => {
+router.get('/sales/:id', salesExists, async (req, res) => {
   const { id } = req.params;
   const code = 'not_found';
   
