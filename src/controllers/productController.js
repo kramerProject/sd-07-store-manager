@@ -47,7 +47,7 @@ const postProducts = async (req, res) => {
   }
 };
 
-const getAllProducts = async (req, res) => {
+const getAllProducts = async (_req, res) => {
   try {
     const results = { products: await productModel.getAllProducts() };
 
@@ -61,7 +61,7 @@ const getAllProducts = async (req, res) => {
 const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = { products: await productModel.getProductById(id) };
+    const result = await productModel.getProductById(id);
 
     if (result.products === null) {
       res.status(SEMANTIC_ERROR)
@@ -72,7 +72,8 @@ const getProductById = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(SERVER_ERROR).json({ message: 'server error' });
+    res.status(SEMANTIC_ERROR)
+      .json({ 'err': { 'code': 'invalid_data', 'message': 'Wrong id format' } });
   }
 };
 

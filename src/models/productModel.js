@@ -9,13 +9,11 @@ const postProducts = async (name, quantity) => {
   return { _id: product.insertedId, name, quantity };
 };
 
-const getAllProducts = async () =>
-  await conn()
-    .then((db) =>
-      db.collection('products')
-        .find({})
-        .toArray());
-
+const getAllProducts = async () => await conn()
+  .then((db) =>
+    db.collection('products')
+      .find()
+      .toArray());
 
 const getProductById = async (id) => {
   if (!ObjectId.isValid(id)) {
