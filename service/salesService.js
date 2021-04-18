@@ -1,14 +1,20 @@
 const { ObjectId } = require('mongodb');
 const salesModel = require('../model/salesModel.js');
-const { wrongIdOrQuantityError, saleNotFoundError, saleIdFormatError } 
-  = require('../errors/errors.js');
+const { 
+  wrongIdOrQuantityError, 
+  saleNotFoundError, 
+  saleIdFormatError, 
+  stockQuantityError 
+} = require('../errors/errors.js');
 const productsModel = require('../model/productsModel');
 
 
 const verifySale = async (productId, quantity) => {
   const noSenseStock = 0;
   const result = await productsModel.findById(new ObjectId(productId));
-  console.log(result);
+
+  if(result.quantity - quantity <= noSenseStock)
+    throw new Error(JSON.stringify(stockQuantityError));
   if(!result) 
     throw new Error(JSON.stringify(wrongIdOrQuantityError));
   if(quantity <= noSenseStock)

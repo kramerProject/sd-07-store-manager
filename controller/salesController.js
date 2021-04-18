@@ -6,7 +6,11 @@ const insertNewSale = async (req, res) => {
     const result = await salesService.insertNewSale(req.body);
     res.status(StatusCodes.OK).send(result);
   } catch ({ message }) {
-    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(await JSON.parse(message));
+    const parseJSONerror = await JSON.parse(message);
+    const messageError = parseJSONerror.err.code;
+    if (messageError === 'stock_problem')
+      return res.status(StatusCodes.NOT_FOUND).json(parseJSONerror);
+    res.status(StatusCodes.UNPROCESSABLE_ENTITY).send(parseJSONerror);
   }
 };
 
@@ -29,7 +33,11 @@ const updateById = async (req, res) => {
     const result = await salesService.updateById(id, req.body);
     res.status(StatusCodes.OK).send(result);
   } catch ({ message }) {
-    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(await JSON.parse(message));
+    const parseJSONerror = await JSON.parse(message);
+    const messageError = parseJSONerror.err.code;
+    if (messageError === 'stock_problem')
+      return res.status(StatusCodes.NOT_FOUND).json(parseJSONerror);
+    res.status(StatusCodes.UNPROCESSABLE_ENTITY).send(parseJSONerror);
   }
 };
 const removeById = async (req, res) => {
@@ -38,7 +46,11 @@ const removeById = async (req, res) => {
     const result = await salesService.removeById(id);
     res.status(StatusCodes.OK).send(result);
   } catch ({message}) {
-    res.status(StatusCodes.UNPROCESSABLE_ENTITY).send(message);
+    const parseJSONerror = await JSON.parse(message);
+    const messageError = parseJSONerror.err.code;
+    if (messageError === 'stock_problem')
+      return res.status(StatusCodes.NOT_FOUND).json(parseJSONerror);
+    res.status(StatusCodes.UNPROCESSABLE_ENTITY).send(parseJSONerror);
   }
 };
 module.exports = {

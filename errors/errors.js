@@ -53,6 +53,12 @@ const saleIdFormatError = {
     message: 'Wrong sale ID format',
   },
 };
+const stockQuantityError = {
+  err: {
+    code: 'stock_problem',
+    message: 'Such amount is not permitted to sell',
+  },
+};
 
 module.exports = {
   productExistsError,
@@ -62,5 +68,6 @@ module.exports = {
   invalidIdFormatError,
   wrongIdOrQuantityError,
   saleNotFoundError,
-  saleIdFormatError
+  saleIdFormatError,
+  stockQuantityError
 };
