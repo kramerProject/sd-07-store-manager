@@ -109,9 +109,29 @@ const updateProducts = async (req, res) => {
   }
 };
 
+const deleteProducts = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await productModel.deleteProducts(id);
+
+    if (result === null) {
+      res.status(UNPROCESSABLE_ENTITY)
+        .json({ 'err': { 'code': 'invalid_data', 'message': 'Wrong id format' } });
+
+    } else {
+      res.status(SUCCESS).json(result);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(UNPROCESSABLE_ENTITY)
+      .json({ 'err': { 'code': 'invalid_data', 'message': 'Wrong id format' } });
+  }
+};
+
 module.exports = {
   postProducts,
   getAllProducts,
   getProductById,
-  updateProducts
+  updateProducts,
+  deleteProducts
 };
