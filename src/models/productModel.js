@@ -26,8 +26,28 @@ const getProductById = async (id) => {
         .findOne(new ObjectId(id)));
 };
 
+const updateProducts = async (id, name, quantity) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  const product = await conn().then((db) =>
+    db.collection('products').updateOne(
+      { _id: id },
+      {
+        $set: {
+          name: name,
+          quantity: quantity,
+        }
+      }
+    ));
+
+  return { _id: product.insertedId, name, quantity };
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
   postProducts,
+  updateProducts,
 };

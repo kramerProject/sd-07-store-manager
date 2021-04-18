@@ -77,8 +77,41 @@ const getProductById = async (req, res) => {
   }
 };
 
+
+const updateProducts = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+
+    let errorMesssage = {
+      'err': { 'code': 'invalid_data', 'message': '' }
+    };
+
+    if (name.length < nameMinLength) {
+      errorMesssage.err.message = '\"name\" length must be at least 5 characters long';
+      res.status(UNPROCESSABLE_ENTITY).json(errorMesssage);
+
+    } else if (quantity <= quantityMinLength) {
+      errorMesssage.err.message = '\"quantity\" must be larger than or equal to 1';
+      res.status(UNPROCESSABLE_ENTITY).json(errorMesssage);
+
+    } else if (typeof quantity === 'string') {
+      errorMesssage.err.message = '\"quantity\" must be a number';
+      res.status(UNPROCESSABLE_ENTITY).json(errorMesssage);
+
+    } else {
+      const results = await productModel.updateProducts(id, name, quantity);
+      res.status(SUCCESS).json(results);
+    }
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 module.exports = {
   postProducts,
   getAllProducts,
-  getProductById
+  getProductById,
+  updateProducts
 };
