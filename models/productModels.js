@@ -28,7 +28,7 @@ const createProducts = async (name, quantity) => {
   const result = await connection()
     .then((db) => db.collection('products').insertOne({ name, quantity }))
     .then(response => response.ops[0]);
-  return result;
+  return { _id: result.insertedId, name, quantity };
 };
 
 module.exports = { createProducts };
