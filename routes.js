@@ -12,10 +12,17 @@ routes.post('/products',
   productMiddleware.validateQuantityNotIsString,
   productController.create);
 
-routes.get('/products', productController.findAll);
+routes.get('/products',
+  productController.findAll);
 
 routes.get('/products/:id',
   productMiddleware.validateExistsId,
   productController.findById);
+
+routes.put('/products/:id',
+  productMiddleware.validateLengthName,
+  productMiddleware.validateQuantityIsGreaterZero,
+  productMiddleware.validateQuantityNotIsString,
+  productController.update);
 
 module.exports = routes;

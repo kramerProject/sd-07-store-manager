@@ -23,5 +23,13 @@ module.exports = {
   },
   async getById(id) {
     return await connect('findOne', ObjectId(id));
+  },
+  async update(id, { name, quantity }) {
+    const db = await connection();
+
+    return await db.collection('products').updateOne(
+      { _id: ObjectId(id) },
+      { $set: { name, quantity } },
+    );
   }
 };

@@ -11,5 +11,9 @@ module.exports = {
   },
   async getById(id) {
     return await productModel.getById(id);
+  },
+  async update(id, data) {
+    const product = await productModel.update(id, data);
+    return { _id: product.insertedId, name: data.name, quantity: data.quantity };
   }
 };

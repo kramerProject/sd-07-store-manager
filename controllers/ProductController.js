@@ -31,4 +31,14 @@ module.exports = {
       console.log(e);
     }
   },
+  async update(request, response) {
+    try {
+      const { id } = request.params;
+      const data = request.body;
+      const product = await productService.update(id, data);
+      return response.status(httpStatus.OK).json(product);
+    } catch (e) {
+      console.log(e);
+    }
+  },
 };
