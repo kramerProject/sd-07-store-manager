@@ -81,9 +81,18 @@ const updateProduct = async (id, name, quantity) => {
   return result;
 };
 
+// Requisito 4
+
+const deleteProduct = async (id) => {
+  const result = await productsModel.deleteProduct(id);
+  checkProductByID(result);
+  return; 
+};
+
 module.exports = {
   productRegistration,
   allProductsList,
   getProductByID,
-  updateProduct
+  updateProduct,
+  deleteProduct
 };

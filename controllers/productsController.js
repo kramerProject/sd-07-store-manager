@@ -1,5 +1,6 @@
 const { productsService } = require('../services');
 const STATUS_CODE = require('../helper');
+const { response } = require('express');
 
 const productRegistration = async (request, response) => {
   try {
@@ -56,9 +57,25 @@ const updateProduct = async (request, response) => {
   }
 };
 
+const deleteProduct = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const result = await productsService.deleteProduct(id);
+    response.status(STATUS_CODE.SUCCESS).json(result);
+  } catch (error) {
+    response.status(error.status).json({
+      err: {
+        code: error.code,
+        message: error.message
+      }
+    });
+  }
+};
+
 module.exports = { 
   productRegistration,
   allProductsList,
   getProductByID,
-  updateProduct
+  updateProduct,
+  deleteProduct
 };

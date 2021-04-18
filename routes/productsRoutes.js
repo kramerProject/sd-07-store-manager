@@ -9,5 +9,6 @@ route.post('/products', productsController.productRegistration);
 route.get('/products', productsController.allProductsList);
 route.get('/products/:id', productsController.getProductByID);
 route.put('/products/:id', productsController.updateProduct);
+route.delete('/products/:id', productsController.deleteProduct);
 
 module.exports = route;
