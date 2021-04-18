@@ -36,6 +36,8 @@ const findById = async (id) => {
 
   const iDsearch = await helper.searcIdcontent(products, id);
 
+  console.log(iDsearch);
+  
   if (iDsearch.code) {
     return iDsearch;
   }
@@ -64,12 +66,13 @@ const update = async (id, name, quantity) => {
 const exclude = async (id) => {
   const products = await getAll();
   const iDsearch = await helper.searcIdcontent(products, id);
-
-  if (!iDsearch.code) {
-    return iDsearch;
-  }
+  console.log('service: ', id);
+  // if (!iDsearch.code) {
+  //   return iDsearch;
+  // }
   
   const product = await ProductModel.exclude(id);
+  console.log(product);
   return product;
 };
 
