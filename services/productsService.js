@@ -1,9 +1,7 @@
 const productsModel = require('../models/productsModel');
 const STATUS_CODE = require('../helper');
 
-/*
-  - Será validado que é possível criar um produto com sucesso
-*/
+// Requisito 1
 
 const checkNameLength = (name) => {
   const CINCO = 5;
@@ -51,4 +49,29 @@ const productRegistration = async (name, quantity) => {
   return result;
 };
 
-module.exports = { productRegistration };
+// Requisito 2
+
+const allProductsList = async () => {
+  const result = await productsModel.allProductsList();
+  return result;
+};
+
+const checkProductByID = (result) => {
+  if (result === null) throw ({ 
+    status: STATUS_CODE.UNPROCESSABLE_ENTITY,
+    code: 'invalid_data',
+    message: 'Wrong id format'
+  });
+};
+
+const getProductByID = async (id) => {
+  const result = await productsModel.getProductByID(id);
+  checkProductByID(result);
+  return result;
+};
+
+module.exports = {
+  productRegistration,
+  allProductsList,
+  getProductByID
+};
