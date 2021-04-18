@@ -18,7 +18,14 @@ const validateSale = (productsList, itemsSold, isUpdate) => {
   return false;
 };
 
+const validateStock = (itemsSold, productsList) => {
+  return itemsSold.every((item) => 
+    productsList.some((product) => 
+      (item.productId === String(product._id)) && (item.quantity <= product.quantity)));
+};
+
 module.exports = {
   validateQuantity,
-  validateSale
+  validateSale,
+  validateStock
 };

@@ -23,7 +23,8 @@ const {
 } = require('./middlewares/productMiddlewares');
 
 const { 
-  validateSaleMiddleware
+  validateSaleMiddleware,
+  validateStockMiddleware
 } = require('./middlewares/salesMiddlewares');
 
 
@@ -52,7 +53,10 @@ route.get('/sales', getAllSalessController);
 
 route.get('/sales/:id', getSaleByIdController);
 
-route.post('/sales', validateSaleMiddleware, createSaleController);
+route.post('/sales', validateSaleMiddleware,
+  validateStockMiddleware,
+  createSaleController
+);
 
 route.put('/sales/:id', validateSaleMiddleware, updateSaleController);
 

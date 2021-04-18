@@ -28,7 +28,6 @@ const updateStock = async (itemsSold, updateType) => {
   const { isCreate } = updateType;
   await itemsSold.forEach(async (product) => {
     const { productId, quantity } = product;
-    console.log(productId, quantity);
     if (!ObjectId.isValid(productId)) return null;
     if (isCreate) {
       await connection().then((db) =>

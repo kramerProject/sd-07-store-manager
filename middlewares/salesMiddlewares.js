@@ -1,5 +1,5 @@
-const { UnprocessableException } = require('../utils/errorHandler');
-const { validateSale } = require('../services/saleService');
+const { UnprocessableException, StockProblem } = require('../utils/errorHandler');
+const { validateSale, validateStock } = require('../services/saleService');
 const { getAll } = require('../models/productModel');
 
 exports.validateSaleMiddleware = async (req, _res, next) => {
@@ -12,6 +12,20 @@ exports.validateSaleMiddleware = async (req, _res, next) => {
       throw new UnprocessableException(
         invalidSaleErrorMessage
       );
+    }
+    next();
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.validateStockMiddleware = async(req, _res, next) => {
+  const stockErrorMessage = 'Such amount is not permitted to sell';
+  try {
+    const itemsSold = req.body;
+    const productsList = await getAll();
+    if (!validateStock(itemsSold, productsList)) {
+      throw new StockProblem(stockErrorMessage);
     }
     next();
   } catch (err) {
