@@ -9,11 +9,15 @@ class GeneralError extends Error {
   getErrorData() {
     const UNPROCESSABLE ={ code: 422, codeMessage: 'invalid_data' };
     const NOT_FOUND = { code: 404, codeMessage: 'not_found' };
+    const STOCK_PROBLEM = { code: 404, codeMessage: 'stock_problem' };
     if (this instanceof UnprocessableException) {
       return UNPROCESSABLE;
     }
     if (this instanceof NotFound) {
       return NOT_FOUND;
+    }
+    if (this instanceof StockProblem) {
+      return STOCK_PROBLEM;
     }
     return;
   }
@@ -21,9 +25,11 @@ class GeneralError extends Error {
 
 class UnprocessableException extends GeneralError {}
 class NotFound extends GeneralError {}
+class StockProblem extends GeneralError {}
 
 module.exports = {
   GeneralError,
   UnprocessableException,
   NotFound,
+  StockProblem
 };

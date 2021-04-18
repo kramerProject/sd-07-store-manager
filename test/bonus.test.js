@@ -36,7 +36,7 @@ describe('9 - Atualize a quantidade de produtos', () => {
     await connection.close();
   });
 
-  it.skip('Será validado que é possível a quantidade do produto atualize ao fazer uma compra', async () => {
+  it('Será validado que é possível a quantidade do produto atualize ao fazer uma compra', async () => {
     let result;
     let responseProductId;
 
@@ -68,7 +68,7 @@ describe('9 - Atualize a quantidade de produtos', () => {
       });
   });
 
-  it.skip('Será validado que é possível a quantidade do produto atualize ao deletar uma compra', async () => {
+  it('Será validado que é possível a quantidade do produto atualize ao deletar uma compra', async () => {
     let result;
     let resultSales;
     let responseProductId;

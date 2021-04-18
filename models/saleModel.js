@@ -20,7 +20,29 @@ const createSale = async (itemsSold) => {
   const sale = await connection().then((db) =>
     db.collection('sales').insertOne({ itensSold: [ ...itemsSold ] }),
   );
+  await updateStock(itemsSold, { isCreate: true });
   return { _id: sale.insertedId, itensSold: itemsSold };
+};
+
+const updateStock = async (itemsSold, updateType) => {
+  const { isCreate } = updateType;
+  await itemsSold.forEach(async (product) => {
+    const { productId, quantity } = product;
+    console.log(productId, quantity);
+    if (!ObjectId.isValid(productId)) return null;
+    if (isCreate) {
+      await connection().then((db) =>
+        db.collection('products').updateOne(
+          { _id: ObjectId(productId) }, { $inc: { quantity: - quantity } }),
+      );
+    } else {
+      await connection().then((db) =>
+        db.collection('products').updateOne(
+          { _id: ObjectId(productId) }, { $inc: { quantity: + quantity } }),
+      );
+    }
+  });
+  return;
 };
 
 const updateSale = async (id, itemsSold) => {
@@ -36,9 +58,11 @@ const updateSale = async (id, itemsSold) => {
 const excludeSale = async (id) => {
   if (!ObjectId.isValid(id)) return null;
   const sale = await getById(id);
+  const { itensSold } = sale;
   await connection().then((db) => 
     db.collection('sales').deleteOne({ _id: ObjectId(id) })
   );
+  await updateStock(itensSold, { isCreate: false });
   return sale;
 };
 
