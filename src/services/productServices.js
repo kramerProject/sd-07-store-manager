@@ -41,7 +41,7 @@ const verifyVerb = async (req) => {
 
 const createProducts = async (name, quantity) => {
   if(nameLength(name))
-    return { isError: true,
+    return {
       err: {
         code: 'invalid_data',
         message: '"name" length must be at least 5 characters long', }
