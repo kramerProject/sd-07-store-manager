@@ -6,7 +6,7 @@ const {
   statusHttp,
 } = services;
 
-const { C_200, C_201, C_422, C_500 } = statusHttp;
+const { C_200, C_422, C_500 } = statusHttp;
 
 const getAllSales = async (req, res) => {
   try {
@@ -26,12 +26,13 @@ const createSale = async (req, res) => {
   const sold = req.body;
   try {
     const result = await services.create(sold);
-    if (result.err)
+    console.log('console result controller', result);
+    if (result.isError)
       return res
         .status(C_422)
         .send(result);
     return res
-      .status(C_201)
+      .status(C_200)
       .send(result);
   } catch (error) {
     console.error(error);

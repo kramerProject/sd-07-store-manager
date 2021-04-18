@@ -32,16 +32,19 @@ const create = async (sold) => {
       objSold[i] = item[i];
     }
   });
-
+  console.log('typeof do quantity', typeof objSold.quantity);
+  console.log('validId', validId(objSold));
+  console.log('quantity', objSold.quantity);
   if(!validId(objSold)
-  || quantityIsNumber(objSold.quantity)
+  || !quantityIsNumber(objSold)
   || objSold.quantity <= ZERO)
-    return {
+
+    return { isError: true,
       err: {
         code: 'invalid_data',
         message: 'Wrong product ID or invalid quantity', }
     };
-  return await saleModel.createSale(sold);;
+  return await saleModel.createSale(sold);
 };
 
 module.exports = services = {
