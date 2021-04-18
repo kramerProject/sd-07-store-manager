@@ -26,20 +26,23 @@ const validId = (objSold) => {
   return true;
 };
 
+const validIdBySale = (id) => {
+  if(!ObjectId.isValid(id)) {
+    return false;
+  }
+  return true;
+};
+
 const create = async (sold) => {
   sold.forEach(function (item) {
     for (let i in item) {
       objSold[i] = item[i];
     }
   });
-  console.log('typeof do quantity', typeof objSold.quantity);
-  console.log('validId', validId(objSold));
-  console.log('quantity', objSold.quantity);
   if(!validId(objSold)
   || !quantityIsNumber(objSold)
   || objSold.quantity <= ZERO)
-
-    return { isError: true,
+    return {
       err: {
         code: 'invalid_data',
         message: 'Wrong product ID or invalid quantity', }
@@ -47,8 +50,19 @@ const create = async (sold) => {
   return await saleModel.createSale(sold);
 };
 
+const getSaleById = async (id) => {
+  if(!validIdBySale(id))
+    return {
+      err: {
+        code: 'not_found',
+        message: 'Sale not found', }
+    };
+  return await saleModel.getSaleById(id);
+};
+
 module.exports = services = {
   statusHttp,
   quantityIsNumber,
   create,
+  getSaleById,
 };

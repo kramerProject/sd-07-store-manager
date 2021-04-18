@@ -1,19 +1,15 @@
 const saleModel = require('../models/saleModel');
 
-const services = require('../services/saleServices');
+const saleServices = require('../services/saleServices');
 
-const {
-  statusHttp,
-} = services;
-
-const { C_200, C_422, C_500 } = statusHttp;
+const { C_200, C_404, C_422, C_500 } = saleServices.statusHttp;
 
 const getAllSales = async (req, res) => {
   try {
-    const result = await saleModel.getAllSales();
+    const sales = await saleModel.getAllSales();
     return res
       .status(C_200)
-      .send([{ result }]);
+      .send([{ sales }]);
   } catch (error) {
     console.error(error);
     return res
@@ -25,15 +21,14 @@ const getAllSales = async (req, res) => {
 const createSale = async (req, res) => {
   const sold = req.body;
   try {
-    const result = await services.create(sold);
-    console.log('console result controller', result);
-    if (result.isError)
+    const sales = await saleServices.create(sold);
+    if (sales.isError)
       return res
         .status(C_422)
-        .send(result);
+        .send(sales);
     return res
       .status(C_200)
-      .send(result);
+      .send(sales);
   } catch (error) {
     console.error(error);
     return res
@@ -42,7 +37,23 @@ const createSale = async (req, res) => {
   }
 };
 
+const getSaleById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const sales = await saleServices.getSaleById(id);
+    return res
+      .status(C_200)
+      .send([{ sales }]);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(C_404)
+      .json({ message: error.message });
+  }
+};
+
 module.exports = {
   getAllSales,
   createSale,
+  getSaleById,
 };
