@@ -6,10 +6,12 @@ module.exports = {
   async create(request, response) {
     try {
       const data = request.body;
-
-      const product = await productService.create(data);
-
-      return response.status(httpStatus.CREATED).json(product);
+      const result = await productService.create(data);
+      if (result.status === 'failure') {
+        return response.status(httpStatus.INVALID_DATA).json({ err: result.err });
+      } else {
+        return response.status(httpStatus.CREATED).json(result.data);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -25,8 +27,13 @@ module.exports = {
   async findById(request, response){
     try {
       const { id } = request.params;
-      const product = await productService.getById(id);
-      return response.status(httpStatus.OK).json(product);
+      const result = await productService.getById(id);
+      if (result.status === 'failure') {
+        return response.status(httpStatus.INVALID_DATA).json({ err: result.err });
+      } else {
+        return response.status(httpStatus.OK).json(result.data);
+      }
+
     } catch (e) {
       console.log(e);
     }
@@ -35,8 +42,12 @@ module.exports = {
     try {
       const { id } = request.params;
       const data = request.body;
-      const product = await productService.update(id, data);
-      return response.status(httpStatus.OK).json(product);
+      const result = await productService.update(id, data);
+      if (result.status === 'failure') {
+        return response.status(httpStatus.INVALID_DATA).json({ err: result.err });
+      } else {
+        return response.status(httpStatus.OK).json(result.data);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -44,8 +55,12 @@ module.exports = {
   async delete(request, response) {
     try {
       const { id } = request.params;
-      const product = await productService.delete(id);
-      return response.status(httpStatus.OK).json(product);
+      const result = await productService.delete(id);
+      if (result.status === 'failure') {
+        return response.status(httpStatus.INVALID_DATA).json({ err: result.err });
+      } else {
+        return response.status(httpStatus.OK).json(result.data);
+      }
     } catch (e) {
       console.log(e);
     }

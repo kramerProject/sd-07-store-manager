@@ -1,28 +1,19 @@
 const connection = require('../database/connection');
 const { ObjectId } = require('mongodb');
-
-const connect = async (command, params) => {
-  try {
-    const db = await connection();
-
-    return await db.collection('products')[command](params);
-  } catch (e) {
-    console.log(e);
-  }
-};
+const { connect } = require('./Model');
 
 module.exports = {
   async create(data) {
-    return await connect('insertOne', data);
+    return await connect('products', 'insertOne', data);
   },
   async getByName(name) {
-    return await connect('findOne', { name });
+    return await connect('products', 'findOne', { name });
   },
   async getAll() {
-    return await connect('find', {});
+    return await connect('products', 'find', {});
   },
   async getById(id) {
-    return await connect('findOne', ObjectId(id));
+    return await connect('products', 'findOne', ObjectId(id));
   },
   async update(id, { name, quantity }) {
     const db = await connection();
@@ -33,6 +24,6 @@ module.exports = {
     );
   },
   async delete(id) {
-    return await connect('deleteOne', { _id: ObjectId(id) });
+    return await connect('products', 'deleteOne', { _id: ObjectId(id) });
   }
 };

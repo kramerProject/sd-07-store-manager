@@ -1,32 +1,15 @@
 const express = require('express');
 
 const productController = require('./controllers/ProductController');
-const productMiddleware = require('./middlewares/ProductMiddleware');
 
 const routes = express.Router();
 
-routes.post('/products',
-  productMiddleware.validateLengthName,
-  productMiddleware.validateExistsName,
-  productMiddleware.validateQuantityIsGreaterZero,
-  productMiddleware.validateQuantityNotIsString,
-  productController.create);
+routes.post('/products', productController.create);
+routes.get('/products', productController.findAll);
+routes.get('/products/:id', productController.findById);
+routes.put('/products/:id', productController.update);
+routes.delete('/products/:id', productController.delete);
 
-routes.get('/products',
-  productController.findAll);
-
-routes.get('/products/:id',
-  productMiddleware.validateExistsId,
-  productController.findById);
-
-routes.put('/products/:id',
-  productMiddleware.validateLengthName,
-  productMiddleware.validateQuantityIsGreaterZero,
-  productMiddleware.validateQuantityNotIsString,
-  productController.update);
-
-routes.delete('/products/:id',
-  productMiddleware.validateExistsId,
-  productController.delete);
+routes.post('/sales', );
 
 module.exports = routes;
