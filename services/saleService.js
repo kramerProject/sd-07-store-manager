@@ -22,19 +22,19 @@ const getOneSale = async (id) => {
   return  list;
   
 };
-/*
-const updateProduct = async (id, name, quantity) => {
 
-  const objProduct = await product.getById(id);
-  if(!objProduct) {
+const updateSale = async (id, arrayProducts) => {
+
+  const objSale = await sale.getById(id);
+  if(!objSale) {
     return null;
   }
 
-  const productUpdate = await product.update({id, name, quantity});
+  const saleUpdate = await sale.update({id, arrayProducts});
 
-  return productUpdate;
+  return saleUpdate;
 };
-
+/*
 const deleteOneProduct = async (id) => {
 
   const productDeleted = await product.exclude(id);
@@ -47,6 +47,6 @@ module.exports = {
   createSale,
   getAllSale,
   getOneSale,
-  //updateProduct,
+  updateSale,
   //deleteOneProduct
 };

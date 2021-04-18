@@ -15,12 +15,12 @@ router.post(
   '/sales',
   middlewares.validateSaleProdQuantityMiddleware, 
   saleController.createSale);
-/*
+
 router.put(
-  '/products/:id',
-  middlewares.validateNameMiddleware,
-  middlewares.validateQuantityMiddleware, 
-  productController.updateOneProduct);
+  '/sales/:id',
+  middlewares.validateSaleProdQuantityMiddleware,  
+  saleController.updateOneSale);
+/*
 router.delete('/products/:id',
   middlewares.validateProductNotExistMiddleware,
   productController.deleteProduct);

@@ -7,7 +7,7 @@ const createSale = async (req, res) => {
   try {
     const products = req.body;
     const result = await saleService.createSale(products);
-    
+
     res.status(HTTP200).json(result);
   } catch (err) {
     console.log(err);
@@ -39,25 +39,27 @@ const oneSale = async (req, res) => {
     res.status(HTTP500).json({ message: err.message });
   }
 };
-/*
-const updateOneProduct = async (req, res) => {
+
+const updateOneSale = async (req, res) => {
   try {
-    const { name, quantity } = req.body;
+    //const { productId, quantity } = req.body;
+    const arrayProducts = req.body;   
     const { id } = req.params;
 
-    const result = await productService.updateProduct(id, name, quantity);
+    //const result = await saleService.updateSale(id, productId, quantity);
+    const result = await saleService.updateSale(id, arrayProducts);
     if (!result) {
-      res.status(HTTP404).json({ message: 'Produto não encontrado :(' });
+      res.status(HTTP404).json({ message: 'Sale not found :(' });
       return;
     }
 
-    res.status(HTTP200).json({ _id: id, name, quantity });
+    res.status(HTTP200).json({ _id: id, itensSold: arrayProducts });
   } catch (err) {
     console.log(err);
     res.status(HTTP500).json({ message: err.message });
   }
 };
-
+/*
 const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
@@ -77,6 +79,6 @@ module.exports = {
   createSale,
   allSales,
   oneSale,
-  //updateOneProduct,
+  updateOneSale,
   //deleteProduct
 };
