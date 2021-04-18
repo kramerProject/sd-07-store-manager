@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { productsController } = require('./src/controller');
+const { productsController, purchaseController } = require('./src/controller');
 const { serverErrCodes } = require('./src/controller/statusCodes');
 const { errorMiddleware } = require('./src/middlewares');
 
@@ -19,5 +19,7 @@ app.listen(PORT, () => {
 });
 
 app.use('/products', productsController);
+
+app.use('/sales', purchaseController);
 
 app.use(errorMiddleware);
