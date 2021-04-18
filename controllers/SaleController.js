@@ -35,5 +35,16 @@ module.exports = {
     } catch (e) {
       console.log(e);
     }
-  }
+  },
+  async update(request, response) {
+    const id = request.params.id;
+    const data = request.body;
+    const result = await saleService.update(id, data);
+
+    if (result.status === 'failure') {
+      return response.status(httpStatus.INVALID_DATA).json({ err: result.err });
+    } else {
+      return response.status(httpStatus.OK).json(result.data);
+    }
+  },
 };

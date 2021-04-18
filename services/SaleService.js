@@ -27,5 +27,17 @@ module.exports = {
 
     const sales = await saleModel.getById(id);
     return messageSuccess(sales);
+  },
+  async update(id, sales) {
+    for (let index = numbers.ZERO; index < sales.length; index += numbers.UM) {
+      if (parseInt(sales[index].quantity) <= numbers.ZERO) {
+        return messageError('Wrong product ID or invalid quantity');
+      }
+      if (isNaN(parseInt(sales[index].quantity))) {
+        return messageError('Wrong product ID or invalid quantity');
+      }
+    }
+    await saleModel.update(id, sales);
+    return messageSuccess({ _id: id, itensSold: sales });
   }
 };
