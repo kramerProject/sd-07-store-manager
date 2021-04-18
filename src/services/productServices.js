@@ -1,4 +1,4 @@
-const { countByNameDuplicate } = require('../models/productModel');
+const { countByNameDuplicate, createProduct } = require('../models/productModel');
 
 const AMOUNT = 1;
 const NAME_SIZE = 5;
@@ -39,6 +39,17 @@ const verifyVerb = async (req) => {
   return false;
 };
 
+const createProducts = async (name, quantity) => {
+  if(nameLength(name))
+    return { isError: true,
+      err: {
+        code: 'invalid_data',
+        message: '"name" length must be at least 5 characters long', }
+    };
+  const result = await createProduct(name, quantity);
+  return result;
+};
+
 module.exports = services = {
   statusHttp,
   nameLength,
@@ -46,4 +57,5 @@ module.exports = services = {
   quantityIsNumber,
   verifyPositiveInteger,
   verifyVerb,
+  createProducts,
 };

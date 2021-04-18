@@ -47,7 +47,7 @@ const updateProduct = async ({ id, name, quantity }) => {
   return product;
 };
 
-const deleteProduct = async ({ id }) => {
+const deleteProduct = async (id) => {
   if(!ObjectId.isValid(id)) {
     return null;
   }

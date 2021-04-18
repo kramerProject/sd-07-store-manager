@@ -27,7 +27,12 @@ const getAllProducts = async (req, res) => {
 const createProduct = async (req, res) => {
   try {
     const { name, quantity } = req.body;
-    const result = await productModel.createProduct(name, quantity);
+    const result = await productService.createProducts(name, quantity);
+    if (result.isError)
+      return res
+        .status(C_422)
+        .send(result);
+    // const result = await productModel.createProduct(name, quantity);
     return res
       .status(C_201)
       .send(result);
@@ -80,7 +85,6 @@ const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
     const result = await productModel.deleteProduct(id);
-    console.log('Console deleteProduct', result);
     return res
       .status(C_200)
       .send(result);

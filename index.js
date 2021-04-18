@@ -16,6 +16,7 @@ app.get('/', (_request, response) => {
 app.use(express.json());
 app.use(middlewares.logMiddleware);
 app.use(routes.productRoutes);
+app.use(routes.saleRoutes);
 
 app.use(middlewares.errorMiddleware);
 
