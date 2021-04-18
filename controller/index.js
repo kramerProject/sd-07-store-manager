@@ -1,18 +1,15 @@
 const productServeices = require('../service');
 
-const SUCESS = 200;
 const CREATED = 201;
-const FAIL = 500;
+const FAIL = 422;
 
 const createProducts = async (req, res) => {
   try {
     const { name, quantity } = req.body;
     const result = await productServeices.createProducts(name, quantity);
-    
     res.status(CREATED).json(result);
   } catch (error) {
-    console.error(error);
-    res.status(FAIL).json({ error: 'nao foi possivel concluir esta achar' });
+    res.status(FAIL).json({ err: { code: 'invalid_data', message: error.message } });
   }
 };
 
