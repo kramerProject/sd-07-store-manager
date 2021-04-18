@@ -47,4 +47,14 @@ module.exports = {
       return response.status(httpStatus.OK).json(result.data);
     }
   },
+  async delete(request, response) {
+    const { id } = request.params;
+    const result = await saleService.delete(id);
+
+    if (result.status === 'failure') {
+      return response.status(httpStatus.INVALID_DATA).json({ err: result.err });
+    } else {
+      return response.status(httpStatus.OK).json(result.data);
+    }
+  }
 };

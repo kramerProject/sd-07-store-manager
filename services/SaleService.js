@@ -24,8 +24,10 @@ module.exports = {
     if (!ObjectId.isValid(id) || id.length !== numbers.VINTE_QUATRO) {
       return messageError('Sale not found', 'not_found');
     }
-
     const sales = await saleModel.getById(id);
+    if (!sales) {
+      return messageError('Sale not found', 'not_found');
+    }
     return messageSuccess(sales);
   },
   async update(id, sales) {
@@ -39,5 +41,13 @@ module.exports = {
     }
     await saleModel.update(id, sales);
     return messageSuccess({ _id: id, itensSold: sales });
+  },
+  async delete(id) {
+    if (!ObjectId.isValid(id) || id.length !== numbers.VINTE_QUATRO) {
+      return messageError('Wrong sale ID format');
+    }
+    const salesById = await saleModel.getById(id);
+    await saleModel.delete(id);
+    return messageSuccess(salesById);
   }
 };
