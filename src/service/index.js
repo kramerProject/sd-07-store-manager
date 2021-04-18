@@ -1,12 +1,14 @@
 const { deleteProduct,getOneProduct, getProducts,
   insertProduct, updateProduct } = require('./productsService');
-const purchaseInsertion = require('./purchaseService');
+const { getOnePurchase, getPurchase, purchaseInsertion } = require('./purchaseService');
 
 module.exports = {
   deleteProduct,
   getOneProduct,
+  getOnePurchase,
   getProducts,
+  getPurchase,
   insertProduct,
   purchaseInsertion,
-  updateProduct
+  updateProduct,
 };

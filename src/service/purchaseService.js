@@ -1,7 +1,22 @@
 const { authPdtAmount } = require('./validateInputs');
-const { getOnePdt, insertPurchase } = require('../models');
+const { getOnePurch, getOnePdt, getPurchaseList, insertPurchase } = require('../models');
 
 const BAD_INPUT = 'Unprocessable Entity';
+
+const getPurchase = async () => {
+  const purchaseList = await getPurchaseList();
+  return purchaseList
+    ? { purchases: purchaseList, status: 'OK' }
+    : { err: 'no products in database', status: BAD_INPUT };
+};
+
+const getOnePurchase = async (id) => {
+  const purchRes = await getOnePurch(id);
+  return purchRes.error
+    ? { err: 'not_found', message: 'Sale not found', status: 'Not Found',
+      clientErr: true , error: purchRes.error }
+    : { status: 'OK', sale: purchRes }; 
+};
 
 const purchaseInsertion = async (productList) => {
   for (const product of productList) {
@@ -23,4 +38,8 @@ const purchaseInsertion = async (productList) => {
   return res;
 };
 
-module.exports = purchaseInsertion;
+module.exports = {
+  getOnePurchase,
+  getPurchase,
+  purchaseInsertion,
+};
