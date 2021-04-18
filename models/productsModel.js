@@ -19,7 +19,7 @@ const allProductsList = async () => {
   return result;
 };
 
-const getProductByID = async (id) => {
+const getProductByID = async (id) => { // Como visto no PR de Rafael Machado Guimarães
   try {
     const result = await connection().then((db) =>
       db.collection('products').findOne(ObjectId(id)));
@@ -29,9 +29,32 @@ const getProductByID = async (id) => {
   }
 };
 
+const updateProduct = async (id, name, quantity) => {
+  const result = await connection().then((db) =>
+    db.collection('products').updateOne(
+      { 
+        _id: ObjectId(id)
+      },
+      { 
+        $set: {
+          name,
+          quantity 
+        }
+      }
+    )
+  );
+
+  return {
+    _id: id,
+    name,
+    quantity
+  };
+};
+
 module.exports = {
   productRegistration,
   findProduct,
   allProductsList,
-  getProductByID
+  getProductByID,
+  updateProduct
 };

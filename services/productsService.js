@@ -70,8 +70,20 @@ const getProductByID = async (id) => {
   return result;
 };
 
+// Requisito 3
+
+const updateProduct = async (id, name, quantity) => {
+  checkNameLength(name);
+  checkProductQuantity(quantity);
+  checkIfQuantityIsString(quantity);
+
+  const result = await productsModel.updateProduct(id, name, quantity);
+  return result;
+};
+
 module.exports = {
   productRegistration,
   allProductsList,
-  getProductByID
+  getProductByID,
+  updateProduct
 };

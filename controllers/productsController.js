@@ -40,8 +40,25 @@ const getProductByID = async (request, response) => {
   }
 };
 
+const updateProduct = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const { name, quantity } = request.body;
+    const result = await productsService.updateProduct(id, name, quantity);
+    response.status(STATUS_CODE.SUCCESS).json(result);
+  } catch (error) {
+    response.status(error.status).json({ 
+      err: {
+        code: error.code,
+        message: error.message
+      }
+    });
+  }
+};
+
 module.exports = { 
   productRegistration,
   allProductsList,
-  getProductByID
+  getProductByID,
+  updateProduct
 };
