@@ -57,14 +57,19 @@ const update = async (req, res) => {
 
 const exclude = async (req, res) => {
   const { id } = req.params;
-  const { name, quantity } = req.body;
+  
   try {
-    
+    const result = await ProductService.findById(id);
+    console.log(result);
+
+    if (result.code) {
+      return res.status(code.Unprocessable_Entity).json(result.json);
+    }
+
     await ProductService.exclude(id);
-    res.status(code.Ok).json({ _id: id, name, quantity });
+    res.status(code.Ok).json(result);
 
   } catch (error) {
-
     res.status(code.Internal_Server_Error)
       .send({ message: 'Houston, we have a problem.', error });
   }

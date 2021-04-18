@@ -76,7 +76,7 @@ const productExist = async (obj, name) => {
   return { code:false };
 };
 
-const searcIdcontent = async (object, id) => {
+const searchIdcontent = async (object, id) => {
   const product = await object;
 
   const arrayOfIds = await product.some((product) => product._id.toString() === id);
@@ -97,5 +97,5 @@ module.exports = {
   IsInteger,
   productExist,
   createError,
-  searcIdcontent
+  searchIdcontent
 };

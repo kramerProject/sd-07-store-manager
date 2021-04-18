@@ -34,10 +34,8 @@ const create = async (name, quantity) => {
 const findById = async (id) => {
   const products = await getAll();
 
-  const iDsearch = await helper.searcIdcontent(products, id);
+  const iDsearch = await helper.searchIdcontent(products, id);
 
-  console.log(iDsearch);
-  
   if (iDsearch.code) {
     return iDsearch;
   }
@@ -65,11 +63,11 @@ const update = async (id, name, quantity) => {
 
 const exclude = async (id) => {
   const products = await getAll();
-  const iDsearch = await helper.searcIdcontent(products, id);
-  console.log('service: ', id);
-  // if (!iDsearch.code) {
-  //   return iDsearch;
-  // }
+  const iDsearch = await helper.searchIdcontent(products, id);
+
+  if (iDsearch.code) {
+    return iDsearch;
+  }
   
   const product = await ProductModel.exclude(id);
   console.log(product);
