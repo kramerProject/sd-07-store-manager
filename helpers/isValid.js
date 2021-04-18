@@ -1,5 +1,6 @@
 const code = require('../returnStatus/status.json');
 const message = require('../returnStatus/message.json');
+const messageSales = require('../returnStatus/messageSales.json');
 
 const createError = (myCode, errCode, message) => ({
   code: myCode,
@@ -45,8 +46,7 @@ const quantityIsOk = (quantity) => {
     return true;
   } else {
     return createError(
-      code.Unprocessable_Entity, message.code, message.quantity_length
-    );
+      code.Unprocessable_Entity, message.code, message.quantity_length );
   }  
 };
 
@@ -59,6 +59,27 @@ const IsInteger = (quantity) => {
       code.Unprocessable_Entity, message.code, message.quantity_type
     );
   } 
+};
+
+const quantityIsOkSales = (arrayOfSales) => {
+  const comparison = 0;
+  const item = arrayOfSales.some((sales) => sales.quantity <= comparison );
+  if (!item) {
+    return false;
+  } 
+  return createError(
+    code.Unprocessable_Entity, message.code, messageSales.wrong_id
+  );
+};
+
+const isIntegerForSales = (arrayOfSales) => {
+  const item = arrayOfSales.some((sales) => typeof sales.quantity !== 'number' );
+  if(!item) {
+    return false;
+  } 
+  return createError(
+    code.Unprocessable_Entity, message.code, messageSales.wrong_id
+  );
 };
 
 const productExist = async (obj, name) => {
@@ -97,5 +118,7 @@ module.exports = {
   IsInteger,
   productExist,
   createError,
-  searchIdcontent
+  searchIdcontent,
+  quantityIsOkSales,
+  isIntegerForSales
 };

@@ -1,7 +1,8 @@
 const express = require('express');
-const routes = require('./router/productsRouters');
+const productRoutes = require('./router/productsRouters');
+const saleRoutes = require('./router/salesRouters');
 
-const app = express(); 
+const app = express();
 const PORT = 3000;
 
 app.use(express.json());
@@ -11,7 +12,7 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.use('/products', routes);
-// app.use('/sales', route.salesController);
+app.use('/products', productRoutes);
+app.use('/sales', saleRoutes);
 
 app.listen(PORT, console.log(`App listening on port ${PORT}`));

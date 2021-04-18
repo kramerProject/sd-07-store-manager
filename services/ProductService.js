@@ -1,17 +1,16 @@
 const ProductModel = require('../models/Product');
 const helper = require('../helpers/isValid');
-const validations = require('../helpers/validations');
-const { ObjectId } = require('bson');
+
+// const routeType = 'product';
 
 const getAll = async () => {
   const products = await ProductModel.getAll();
+
   return products;
 };
 
 const create = async (name, quantity) => {
   const products = await getAll();
-
-  // const validator = validations(name, quantity);
 
   const alreadyIncluded = await helper.productExist(products, name);
   const nameType = helper.nameIsAString(name);
