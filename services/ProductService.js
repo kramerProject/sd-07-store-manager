@@ -1,7 +1,6 @@
 const productModel = require('../models/ProducModel');
 const { validateFields } = require('../helpers/validateFields');
-const { messageError } = require('../helpers/MessageErro');
-const { messageSuccess } = require('../helpers/MessageSuccess');
+const { messageSuccess, messageError } = require('../helpers/MessageResponse');
 const { ObjectId } = require('mongodb');
 const { numbers } = require('../helpers/Numbers');
 

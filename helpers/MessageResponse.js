@@ -1,3 +1,10 @@
+const messageResponse = (data) => {
+  return {
+    status: 'success',
+    data,
+  };
+};
+
 const messageError = (message) => {
   return {
     status: 'failure',
@@ -9,5 +16,6 @@ const messageError = (message) => {
 };
 
 module.exports = {
+  messageSuccess: messageResponse,
   messageError,
 };
