@@ -1,6 +1,6 @@
 const express = require('express');
 const logMiddleware = require('./middlewares');
-const { productsRoutes } = require('./routes');
+const { productsRoutes, salesRoutes } = require('./routes');
 const STATUS_CODE = require('./helper');
 
 const PORT = 3000;
@@ -14,6 +14,7 @@ app.get('/', (_request, response) => {
 
 app.use(logMiddleware);
 app.use(productsRoutes);
+app.use(salesRoutes);
 
 app.listen(PORT, () => {
   console.log('I\'m playing the game...');
