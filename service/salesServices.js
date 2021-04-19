@@ -1,23 +1,23 @@
 const salesModels = require('../models/salesModels');
 
-const createSales = (name, quantity) => {
-  return productModel.createSales(name, quantity);
+const createSales = (body) => {
+  return salesModels.createSales(body);
 };
 
 const getAllSales = () => {
-  return productModel.getAllSales();
+  return salesModels.getAllSales();
 };
 
 const getSalesById = (id) => {
-  return productModel.getSalesById(id);
+  return salesModels.getSalesById(id);
 };
 
 const updateSales = (id, name, quantity) => {
-  return productModel.updateSales(id, name, quantity);
+  return salesModels.updateSales(id, name, quantity);
 };
 
 const deleteSales = (id) => {
-  return productModel.deleteSales(id);
+  return salesModels.deleteSales(id);
 };
 
 module.exports = { createSales, getAllSales, getSalesById, updateSales, deleteSales };
