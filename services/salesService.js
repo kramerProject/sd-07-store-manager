@@ -22,11 +22,11 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  if(result._id) return {status:200, response: result};
   const result = await saleModel.getById(id);
-  return {status: 404, response: {
+  if(!result._id)return {status: 404, response: {
     'err': {'code': 'not_found', 'message': 'Sale not found'}
   }};
+  return {status:200, response: result};
 };
 
 const updateSale = async (id, product) => {

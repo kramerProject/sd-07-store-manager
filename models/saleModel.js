@@ -32,8 +32,9 @@ const updateSale = async (id, product) => {
 
 const deleteSale = async (id) => {
   return connection()
-    .then((db) => db.collection('sales').findOneAndDelete({ _id: ObjectId(id)}))
-    .then(response => response.value);
+    .then((db) => db.collection('sales').findOneAndDelete({_id: ObjectId(id)}))
+    .then(response => response.value)
+    .catch(error => console.log(error.message));
 };
 
 module.exports = {
