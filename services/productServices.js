@@ -4,6 +4,7 @@ const {
   getAllProducts, 
   getProductById,
   updateById,
+  deleteProductById
 } = require('../models/productModel');
 const { ObjectId } = require('mongodb');
 
@@ -67,9 +68,21 @@ const updateProductById = async (id, name, quantity) => {
   return updateProduct;
 };
 
+const deleteProduct = async (id) => {
+  const isValid = validateId(id);
+  
+  if (isValid) {
+    throw new Error('Wrong id format');
+  }
+
+  const deletedProduct = await deleteProductById(id);
+  return deletedProduct;
+};
+
 module.exports = {
   insertProduct,
   getProducts,
   findProductById,
-  updateProductById
+  updateProductById,
+  deleteProduct,
 };
