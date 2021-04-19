@@ -10,16 +10,15 @@ const statusHttp = {
 };
 
 const ZERO = 0;
-let objSold = {};
 
-const quantityIsNumber = (objSold) => {
-  const { quantity } = objSold;
+const quantityIsNumber = (sold) => {
+  const { quantity } = sold;
   if (Number.isInteger(quantity))
     return true;
 };
 
-const validId = (objSold) => {
-  const { productId } = objSold;
+const validId = (sold) => {
+  const { productId } = sold;
   if(!ObjectId.isValid(productId)) {
     return false;
   }
@@ -34,19 +33,23 @@ const validIdBySale = (id) => {
 };
 
 const create = async (sold) => {
-  sold.forEach(function (item) {
-    for (let i in item) {
-      objSold[i] = item[i];
+  let result = undefined;
+  sold.every(function (item) {
+    if (!validId(item)
+    || !quantityIsNumber(item)
+    || item.quantity <= ZERO) {
+      result = {
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong product ID or invalid quantity', }
+      };
+      return false;
     }
+    return true;
   });
-  if(!validId(objSold)
-  || !quantityIsNumber(objSold)
-  || objSold.quantity <= ZERO)
-    return {
-      err: {
-        code: 'invalid_data',
-        message: 'Wrong product ID or invalid quantity', }
-    };
+  if (result) {
+    return result;
+  }
   return await saleModel.createSale(sold);
 };
 

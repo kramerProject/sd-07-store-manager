@@ -43,7 +43,7 @@ const getSaleById = async (req, res) => {
     const sales = await saleServices.getSaleById(id);
     return res
       .status(C_200)
-      .send([{ sales }]);
+      .send({ sales });
   } catch (error) {
     console.error(error);
     return res
