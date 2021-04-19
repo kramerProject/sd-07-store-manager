@@ -18,7 +18,6 @@ const findByProductId = async (id) => {
   };
 
   const product = await service.findByProductId(id);
-  console.log('product', product);
 
   if (!product) return { code: unprocessableEntity, message: errorsId};
 

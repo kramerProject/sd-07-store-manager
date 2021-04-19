@@ -6,11 +6,11 @@ const validate = async (name, quantity) => {
   const nameValid = validateName(name);
   if (nameValid) return nameValid;
 
-  const productExist = await existProduct(name);
-  if (productExist) return productExist;
-
   const quantityValid = validateQuantity(quantity);
   if (quantityValid) return quantityValid;
+
+  const productExist = await existProduct(name);
+  if (productExist) return productExist;
 
 };
 

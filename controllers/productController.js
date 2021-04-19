@@ -28,10 +28,11 @@ router.get('/products/:id', idMiddleware, async (request, response) => {
   response.status(SUCCESS).json(await service.findByProductId(id));
 });
 
-router.put('/products/:id', idMiddleware, productMiddleware,
+router.put('/products/:id', productMiddleware, idMiddleware,
   async (request, response) => {
+    const { id } = request.params;
     const { name, quantity} = request.body;
-    response.status(SUCCESS).json(await service.updateProduct(name, quantity));
+    response.status(SUCCESS).json(await service.updateProduct(id, name, quantity));
   });
 
 module.exports = router;
