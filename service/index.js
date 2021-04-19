@@ -5,8 +5,12 @@ const createProducts = async (name, quantity) => {
   return response;
 };
 
+const getAll = async () => {
+  return { "mensagem": "busquem conhecimento" };
+};
+
 const getProductsById = async (id) => {
   await productModel.getById(id);
 };
 
-module.exports = { createProducts, getProductsById };
+module.exports = { createProducts, getAll,getProductsById };

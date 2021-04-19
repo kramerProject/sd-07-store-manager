@@ -16,9 +16,10 @@ const createProducts = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    res.status(SUCCESS).json({ "teste": "testando nova rota" });
+    const result = await productServeices.getAll();
+    res.status(SUCCESS).json(result);
   } catch (error) {
-    
+    res.status(FAIL).json({ err: { code: 'invalid_data', message: error.message } });
   }
 };
 
