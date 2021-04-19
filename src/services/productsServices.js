@@ -46,7 +46,25 @@ const postNewProduct = async (name, quantity) => {
   return productsModel.postNewProduct(name, quantity);
 };
 
+const getAll = async () => {
+  const search = await productsModel.getAll();
+  return search;
+};
+
+const getById = async (id) => {
+  const search = await productsModel.getById(id);
+  if (!search) throw new Error(JSON.stringify({
+    err: { 
+      code: 'invalid_data',
+      message: 'Wrong id format',
+    },
+  }));
+  return search;
+};
+
 module.exports = {
   averageValidation,
-  postNewProduct
+  postNewProduct,
+  getAll,
+  getById
 };

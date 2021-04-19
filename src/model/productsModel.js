@@ -1,4 +1,6 @@
 const connect = require('./connection');
+const { ObjectId } = require('mongodb');
+
 
 const colName = 'products';
 
@@ -21,7 +23,25 @@ const nameIsUnique = async (name) => {
   return search.length === uniqueRef ? true : false;
 };
 
+const getAll = async () => {
+  const search = await connect()
+    .then((db) =>
+      db.collection(colName).find().toArray()
+    );
+  return JSON.stringify({ products: [...search] });
+};
+
+const getById = async (id) => {
+  const search = await connect()
+    .then((db) => 
+      db.collection(colName).findOne({ _id: ObjectId(id) })
+    );
+  return search;
+};
+
 module.exports= {
   postNewProduct,
-  nameIsUnique
+  nameIsUnique,
+  getAll,
+  getById
 };
