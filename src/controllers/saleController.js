@@ -41,6 +41,10 @@ const getSaleById = async (req, res) => {
   try {
     const { id } = req.params;
     const sales = await saleServices.getSaleById(id);
+    if (sales.err)
+      return res
+        .status(C_404)
+        .send(sales);
     return res
       .status(C_200)
       .send(sales);

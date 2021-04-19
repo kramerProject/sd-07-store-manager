@@ -1,10 +1,10 @@
 const express = require('express');
 const { saleController } = require('../controllers');
-const middlewares = require('../middlewares');
+// const middlewares = require('../middlewares');
 
 const router = express.Router();
 
-const { valuesSalesMiddleware } = middlewares;
+// const { } = middlewares;
 
 router.post('/sales',
   saleController.createSale);
