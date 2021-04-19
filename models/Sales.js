@@ -24,11 +24,11 @@ const create = async (itensSold) => {
 };
 
 const update = async (id, quantity, productId) => {
-  const sale = await connection()
+ 
+  return await connection()
     .then((db) => db.collection(SALES_COLLECTION)
-      .updateOne({ _id: ObjectId(id), 'itensSold.productId': productId },
-        { $set: { 'itensSold.$.quantity': quantity } }));
-  return sale;
+      .updateOne({ _id: ObjectId(id)}, 
+        { $set: { itensSold: [{ productId, quantity }] }}));
 };
 
 const exclude = async (id) => {

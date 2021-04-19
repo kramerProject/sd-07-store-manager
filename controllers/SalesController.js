@@ -19,8 +19,10 @@ const findById = async(req, res) => {
 };
 
 const create = async (req, res) => {
-  const items= req.body;
-  console.log(items);
+  const items = req.body;
+
+  // const [{ productId, quantity }] = req.body; -> acessa o primeiro item do array
+
   try {
     const result = await SaleService.create(items);
 
@@ -38,21 +40,18 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   const { id } = req.params;
-  const items = req.body;
 
-  try {
-    const result = await SaleService.update(id, items);
-  
-    if (result.code) {
-      return res.status(result.code).json(result.json);
-    }
+  const [{ quantity, productId }] = req.body;
 
-    res.status(code.Ok).json({ _id , itensSold: items });
-
-  } catch (error) {
-    res.status(code.Internal_Server_Error)
-      .send({ message: 'Houston, we have a problem.', error });
+  console.log(productId);
+  const result = await SaleService.update(id, quantity, productId, req.body);
+    
+  if (result.code) {
+    return res.status(result.code).json(result.json);
   }
+
+  res.status(code.Ok).json({ _id: id , itensSold: [{ productId, quantity }] });
+
 };
 
 const exclude = async (req, res) => {

@@ -36,7 +36,7 @@ const findById = async (id) => {
   return sale;
 };
 
-const update = async (id, items) => {
+const update = async (id, quantity, productId, items) => {
 
   const quantityLength = helper.quantityIsOkSales(items);
   const quantityIsInteger = helper.isIntegerForSales(items);
@@ -44,8 +44,8 @@ const update = async (id, items) => {
   if (quantityLength.code) return quantityLength;
   if (quantityIsInteger.code) return quantityIsInteger;
 
-  const sales = await saleModel.update(id, items);
-
+  const sales = await saleModel.update(id, quantity, productId, items);
+  console.log( productId, '', items);
   return sales;
 };
 
