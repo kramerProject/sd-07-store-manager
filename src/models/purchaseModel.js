@@ -3,6 +3,17 @@ const { ObjectId } = require('mongodb');
 
 const BAD_INPUT = 'Unprocessable Entity';
 
+const delPurch = async (purchId) => {
+  try {
+    const connection = await getConnection();
+    const delRes = await connection.collection('sales')
+      .deleteOne({ _id: ObjectId(purchId) });
+    return delRes;
+  } catch (err) {
+    return {err: err, result: {ok: false} };
+  }
+};
+
 const getOnePurch = async (id) => {
   const connection = await getConnection();
   try {
@@ -52,6 +63,7 @@ const updtPurch = async (id, pdtList) => {
 };
 
 module.exports = {
+  delPurch,
   getOnePurch,
   getPurchaseList,
   insertPurchase,

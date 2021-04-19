@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getOnePurchase, getPurchase, purchaseInsertion, updatePurchase }
+const { delPurchase, getOnePurchase, getPurchase, purchaseInsertion, updatePurchase }
   = require('../service');
 const { clientErrCodes, serverErrCodes, successCodes } = require('./statusCodes');
 
@@ -60,6 +60,23 @@ purchaseController.get('/:id', async (req, res, next) => {
   } catch (err) {
     console.log(err);
     return next(err);
+  }
+});
+
+purchaseController.delete('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const purchaseDeleted = await delPurchase(id);
+    const { status } = purchaseDeleted;
+    if (status !== 'OK') {
+      const { err, message, status } = purchaseDeleted;
+      next({ err, message, status, clientErr: purchaseDeleted.clientErr });
+    }
+    return res.status(successCodes[`${purchaseDeleted.status}`])
+      .json({ purchaseDeleted });
+  } catch (err) {
+    console.log(err);
+    return next({ err: err, status: BAD_INPUT });
   }
 });
 

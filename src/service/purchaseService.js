@@ -1,5 +1,5 @@
 const { validateQtty, validateProductId } = require('./purchaseHandlers');
-const { getOnePurch, getPurchaseList,
+const { delPurch, getOnePurch, getPurchaseList,
   insertPurchase, updtPurch } = require('../models');
 
 const BAD_INPUT = 'Unprocessable Entity';
@@ -19,6 +19,22 @@ const getOnePurchase = async (id) => {
     : { status: 'OK', sale: purchRes }; 
 };
 
+const delPurchase = async (purchaseId) => {
+  const purchaseExists = await getOnePurchase(purchaseId);
+  // console.log(purchaseExists)
+  if(!purchaseExists.error) {
+    const { clientErr, error } = purchaseExists;
+    return { err: 'invalid_data', message: 'Sale not found',
+      status: BAD_INPUT, clientErr , error };
+  }
+  const deletionRes = await delPurch(purchaseId);
+  // console.log('LINE 29: ', deletionRes)
+  return deletionRes.result.ok === 1
+    ? { status: 'OK' }
+    : { err: 'invalid_data', status: BAD_INPUT,
+      clientErr: true, message: 'Wrong id format' };
+};
+
 const purchaseInsertion = async (productList) => {
   for (const product of productList) {
     const { productId, quantity } = product;
@@ -27,7 +43,6 @@ const purchaseInsertion = async (productList) => {
       return invalidQty;
     }
     const invalidPdtId = await validateProductId(productId);
-    console.log('LINE 31: ', invalidPdtId);
     if (invalidPdtId) {
       return { };
     }
@@ -64,6 +79,7 @@ const updatePurchase = async (purchId, pdtList) => {
 };
 
 module.exports = {
+  delPurchase,
   getOnePurchase,
   getPurchase,
   purchaseInsertion,
