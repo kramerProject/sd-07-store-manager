@@ -10,19 +10,10 @@ const getAll = async () => {
 };
 
 const create = async (items) => {
-  console.log(items);
-  // const { quantity } = items;
-  // const sales = await getAll();
-  
-  // const alreadyIncluded = await helper.productExist(sales, name);
-  // const nameType = helper.nameIsAString(name);
-  // const nameLength = helper.nameIsOk(name);
+ 
   const quantityLength = helper.quantityIsOkSales(items);
   const quantityIsInteger = helper.isIntegerForSales(items);
-  console.log(quantityIsInteger);
-  // if (alreadyIncluded.code) return alreadyIncluded;
-  // if (nameLength.code) return nameLength;
-  // if (nameType.code) return nameType;
+ 
   if (quantityLength.code) return quantityLength;
   if (quantityIsInteger.code) return quantityIsInteger;
   
@@ -44,21 +35,17 @@ const findById = async (id) => {
   return sale;
 };
 
-const update = async (id, name, quantity) => {
+const update = async (id, items) => {
 
-  const nameType = helper.nameIsAString(name);
-  const nameLength = helper.nameIsOk(name);
-  const quantityLength = helper.quantityIsOk(quantity);
-  const quantityIsInteger = helper.IsInteger(quantity);
-
-  if (nameLength.code) return nameLength;
-  if (quantityIsInteger.code) return quantityIsInteger;
-  if (nameType.code) return nameType;
+  const quantityLength = helper.quantityIsOkSales(items);
+  const quantityIsInteger = helper.isIntegerForSales(items);
+ 
   if (quantityLength.code) return quantityLength;
+  if (quantityIsInteger.code) return quantityIsInteger;
 
-  const sale = await saleModel.update(id, name, quantity);
+  const sales = await saleModel.update(id, items);
 
-  return sale;
+  return sales;
 };
 
 const exclude = async (id) => {
@@ -70,7 +57,7 @@ const exclude = async (id) => {
   }
   
   const sale = await saleModel.exclude(id);
-  console.log(sale);
+
   return sale;
 };
 

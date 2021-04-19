@@ -98,17 +98,17 @@ const productExist = async (obj, name) => {
 };
 
 const searchIdcontent = async (object, id) => {
-  const product = await object;
+  const anyItem = await object;
 
-  const arrayOfIds = await product.some((product) => product._id.toString() === id);
+  const arrayOfIds = await anyItem.some((item) => item._id.toString() === id);
 
   if (arrayOfIds) {
     return { code: false };
   }
-  const obj = createError(
+  return createError(
     code.Unprocessable_Entity, message.code, message.wrong_id
   );
-  return obj;
+
 };
 
 module.exports = {

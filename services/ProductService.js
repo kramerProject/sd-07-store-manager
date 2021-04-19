@@ -69,7 +69,7 @@ const exclude = async (id) => {
   }
   
   const product = await ProductModel.exclude(id);
-  console.log(product);
+
   return product;
 };
 

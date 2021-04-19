@@ -16,22 +16,22 @@ const findById = async (id) => {
   return selectedSales;
 };
 
-const create = async (items) => {
+const create = async (itemsSold) => {
   const sale = await connection()
-    .then((db) => db.collection(SALES_COLLECTION).insertOne({ items }));
+    .then((db) => db.collection(SALES_COLLECTION).insertOne({ itemsSold }));
   
   return sale;
 };
 
-const update = async (id, name, quantity) => {
+const update = async (id, quantity, productId) => {
   const sale = await connection()
     .then((db) => db.collection(SALES_COLLECTION)
-      .updateOne({ _id: ObjectId(id)}, { $set: { name, quantity } } ));
+      .updateOne({ _id: ObjectId(id), 'itensSold.productId': productId },
+        { $set: { 'itensSold.$.quantity': quantity } }));
   return sale;
 };
 
 const exclude = async (id) => {
-  console.log(id);
   return await connection().
     then((db) => db.collection(SALES_COLLECTION).deleteOne({ _id: ObjectId(id) }));
 };

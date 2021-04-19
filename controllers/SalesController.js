@@ -9,7 +9,7 @@ const getAll = async (_req, res) => {
 };
 
 const findById = async(req, res) => {
-  const sale = await SaleService.findById(req.params.id);
+  const result = await SaleService.findById(req.params.id);
 
   if (result.code) {
     return res.status(result.code).json(result.json);
@@ -19,8 +19,8 @@ const findById = async(req, res) => {
 };
 
 const create = async (req, res) => {
-  const items = req.body;
-  
+  const items= req.body;
+  console.log(items);
   try {
     const result = await SaleService.create(items);
 
@@ -38,16 +38,16 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   const { id } = req.params;
-  const { name, quantity } = req.body;
+  const items = req.body;
 
   try {
-    const result = await SaleService.update(id, name, quantity);
+    const result = await SaleService.update(id, items);
   
     if (result.code) {
       return res.status(result.code).json(result.json);
     }
 
-    res.status(code.Ok).json({ _id: id , name, quantity });
+    res.status(code.Ok).json({ _id , itensSold: items });
 
   } catch (error) {
     res.status(code.Internal_Server_Error)
