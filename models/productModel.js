@@ -39,6 +39,18 @@ const updateProduct = async (id, name, quantity) =>  {
     return { _id: id, name, quantity };
   });
 };
+
+const deleteProduct = async (id) => {
+  const exist = await getById(id);
+  if (exist) {
+    connect().then(async (db) => {
+      db.collection('products').deleteOne({ _id: ObjectId(id) });
+    });
+    return exist;
+  }
+  return false;
+
+};
    
 
 module.exports = {
@@ -47,4 +59,5 @@ module.exports = {
   getAll,
   getById,
   updateProduct,
+  deleteProduct,
 };
