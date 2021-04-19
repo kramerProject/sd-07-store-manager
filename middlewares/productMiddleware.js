@@ -8,9 +8,9 @@ const validateProduct = async (request, response, next) => {
 
   if (result) {
     const { code, message } = result;
-    console.log('codigo: ', code);
     return response.status(code).json(message);
   }
+
   next();
 };
 

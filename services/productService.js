@@ -4,19 +4,15 @@ const createNewProduct = async (name, quantity) => {
   const { insertedId } = await model.createNewProduct(name, quantity);
 
   return {
-    id: insertedId,
+    _id: insertedId,
     name,
     quantity,
   };
 };
 
-const searchProduct = async (name) => {
-  const result = await model.searchProduct(name);
+const searchProduct = async (name) => await model.searchProduct(name);
 
-  return result;
-};
-
-const getAllProducts = async () =>{
+const getAllProducts = async () => {
   const products = await model.getAllProducts();
   const objectArrayProducts = {products: [...products]};
   return objectArrayProducts;

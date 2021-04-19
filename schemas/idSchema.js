@@ -1,3 +1,4 @@
+const { ObjectId } = require('bson');
 const service = require('../services/productService');
 
 const {unprocessableEntity} = require('../messagesCodes');
@@ -9,9 +10,15 @@ const errorsId = {
   },
 };
 
-
 const findByProductId = async (id) => {
+
+  if (!ObjectId.isValid(id)) return {
+    code: unprocessableEntity,
+    message: errorsId
+  };
+
   const product = await service.findByProductId(id);
+  console.log('product', product);
 
   if (!product) return { code: unprocessableEntity, message: errorsId};
 

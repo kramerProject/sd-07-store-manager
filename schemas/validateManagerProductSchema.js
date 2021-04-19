@@ -7,7 +7,6 @@ const validate = async (name, quantity) => {
   if (nameValid) return nameValid;
 
   const productExist = await existProduct(name);
-
   if (productExist) return productExist;
 
   const quantityValid = validateQuantity(quantity);

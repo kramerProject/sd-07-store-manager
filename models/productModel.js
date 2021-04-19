@@ -18,7 +18,6 @@ const findByProductId = async (id) => connection()
   .then((db) => db.collection('products')
     .findOne(ObjectId(id)));
 
-
 module.exports = {
   createNewProduct,
   searchProduct,
