@@ -1,8 +1,6 @@
 const connection = require('../config/conn');
 const { ObjectId } = require('mongodb');
 
-
-
 const validationFail = (name, quantity, nameOfProduct) => {
   const minLengthName = 5;
   const minQuantity = 0;

@@ -1,4 +1,5 @@
-const productServeices = require('../service');
+const productServeices = require('../service/productsServices');
+const salesServices = require('../service/salesServices');
 
 const SUCCESS = 200;
 const CREATED = 201;
@@ -54,10 +55,25 @@ const deleteProducts = async (req, res) => {
   }
 };
 
+const createSales = async (req, res) => {};
+
+const getAllSales = async (req, res) => {};
+
+const getSalesById = async (req, res) => {};
+
+const updateSales = async (req, res) => {};
+
+const deleteSales = async (req, res) => {};
+
 module.exports = {
   createProducts,
   getAll,
   getProductsById,
   updateProducts,
-  deleteProducts
+  deleteProducts,
+  createSales,
+  getAllSales,
+  getSalesById,
+  updateSales,
+  deleteSales
 };
