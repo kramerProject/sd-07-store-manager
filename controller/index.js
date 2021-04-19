@@ -43,7 +43,16 @@ const updateProducts = async (req, res) => {
     res.status(FAIL).json({ err: { code: 'invalid_data', message: error.message } });
   }
 };
-const deleteProducts = async (req, res) => {};
+
+const deleteProducts = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await productServeices.deleteProducts(id);
+    res.status(SUCCESS).json(result);
+  } catch (error) {
+    res.status(FAIL).json({ err: { code: 'invalid_data', message: error.message } });
+  }
+};
 
 module.exports = {
   createProducts,

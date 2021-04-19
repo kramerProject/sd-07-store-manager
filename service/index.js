@@ -16,4 +16,8 @@ const updateById = (id, name, quantity) => {
   return productModel.updateById(id, name, quantity);
 };
 
-module.exports = { createProducts, getAll, getProductsById, updateById };
+const deleteProducts = (id) => {
+  return productModel.deleteProducts(id);
+};
+
+module.exports = { createProducts, getAll, getProductsById, updateById, deleteProducts };

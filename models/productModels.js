@@ -55,4 +55,14 @@ const updateById = async (id, name, quantity) => {
   return { _id: ObjectId(id), name, quantity };
 };
 
-module.exports = { createProducts, getAll, getById, updateById };
+const deleteProducts = async (id) => {
+  if (ObjectId.isValid(id) === false) throw new Error('Wrong id format');
+
+  await connection().then(db => db.collection('products')
+    .findOneAndDelete({ _id: ObjectId(id) }));
+
+  return connection().then((db) => db.collection('products')
+    .findOne(ObjectId(id)));
+};
+
+module.exports = { createProducts, getAll, getById, updateById, deleteProducts };
