@@ -71,7 +71,7 @@ productsController.put('/:id', async (req, res, next) => {
         .json(productUpdated.product);
   } catch (err) {
     console.log(err);
-    next(serverErrCodes['Internal Server Error'], err);
+    return next(serverErrCodes['Internal Server Error'], err);
   }
 });
 productsController.delete('/:id', async (req, res, next) => {

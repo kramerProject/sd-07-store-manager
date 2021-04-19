@@ -1,10 +1,27 @@
 const { Router } = require('express');
-const { getOnePurchase, getPurchase, purchaseInsertion } = require('../service');
-const { clientErrCodes, successCodes } = require('./statusCodes');
+const { getOnePurchase, getPurchase, purchaseInsertion, updatePurchase }
+  = require('../service');
+const { clientErrCodes, serverErrCodes, successCodes } = require('./statusCodes');
 
 const purchaseController = Router();
 
 const BAD_INPUT = 'Unprocessable Entity';
+
+purchaseController.put('/:id', async (req, res, next) => {
+  try {
+    const { id }= req.params;
+    const [...pdtList] = req.body;
+    const purchUpdate = await updatePurchase(id, pdtList);
+    if (purchUpdate.status !== 'OK') {
+      return next(purchUpdate);
+    }
+    const { status } = purchUpdate;
+    return res.status(successCodes[`${status}`])
+      .json(purchUpdate);
+  } catch (err) {
+    return next(serverErrCodes['Internal Server Error']);
+  }
+});
 
 purchaseController.post('/', async (req, res, next) => {
   try {

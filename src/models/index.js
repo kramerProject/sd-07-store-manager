@@ -1,7 +1,8 @@
 const { delProduct, getOnePdt, getProductByName,
   getProductsList, registerProduct,
   updatePdtById } = require('./productsModel');
-const { getOnePurch, getPurchaseList, insertPurchase } = require('./purchaseModel');
+const { getOnePurch, getPurchaseList, insertPurchase,
+  updtPurch } = require('./purchaseModel');
  
 module.exports = {
   delProduct,
@@ -13,4 +14,5 @@ module.exports = {
   insertPurchase,
   registerProduct,
   updatePdtById,
+  updtPurch,
 };

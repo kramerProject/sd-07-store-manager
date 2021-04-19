@@ -1,3 +1,3 @@
-const insertPurchase = require('./insertPurchase');
+const { validateProductId, validateQtty } = require('./validatePurchaseInputs');
 
-module.exports = { insertPurchase };
+module.exports = { validateProductId, validateQtty };
