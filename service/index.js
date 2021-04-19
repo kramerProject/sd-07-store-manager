@@ -5,11 +5,8 @@ const createProducts = async (name, quantity) => {
   return response;
 };
 
-const getProducts = async (id) => {
-  if (id === undefined) {
-    return await productModel.getAll();
-  };
+const getProductsById = async (id) => {
   await productModel.getById(id);
 };
 
-module.exports = { createProducts, getProducts };
+module.exports = { createProducts, getProductsById };

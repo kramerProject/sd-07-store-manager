@@ -32,7 +32,7 @@ const createProducts = async (name, quantity) => {
 };
 
 const getAll = async () => {
-  await connection().then((db) => db.collection('products').find());
+  await connection().then((db) => db.collection('products').find().toArray());
 };
 
 const getById = async (id) => {
