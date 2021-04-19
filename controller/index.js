@@ -64,7 +64,14 @@ const createSales = async (req, res) => {
   }
 };
 
-const getAllSales = async (req, res) => {};
+const getAllSales = async (req, res) => {
+  try {
+    const result = await salesServices.getAllSales();
+    res.status(SUCCESS).json({ sales: [result] });
+  } catch (error) {
+    res.status(FAIL).json({ err: { code: 'invalid_data', message: error.message }});
+  }
+};
 
 const getSalesById = async (req, res) => {};
 
