@@ -2,8 +2,9 @@
     "wrong_id": "Wrong product ID or invalid quantity",
     "Sale_not_found": "Sale not found",
     "code": "not_found",
+    "invalid_data": "invalid_data",
     "length_character": "\"name\" length must be at least 5 characters long",
-    "name_type" : "\name\" must be a string",
+    "cannot_delete_it" : "Wrong sale ID format",
     "quantity_length": "\"quantity\" must be larger than or equal to 1",
     "quantity_type": "\"quantity\" must be a number"
 }

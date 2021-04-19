@@ -60,9 +60,14 @@ const exclude = async (req, res) => {
   
   try {
     const result = await SaleService.findById(id);
-
+    console.log(result.json);
     if (result.code) {
-      return res.status(code.Unprocessable_Entity).json(result.json);
+      return res.status('422').json({
+        err: { 
+          code: 'invalid_data', 
+          message: 'Wrong sale ID format' 
+        } 
+      });
     }
 
     await SaleService.exclude(id);

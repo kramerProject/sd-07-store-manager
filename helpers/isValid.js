@@ -125,6 +125,19 @@ const searchSaleIdcontent = async (object, id, ) => {
 
 };
 
+const cannotDeleteIt = async (object, id, ) => {
+  const sale = await object;
+
+  const arrayOfIds = await sale.some((item) => item._id.toString() === id);
+
+  if (arrayOfIds) {
+    return { code: false };
+  }
+  return createError(
+    code.Unprocessable_Entity, messageSales.invalid_data, messageSales.cannotDeleteIt
+  );
+};
+
 module.exports = {
   nameIsOk,
   quantityIsOk,
@@ -135,5 +148,6 @@ module.exports = {
   searchIdcontent,
   quantityIsOkSales,
   isIntegerForSales,
-  searchSaleIdcontent
+  searchSaleIdcontent,
+  cannotDeleteIt
 };

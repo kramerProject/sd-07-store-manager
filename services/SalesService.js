@@ -51,8 +51,9 @@ const update = async (id, items) => {
 
 const exclude = async (id) => {
   const sales = await getAll();
-  const iDsearch = await helper.searchIdcontent(sales, id);
-
+  const iDsearch = await helper.cannotDeleteIt(sales, id);
+  console.log(iDsearch);
+  
   if (iDsearch.code) {
     return iDsearch;
   }
