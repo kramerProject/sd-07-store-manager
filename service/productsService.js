@@ -25,7 +25,7 @@ const validateProductService = (name, quantity) => {
       message: '"quantity" must be a number',
     };
   }
-  return 'Validado.';
+  return 'Validado';
 };
 
 const addProductService = async (name, quantity) => {
