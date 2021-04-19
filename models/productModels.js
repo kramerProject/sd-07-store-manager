@@ -42,18 +42,17 @@ const getAll = async () => {
 const getById = async (id) => {
   if (ObjectId.isValid(id) === false) throw new Error('Wrong id format');
   
-  const response = await connection().then((db) => db.collection('products')
+  return connection().then((db) => db.collection('products')
     .findOne(ObjectId(id)));
-  return response;
 };
 
 const updateById = async (id, name, quantity) => {
   const validationsFail = await validationFail(name, quantity);
   if (validationsFail != undefined) throw new Error(validationsFail);
   
-  const response = await connection().then((db) => db.collection('products')
-    .updateOne(ObjectId(id), { $set: { name, quantity } }));
-  return response;
+  await connection().then((db) => db.collection('products')
+    .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } }));
+  return { _id: ObjectId(id), name, quantity };
 };
 
 module.exports = { createProducts, getAll, getById, updateById };
