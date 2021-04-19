@@ -4,7 +4,8 @@ const modelsProducts = require('../models/modelsProducts');
 
 // rules for insert products
 const rulesInsProd = async (name, quantity) => {
-  if (name.length < 6) {
+  const sixN = 6;
+  if (name.length < sixN) {
     throw {
       code: 'invalid_data',
       message: '"name" length must be at least 5 characters long',
@@ -63,16 +64,16 @@ const getById = async (id) => {
   // validacao por id
 
   if (!ObjectId.isValid(id)) {
-    console.log("servicegetById-IF01");
+    // console.log('servicegetById-IF01');
     throw {
       code: 'invalid_data',
       message: 'Wrong id format',
     };
   }
   const productId = await modelsProducts.getById(id);
-  console.log("servicegetById");
+  // console.log('servicegetById');
   if (!productId) {
-    console.log("servicegetById-IF02");
+    // console.log('servicegetById-IF02');
     throw {
       code: 'invalid_data',
       message: 'Wrong id format',
@@ -99,14 +100,14 @@ const updateById = async (id, name, quantity) => {
 const excludeById = async (id) => {
   // validacao por id
   if (!ObjectId.isValid(id)) {
-    console.log("servicegetById-IF01");
+    // console.log('servicegetById-IF01');
     throw {
       code: 'invalid_data',
       message: 'Wrong id format',
     };
   }
   const excludedProd = await modelsProducts.excludeById(id);
-  console.log("serviceexcludeById");
+  // console.log('serviceexcludeById');
   if (!excludedProd) {
     throw {
       code: 'invalid_data',

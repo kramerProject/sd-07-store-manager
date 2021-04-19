@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const { routersProducts, routersSales } = require('./src/routers');
 
 const app = express();
-
+const PORT = 3000;
 app.use(express.json());
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: false }));
@@ -17,7 +17,7 @@ app.get('/', (request, response) => {
 app.use('/products', routersProducts);
 app.use('/sales', routersSales);
 
-app.listen(3000, () => console.log('running'));
+app.listen(PORT, () => console.log('running'));
 
 
 

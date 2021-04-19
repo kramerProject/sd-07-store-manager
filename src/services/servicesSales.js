@@ -15,12 +15,12 @@ const rulesInsSale = async (sale) => {
     // console.log(typeof sale.quantity);
     throw {
       code: 'invalid_data',
-      message: "Wrong product ID or invalid quantity",
+      message: 'Wrong product ID or invalid quantity',
     };
   }
   // productId === db.productId
   // newSale === newId
-  return true
+  return true;
 };
 
 

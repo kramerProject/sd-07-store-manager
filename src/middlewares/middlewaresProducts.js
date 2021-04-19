@@ -1,5 +1,4 @@
-const { ObjectId } = require('mongodb');
-const modelsProducts = require('../models/modelsProducts')
+const modelsProducts = require('../models/modelsProducts');
 
 // rules name for insert product
 const rulesNameInsProd = async (req, res, next) => {
@@ -19,7 +18,7 @@ const rulesNameInsProd = async (req, res, next) => {
     };
   }
   next();
-}
+};
 
 // rules quantity for insert products
 const rulesQuantInsProd = async (req, res, next) => {
@@ -39,11 +38,11 @@ const rulesQuantInsProd = async (req, res, next) => {
     };
   }
   next();
-}
+};
 
 // rules id for getbyId and excludeById
 
 module.exports = {
   rulesNameInsProd,
   rulesQuantInsProd
-}
+};
