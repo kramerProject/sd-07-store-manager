@@ -1,5 +1,5 @@
 const { ENTITY } = require('../CODE_ERROR');
-const { findNameProducts } = require('../controllers');
+const { findNameProduct } = require('../models');
 
 async function validProductMiddleware(req, res, next) {
   const { name } = req.body;
@@ -17,7 +17,7 @@ async function validProductMiddleware(req, res, next) {
   };
   if (!name) return res.status(ENTITY).json(type_erro1);
 
-  const nameProduct = await findNameProducts(name);
+  const nameProduct = await findNameProduct(name);
 
   if (!nameProduct) return res.status(ENTITY).json(type_erro2);
 
