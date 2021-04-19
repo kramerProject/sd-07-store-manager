@@ -5,6 +5,7 @@ const {
   SEMANTIC_ERROR,
   NEW_RESOURCE,
   UNPROCESSABLE_ENTITY,
+  ERROR,
 } = require('../data/httpStatus');
 
 const quantityMinLength = 0;
@@ -37,6 +38,38 @@ const postSales = async (req, res) => {
   }
 };
 
+const getAllSales = async (_req, res) => {
+  try {
+    const results = { sales: await saleModel.getAllSales() };
+
+    res.status(SUCCESS).json(results);
+  } catch (error) {
+    console.error(error);
+    res.status(SERVER_ERROR).json({ message: 'server error' });
+  }
+};
+
+const getSaleById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await saleModel.getSaleById(id);
+
+    if (result.sales === null) {
+      res.status(ERROR)
+        .json({ 'err': { 'code': 'not_found', 'message': 'Sale not found' } });
+
+    } else {
+      res.status(SUCCESS).json(result);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(ERROR)
+      .json({ 'err': { 'code': 'not_found', 'message': 'Sale not found' } });
+  }
+};
+
 module.exports = {
   postSales,
+  getAllSales,
+  getSaleById,
 };
