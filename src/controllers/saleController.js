@@ -22,7 +22,7 @@ const createSale = async (req, res) => {
   const sold = req.body;
   try {
     const sales = await saleServices.create(sold);
-    if (sales.isError)
+    if (sales.err)
       return res
         .status(C_422)
         .send(sales);
