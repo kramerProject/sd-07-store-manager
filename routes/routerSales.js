@@ -1,6 +1,10 @@
 const express = require('express');
 
-const router = express.Router();
+const {
+  validQuantityMiddleware,
+  validIdProductMiddleware,
+  validProductMiddleware,
+} = require('../middlewares');
 
 const { 
   findAllSale,
@@ -10,11 +14,7 @@ const {
   deleteSale
 } = require('../controllers');
 
-const {
-  validQuantityMiddleware,
-  validIdProductMiddleware,
-  validProductMiddleware,
-} = require('../middlewares');
+const router = express.Router();
 
 router.get('/Sales', findAllSale);
 router.get('/Sales/:id', findIdSale);
@@ -22,4 +22,4 @@ router.post('/Sales',validIdProductMiddleware, validProductMiddleware, addSale);
 router.put('/Sales/:id', validQuantityMiddleware, editSale);
 router.delete('/Sales:id', deleteSale);
 
-module.exports = { routerSales } ;
+module.exports = { router } ;

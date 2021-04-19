@@ -1,11 +1,9 @@
 const express = require('express');
-const { routeProduct, routerSales } = require('./routes');
+const { router } = require('./routes');
 const { errorMiddlewares } = require('./middlewares');
 const { SUCCESS, PORT } = require('./CODE_ERROR');
 
 const app = express();
-
-const routes = [routeProduct, routerSales];
 
 app.use(express.json());
 
@@ -14,7 +12,7 @@ app.get('/', (_request, response) => {
   response.status(SUCCESS).send();
 });
 
-app.use(routes);
+app.use(router);
 
 app.use(errorMiddlewares);
 
