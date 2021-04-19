@@ -1,5 +1,5 @@
 const express = require('express');
-const { router } = require('./routes');
+const { router, route } = require('./routes');
 const { errorMiddlewares } = require('./middlewares');
 const { SUCCESS, PORT } = require('./CODE_ERROR');
 
@@ -13,6 +13,7 @@ app.get('/', (_request, response) => {
 });
 
 app.use(router);
+app.use(route);
 
 app.use(errorMiddlewares);
 

@@ -14,12 +14,12 @@ const {
   deleteSale
 } = require('../controllers');
 
-const router = express.Router();
+const route = express.Router();
 
-router.get('/Sales', findAllSale);
-router.get('/Sales/:id', findIdSale);
-router.post('/Sales',validIdProductMiddleware, validProductMiddleware, addSale);
-router.put('/Sales/:id', validQuantityMiddleware, editSale);
-router.delete('/Sales:id', deleteSale);
+route.get('/Sales', findAllSale);
+route.get('/Sales/:id', findIdSale);
+route.post('/Sales',validIdProductMiddleware, validProductMiddleware, addSale);
+route.put('/Sales/:id', validQuantityMiddleware, editSale);
+route.delete('/Sales:id', deleteSale);
 
-module.exports = { router } ;
+module.exports = { route } ;
