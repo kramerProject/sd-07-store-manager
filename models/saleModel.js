@@ -24,8 +24,20 @@ const getById = async (id) => {
   });
 };
 
+const deleteSale = async (id) => {
+  const exist = getById(id); 
+  if (exist) {
+    connect().then(async (db) => {
+      db.collection('sales').deleteOne({ _id: ObjectId(id)});
+    });
+    return exist;
+  }
+  return false;
+};
+
 module.exports = {
   addSale,
   getAll,
   getById,
+  deleteSale,
 };

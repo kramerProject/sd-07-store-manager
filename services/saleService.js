@@ -34,9 +34,16 @@ const getById = async (id) => {
   return { code: 200, sale };
 };
 
+const deleteSale = async (id) => {
+  const deletedSale = await SaleModel.deleteSale(id);
+  if (!deletedSale) return {code: 422, message: 'Wrong sale ID format'};
+  return {code: 200, deletedSale};
+};
+
 module.exports = {
   addSale,
   quantity,
   getAll,
   getById,
+  deleteSale,
 };
