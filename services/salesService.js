@@ -5,10 +5,10 @@ const message = require('./errorMessages');
 
 const addSale = async (product) => {
   if(invalidIdOrQuantity(product)) 
-  return {
-    response: message.invalidIdOrQuantity,
-    status: 422,
-  } ;
+    return {
+      response: message.invalidIdOrQuantity,
+      status: 422,
+    } ;
   const result = await saleModel.createSale(product);
   return {
     response: result,
@@ -31,10 +31,10 @@ const getById = async (id) => {
 
 const updateSale = async (id, product) => {
   if(invalidIdOrQuantity(product)) 
-  return {
-    response: message.invalidIdOrQuantity,
-    status: 422,
-  } ;
+    return {
+      response: message.invalidIdOrQuantity,
+      status: 422,
+    } ;
   const result = await saleModel.updateSale(id, product);
   return {
     response: result,

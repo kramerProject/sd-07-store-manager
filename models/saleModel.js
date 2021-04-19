@@ -27,14 +27,14 @@ const updateSale = async (id, product) => {
         { returnOriginal: false },
       ),
   )
-  .then(response => response.value);
+    .then(response => response.value);
 };
 
 const deleteSale = async (id) => {
   return connection()
     .then((db) => db.collection('sales').findOneAndDelete({ _id: ObjectId(id)}))
     .then(response => response.value);
-}
+};
 
 module.exports = {
   getAll,
