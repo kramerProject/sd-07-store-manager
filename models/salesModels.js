@@ -27,4 +27,14 @@ const getAllSales = async () => {
   return { _id: response[0].productId, itensSold: response };
 };
 
-module.exports = { createSales, getAllSales };
+const getSalesById = async (id) => {
+  const response = await connection().then((db) => db.collection('sales')
+    .findOne(ObjectId(id)));
+  
+  if (!ObjectId.isValid(id) === false) throw new Error('Sale not found');
+  if (response === null) throw new Error('Sale not found');
+
+  return { _id: response[0].productId, itensSold: response };
+};
+
+module.exports = { createSales, getAllSales, getSalesById };

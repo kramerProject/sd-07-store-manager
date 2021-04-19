@@ -3,6 +3,7 @@ const salesServices = require('../service/salesServices');
 
 const SUCCESS = 200;
 const CREATED = 201;
+const NOTFOUND = 404;
 const FAIL = 422;
 
 const createProducts = async (req, res) => {
@@ -73,7 +74,15 @@ const getAllSales = async (req, res) => {
   }
 };
 
-const getSalesById = async (req, res) => {};
+const getSalesById = async (req, res) => {
+  try {
+    const  { id } = req.params;
+    const result = await saleModel.getSaleById(id);
+    res.status(SUCCESS).json({ sales: [ result ] });
+  } catch (error) {
+    res.status(NOTFOUND).json({ err: { code: 'not_found', message: 'Sale not found' } });
+  }
+};
 
 const updateSales = async (req, res) => {};
 

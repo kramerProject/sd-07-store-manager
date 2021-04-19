@@ -10,7 +10,7 @@ router.delete('/products/:id', controller.deleteProducts);
 
 router.post('/sales', controller.createSales);
 router.get('/sales', controller.getAllSales);
-// router.get('/sales/:id', controller.getSalesById);
+router.get('/sales/:id', controller.getSalesById);
 // router.put('/sales/:id', controller.updateSales);
 // router.delete('/sales/:id', controller.deleteSales);
 
