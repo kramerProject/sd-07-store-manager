@@ -44,10 +44,10 @@ router.delete(
   validQuantityMiddleware,
   deleteProducts);
 
-router.get('/Sales', findAllSale);
-router.get('/Sales/:id', findIdSale);
-router.post('/Sales', validIdProductMiddleware, validProductMiddleware, addSale);
-router.put('/Sales/:id', validQuantityMiddleware, editSale);
-router.delete('/Sales:id', deleteSale);
+router.get('/sales', findAllSale);
+router.get('/sales/:id', findIdSale);
+router.post('/sales', validIdProductMiddleware, validProductMiddleware, addSale);
+router.put('/sales/:id', validQuantityMiddleware, editSale);
+router.delete('/sales:id', deleteSale);
 
-module.exports = { router };
+module.exports = router;
