@@ -31,18 +31,29 @@ const getById = async (req, res) => {
 
 const updateSale = async (req, res) => {
   try {
-    const {id} = req.params;
-    const result = await saleService.updateSale(id);
+    const { id } = req.params;
+    const { body } = req;
+    const result = await saleService.updateSale(id, body);
     res.status(result.status).json(result.response);
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
   }
 };
 
+const deleteSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await saleService.deleteSale(id);
+    res.status(result.status).json(result.response);
+  } catch (error) {
+    console.error(error.message);
+  }
+}
 
 module.exports = {
   createSale,
   getAll,
   getById,
-  updateSale
+  updateSale,
+  deleteSale
 };

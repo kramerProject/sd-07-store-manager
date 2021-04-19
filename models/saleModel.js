@@ -23,15 +23,23 @@ const updateSale = async (id, product) => {
       .collection('sales')
       .findOneAndUpdate(
         { _id: ObjectId(id) },
-        { itensSold: [{ $set: { ...product } }] },
+        {$set: { itensSold: [...product] }},
         { returnOriginal: false },
       ),
-  );
+  )
+  .then(response => response.value);
 };
+
+const deleteSale = async (id) => {
+  return connection()
+    .then((db) => db.collection('sales').findOneAndDelete({ _id: ObjectId(id)}))
+    .then(response => response.value);
+}
 
 module.exports = {
   getAll,
   createSale,
   getById,
   updateSale,
+  deleteSale
 };
