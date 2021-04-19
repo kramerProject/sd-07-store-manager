@@ -1,5 +1,5 @@
 const productsModel = require('../model/productsModel');
-const { StatusCodes } = require('http-status-code');
+const { StatusCodes } = require('http-status-codes');
 const productsServices = require('../services/productsServices');
 
 const postNewProduct = async (req, res) => {

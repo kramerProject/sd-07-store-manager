@@ -7,15 +7,7 @@ const errEx = {
   },
 };
 
-const averageValidation =  (name, quantity) => {
-  // deve ser único;
-  if(!result) throw new Error(JSON.stringify({
-    err: {
-      code: 'invalid_data',
-      message: 'Product already exists',
-    },
-  }));
-  
+const averageValidation = (name, quantity) => {
   // name deve ser uma string com mais de 5 caracteres;
   const minNameLength = 5;
   if(name.length < minNameLength) throw new Error(JSON.stringify({
