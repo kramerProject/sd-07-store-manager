@@ -3,6 +3,7 @@ const {
   getProductByName,
   getAllProducts, 
   getProductById,
+  updateById,
 } = require('../models/productModel');
 const { ObjectId } = require('mongodb');
 
@@ -58,8 +59,17 @@ const findProductById = async (id) => {
   return product;
 };
 
+const updateProductById = async (id, name, quantity) => {
+  createProductValidation(name, quantity);
+  validateId(id);
+
+  const updateProduct = await updateById(id, name, quantity);
+  return updateProduct;
+};
+
 module.exports = {
   insertProduct,
   getProducts,
-  findProductById
+  findProductById,
+  updateProductById
 };

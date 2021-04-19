@@ -1,7 +1,8 @@
 const {
   insertProduct,
   getProducts,
-  findProductById } = require('../services/productServices');
+  findProductById,
+  updateProductById } = require('../services/productServices');
 const httpStatus = {
   SUCCESS: 200,
   UNPROCESSABLE_ENTITY: 422,
@@ -41,8 +42,25 @@ const getProductsById = async (req, res) => {
   }
 };
 
+const updateProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const updateProduct = await updateProductById(id, name, quantity);
+    res.status(httpStatus.SUCCESS).json({ _id: id, name, quantity });
+  } catch (error) {
+    res.status(httpStatus.UNPROCESSABLE_ENTITY).json({
+      'err': {
+        'code': 'invalid_data',
+        'message': error.message
+      }
+    });
+  }
+}; 
+
 module.exports = {
   createProduct,
   getAllProducts,
   getProductsById,
+  updateProduct
 };

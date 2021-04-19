@@ -22,10 +22,18 @@ const getProductById = async (id) => {
     .catch(error => error.message);
 };
 
+const updateById = async (id, name, quantity) => {
+  return connect().then((db) => db.collection('products').updateOne(
+    { _id: ObjectId(id)},
+    {$set: { name, quantity }})
+  )
+    .catch(error => error.message);
+};
 
 module.exports = {
   createProduct,
   getProductByName,
   getAllProducts,
   getProductById,
+  updateById,
 };
