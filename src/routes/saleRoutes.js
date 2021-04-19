@@ -13,7 +13,6 @@ router.get('/sales',
   saleController.getAllSales);
 
 router.get('/sales/:id',
-  valuesSalesMiddleware,
   saleController.getSaleById);
 
 // router.put('/sales/:id', '');
