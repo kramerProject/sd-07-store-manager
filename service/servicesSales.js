@@ -41,7 +41,9 @@ const serviceUpdateSale = async (id, sale) => {
 async function serviceExcludeSale(id) {
   if (!ObjectId.isValid(id))
     throw { responseError: 422, code: 'invalid_data', message: 'Wrong sale ID format'};
-  return await serviceGetSalesById(id);
+  const sale = await serviceGetSalesById(id);
+  SalesModel.excludeSale(id);
+  return sale;
 }
 
 module.exports = {
