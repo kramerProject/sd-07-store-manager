@@ -1,20 +1,19 @@
 const express = require('express');
-const { routerProduct, routerSales } = require('./routes');
-const { errorMiddlewares } = require('./middlewares');
-const { SUCCESS, PORT } = require('./CODE_ERROR');
+
+const { router } = require('./routes');
+const { errorMiddleware } = require('./middlewares');
+const { PORT } = require('./CODE_ERROR');
 
 const app = express();
 
 app.use(express.json());
+app.use(router);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
-  response.status(SUCCESS).send();
+  response.send();
 });
 
-app.use(routerProduct);
-app.use(routerSales);
-
-app.use(errorMiddlewares);
+app.use(errorMiddleware);
 
 app.listen(PORT, () => console.log('Online'));
