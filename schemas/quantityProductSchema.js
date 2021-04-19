@@ -1,21 +1,17 @@
-const {paymentRequired} = require('../messagesCodes');
+const {unprocessableEntity} = require('../messagesCodes');
 const minQuantity = 0;
 
 const errorsQuantity = {
-  name_length: {
-    err: {
-      code: 'invalid_data',
-      message :'"quantity" must be larger than or equal to 1',
-    }
+  err: {
+    code: 'invalid_data',
+    message :'"quantity" must be larger than or equal to 1',
   }
 };
 
 const errorsQuantityType = {
-  name_length: {
-    err: {
-      code: 'invalid_data',
-      message :'"quantity" must be a number',
-    }
+  err: {
+    code: 'invalid_data',
+    message :'"quantity" must be a number',
   }
 };
 
@@ -25,12 +21,12 @@ const isString = (value) => (typeof value === 'string');
 
 const validateQuantity = (quantity) => {
   if(isQuantityLetterThan (quantity, minQuantity)) return {
-    code: paymentRequired,
+    code: unprocessableEntity,
     message: errorsQuantity
   };
 
   if (isString(quantity)) return {
-    code: paymentRequired,
+    code: unprocessableEntity,
     message: errorsQuantityType
   };
 

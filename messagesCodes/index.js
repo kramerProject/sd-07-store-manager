@@ -1,5 +1,9 @@
-const paymentRequired = 402;
+const unprocessableEntity = 422;
 
 module.exports = {
-  paymentRequired,
+  unprocessableEntity,
 };
+
+
+
+
