@@ -17,7 +17,7 @@ const createProducts = async (req, res) => {
 const getAll = async (req, res) => {
   try {
     const result = await productServeices.getAll();
-    res.status(SUCCESS).json(result);
+    res.status(SUCCESS).json({ products: result });
   } catch (error) {
     res.status(FAIL).json({ err: { code: 'invalid_data', message: error.message } });
   }

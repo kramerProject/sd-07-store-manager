@@ -6,7 +6,8 @@ const createProducts = async (name, quantity) => {
 };
 
 const getAll = async () => {
-  return { "mensagem": "busquem conhecimento" };
+  const response = await productModel.getAll();
+  return response;
 };
 
 const getProductsById = async (id) => {
