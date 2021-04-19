@@ -15,29 +15,33 @@ const {
   deleteProducts,
 } = require('../controllers');
 
-const router = express.Router();
 
-router.get('/products', findAllProducts);
-router.get('/products/:id', findIdProducts);
-router.post(
-  '/products',
-  validNameMiddleware,
-  validSizeNameMiddleware,
-  validQuantityMiddleware,
-  addProducts,
-);
-router.put(
-  '/products/:id',
-  validSizeNameMiddleware,
-  validQuantityMiddleware,
-  editProducts
-);
+function routerProduct(_req, _res, next){
+  const router = express.Router();
 
-router.delete(
-  '/products:id',
-  validIdProductMiddleware,
-  validQuantityMiddleware, 
-  deleteProducts
-);
+  router.get('/products', findAllProducts);
+  router.get('/products/:id', findIdProducts);
+  router.post(
+    '/products',
+    validNameMiddleware,
+    validSizeNameMiddleware,
+    validQuantityMiddleware,
+    addProducts,
+  );
+  router.put(
+    '/products/:id',
+    validSizeNameMiddleware,
+    validQuantityMiddleware,
+    editProducts
+  );
 
-module.exports = { router };
+  router.delete(
+    '/products:id',
+    validIdProductMiddleware,
+    validQuantityMiddleware, 
+    deleteProducts
+  );
+  next();
+}
+
+module.exports = { routerProduct };
