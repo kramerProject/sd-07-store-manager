@@ -11,8 +11,7 @@ const getAll = async () => {
 };
 
 const getProductsById = async (id) => {
-  return { menssage: "cuscus paulista" };
-  // await productModel.getById(id);
+  return await productModel.getById(id);
 };
 
 module.exports = { createProducts, getAll,getProductsById };
