@@ -16,6 +16,7 @@ const getById = async (id) => {
 
 const add = async ( itensSold ) =>
   connect().then(async (db) => {
+    console.log('MODEL: ', itensSold);
     const sale = await db.collection(COLLECTION_NAME).insertOne({ itensSold });
     return sale.ops[0];
   });

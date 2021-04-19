@@ -50,6 +50,7 @@ const addSale = rescue(async (req, res) => {
         code: CODE_ERROR,
         message: newSale.message}});
     }
+    await salesServices.normalize();
 
     res.status(STATUS_200).json(newSale);
   } catch (err) {
@@ -78,19 +79,6 @@ const updateSale = rescue(async (req, res) => {
   }
 });
 
-const checkIdExists = async (req, res, next) => {
-  const { id } = req.params;
-  const result = await productsModel.getById(id);
-
-  if (!result) {
-    return res.status(STATUS_422).send({ err: {
-      code: CODE_ERROR,
-      message: 'Wrong id format'}});
-  }
-
-  next();
-};
-
 const deleteSale = rescue(async (req, res) => {
   try {
     const { id } = req.params;
@@ -101,6 +89,8 @@ const deleteSale = rescue(async (req, res) => {
         code: CODE_ERROR,
         message: 'Wrong sale ID format'}});
     }
+
+    await salesServices.normalizeDelete();
 
     await salesModel.exclude(req.params.id);
 

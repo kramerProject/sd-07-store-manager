@@ -1,25 +1,19 @@
+db.products.deleteMany({});
+
+db.products.updateOne({ "name": "produto01"}, { $set: { quantity: 10}})
+db.products.updateOne({ "name": "produto02"}, { $set: { quantity: 20}})
+db.sales.deleteMany({})
+
 db.products.insertMany(
 [{
-  name: "produto01",
+  name: 'Martelo de Thor',
   quantity: 10
 },
 {
-  name: "produto02",
+  name: 'Traje de encolhimento',
   quantity: 20
 },
-{
-  name: "produto03",
+{ 
+  name: 'Escudo do Capitão América',
   quantity: 30
-},
-{
-  name: "produto04",
-  quantity: 40
-},
-{
-  name: "produto05",
-  quantity: 50
-},
-{
-  name: "produto06",
-  quantity: 60
 }]);
