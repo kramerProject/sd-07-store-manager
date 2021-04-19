@@ -1,5 +1,6 @@
 const SaleService = require('../services/saleService');
 const ERROR = 500;
+const SUCESS = 200;
 
 const addSale = async (req, resp) => {
   try {
@@ -18,6 +19,30 @@ const addSale = async (req, resp) => {
   }
 };
 
+const getAll = async (req, resp) => {
+  try {
+    const sales = await SaleService.getAll();
+    resp.status(SUCESS).json({sales: sales});
+  } catch (error) {
+    console.error(error.message);
+	  resp.status(ERROR).json({ message: error.message });
+  }
+};
+
+const getById = async (req, resp) => {
+  try {
+    const { id } = req.params;
+    const { code, message, sale} = await SaleService.getById(id);
+    if(message) return resp.status(code).json({ err: { code: 'not_found', message }});
+    resp.status(code).json(sale);
+  } catch (error) {
+    console.error(error.message);
+	  resp.status(ERROR).json({ message: error.message });
+  }
+};
+
 module.exports = {
   addSale,
+  getAll,
+  getById,
 };

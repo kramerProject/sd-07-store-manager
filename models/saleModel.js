@@ -11,6 +11,21 @@ const addSale = async (salesList) => {
   });
 };
 
+const getAll = async () => {
+  return await connect().then((db) => {
+    return db.collection('sales').find({}).toArray();
+  });
+};
+
+const getById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  return await connect().then((db) => {
+    return db.collection('sales').findOne(ObjectId(id));
+  });
+};
+
 module.exports = {
   addSale,
+  getAll,
+  getById,
 };
