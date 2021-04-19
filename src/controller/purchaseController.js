@@ -67,13 +67,14 @@ purchaseController.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const purchaseDeleted = await delPurchase(id);
+    // console.log('controller LINE 70: ', purchaseDeleted)
     const { status } = purchaseDeleted;
     if (status !== 'OK') {
       const { err, message, status } = purchaseDeleted;
       next({ err, message, status, clientErr: purchaseDeleted.clientErr });
     }
-    return res.status(successCodes[`${purchaseDeleted.status}`])
-      .json({ purchaseDeleted });
+    return res.status(successCodes[`${status}`])
+      .json({ });
   } catch (err) {
     console.log(err);
     return next({ err: err, status: BAD_INPUT });

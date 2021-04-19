@@ -3,6 +3,7 @@ const { delPurch, getOnePurch, getPurchaseList,
   insertPurchase, updtPurch } = require('../models');
 
 const BAD_INPUT = 'Unprocessable Entity';
+const ID_MISSING = 'Not Found';
 
 const getPurchase = async () => {
   const purchaseList = await getPurchaseList();
@@ -21,15 +22,17 @@ const getOnePurchase = async (id) => {
 
 const delPurchase = async (purchaseId) => {
   const purchaseExists = await getOnePurch(purchaseId);
-  if(purchaseExists.status !== 'OK') {
-    const { clientErr, error } = purchaseExists;
-    return { err: 'invalid_data', message: 'Sale not found',
-      status: BAD_INPUT, clientErr , error };
+  console.log('LINE 24 purchaseService: ', purchaseExists.purchase)
+  if(purchaseExists.purchase === null) {
+    console.log('LINE 26: ')
+    return { err: 'invalid_data', message: 'Wrong sale ID format',
+      status: BAD_INPUT, clientErr: true , error: 'sale id not found' };
   }
   const deletionRes = await delPurch(purchaseId);
-  return deletionRes.result.ok === 1
+  console.log('LINE 31 purchaseService: ', deletionRes.result)
+  return deletionRes.result.n === 1
     ? { status: 'OK' }
-    : { err: 'invalid_data', status: BAD_INPUT,
+    : { err: 'invalid_data', status: ID_MISSING,
       clientErr: true, message: 'Wrong sale ID format' };
 };
 

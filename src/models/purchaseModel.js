@@ -19,9 +19,9 @@ const getOnePurch = async (id) => {
   try {
     const purchase = await connection.collection('sales')
       .findOne({ _id: ObjectId(id)});
-    return { purchse: purchase, status: 'OK' };
+    return { purchase: purchase, status: 'OK' };
   } catch (err) {
-    return { error: err , status: BAD_INPUT};
+    return { error: err , status: BAD_INPUT, purchase: null};
   }
 };
 
