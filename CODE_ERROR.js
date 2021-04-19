@@ -6,4 +6,4 @@ const NOT_FOUND = 404;
 const ZERO = 0;
 const MIN = 5;
 
-module.exports = { CREATED, SUCCESS, INTERNAL, ENTITY, ZERO, MIN NOT_FOUND };
+module.exports = { CREATED, SUCCESS, INTERNAL, ENTITY, ZERO, MIN, NOT_FOUND };
