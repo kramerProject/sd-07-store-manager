@@ -12,8 +12,8 @@ const getSalesById = (id) => {
   return salesModels.getSalesById(id);
 };
 
-const updateSales = (id, name, quantity) => {
-  return salesModels.updateSales(id, name, quantity);
+const updateSales = (id, body) => {
+  return salesModels.updateSales(id, body);
 };
 
 const deleteSales = (id) => {

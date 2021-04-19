@@ -77,14 +77,22 @@ const getAllSales = async (req, res) => {
 const getSalesById = async (req, res) => {
   try {
     const  { id } = req.params;
-    const result = await saleModel.getSaleById(id);
+    const result = await salesServices.getSalesById(id);
     res.status(SUCCESS).json({ sales: [ result ] });
   } catch (error) {
     res.status(NOTFOUND).json({ err: { code: 'not_found', message: 'Sale not found' } });
   }
 };
 
-const updateSales = async (req, res) => {};
+const updateSales = async (req, res) => {
+  try {
+    const  { id } = req.params;
+    const result = await salesServices.updateSales(id, req.body);
+    res.status(SUCCESS).json(result);
+  } catch (error) {
+    res.status(FAIL).json({ err: { code: 'invalid_data', message: error.message } });
+  }
+};
 
 const deleteSales = async (req, res) => {};
 
