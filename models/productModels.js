@@ -40,8 +40,10 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  await connection().then((db) => db.collection('products')
-    .findOne({ _id: ObjectId(id) }));
+  if (ObjectId.isValid(id) === false) throw new Error('Wrong id format');
+  
+  const response = { mensage: "cuscus" };
+  return response;
 };
 
 module.exports = { createProducts, getAll, getById };
