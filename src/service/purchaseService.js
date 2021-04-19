@@ -20,19 +20,17 @@ const getOnePurchase = async (id) => {
 };
 
 const delPurchase = async (purchaseId) => {
-  const purchaseExists = await getOnePurchase(purchaseId);
-  // console.log(purchaseExists)
-  if(!purchaseExists.error) {
+  const purchaseExists = await getOnePurch(purchaseId);
+  if(purchaseExists.status !== 'OK') {
     const { clientErr, error } = purchaseExists;
     return { err: 'invalid_data', message: 'Sale not found',
       status: BAD_INPUT, clientErr , error };
   }
   const deletionRes = await delPurch(purchaseId);
-  // console.log('LINE 29: ', deletionRes)
   return deletionRes.result.ok === 1
     ? { status: 'OK' }
     : { err: 'invalid_data', status: BAD_INPUT,
-      clientErr: true, message: 'Wrong id format' };
+      clientErr: true, message: 'Wrong sale ID format' };
 };
 
 const purchaseInsertion = async (productList) => {
@@ -44,7 +42,8 @@ const purchaseInsertion = async (productList) => {
     }
     const invalidPdtId = await validateProductId(productId);
     if (invalidPdtId) {
-      return { };
+      return { status: BAD_INPUT, err: 'invalid_data', clientErr: true,
+        message: 'Wrong product ID format' };
     }
   }
   const insertionResp = await insertPurchase(productList);
