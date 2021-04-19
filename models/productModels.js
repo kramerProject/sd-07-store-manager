@@ -32,7 +32,11 @@ const createProducts = async (name, quantity) => {
 };
 
 const getAll = async () => {
-  return await connection().then((db) => db.collection('products').find().toArray());
+  const response = await connection()
+    .then((db) => db.collection('products').find().toArray());
+  
+  if (response === null) throw new Error('Banco de dados vazio.');
+  return response;
 };
 
 const getById = async (id) => {
