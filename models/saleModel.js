@@ -1,6 +1,9 @@
 // findOneAndUpdate, comando usado em updateSale:
 // https://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#findOneAndUpdate
 
+// findOneAndDelete, comando usado em updateSale:
+// https://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#findOneAndDelete
+
 const connection = require('./conn');
 
 const { ObjectId } = require('mongodb');
@@ -35,10 +38,7 @@ const createSale = async (reqSale) => {
   };
 };
 
-// update não preparado para 2 objetos no array itensSold
 const updateSale = async ({ id, reqSale }) => {
-  const { productId, quantity } = reqSale[0];
-
   if (!ObjectId.isValid(id)) return null;
 
 	  const updatedItem = await connection().then((db) =>
@@ -46,7 +46,7 @@ const updateSale = async ({ id, reqSale }) => {
 			  .collection('sales')
 			  .findOneAndUpdate(
         { _id: ObjectId(id) },
-        { $set: { 'itensSold': [{ productId, quantity }] } },
+        { $set: { 'itensSold': reqSale } },
         { returnOriginal: false }
       ));
 	  return updatedItem ['value']; // pra retornar apenas chave value
@@ -61,8 +61,7 @@ const deleteSale = async (id) => {
       .findOneAndDelete(
         { _id: ObjectId(id) }
       ));
-  return deletedItem ['value'];
-
+  return deletedItem ['value']; // pra retornar apenas chave value
 };
 
 module.exports = {

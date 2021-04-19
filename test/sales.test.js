@@ -5,7 +5,7 @@ const mongoDbUrl = 'mongodb://localhost:27017';
 const url = 'http://localhost:3000';
 const invalidId = 99999;
 
-describe.skip('5 - Crie um endpoint para cadastrar vendas', () => {
+describe('5 - Crie um endpoint para cadastrar vendas', () => {
   let connection;
   let db;
 
@@ -190,7 +190,7 @@ describe.skip('5 - Crie um endpoint para cadastrar vendas', () => {
   });
 });
 
-describe.skip('6 - Crie um endpoint para listar as vendas', () => {
+describe('6 - Crie um endpoint para listar as vendas', () => {
   let connection;
   let db;
 
@@ -336,7 +336,7 @@ describe.skip('6 - Crie um endpoint para listar as vendas', () => {
   });
 });
 
-describe.skip('7 - Crie um endpoint para atualizar uma venda', () => {
+describe('7 - Crie um endpoint para atualizar uma venda', () => {
   let connection;
   let db;
 
@@ -549,6 +549,8 @@ describe.skip('7 - Crie um endpoint para atualizar uma venda', () => {
       .then((responseEdit) => {
         const { body } = responseEdit;
         const responseEditBody = JSON.parse(body);
+        console.log(responseEditBody);
+        console.log(responseEditBody.itensSold);
         const salesId = responseEditBody._id;
         const idProductSales = responseEditBody.itensSold[0].productId;
         const quantityProductSales = responseEditBody.itensSold[0].quantity;

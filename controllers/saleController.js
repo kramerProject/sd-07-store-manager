@@ -57,8 +57,8 @@ const updateSale = async (req, res, next) => {
       res.status(NOT_FOUND).json({ message: 'Venda não encontrada' });
       return;
     }
+    res.status(SUCCESS).json(result);
 
-    res.status(SUCCESS).json({ result });
   } catch (err) {
     next(err);
   }
