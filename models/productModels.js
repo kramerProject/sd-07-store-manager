@@ -42,7 +42,8 @@ const getAll = async () => {
 const getById = async (id) => {
   if (ObjectId.isValid(id) === false) throw new Error('Wrong id format');
   
-  const response = { mensage: "cuscus" };
+  const response = await connection().then((db) => db.collection('products')
+    .findOne(ObjectId(id)));
   return response;
 };
 
