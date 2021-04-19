@@ -61,6 +61,7 @@ const exclude = async (req, res) => {
   try {
     const result = await ProductService.findById(id);
 
+
     if (result.code) {
       return res.status(code.Unprocessable_Entity).json(result.json);
     }

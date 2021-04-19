@@ -16,9 +16,9 @@ const findById = async (id) => {
   return selectedSales;
 };
 
-const create = async (itemsSold) => {
+const create = async (itensSold) => {
   const sale = await connection()
-    .then((db) => db.collection(SALES_COLLECTION).insertOne({ itemsSold }));
+    .then((db) => db.collection(SALES_COLLECTION).insertOne({ itensSold }));
   
   return sale;
 };

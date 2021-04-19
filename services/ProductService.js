@@ -1,7 +1,7 @@
 const ProductModel = require('../models/Product');
 const helper = require('../helpers/isValid');
 
-// const routeType = 'product';
+const routeType = 'product';
 
 const getAll = async () => {
   const products = await ProductModel.getAll();
@@ -33,7 +33,7 @@ const create = async (name, quantity) => {
 const findById = async (id) => {
   const products = await getAll();
 
-  const iDsearch = await helper.searchIdcontent(products, id);
+  const iDsearch = await helper.searchIdcontent(products, id, routeType);
 
   if (iDsearch.code) {
     return iDsearch;

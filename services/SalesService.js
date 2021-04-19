@@ -1,7 +1,7 @@
 const saleModel = require('../models/Sales');
 const helper = require('../helpers/isValid');
 
-// const routeType = 'sales';
+const routeType = 'sales';
 
 const getAll = async () => {
   const sales = await saleModel.getAll();
@@ -25,13 +25,14 @@ const create = async (items) => {
 const findById = async (id) => {
   const sales = await getAll();
 
-  const iDsearch = await helper.searchIdcontent(sales, id);
-
+  const iDsearch = await helper.searchSaleIdcontent(sales, id);
+ 
   if (iDsearch.code) {
     return iDsearch;
   }
 
   const sale = await saleModel.findById(id);
+ 
   return sale;
 };
 

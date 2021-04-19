@@ -97,7 +97,7 @@ const productExist = async (obj, name) => {
   return { code:false };
 };
 
-const searchIdcontent = async (object, id) => {
+const searchIdcontent = async (object, id, ) => {
   const anyItem = await object;
 
   const arrayOfIds = await anyItem.some((item) => item._id.toString() === id);
@@ -111,6 +111,20 @@ const searchIdcontent = async (object, id) => {
 
 };
 
+const searchSaleIdcontent = async (object, id, ) => {
+  const sale = await object;
+
+  const arrayOfIds = await sale.some((item) => item._id.toString() === id);
+
+  if (arrayOfIds) {
+    return { code: false };
+  }
+  return createError(
+    code.Not_Found, messageSales.code, messageSales.Sale_not_found
+  );
+
+};
+
 module.exports = {
   nameIsOk,
   quantityIsOk,
@@ -120,5 +134,6 @@ module.exports = {
   createError,
   searchIdcontent,
   quantityIsOkSales,
-  isIntegerForSales
+  isIntegerForSales,
+  searchSaleIdcontent
 };
