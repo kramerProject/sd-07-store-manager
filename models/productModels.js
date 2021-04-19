@@ -47,4 +47,13 @@ const getById = async (id) => {
   return response;
 };
 
-module.exports = { createProducts, getAll, getById };
+const updateById = async (id, name, quantity) => {
+  const validationsFail = await validationFail(name, quantity);
+  if (validationsFail != undefined) throw new Error(validationsFail);
+  
+  const response = await connection().then((db) => db.collection('products')
+    .updateOne(ObjectId(id), { $set: { name, quantity } }));
+  return response;
+};
+
+module.exports = { createProducts, getAll, getById, updateById };
