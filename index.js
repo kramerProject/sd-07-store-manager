@@ -22,16 +22,7 @@ app.listen(PORT, () => console.log('running'));
 
 
 // referencias
-// Marcos Silva 07, Vanessa Naara Almeida Oliveira 07, Zambeli 05
+// Marcos Silva 07, Vanessa Naara Almeida Oliveira 07, Zambeli 05, Lucival 06
 // router/index - routerProd/Sale - controllersProd/sales - servideProd/sale - modelsProd
 // https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Status
 // https://expressjs.com/pt-br/guide/routing.html
-// a
-// *controller = funcoes
-//   req.body or req.params
-
-// *middleware = usado nos controllers(exemplo validacao de token),
-//   vem na rota antes do controller(ex: router.get('/products', tokenValidade, controllersProducts.getAll))
-//   TEM QUE TER O NEXT()
-
-// *
