@@ -9,7 +9,7 @@ const getAllSales = async (req, res) => {
     const sales = await saleModel.getAllSales();
     return res
       .status(C_200)
-      .send([{ sales }]);
+      .send({ sales });
   } catch (error) {
     console.error(error);
     return res
