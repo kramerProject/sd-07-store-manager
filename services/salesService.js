@@ -3,7 +3,7 @@ const STATUS_CODE = require('../helper');
 
 // Requisito 5
 
-const checkProductQuantityAndString = (quantity) => {
+const checkSaleQuantityAndString = (quantity) => {
   const ZERO = 0;
   if (parseInt(quantity, 10) <= ZERO || typeof quantity !== 'number') throw ({
     status: STATUS_CODE.UNPROCESSABLE_ENTITY,
@@ -22,7 +22,7 @@ const checkIfQuantityIsString = (quantity) => {
 
 const salesRegistration = async (sale) => {
   sale.forEach((el) => {
-    checkProductQuantityAndString(el.quantity);
+    checkSaleQuantityAndString(el.quantity);
     // checkIfQuantityIsString(el.quantity);
   });
 
@@ -51,8 +51,17 @@ const getSaleByID = async (id) => {
   return result;
 };
 
+// Requisito 7
+
+const updateSale = async (id, sales) => {
+  checkSaleQuantityAndString(sales[0].quantity);
+  const result = await salesModel.updateSale(id, sales);
+  return result;
+};
+
 module.exports = {
   salesRegistration,
   getSales,
-  getSaleByID
+  getSaleByID,
+  updateSale
 };

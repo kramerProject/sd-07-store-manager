@@ -8,5 +8,6 @@ const route = express.Router();
 route.post('/sales', salesController.salesRegistration);
 route.get('/sales', salesController.getSales);
 route.get('/sales/:id', salesController.getSaleByID);
+route.put('/sales/:id', salesController.updateSale);
 
 module.exports = route;

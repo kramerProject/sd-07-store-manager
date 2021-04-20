@@ -23,8 +23,31 @@ const getSaleByID = async (id) => { // Como visto no PR de Rafael Machado Guimar
   }
 };
 
+const updateSale = async (id, sales) => {
+  const result = await connection().then((db) =>
+    db.collection('sales').updateOne(
+      { 
+        _id: ObjectId(id)
+      },
+      { 
+        $set: {
+          sales
+        }
+      },
+    )
+  );
+
+  return {
+    _id: id,
+    itensSold: sales
+  };
+};
+
+
+
 module.exports = {
   salesRegistration,
   getSales,
-  getSaleByID
+  getSaleByID,
+  updateSale
 };
