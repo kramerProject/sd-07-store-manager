@@ -5,18 +5,19 @@ const productsModel = require('../models/productsModel');
 const ZERO = 0;
 const validateProductSales = async (productId, quantity) => {
   const resultProductId = await productsModel.findByIdProductsModel(productId);
-  if (!resultProductId || typeof quantity !== 'number' || quantity <= ZERO) return false;
-  console.log(resultProductId);
+  if (!resultProductId || typeof quantity !== 'number' || quantity <= ZERO) {
+    return false;
+  }
   return true;
 };
 
 const addSalesService = async (products) => {
-  const productsEvery = products.every(async (product) => {
+  const productsEvery = products.map(async(product) => {
     const validate = await validateProductSales(product.productId, product.quantity);
-    console.log(validate);
+    console.log('validadte', validate);
     return validate;
   });
-  console.log('productsEvery',productsEvery);
+  console.log('productsEvery', productsEvery);
   if (!productsEvery) {
     return {
       err: {
@@ -30,6 +31,27 @@ const addSalesService = async (products) => {
   return salesProducts;
 };
 
+const getAllSalesService = async () => {
+  const getAllSales = await salesModel.findAllSalesModel();
+  return {
+    sales: getAllSales,
+  };
+};
+
+const getByIdSalesService = async (id) => {
+  const getByIdSale = await salesModel.findByIdSalesModel(id);
+  if (!getByIdSale) {
+    return {
+      code: 'not_found',
+      status: status.NOT_FOUND,
+      message: 'Sale not found',
+    };
+  }
+  return getByIdSale;
+};
+
 module.exports = {
   addSalesService,
+  getAllSalesService,
+  getByIdSalesService
 };
