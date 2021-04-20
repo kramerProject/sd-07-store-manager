@@ -14,11 +14,25 @@ const findAllSalesModel = async () => {
 
 const findByIdSalesModel = async (id) => {
   if (!ObjectId.isValid(id)) return null;
-  return connect().then((db) => db.collection('sales').findOne(ObjectId(id)));
+  return connect().then((db) => db.collection('sales').findOne({_id: ObjectId(id)}));
 };
+
+const putByIdSalesModel = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  return connect().then((db) => db.collection('sales').updateOne({_id: ObjectId(id)}));
+};
+
+const deleteSalesModel = async (id) => {
+  // if (!ObjectId.isValid(id)) return null;
+  return connect().then((db) => db.collection('sales')
+    .findOneAndDelete({_id: ObjectId(id)}));
+};
+
 
 module.exports = {
   addSalesModel,
   findAllSalesModel,
-  findByIdSalesModel
+  findByIdSalesModel,
+  putByIdSalesModel,
+  deleteSalesModel
 };
