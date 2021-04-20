@@ -95,6 +95,4 @@ productsController.delete('/:id', async (req, res, next) => {
   }
 });
 
-// app.use(errorMidlleware);
-
 module.exports = productsController;

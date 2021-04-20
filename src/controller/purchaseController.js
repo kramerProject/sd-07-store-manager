@@ -71,7 +71,7 @@ purchaseController.delete('/:id', async (req, res, next) => {
     const { status } = purchaseDeleted;
     if (status !== 'OK') {
       const { err, message, status } = purchaseDeleted;
-      next({ err, message, status, clientErr: purchaseDeleted.clientErr });
+      return next({ err, message, status, clientErr: purchaseDeleted.clientErr });
     }
     return res.status(successCodes[`${status}`])
       .json({ });
