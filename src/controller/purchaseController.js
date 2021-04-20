@@ -5,6 +5,7 @@ const { clientErrCodes, serverErrCodes, successCodes } = require('./statusCodes'
 
 const purchaseController = Router();
 
+const ID_MISSING = 'Not Found';
 const BAD_INPUT = 'Unprocessable Entity';
 
 purchaseController.put('/:id', async (req, res, next) => {
@@ -67,7 +68,6 @@ purchaseController.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const purchaseDeleted = await delPurchase(id);
-    // console.log('controller LINE 70: ', purchaseDeleted)
     const { status } = purchaseDeleted;
     if (status !== 'OK') {
       const { err, message, status } = purchaseDeleted;
@@ -77,7 +77,7 @@ purchaseController.delete('/:id', async (req, res, next) => {
       .json({ });
   } catch (err) {
     console.log(err);
-    return next({ err: err, status: BAD_INPUT });
+    return next({ err: err, status: ID_MISSING });
   }
 });
 
