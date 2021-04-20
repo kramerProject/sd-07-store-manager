@@ -60,7 +60,33 @@ const getSaleById = async (id) => {
         code: 'not_found',
         message: 'Sale not found', }
     };
-  return await saleModel.getSaleById(id);
+  const result = await saleModel.getSaleById(id);
+  console.log('result', result);
+  if (!result)
+    return {
+      err: {
+        code: 'not_found',
+        message: 'Sale not found', }
+    };
+  return result;
+};
+
+const deleteSale = async (id) => {
+  if(!ObjectId.isValid(id))
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format', }
+    };
+  const result = await saleModel.getSaleById(id);
+  console.log('result', result);
+  if (!result)
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format', }
+    };
+  return result;
 };
 
 module.exports = services = {
@@ -68,4 +94,5 @@ module.exports = services = {
   quantityIsNumber,
   create,
   getSaleById,
+  deleteSale,
 };

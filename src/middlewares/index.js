@@ -3,7 +3,6 @@ const logMiddleware = require('./logMiddleware');
 const nameValidationsMiddleware = require('./nameValidationsMiddleware');
 const quantityValidationsMiddleware = require('./quantityValidationsMiddleware');
 const productIdExistisMiddleware = require('./productIdExistisMiddleware');
-const valuesSalesMiddleware = require('./valuesSalesMiddleware');
 
 module.exports = {
   errorMiddleware,
@@ -11,5 +10,4 @@ module.exports = {
   nameValidationsMiddleware,
   quantityValidationsMiddleware,
   productIdExistisMiddleware,
-  valuesSalesMiddleware,
 };

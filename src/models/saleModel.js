@@ -22,8 +22,23 @@ const getSaleById = async (id) =>
       db.collection('sales')
         .findOne({ _id: ObjectId(id)}));
 
+const deleteSale = async (id) => {
+  const saleFind = await connection()
+    .then((db) =>
+      db.collection('sales')
+        .findOne({ _id: ObjectId(id) }));
+
+  await connection()
+    .then((db) =>
+      db.collection('sales')
+        .deleteOne({ _id: ObjectId(id) }));
+
+  return saleFind;
+};
+
 module.exports = {
   getAllSales,
   createSale,
   getSaleById,
+  deleteSale,
 };
