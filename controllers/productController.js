@@ -30,7 +30,6 @@ const getProductById = async (req, res) => {
 
     const product = await ProductService.getProductById(id);
 
-    // console.log(product);
     if (product.msg) {
       return res.status(product.status).json(product.msg);
     }
@@ -41,8 +40,26 @@ const getProductById = async (req, res) => {
   }
 };
 
+const updateProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const product = await ProductService.updateProduct(id, name, quantity);
+    // console.log(product);
+    if (product) {
+      return res.status(product.status).json(product.msg);
+    }
+    res.status(SUCCSESS).json(product);
+
+  } catch (err) {
+    console.error(err.message);
+    res.status(UNPROCESSABLE_ENTITY).json(err.message);
+  }
+};
+
 module.exports = {
   getProducts,
   getAll,
   getProductById,
+  updateProduct,
 };
