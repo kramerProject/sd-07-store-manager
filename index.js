@@ -1,5 +1,6 @@
 const express = require('express');
 const productsRouter = require('./routes/productsRouter');
+const salesRouter = require('./routes/salesRouter');
 const logMiddleware = require('./middlewares/logMiddleware');
 
 const app = express();
@@ -15,5 +16,6 @@ app.use(logMiddleware);
 
 // routers
 app.use(productsRouter);
+app.use(salesRouter);
 
 app.listen('3000', () => console.log('Rodando na porta 3000'));
