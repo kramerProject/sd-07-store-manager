@@ -68,8 +68,71 @@ const getSaleById = async (req, res) => {
   }
 };
 
+const updateSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { productId, quantity } = req.body;
+    const result = await saleModel.updateSale(id, productId, quantity);
+
+    if (quantity <= quantityMinLength || typeof quantity === 'string') {
+      res.status(UNPROCESSABLE_ENTITY)
+        .json({
+          'err': {
+            'code': 'invalid_data',
+            'message': 'Wrong product ID or invalid quantity'
+          }
+        });
+    } else {
+      res.status(SUCCESS).json(result);
+    }
+
+  } catch (error) {
+    console.error(error);
+    res.status(ERROR)
+      .json({
+        'err': {
+          'code': 'invalid_data',
+          'message': 'Wrong product ID or invalid quantity'
+        }
+      });
+  }
+};
+
+const deleteSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const result = await saleModel.deleteSale(id);
+
+    if (result === null) {
+      res.status(UNPROCESSABLE_ENTITY)
+        .json({
+          'err': {
+            'code': 'invalid_data',
+            'message': 'Wrong sale ID format'
+          }
+        });
+    } else {
+      res.status(SUCCESS)
+        .json(result);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(UNPROCESSABLE_ENTITY)
+      .json({
+        'err': {
+          'code': 'invalid_data',
+          'message': 'Wrong sale ID format'
+        }
+      });
+
+  }
+};
+
 module.exports = {
   postSales,
   getAllSales,
   getSaleById,
+  updateSale,
+  deleteSale,
 };
