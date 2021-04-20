@@ -1,4 +1,7 @@
-const { createSales } = require('../models/salesModel');
+const {
+  createSales,
+  // getAllModel,
+} = require('../models/salesModel');
 
 const validateQuantity = (sales) => {
   const forbiddenQuantity = 0;
@@ -19,6 +22,11 @@ const createSalesService = async (sales) => {
   return createdSales;
 };
 
+// const getllService = () => {
+
+// };
+
 module.exports = {
   createSalesService,
+  // getllService,
 };

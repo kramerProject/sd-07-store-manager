@@ -1,4 +1,7 @@
-const { createSalesService } = require('../services/saleServices');
+const {
+  createSalesService,
+  getllService,
+} = require('../services/saleServices');
 
 const httpStatus = {
   SUCCESS: 200,
@@ -20,6 +23,14 @@ const createSalesController = async (req, res) => {
     });
   }
 };
+
+// const getAllController = async (req, res) => {
+//   try {
+
+//   } catch (error) {
+
+//   }
+// };
 
 module.exports = {
   createSalesController,

@@ -7,6 +7,12 @@ const createSales = async (sales) => {
     .catch(error => error.message);
 };
 
+// const getAllModel = async () => {
+//   return connect().then((db => db.collection('sales').find()))
+//     .catch(error => error.message);
+// };
+
 module.exports = {
   createSales,
+  // getAllModel
 };
