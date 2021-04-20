@@ -64,19 +64,22 @@ const getAll = async () => {
   return search;
 };
 
+const checkId = (id) => {
+  if(!ObjectId.isValid(id)) throw new Error(
+    JSON.stringify({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    }),
+  );
+};
+
 const getById = async (id) => {
-  const vite4 = 24;
-  if (!ObjectId.isValid(id))
-    throw new Error(
-      JSON.stringify({
-        err: {
-          code: 'invalid_data',
-          message: 'Wrong id format',
-        },
-      }),
-    );
+  const maxLen = 24;
+  checkId(id);
   const search = await productsModel.getById(id);
-  if (search === null || id.length < vite4)
+  if (search === null || id.length < maxLen)
     throw new Error(
       JSON.stringify({
         err: {
@@ -88,9 +91,32 @@ const getById = async (id) => {
   return search;
 };
 
+
+const putById = async (id, name, quantity) => {
+  averageValidation(name, quantity);
+  checkId(id);
+  return await productsModel.putById(id, name, quantity);
+};
+
+const deleteById = async (id) => {
+  checkId(id);
+  const product = await productsModel.deleteById(id);
+  if(product === null) throw new Error(
+    JSON.stringify({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    }),
+  );
+  return product;
+};
+
 module.exports = {
   averageValidation,
   postNewProduct,
   getAll,
   getById,
+  putById,
+  deleteById
 };

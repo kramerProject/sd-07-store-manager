@@ -8,7 +8,7 @@ const postNewProduct = async (req, res) => {
     return res.status(StatusCodes.CREATED).send(newProduct);
   } catch ({ message }) {
     res.status(StatusCodes.UNPROCESSABLE_ENTITY).send(message);
-  } 
+  }
 };
 
 const getAll = async (_req, res) => {
@@ -22,7 +22,27 @@ const getById = async (req, res) => {
     const search = await productsServices.getById(id);
     res.status(StatusCodes.OK).send(search);
   } catch ({ message }) {
-    console.log(message);
+    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(JSON.parse(message));
+  }
+};
+
+const putById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const patch = await productsServices.putById(id, name, quantity);
+    res.status(StatusCodes.OK).send(patch);
+  } catch ({ message }) {
+    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(JSON.parse(message));
+  }
+};
+
+const deleteById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedProduct = await productsServices.deleteById(id);
+    res.status(StatusCodes.OK).send(deletedProduct);
+  } catch ({ message }) {
     res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(JSON.parse(message));
   }
 };
@@ -30,5 +50,7 @@ const getById = async (req, res) => {
 module.exports = {
   postNewProduct,
   getAll,
-  getById
+  getById,
+  putById,
+  deleteById
 };
