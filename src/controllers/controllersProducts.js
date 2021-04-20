@@ -6,7 +6,9 @@ const createNew = async (req, res) => {
   try {
     const productNew = await servicesProducts.create(name, quantity);
     if (!productNew) {
-      return res.status(magicNumbers[2]).json({ message: 'Bad Request - malformed request syntax' });
+      return res.status(magicNumbers[2]).json(
+        { message: 'Bad Request - malformed request syntax' }
+      );
     }
     return res.status(magicNumbers[1]).json(productNew);
   } catch (err) {
