@@ -14,7 +14,6 @@ const getPurchase = async () => {
 
 const getOnePurchase = async (id) => {
   const purchRes = await getOnePurch(id);
-  console.log(purchRes)
   return purchRes.error || purchRes.purchase === null
     ? { err: 'not_found', message: 'Sale not found', status: 'Not Found',
       clientErr: true , error: purchRes.error }
