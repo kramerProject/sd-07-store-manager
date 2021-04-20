@@ -10,7 +10,7 @@ const delPurch = async (purchId) => {
       .deleteOne({ _id: ObjectId(purchId) });
     return delRes;
   } catch (err) {
-    return {err: err, result: {ok: false} };
+    return {err: err };
   }
 };
 

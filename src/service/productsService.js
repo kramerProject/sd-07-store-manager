@@ -7,10 +7,10 @@ const BAD_INPUT = 'Unprocessable Entity';
 
 const deleteProduct = async (pdtId) => {
   const deletionRes = await delProduct(pdtId);
-  return deletionRes.result.ok === 1
-    ? { status: 'OK' }
-    : { err: 'invalid_data', status: BAD_INPUT,
-      clientErr: true, message: 'Wrong id format' };
+  return deletionRes.result.n !== 1 || deletionRes.err
+    ? { err: 'invalid_data', status: BAD_INPUT,
+      clientErr: true, message: 'Wrong id format' }
+    : { status: 'OK' };
 };
 
 const getOneProduct = async (pdtId) => {

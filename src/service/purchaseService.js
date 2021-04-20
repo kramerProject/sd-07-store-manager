@@ -14,7 +14,8 @@ const getPurchase = async () => {
 
 const getOnePurchase = async (id) => {
   const purchRes = await getOnePurch(id);
-  return purchRes.error || purchRes.sale.purchase === null
+  console.log(purchRes)
+  return purchRes.error || purchRes.purchase === null
     ? { err: 'not_found', message: 'Sale not found', status: 'Not Found',
       clientErr: true , error: purchRes.error }
     : { status: 'OK', sale: purchRes }; 
@@ -22,7 +23,7 @@ const getOnePurchase = async (id) => {
 
 const delPurchase = async (purchaseId) => {
   const purchaseExists = await getOnePurch(purchaseId);
-  if(purchaseExists.purchase === null) {
+  if(purchaseExists.purchase === null || purchaseExists.error) {
     return { err: 'invalid_data', message: 'Wrong sale ID format',
       status: BAD_INPUT, clientErr: true , error: 'sale id not found' };
   }
