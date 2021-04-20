@@ -10,16 +10,18 @@ const createNewSale = async (sales) => {
   };
 };
 
-/*
-const searchProduct = async (name) => await model.searchProduct(name);
-
-const getAllProducts = async () => {
-  const products = await model.getAllProducts();
-  const objectArrayProducts = {products: [...products]};
-  return objectArrayProducts;
+const getAllSales = async () => {
+  const sales = await model.getAllSales();
+  const objectArraySales = {sales: [...sales]};
+  return objectArraySales;
 };
 
-const findByProductId = async (id) => await model.findByProductId(id);
+const findBySaleId = async (id) => await model.findBySaleId(id);
+
+
+/*
+
+const searchProduct = async (name) => await model.searchProduct(name);
 
 const updateProduct = async (id, nameProduct, quantityProduct) =>
   await model.updateProduct(id, nameProduct, quantityProduct);
@@ -37,5 +39,6 @@ const deleteProduct = async (id) => {
 
 module.exports = {
   createNewSale,
-
+  getAllSales,
+  findBySaleId
 };

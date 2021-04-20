@@ -3,9 +3,17 @@ const connection = require('./connection');
 
 
 const createNewSale = async (sales) => await connection()
-  .then((db) => db.collection('sale')
+  .then((db) => db.collection('sales')
     .insertOne({itensSold:sales}));
 
+
+const getAllSales = async () => await connection()
+  .then((db) => db.collection('sales')
+    .find().toArray());
+
+const findBySaleId = async (id) => await connection()
+  .then((db) => db.collection('sales')
+    .findOne(ObjectId(id)));
 
 /*
 const searchProduct = async (name) => await connection()
@@ -15,10 +23,6 @@ const searchProduct = async (name) => await connection()
 const getAllProducts = async () => await connection()
   .then((db) => db.collection('products')
     .find().toArray());
-
-const findByProductId = async (id) => await connection()
-  .then((db) => db.collection('products')
-    .findOne(ObjectId(id)));
 
 const updateProduct = async (id, name, quantity) => {
   await connection()
@@ -40,4 +44,6 @@ const deleteProduct = async (id) =>
 
 module.exports = {
   createNewSale,
+  getAllSales,
+  findBySaleId,
 };
