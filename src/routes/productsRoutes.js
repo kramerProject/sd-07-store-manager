@@ -3,8 +3,8 @@ const { postNewProduct, getAll, getById } = require('../controller/productsContr
 
 const router = express.Router();
 
-router.post('/products', postNewProduct);
 router.get('/products', getAll);
 router.get('/products/:id', getById);
+router.post('/products', postNewProduct);
 
 module.exports = router;

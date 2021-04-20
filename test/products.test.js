@@ -195,6 +195,7 @@ describe('2 - Crie um endpoint para listar os produtos', () => {
     await frisby.get(`${url}/products/${invalidId}`)
       .expect('status', 422)
       .then((secondResponse) => {
+        console.log(secondResponse)
         const { json } = secondResponse;
         const error = json.err.code;
         const { message } = json.err;

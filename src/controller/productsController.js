@@ -22,12 +22,8 @@ const getById = async (req, res) => {
     const search = await productsServices.getById(id);
     res.status(StatusCodes.OK).send(search);
   } catch ({ message }) {
-    res.status(StatusCodes.UNPROCESSABLE_ENTITY).send(JSON.stringify({
-      err: { 
-        code: 'invalid_data',
-        message: 'Wrong id format',
-      },
-    }));
+    console.log(message);
+    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(JSON.parse(message));
   }
 };
 
