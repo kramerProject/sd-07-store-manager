@@ -12,14 +12,14 @@ async function validNameMiddleware(req, res, next) {
   const type_erro2 = {
     err: {
       code: 'invalid_data',
-      message: 'name is required',
+      message: 'Product already exists',
     },
   };
   if (!name) return res.status(ENTITY).json(type_erro1);
 
   const nameProduct = await findNameProduct(name);
 
-  if (!nameProduct) return res.status(ENTITY).json(type_erro2);
+  if (nameProduct) return res.status(ENTITY).json(type_erro2);
 
   next();
 }

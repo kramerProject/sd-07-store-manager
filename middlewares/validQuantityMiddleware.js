@@ -22,7 +22,7 @@ async function validQuantityMiddleware(req, res, next) {
   };
   if (quantity === undefined) return res.status(ENTITY).json(type_erro1);
   if (quantity === null) return res.status(ENTITY).json(type_erro1);
-  if (Number.isInteger(quantity)) return res.status(ENTITY).json(type_erro2);
+  if (!(Number.isInteger(quantity))) return res.status(ENTITY).json(type_erro2);
   if (quantity <= null) return res.status(ENTITY).json(type_erro1);
   if (quantity <= ZERO) return res.status(ENTITY).json(type_erro3);
   next();
