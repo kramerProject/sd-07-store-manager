@@ -7,7 +7,7 @@ const BAD_INPUT = 'Unprocessable Entity';
 
 const deleteProduct = async (pdtId) => {
   const deletionRes = await delProduct(pdtId);
-  return deletionRes.result.n !== 1 || deletionRes.err
+  return (deletionRes.result.n !== 1 || deletionRes.error)
     ? { err: 'invalid_data', status: BAD_INPUT,
       clientErr: true, message: 'Wrong id format' }
     : { status: 'OK' };
