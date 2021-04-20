@@ -78,19 +78,20 @@ productsController.delete('/:id', async (req, res, next) => {
   try {
     const BAD_INPUT = 'Unprocessable Entity';
     if (!req.params) {
-      next({ status: clientErrCodes[`${BAD_INPUT}`], message: 'Missing id prameter'});
+      return next({ status: clientErrCodes[`${BAD_INPUT}`],
+        message: 'Missing id prameter'});
     }
     const { id } = req.params;
     const productDeleted = await deleteProduct(id);
     const { status } = productDeleted;
     if (status !== 'OK') {
       const { err, message, status } = productDeleted;
-      next({ err, message, status, clientErr: productDeleted.clientErr });
+      return next({ err, message, status, clientErr: productDeleted.clientErr });
     }
     return res.status(successCodes[`${productDeleted.status}`]).json({ });
   } catch (err) {
     console.log(err);
-    next(serverErrCodes['Internal Server Error'], err);
+    return next(serverErrCodes['Internal Server Error'], err);
   }
 });
 

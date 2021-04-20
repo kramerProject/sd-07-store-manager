@@ -3,7 +3,7 @@ const { delPurch, getOnePurch, getPurchaseList,
   insertPurchase, updtPurch } = require('../models');
 
 const BAD_INPUT = 'Unprocessable Entity';
-// const ID_MISSING = 'Not Found';
+const ID_MISSING = 'Not Found';
 
 const getPurchase = async () => {
   const purchaseList = await getPurchaseList();
