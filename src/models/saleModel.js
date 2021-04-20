@@ -20,13 +20,13 @@ const getSaleById = async (id) =>
   connection()
     .then((db) =>
       db.collection('sales')
-        .findOne({ _id: ObjectId(id)}));
+        .findOne(ObjectId(id)));
 
 const deleteSale = async (id) => {
   const saleFind = await connection()
     .then((db) =>
       db.collection('sales')
-        .findOne({ _id: ObjectId(id) }));
+        .findOne(ObjectId(id)));
 
   await connection()
     .then((db) =>

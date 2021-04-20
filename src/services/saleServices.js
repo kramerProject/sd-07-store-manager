@@ -78,8 +78,8 @@ const deleteSale = async (id) => {
         code: 'invalid_data',
         message: 'Wrong sale ID format', }
     };
-  const result = await saleModel.getSaleById(id);
-  console.log('result', result);
+  const result = await saleModel.deleteSale(id);
+  console.log('result no delete do Service', result);
   if (!result)
     return {
       err: {
