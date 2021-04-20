@@ -26,3 +26,4 @@ app.listen(PORT, () => console.log('running'));
 // router/index - routerProd/Sale - controllersProd/sales - servideProd/sale - modelsProd
 // https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Status
 // https://expressjs.com/pt-br/guide/routing.html
+// https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
