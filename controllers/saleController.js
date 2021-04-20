@@ -48,7 +48,7 @@ const deleteSale = async (req, resp) => {
     if (deletedSale === undefined) {
       return resp.status(code).json({ err: { code: 'invalid_data', message } });
     }
-    return resp.status(code).json(deleteSale);
+    return resp.status(code).json(deletedSale);
   } catch (error) {
     console.error(error.message);
 	  resp.status(ERROR).json({ message: error.message });

@@ -27,6 +27,7 @@ const getById = async (id) => {
 const deleteSale = async (id) => {
   const exist = getById(id); 
   if (exist) {
+    console.log('entro no exist' + exist);
     connect().then(async (db) => {
       db.collection('sales').deleteOne({ _id: ObjectId(id)});
     });
