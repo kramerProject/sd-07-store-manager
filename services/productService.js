@@ -129,10 +129,31 @@ const updateProduct = async (id, name, quantity) => {
       status: UNPROCESSABLE_ENTITY
     };
 
-  const products = await ProductModel.updateProduct(id, name, quantity);
+  // await ProductModel.updateProduct(id, name, quantity);
 
   return {
     msg: { id, name, quantity }, status: SUCCSESS_OK
+  };
+};
+
+const deleteProduct = async (id) => {
+  const SUCCSESS_OK = 200;
+  const UNPROCESSABLE_ENTITY = 422;
+  const product = await ProductModel.deleteProduct(id);
+
+  if (!product) {
+    return {
+      msg: {
+        'err': {
+          'code': 'invalid_data',
+          'message': 'Wrong id format',
+        },
+      },
+      status: UNPROCESSABLE_ENTITY
+    };
+  }
+  return {
+    msg: product, status: SUCCSESS_OK
   };
 };
 
@@ -141,4 +162,5 @@ module.exports = {
   getAll,
   getProductById,
   updateProduct,
+  deleteProduct
 };
