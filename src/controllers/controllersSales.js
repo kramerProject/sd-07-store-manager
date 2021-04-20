@@ -1,23 +1,30 @@
 const modelsSales = require('../models/modelsSales');
 const servicesSales = require('../services/servicesSales');
 
-const magicNumbers = [200, 201, 400, 404, 422, 500];
+// const magicNumbers = [200, 201, 400, 404, 422, 500];
+
+const OK = 200;
+const CREATED = 201;
+const BADREQUEST = 400;
+const NOTFOUND = 404;
+const UNPROCESSABLEENTITY = 422;
+const INTERNALSERVERERROR = 500;
 
 const createNew = async (req, res) => {
   const newSaleArray = req.body;
   try {
     const newSale = await servicesSales.create(newSaleArray);
     if (!newSale) {
-      return res.status(magicNumbers[2]).json(
+      return res.status(BADREQUEST).json(
         { message: 'Bad Request - malformed request syntax' }
       );
     }
-    return res.status(magicNumbers[0]).json(newSale);
+    return res.status(OK).json(newSale);
   } catch (err) {
     if (err.code === 'invalid_data') {
-      return res.status(magicNumbers[4]).json({ err });
+      return res.status(UNPROCESSABLEENTITY).json({ err });
     }
-    res.status(magicNumbers[5]).json({ message: 'Internal server error' });
+    res.status(INTERNALSERVERERROR).json({ message: 'Internal server error' });
   }
 };
 
@@ -26,9 +33,9 @@ const getAll = async (req, res) => {
     const allSales = await servicesSales.getAll();
     // const allSales = await modelsSales.getAll();
 
-    res.status(magicNumbers[0]).json(allSales);
+    res.status(OK).json(allSales);
   } catch (err) {
-    res.status(magicNumbers[5]).json({ message: 'Internal server error' });
+    res.status(INTERNALSERVERERROR).json({ message: 'Internal server error' });
   }
 };
 
@@ -36,14 +43,14 @@ const getById = async (req, res) => {
   const { id } = req.params;
   try {
     const salesById = await servicesSales.getById(id);
-    res.status(magicNumbers[0]).json(salesById);
+    res.status(OK).json(salesById);
   } catch (err) {
     console.log(err);
     if (err.code === 'not_found') {
-      return res.status(magicNumbers[3]).json({ err });
+      return res.status(NOTFOUND).json({ err });
     }
-    res.status(magicNumbers[5]).json({ message: 'Internal server error' });
-    // res.status(magicNumbers[4]).json({ err });
+    res.status(INTERNALSERVERERROR).json({ message: 'Internal server error' });
+    // res.status(UNPROCESSABLEENTITY).json({ err });
   }
 };
 
@@ -52,12 +59,12 @@ const updateById = async (req, res) => {
   const sale = req.body;
   try {
     const updatedSale = await servicesSales.updateById(id, sale);
-    res.status(magicNumbers[0]).json(updatedSale);
+    res.status(OK).json(updatedSale);
   } catch (err) {
     if (err.code === 'invalid_data') {
-      return res.status(magicNumbers[4]).json({ err });
+      return res.status(UNPROCESSABLEENTITY).json({ err });
     }
-    res.status(magicNumbers[5]).json({ message: 'Internal server error' });
+    res.status(INTERNALSERVERERROR).json({ message: 'Internal server error' });
   }
 };
 
@@ -65,13 +72,13 @@ const excludeById = async (req, res) => {
   const { id } = req.params;
   try {
     const excludedSale = await servicesSales.excludeById(id);
-    return res.status(magicNumbers[0]).json(excludedSale);
+    return res.status(OK).json(excludedSale);
   } catch (err) {
     if (err.code === 'invalid_data') {
-      return res.status(magicNumbers[4]).json({ err });
+      return res.status(UNPROCESSABLEENTITY).json({ err });
     }
 
-    res.status(magicNumbers[5]).json({ message: 'Internal Server Error' });
+    res.status(INTERNALSERVERERROR).json({ message: 'Internal Server Error' });
   }
 };
 
