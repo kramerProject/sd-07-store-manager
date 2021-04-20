@@ -1,6 +1,8 @@
 const getConnection = require('./connection');
 const { ObjectId } = require('mongodb');
 
+const BAD_INPUT = 'Unprocessable Entity';
+
 const delProduct = async (id) => {
   try {
     const connection = await getConnection();
@@ -8,7 +10,7 @@ const delProduct = async (id) => {
       .deleteOne({ _id: ObjectId(id)});
     return delRes;
   } catch (err) {
-    return { error: err , result: { ok: false } };
+    return { error: err , result: { ok: false }, status: BAD_INPUT, purchase: null };
   }
 };
 
