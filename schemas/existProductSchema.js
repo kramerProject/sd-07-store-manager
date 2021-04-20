@@ -1,18 +1,15 @@
 const service = require('../services/productService');
-const {unprocessableEntity} = require('../messagesCodes');
-
-const errorAlreadyProduct = {
-  err: {
-    code: 'invalid_data',
-    message :'Product already exists'
-  }
-};
+const {unprocessableEntity} = require('../messages/messageCodes');
+const {alreadyExists} = require('../messages/');
+const {objectError} = require('../helpers');
 
 const existProduct = async (nameProduct) => {
-
   const product = await service.searchProduct(nameProduct);
 
-  if (product) return { code: unprocessableEntity, message: errorAlreadyProduct};
+  if (product) return {
+    code: unprocessableEntity,
+    message: objectError(alreadyExists)
+  };
 
   return false;
 };

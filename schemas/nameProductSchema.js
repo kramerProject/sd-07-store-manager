@@ -1,21 +1,12 @@
-const {unprocessableEntity} = require('../messagesCodes');
-const maxlengthName = 5;
-
-const errorsName = {
-  err: {
-    code: 'invalid_data',
-    message :'"name" length must be at least 5 characters long'
-  },
-};
-
-const isBlank = (value) => !value;
-const isLengthLetterThan = (value, min) => (value.length < min);
-
+const Joi = require('joi');
+const {unprocessableEntity, minlength} = require('../messages/messageCodes');
+const {charactersLong} = require('../messages/');
+const {objectError, isLengthLetterThan} = require('../helpers');
 const validateName = (name) => {
   switch (true) {
-  case isLengthLetterThan(name, maxlengthName): return {
+  case isLengthLetterThan(name, minlength): return {
     code: unprocessableEntity,
-    message: errorsName
+    message: objectError(charactersLong)
   };
   default: return false;
   }

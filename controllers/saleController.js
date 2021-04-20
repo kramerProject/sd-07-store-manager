@@ -2,42 +2,44 @@ const express = require('express');
 
 const router = express.Router();
 
-const service = require('../services/productService');
+const service = require('../services/saleService');
 
 const { SUCCESS, CREATE } = require('../messages/messageCodes');
 
-const productMiddleware = require('../middlewares/productMiddleware');
+const saleMiddleware = require('../middlewares/saleMiddleware');
 const idMiddleware = require('../middlewares/idMiddleware');
 
-router.post('/products', productMiddleware, async (request, response) => {
+router.post('/sales', saleMiddleware, async (request, response) => {
 
-  const { name, quantity } = request.body;
+  const sales = request.body;
 
-  const product = await service.createNewProduct(name, quantity);
+  const sale = await service.createNewSale(sales);
 
-  response.status(CREATE).json(product);
+  return response.status(SUCCESS).json(sale);
 });
 
-router.get('/products', async (_request, response) => {
+/*
+router.get('/sales', async (_request, response) => {
   response.status(SUCCESS).json(await service.getAllProducts());
 });
 
-router.get('/products/:id', idMiddleware, async (request, response) => {
+router.get('/sales/:id', idMiddleware, async (request, response) => {
   const { id } = request.params;
   response.status(SUCCESS).json(await service.findByProductId(id));
 });
 
-router.put('/products/:id', productMiddleware, idMiddleware,
+router.put('/sales/:id', productMiddleware, idMiddleware,
   async (request, response) => {
     const { id } = request.params;
     const { name, quantity} = request.body;
     response.status(SUCCESS).json(await service.updateProduct(id, name, quantity));
   });
 
-router.delete('/products/:id', idMiddleware, async (request, response) => {
+router.delete('/sales/:id', idMiddleware, async (request, response) => {
   const { id } = request.params;
 
   response.status(SUCCESS).json(await service.deleteProduct(id));
 });
+*/
 
 module.exports = router;

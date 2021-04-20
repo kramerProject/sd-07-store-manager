@@ -3,7 +3,9 @@ const {validateQuantity} = require('./quantityProductSchema');
 const {existProduct} = require('./existProductSchema');
 
 const validate = async (name, quantity) => {
+
   const nameValid = validateName(name);
+
   if (nameValid) return nameValid;
 
   const quantityValid = validateQuantity(quantity);
@@ -11,7 +13,6 @@ const validate = async (name, quantity) => {
 
   const productExist = await existProduct(name);
   if (productExist) return productExist;
-
 };
 
 module.exports = {

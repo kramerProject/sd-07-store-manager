@@ -1,29 +1,21 @@
 const { ObjectId } = require('bson');
 const service = require('../services/productService');
-
-const {unprocessableEntity} = require('../messagesCodes');
-
-const errorsId = {
-  err: {
-    code: 'invalid_data',
-    message :'Wrong id format'
-  },
-};
-
+const {unprocessableEntity} = require('../messages/messageCodes');
+const {wrong} = require('../messages/');
+const {objectError} = require('../helpers');
 const findByProductId = async (id) => {
 
   if (!ObjectId.isValid(id)) return {
     code: unprocessableEntity,
-    message: errorsId
+    message: objectError(wrong)
   };
 
   const product = await service.findByProductId(id);
 
-  if (!product) return { code: unprocessableEntity, message: errorsId};
+  if (!product) return { code: unprocessableEntity, message: objectError(wrong)};
 
   return product;
 };
-
 
 module.exports = {
   findByProductId,
