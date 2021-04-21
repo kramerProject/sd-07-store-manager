@@ -11,4 +11,5 @@ module.exports = {
   charactersLong,
   mustBeNumber,
   invalidQuantity,
+  largerThanOne,
 };
