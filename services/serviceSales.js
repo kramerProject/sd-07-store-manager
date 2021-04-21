@@ -6,7 +6,7 @@ async function update(sale) {
     const product = await findIdProduct(productId);
     const calcQuant = product.quantity - quantity;
     if (calcQuant >= ZERO) {
-      await editProduct(productId, product.name, calcQuant);
+      return await editProduct(productId, product.name, calcQuant);
     }
   }
 }
@@ -17,7 +17,7 @@ async function restore(id) {
     for (let { productId, quantity } of itensSold) {
       const sale = await findIdProduct(productId);
       const calcQuant = sale.quantity + quantity;
-      await editProduct(productId, sale.name, calcQuant);
+      return await editProduct(productId, sale.name, calcQuant);
     }
   }
 }

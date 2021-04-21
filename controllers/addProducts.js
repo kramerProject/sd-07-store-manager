@@ -5,9 +5,9 @@ async function addProducts(req, res) {
   try {
     const { name, quantity } = req.body;
     const data = await addProduct(name, quantity);
-    res.status(CREATED).json(data);
+    return res.status(CREATED).json(data);
   } catch (error) {
-    res.status(INTERNAL).json({ message: error.message });
+    return res.status(INTERNAL).json({ message: error.message });
   }
 }
 
