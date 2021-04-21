@@ -18,6 +18,8 @@ const getAllSales = async () => {
 
 const findBySaleId = async (id) => await model.findBySaleId(id);
 
+const updateSale = async (id, sale) => await model.updateSale(id, sale);
+
 
 /*
 
@@ -40,5 +42,6 @@ const deleteProduct = async (id) => {
 module.exports = {
   createNewSale,
   getAllSales,
-  findBySaleId
+  findBySaleId,
+  updateSale,
 };

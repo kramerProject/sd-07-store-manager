@@ -28,14 +28,14 @@ router.get('/sales/:id', idMiddleware, async (request, response) => {
   response.status(SUCCESS).json(await service.findBySaleId(id));
 });
 
-/*
-router.put('/sales/:id', productMiddleware, idMiddleware,
+router.put('/sales/:id', saleMiddleware, idMiddleware,
   async (request, response) => {
     const { id } = request.params;
-    const { name, quantity} = request.body;
-    response.status(SUCCESS).json(await service.updateProduct(id, name, quantity));
+    const sale = request.body;
+    response.status(SUCCESS).json(await service.updateSale(id, sale));
   });
 
+/*
 router.delete('/sales/:id', idMiddleware, async (request, response) => {
   const { id } = request.params;
 
