@@ -12,7 +12,7 @@ async function deleteSale(req, res) {
     res.status(ENTITY).json({ 
       err: { 
         code: 'invalid_data', 
-        message: 'Wrong sale id format' 
+        message: 'Wrong sale ID format' 
       }
     });
   }
