@@ -16,10 +16,14 @@ async function validIdProductMiddleware(req, res, next) {
     },
   };
   if (!sales) return res.status(ENTITY).json(type_erro1);
-  sales.forEach( async product => {
-    const products = await findIdProduct(product.productId);
-    if (!products) return res.status(ENTITY).json(type_erro2);
-  });
+  for (const sale of sales) {
+    try {
+      await findIdProduct(sale.productId);
+    } catch (error) {
+      return res.status(ENTITY).json(type_erro2);
+    }
+  }
+
   next();
 }
 

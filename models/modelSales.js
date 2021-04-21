@@ -16,14 +16,14 @@ async function findAllSales() {
 }
 
 async function findIdSales(id) {
-  if (!ObjectId.isValid(id)) throw new Error();
+  if (!ObjectId.isValid(id)) throw new Error;
   return await connection()
     .then((db) => db.collection('sales')
       .findOne({ _id: ObjectId(id) }));
 }
 
 async function editSales(id, sale) {
-  if (!ObjectId.isValid(id)) throw new Error();
+  if (!ObjectId.isValid(id)) throw new Error;
   return await connection().then((db) =>
     db
       .collection('sales')
@@ -33,7 +33,7 @@ async function editSales(id, sale) {
 }
 
 async function deleteSales(id) {
-  if (!ObjectId.isValid(id)) throw new Error();
+  if (!ObjectId.isValid(id)) throw new Error;
   return await connection()
     .then((db) => db.collection('sales').deleteOne({ _id: ObjectId(id) }))
     .then(() => findIdSales(id));
