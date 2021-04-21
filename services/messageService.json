@@ -1,0 +1,99 @@
+{
+  "nameExists": {
+    "response": {
+      "err": {
+        "code": "invalid_data",
+        "message": "\"name\" must exist"
+      }
+    },
+    "status": 404
+  },
+  "nameString": {
+    "response": {
+      "err": {
+        "code": "invalid_data",
+        "message": "\"name\" must be a string"
+      }
+    },
+    "status": 404
+  },
+  "nameLength": {
+    "response": {
+      "err": {
+        "code": "invalid_data",
+        "message": "\"name\" length must be at least 5 characters long"
+      }
+    },
+    "status": 422
+  },
+  "nameUnique": {
+    "response": {
+      "err": {
+        "code": "invalid_data",
+        "message": "Product already exists"
+      }
+    },
+    "status": 422
+  },
+  "quntityExists": {
+    "response": {
+      "err": {
+        "code": "invalid_data",
+        "message": "\"quantity\" must exist"
+      }
+    },
+    "status": 404
+  },
+  "quantityPositive": {
+    "response": {
+      "err": {
+        "code": "invalid_data",
+        "message": "\"quantity\" must be larger than or equal to 1"
+      }
+    },
+    "status": 422
+  },
+  "quantityNumber": {
+    "response": {
+      "err": {
+        "code": "invalid_data",
+        "message": "\"quantity\" must be a number"
+      }
+    },
+    "status": 422
+  },
+  "idValid": {
+    "response": {
+      "err": {
+        "code": "invalid_data",
+        "message": "Wrong id format"
+      }
+    },
+    "status": 422
+  },
+  "saleIdOrQuantValid": {
+    "response": {
+      "err": {
+        "code": "invalid_data",
+        "message": "Wrong product ID or invalid quantity"
+      }
+    },
+    "status": 422
+  },
+  "saleIsValid": {
+    "response": {
+      "err": {
+        "code": "not_found",
+        "message": "Sale not found"
+      }
+    },
+    "status": 404
+  },
+  "stockAmount": {
+    "response": { "err": {
+      "code": "stock_problem",
+      "message": "Such amount is not permitted to sell"
+    }},
+    "status": 404
+  }
+}
