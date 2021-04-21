@@ -39,6 +39,15 @@ const getByIdSalesController = async (req, res, next) => {
 const putByIdSalesController = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const dataSale = await salesModel.findByIdSalesModel(id);
+    if (!dataSale) {
+      return res.status(status.UNPROCESSABLE_ENTITY).json({
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong product ID or invalid quantity',
+        },
+      });
+    }
     const data = req.body;
     const result = await salesService.putByIdSalesService(id, data);
     if (result.code) return next(result);
@@ -49,7 +58,7 @@ const putByIdSalesController = async (req, res, next) => {
   }
 };
 
-const deleteSalesController = async (req, res, next) => {
+const deleteSalesController = async (req, res, _next) => {
   try {
     const { id } = req.params;
     const saleId = await salesModel.findByIdSalesModel(id);
@@ -58,7 +67,7 @@ const deleteSalesController = async (req, res, next) => {
         err: {
           code: 'invalid_data',
           message: 'Wrong sale ID format',
-        }
+        },
       });
     const sale = await salesService.deleteSalesService(id);
     // if (sale.code) return next(sale);

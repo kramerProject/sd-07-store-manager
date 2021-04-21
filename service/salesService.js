@@ -3,6 +3,7 @@ const status = require('../config/status');
 const productsModel = require('../models/productsModel');
 
 const ZERO = 0;
+const ONE = 1;
 const validateProductSales = async (productId, quantity) => {
   const resultProductId = await productsModel.findByIdProductsModel(productId);
   if (!resultProductId || typeof quantity !== 'number' || quantity <= ZERO) {
@@ -51,19 +52,35 @@ const getByIdSalesService = async (id) => {
 };
 
 const putByIdSalesService = async (id, data) => {
-  const dataSale = await salesModel.findByIdSalesModel(id);
-  if (!data || typeof data.quantity !== 'number' || data.quantity < ZERO) {
-    return {
-      err: {
-        code: 'invalid_data',
-        status: status.UNPROCESSABLE_ENTITY,
-        message: 'Wrong product ID or invalid quantity',
-      },
-    };
-  }
-  await salesModel.putByIdSalesModel(newData);
-  return res.status(status.SUCCESS).send(dataSale);
+  const filteredQuantitys =
+    data.filter((e) => e.quantity < ONE).length < ONE &&
+    data.filter((e) => typeof e.quantity === 'string').length < ONE;
+ 
+  if (!filteredQuantitys) return {
+    code: 'invalid_data',
+    status: status.UNPROCESSABLE_ENTITY,
+    message: 'Wrong product ID or invalid quantity',
+  };
+
+  const dataCollection = await productsModel.findAllProductsModel();
+  let productsMatch = ZERO;
+  data.map((productInList) => {
+    dataCollection.map((product) => {
+      if (productInList.productId.toString() === product._id.toString())
+        productsMatch += ONE;
+    });
+  });
+
+  if (productsMatch !== data.length) return {
+    code: 'invalid_data',
+    status: status.UNPROCESSABLE_ENTITY,
+    message: 'Wrong product ID or invalid quantity',
+  };
+
+  const newData = await salesModel.putByIdSalesModel(id, data);
+  return newData;
 };
+// Ensinado pelo Emerson
 
 const deleteSalesService = async (id) => {
   // const dataSale = await salesModel.findByIdSalesModel(id);

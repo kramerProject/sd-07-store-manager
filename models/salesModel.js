@@ -17,9 +17,11 @@ const findByIdSalesModel = async (id) => {
   return connect().then((db) => db.collection('sales').findOne({_id: ObjectId(id)}));
 };
 
-const putByIdSalesModel = async (id) => {
-  if (!ObjectId.isValid(id)) return null;
-  return connect().then((db) => db.collection('sales').updateOne({_id: ObjectId(id)}));
+const putByIdSalesModel = async (id, data) => {
+  // if (!ObjectId.isValid(id)) return null;
+  return connect().then((db) => db.collection('sales')
+    .findOneAndUpdate({_id: ObjectId(id)}, { $set: { itensSold: data } }))
+    .then(() => ({_id: id, itensSold: data}));
 };
 
 const deleteSalesModel = async (id) => {
