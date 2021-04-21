@@ -1,16 +1,16 @@
 const {unprocessableEntity, minQuantity} = require('../messages/messageCodes');
-const {largerThanOne, mustBeNumber} = require('../messages');
+const {largerThanOne, mustBeNumber, invalidData} = require('../messages');
 const {objectError, isQuantityLetterThan, isString} = require('../helpers');
 const validateQuantity = (quantity) => {
 
   if(isQuantityLetterThan (quantity, minQuantity)) return {
     code: unprocessableEntity,
-    message: objectError(largerThanOne)
+    message: objectError(invalidData,largerThanOne)
   };
 
   if (isString(quantity)) return {
     code: unprocessableEntity,
-    message: objectError(mustBeNumber)
+    message: objectError(invalidData, mustBeNumber)
   };
 
   return false;

@@ -1,4 +1,4 @@
-const {findByProductId} = require('../schemas/idSchema');
+const {findByProductId} = require('../schemas/idProductSchema');
 
 const existProduct = async (request, response, next) => {
   const { id } = request.params;

@@ -1,6 +1,6 @@
 const service = require('../services/productService');
 const {unprocessableEntity} = require('../messages/messageCodes');
-const {alreadyExists} = require('../messages/');
+const {invalidData, alreadyExists} = require('../messages/');
 const {objectError} = require('../helpers');
 
 const existProduct = async (nameProduct) => {
@@ -8,7 +8,7 @@ const existProduct = async (nameProduct) => {
 
   if (product) return {
     code: unprocessableEntity,
-    message: objectError(alreadyExists)
+    message: objectError(invalidData, alreadyExists)
   };
 
   return false;

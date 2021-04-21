@@ -7,7 +7,7 @@ const service = require('../services/saleService');
 const { SUCCESS, CREATE } = require('../messages/messageCodes');
 
 const saleMiddleware = require('../middlewares/saleMiddleware');
-const idMiddleware = require('../middlewares/idMiddleware');
+const idMiddleware = require('../middlewares/idSaleMiddleware');
 
 router.post('/sales', saleMiddleware, async (request, response) => {
 

@@ -1,8 +1,8 @@
-const objectError = (text) => {
+const objectError = (code, message) => {
   return {
     err: {
-      code: 'invalid_data',
-      message : text
+      code,
+      message,
     }
   };
 };
