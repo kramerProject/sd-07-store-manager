@@ -12,7 +12,7 @@ async function validProductMiddleware(req, res, next) {
   const type_erro2 = {
     err: {
       code: 'invalid_data',
-      message: 'name is required',
+      message: 'Product already exists',
     },
   };
   if (!name) return res.status(ENTITY).json(type_erro1);

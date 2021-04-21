@@ -9,7 +9,7 @@ async function addSale(req, res) {
     await update(sale);
     res.status(SUCCESS).json(data);
   } catch (error) {
-    res.status(INTERNAL).json({ message: error.message });
+    res.status(INTERNAL).json({ code: INTERNAL, message: error.message });
   }
 }
 

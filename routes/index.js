@@ -4,7 +4,7 @@ const {
   validNameMiddleware,
   validSizeNameMiddleware,
   validQuantityMiddleware,
-  validIdProductMiddleware,
+  validSaleMiddleware,
   validProductMiddleware,
 } = require('../middlewares');
 
@@ -40,13 +40,13 @@ router.put(
 
 router.delete(
   '/products:id',
-  validIdProductMiddleware,
+  validSaleMiddleware,
   validQuantityMiddleware,
   deleteProducts);
 
 router.get('/sales', findAllSale);
 router.get('/sales/:id', findIdSale);
-router.post('/sales', validIdProductMiddleware, validProductMiddleware, addSale);
+router.post('/sales', validSaleMiddleware, validProductMiddleware, addSale);
 router.put('/sales/:id', validQuantityMiddleware, editSale);
 router.delete('/sales:id', deleteSale);
 
