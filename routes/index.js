@@ -5,7 +5,7 @@ const {
   validSizeNameMiddleware,
   validQuantityMiddleware,
   validSaleMiddleware,
-  validProductMiddleware,
+  // validProductMiddleware,
 } = require('../middlewares');
 
 const {
@@ -14,11 +14,11 @@ const {
   addProducts,
   editProducts,
   deleteProducts,
-  findAllSale,
-  findIdSale,
-  addSale,
-  editSale,
-  deleteSale,
+  // findAllSale,
+  // findIdSale,
+  // addSale,
+  // editSale,
+  // deleteSale,
 } = require('../controllers');
 
 const router = express.Router();
@@ -44,10 +44,10 @@ router.delete(
   validQuantityMiddleware,
   deleteProducts);
 
-router.get('/sales', findAllSale);
-router.get('/sales/:id', findIdSale);
-router.post('/sales', validSaleMiddleware, validProductMiddleware, addSale);
-router.put('/sales/:id', validQuantityMiddleware, editSale);
-router.delete('/sales:id', deleteSale);
+// router.get('/sales', findAllSale);
+// router.get('/sales/:id', findIdSale);
+// router.post('/sales', validSaleMiddleware, validProductMiddleware, addSale);
+// router.put('/sales/:id', validQuantityMiddleware, editSale);
+// router.delete('/sales:id', deleteSale);
 
 module.exports = router;
