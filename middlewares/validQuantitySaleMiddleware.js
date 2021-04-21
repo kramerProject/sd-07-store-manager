@@ -12,13 +12,13 @@ async function validQuantitySaleMiddleware(req, res, next) {
   const E2 = {
     err: {
       code: 'invalid_data',
-      message: '"quantity" must be a number',
+      message: 'Wrong product ID or invalid quantity',
     },
   };
   const E3 = {
     err: {
       code: 'invalid_data',
-      message: 'Wrong product ID or invalid quantity',
+      message: '"quantity" must be larger than or equal to 1',
     },
   };
   const E4 = {
