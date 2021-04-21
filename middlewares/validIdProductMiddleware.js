@@ -10,6 +10,7 @@ async function validIdProductMiddleware(req, res, next) {
     },
   };
   const type_erro2 = {
+    status: ENTITY,
     err: {
       code: 'invalid_data',
       message: 'Wrong product ID or invalid quantity',
@@ -20,7 +21,8 @@ async function validIdProductMiddleware(req, res, next) {
     try {
       await findIdProduct(sale.productId);
     } catch (error) {
-      return res.status(ENTITY).json(type_erro2);
+      next(type_erro2);
+      // return res.status(ENTITY).json(type_erro2); 
     }
   }
 
