@@ -1,5 +1,7 @@
 const validate = require('../services/productService');
 
+const internalServerError = 500;
+
 const createProduct = async (req, res) => {
   try {
     const { name, quantity } = req.body;
@@ -7,7 +9,7 @@ const createProduct = async (req, res) => {
     res.status(result.code).json(result.response);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(internalServerError).json({ message: 'Internal Server Error' });
   }
 };
 
