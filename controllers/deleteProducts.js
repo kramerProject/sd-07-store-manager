@@ -10,7 +10,7 @@ async function deleteProducts(req, res) {
     res.status(ENTITY).json({ 
       err: { 
         code: 'invalid_data', 
-        message: 'Wrong ID format' 
+        message: 'Wrong id format' 
       }
     });
   }
