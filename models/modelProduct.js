@@ -16,7 +16,7 @@ async function findAllProduct() {
 }
 
 async function findIdProduct(id) {
-  if (!ObjectId.isValid(id)) throw new Error;
+  if (!ObjectId.isValid(id)) throw new Error();
   return await connection().then((db) => 
     db
       .collection('products')
@@ -25,7 +25,7 @@ async function findIdProduct(id) {
 }
 
 async function editProduct(id, name, quantity) {
-  if (!ObjectId.isValid(id)) throw new Error;
+  if (!ObjectId.isValid(id)) throw new Error();
   return await connection().then((db) =>
     db
       .collection('products')
@@ -35,7 +35,7 @@ async function editProduct(id, name, quantity) {
 }
 
 async function deleteProduct(id) {
-  if (!ObjectId.isValid(id)) throw new Error;
+  if (!ObjectId.isValid(id)) throw new Error();
   return await connection()
     .then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }))
     .then(() => findIdProduct(id));
