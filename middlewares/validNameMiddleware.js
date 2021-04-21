@@ -2,7 +2,8 @@ const { ENTITY } = require('../CODE_ERROR');
 const { findNameProduct } = require('../models');
 
 async function validNameMiddleware(req, res, next) {
-  const { name } = req.body;
+  const product = req.body;
+  const { name } = product;
   const type_erro1 = {
     err: {
       code: 'invalid_data',

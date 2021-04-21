@@ -1,7 +1,8 @@
 const { ENTITY, ZERO } = require('../CODE_ERROR');
 
 async function validQuantityMiddleware(req, res, next) {
-  const { quantity } = req.body;
+  const product = req.body;
+  const { quantity } = product;
   const type_erro1 = {
     err: {
       code: 'invalid_data',
