@@ -4,6 +4,7 @@ const { validNameMiddleware } = require('./validNameMiddleware');
 const { validIdProductMiddleware } = require('./validIdProductMiddleware');
 const { validProductMiddleware } = require('./validProductMiddleware');
 const { validQuantityMiddleware } = require('./validQuantityMiddleware');
+const { validQuantitySaleMiddleware } = require('./validQuantitySaleMiddleware');
 
 
 module.exports = {
@@ -13,4 +14,5 @@ module.exports = {
   validProductMiddleware,
   validSizeNameMiddleware,
   validQuantityMiddleware,
+  validQuantitySaleMiddleware
 };

@@ -1,8 +1,8 @@
 const { ENTITY, ZERO } = require('../CODE_ERROR');
 
-async function validQuantityMiddleware(req, res, next) {
+async function validQuantitySaleMiddleware(req, res, next) {
   const product = req.body;
-  const { quantity } = product;
+  const { quantity } = product[0];
   const type_erro1 = {
     err: {
       code: 'invalid_data',
@@ -30,4 +30,4 @@ async function validQuantityMiddleware(req, res, next) {
   next();
 }
 
-module.exports = { validQuantityMiddleware };
+module.exports = { validQuantitySaleMiddleware };

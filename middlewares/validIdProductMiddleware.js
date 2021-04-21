@@ -2,7 +2,7 @@ const { ENTITY } = require('../CODE_ERROR');
 const { findIdProduct } = require('../models');
 
 async function validIdProductMiddleware(req, res, next) {
-  const sale = req.body;
+  const sales = req.body;
   const type_erro1 = {
     err: {
       code: 'invalid_data',
@@ -15,11 +15,11 @@ async function validIdProductMiddleware(req, res, next) {
       message: 'Wrong product ID or invalid quantity',
     },
   };
-  if (!sale) return res.status(ENTITY).json(type_erro1);
-  for (let sales of sale) {
-    const product = await findIdProduct(sales.productId);
-    if (!product) return res.status(ENTITY).json(type_erro2);
-  }
+  if (!sales) return res.status(ENTITY).json(type_erro1);
+  sales.forEach( async product => {
+    const products = await findIdProduct(product.productId);
+    if (!products) return res.status(ENTITY).json(type_erro2);
+  });
   next();
 }
 
