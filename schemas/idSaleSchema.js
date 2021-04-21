@@ -1,18 +1,31 @@
 const { ObjectId } = require('bson');
 const service = require('../services/saleService');
-const {notFound} = require('../messages/messageCodes');
-const {notSale, notFoundSale} = require('../messages');
+const {notFound, unprocessableEntity} = require('../messages/messageCodes');
+const {invalidData, notSale, notFoundSale, wrongIdSale, GET} = require('../messages');
 const {objectError} = require('../helpers');
-const findBySaleId = async (id) => {
+const findBySaleId = async (id, method) => {
+
+  let codeHttp = unprocessableEntity;
+  let textCode = invalidData;
+  let textMessage = wrongIdSale;
+
+  if (method === GET) {
+    codeHttp = notFound;
+    textCode = notFoundSale;
+    textMessage = notSale;
+  }
 
   if (!ObjectId.isValid(id)) return {
-    code: notFound,
-    message: objectError(notFoundSale, notSale)
+    code: codeHttp,
+    message: objectError(textCode, textMessage)
   };
 
   const sale = await service.findBySaleId(id);
 
-  if (!sale) return { code: notFound, message: objectError(notFoundSale, notSale)};
+  if (!sale) return {
+    code: notFound,
+    message: objectError(notFoundSale, notSale)
+  };
 
   return sale;
 };

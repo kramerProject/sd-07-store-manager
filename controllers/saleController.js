@@ -35,12 +35,10 @@ router.put('/sales/:id', saleMiddleware, idMiddleware,
     response.status(SUCCESS).json(await service.updateSale(id, sale));
   });
 
-/*
 router.delete('/sales/:id', idMiddleware, async (request, response) => {
   const { id } = request.params;
 
-  response.status(SUCCESS).json(await service.deleteProduct(id));
+  response.status(SUCCESS).json(await service.deleteSale(id));
 });
-*/
 
 module.exports = router;

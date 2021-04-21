@@ -25,22 +25,15 @@ const updateSale = async (id, sale) => {
   };
 };
 
-/*
-const searchProduct = async (name) => await connection()
-  .then((db) => db.collection('products')
-    .findOne({name}));
-
-
-
-const deleteProduct = async (id) =>
+const deleteSale = async (id) =>
   await connection()
-    .then((db) => db.collection('products')
+    .then((db) => db.collection('sales')
       .deleteOne({_id: ObjectId(id)}));
-*/
 
 module.exports = {
   createNewSale,
   getAllSales,
   findBySaleId,
   updateSale,
+  deleteSale
 };

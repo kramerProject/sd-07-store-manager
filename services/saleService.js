@@ -20,28 +20,20 @@ const findBySaleId = async (id) => await model.findBySaleId(id);
 
 const updateSale = async (id, sale) => await model.updateSale(id, sale);
 
+const deleteSale = async (id) => {
+  const { itensSold } = await model.findBySaleId(id);
+  const del = await model.deleteSale(id);
 
-/*
-
-const searchProduct = async (name) => await model.searchProduct(name);
-
-const updateProduct = async (id, nameProduct, quantityProduct) =>
-  await model.updateProduct(id, nameProduct, quantityProduct);
-
-const deleteProduct = async (id) => {
-  const {name, quantity} = await model.findByProductId(id);
-  await model.deleteProduct(id);
   return {
     _id: id,
-    name,
-    quantity
+    itensSold,
   };
 };
-*/
 
 module.exports = {
   createNewSale,
   getAllSales,
   findBySaleId,
   updateSale,
+  deleteSale,
 };
