@@ -25,7 +25,6 @@ const getProductById = async (id) => {
 };
 
 const updateProductById = async (id, name, quantity) => {
-  console.log('abc');
   const db = await connection();
   const updated = await db
     .collection(DB_NAME_PRODUCTS)

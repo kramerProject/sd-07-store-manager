@@ -1,7 +1,7 @@
 const CODES = require('../configurations/statusCodes');
 
 module.exports = (err, req, res, _next) => {
-  // console.error('error.js', err);
+  console.error('error.js', err);
 
   if (err.status) {
     return res.status(err.status).json({
