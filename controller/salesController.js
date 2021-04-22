@@ -6,6 +6,7 @@ const {
   NOT_FOUND
 } = require('../httpsStatus.json');
 
+
 const addSale = async (req, res) => {
   try {
     const { addSale } = salesService;
@@ -15,13 +16,8 @@ const addSale = async (req, res) => {
 
     res.status(OK).json(newSale);
   } catch (error) {
-    console.error(error);
-    res.status(UNPROCESSABLE_ENTITY).json({
-      err: {
-        'code': 'invalid_data',
-        'message': error.message
-      }
-    });
+    const { code, message } = error;
+    res.status(code).json(message);
   }
 };
 
@@ -38,12 +34,8 @@ const getSaleById = async (req, res) => {
     const sale = await getSaleById(id);
     res.status(OK).json(sale);
   } catch (error) {
-    res.status(NOT_FOUND).json({
-      err: {
-        'code': 'not_found',
-        'message': error.message
-      }
-    });
+    const { code, message } = error;
+    res.status(code).json(message);
   }
 };
 
@@ -57,12 +49,8 @@ const updateSale = async (req, res) => {
     res.status(OK).json(updatedSale);
     
   } catch (error) {
-    res.status(UNPROCESSABLE_ENTITY).json({
-      err: {
-        'code': 'invalid_data',
-        'message': error.message
-      }
-    });
+    const { code, message } = error;
+    res.status(code).json(message);
   }
 };
 
@@ -75,12 +63,8 @@ const deleteSale = async (req, res) => {
     res.status(OK).json(deletedSale);
     
   } catch (error) {
-    res.status(UNPROCESSABLE_ENTITY).json({
-      err: {
-        'code': 'invalid_data',
-        'message': error.message
-      }
-    });
+    const { code, message } = error;
+    res.status(code).json(message);
   }
 };
 

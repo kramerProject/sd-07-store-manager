@@ -3,7 +3,17 @@ const productsModel = require('../model/productsModel');
 const { ObjectId } = require('mongodb');
 const Joi = require('@hapi/joi');
 
-const INVALID_DATA = 'Wrong product ID or invalid quantity';
+const customError = require('../customErrors/customError');
+
+const {
+  UNPROCESSABLE_ENTITY,
+  CREATED,
+  OK,
+  NOT_FOUND
+} = require('../httpsStatus.json');
+
+const INVALID_DATA_MESSAGE = 'Wrong product ID or invalid quantity';
+const INVALID_DATA = 'invalid_data';
 
 const validateQuantity = (quantity) => {
   const MIN_QTD_LENGTH = 1;
@@ -13,49 +23,64 @@ const validateQuantity = (quantity) => {
 
   const { error } = schema.validate({ quantity });
   if (error) {
-    // const { details: [{ message }] } = error;
-    throw new Error(INVALID_DATA);
+    throw new customError(INVALID_DATA_MESSAGE, INVALID_DATA, UNPROCESSABLE_ENTITY);
   }
 };
 
 const validateId = (id) => {
   if (!ObjectId.isValid((id))) {
-    throw new Error(INVALID_DATA);
+    throw new customError(INVALID_DATA_MESSAGE, INVALID_DATA, UNPROCESSABLE_ENTITY);
   }
 };
 
 const isProductCadastrate = async (id) => {
   const { getProductById } = productsModel;
   const product = await getProductById(id);
-  console.log('passou');
   if (!product) {
-    throw new Error(INVALID_DATA);
+    throw new customError(INVALID_DATA_MESSAGE, INVALID_DATA, UNPROCESSABLE_ENTITY);
   }
 };
 
-const validateProducts = (products) => {
-  products.forEach(({ productId, quantity }) => {
+
+const validateProducts = async (products) => {
+
+  for (const product of products) {
+    const { productId, quantity } = product;
     validateId(productId);
     validateQuantity(quantity);
-    isProductCadastrate(productId);
-  });
+    await isProductCadastrate(productId);
+    await validateStock(productId, quantity);
+  }
 
 };
 
 const validateSaleId = (id, type) => {
   if (!ObjectId.isValid((id))) {
     if (type === 'getById') {
-      throw new Error('Sale not found');
+      throw new customError('Sale not found', 'not_found', NOT_FOUND);
     } else {
-      throw new Error('Wrong sale ID format');
+      throw new customError('Wrong sale ID format', INVALID_DATA, UNPROCESSABLE_ENTITY);
     }
+  }
+};
+
+const validateStock = async (id, quantity) => {
+  const { getProductById } = productsModel;
+
+  const product = await getProductById(id);
+
+  if (product.quantity < quantity) {
+    throw new customError(
+      'Such amount is not permitted to sell', 
+      'stock_problem', 
+      NOT_FOUND
+    );
   }
 };
 
 const addSale = async (products) => {
   const { addSale } = salesModel;
-  validateProducts(products);
-
+  await validateProducts(products);
   const sale = await addSale(products);
   return sale;
 };
@@ -75,7 +100,7 @@ const getSaleById = async (id) => {
   const sale = await getSaleById(id);
 
   if (!sale) {
-    throw new Error('Sale not found');
+    throw new customError('Sale not found', 'not_found', NOT_FOUND);
   }
 
   return sale;
@@ -83,7 +108,7 @@ const getSaleById = async (id) => {
 
 const updateSale = async (id, products) => {
   validateId(id);
-  validateProducts(products);
+  await validateProducts(products);
 
   const { updateSale } = salesModel;
   const updatedSale = await updateSale(id,products);
