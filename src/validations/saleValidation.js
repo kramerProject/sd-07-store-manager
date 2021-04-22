@@ -11,14 +11,17 @@ const validQuantityAndType = (quantity) => {
 };
 
 const existID = async (id) => {
-  await validID(id);
-  const idVerify = await SalesModel.getByID(id);
-  if (!idVerify) {
-    const error = new Error ('Sale not found');
+  try {
+    const idVerify = await SalesModel.getByID(id);
+    if (!idVerify) {
+      throw new Error;
+    }
+    return idVerify;
+  } catch (error) {
+    error.message = 'Sale not found';
     error.statusCode = 'not_found';
     throw error;
   }
-  return idVerify;
 };
 
 const validID = async (id) => {
