@@ -30,13 +30,13 @@ const add = async (itensSold) => {
   };
 };
 
-// const update = async (id, name, quantity) => {
-//   const sale = await connection().then((db) => db
-//     .collection('sales')
-//     .updateOne({ _id: ObjectId(id) } ,{ $set: { name, quantity } }));
+const update = async (id, itensSold) => {
+  const sale = await connection().then((db) => db
+    .collection('sales')
+    .updateOne({ _id: ObjectId(id) } ,{ $set: { itensSold } }));
 
-//   return { _id: sale.insertedId, name, quantity };
-// };
+  return { _id: id, itensSold };
+};
 
 // const exclude = async (id) => {
 //   return await connection().then((db) => {
@@ -48,7 +48,6 @@ module.exports = {
   getAll,
   getById,
   add,
-  // update,
-  // exclude,
-  // getByName
+  update,
+  // exclude
 };

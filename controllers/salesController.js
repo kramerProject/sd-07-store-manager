@@ -36,18 +36,18 @@ const addSale = async (req, res) => {
   }
 };
 
-// const updateSale = async (req, res) => {
-//   try {
-//     const { name, quantity } = req.body;
-//     const { id } = req.params;
+const updateSale = async (req, res) => {
+  try {
+    const itensSold = req.body;
+    const { id } = req.params;
 
-//     const updateProduct = await salesModel.update(id, name, quantity);
-//     return res.status(status200).json(updateProduct);
-//   } catch (err) {
-//     console.error(err.message);
-//     return res.status(status500).json({ message: err.message });
-//   }
-// };
+    const updateSale = await salesModel.update(id, itensSold);
+    return res.status(status200).json(updateSale);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(status500).json({ message: err.message });
+  }
+};
 
 // const deleteSale = async (req, res) => {
 //   try {
@@ -64,6 +64,6 @@ module.exports = {
   getAllSales,
   getSaleById,
   addSale,
-  // updateSale,
+  updateSale,
   // deleteSale
 };

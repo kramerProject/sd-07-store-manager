@@ -1,4 +1,3 @@
-// const productModel = require('../models/productModel');
 const { ObjectId } = require('mongodb');
 
 const status404 = 404;

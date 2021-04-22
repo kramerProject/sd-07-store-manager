@@ -9,11 +9,7 @@ router.get('/sales', salesController.getAllSales);
 
 router.get('/sales/:id', middleware.idSaleMiddleware, salesController.getSaleById);
 
-// router.put('/sales/:id',
-//   middleware.idMiddleware,
-//   middleware.updateMiddleware,
-//   salesController.updateProduct
-// );
+router.put('/sales/:id', middleware.salesMiddleware, salesController.updateSale);
 
 // router.delete('/sales/:id',
 //   middleware.idMiddleware,
