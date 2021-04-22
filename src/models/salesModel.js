@@ -62,7 +62,8 @@ const deleteSale = async (id) => {
   );
 
   if (!resultCheck) return null;
-  await connection().then((db) => db.collection('sales').deleteOne({ _id: ObjectId(id) }));
+  await connection()
+    .then((db) => db.collection('sales').deleteOne({ _id: ObjectId(id) }));
 
   return resultCheck;
 };
