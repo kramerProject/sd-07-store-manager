@@ -2,6 +2,7 @@ const {
   createSalesService,
   getAllService,
   getSalesByIdService,
+  updateSalesService,
 } = require('../services/saleServices');
 
 const httpStatus = {
@@ -55,8 +56,28 @@ const getByIdController = async (req, res) => {
   }
 };
 
+const updateSalesController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const sales = req.body;
+    const updateSales = await updateSalesService(id, sales);
+    res.status(httpStatus.SUCCESS).json({
+      '_id': id,
+      'itensSold': sales,
+    });
+  } catch (error) {
+    res.status(httpStatus.UNPROCESSABLE_ENTITY).json({
+      'err': {
+        'code': 'invalid_data',
+        'message': error.message,
+      }
+    });
+  }
+};
+
 module.exports = {
   createSalesController,
   getAllController,
   getByIdController,
+  updateSalesController,
 };

@@ -18,8 +18,16 @@ const getSalesByIdModel = async (id) => {
     .catch((error) => error.message);
 };
 
+const updateSalesModel = async (id, sales) => {
+  return connect().then((db) => db.collection('sales').updateOne(
+    {_id: ObjectId(id)}, { $set: { itensSold: sales }}
+  ))
+    .catch((error) => error.message);
+};
+
 module.exports = {
   createSales,
   getAllModel,
   getSalesByIdModel,
+  updateSalesModel,
 };

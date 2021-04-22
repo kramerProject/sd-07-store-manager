@@ -2,6 +2,7 @@ const {
   createSales,
   getAllModel,
   getSalesByIdModel,
+  updateSalesModel,
 } = require('../models/salesModel');
 const { ObjectId } = require('mongodb');
 
@@ -52,8 +53,16 @@ const getSalesByIdService = async (id) => {
   return sale;
 };
 
+const updateSalesService = async (id, sales) => {
+  validateQuantity(sales);
+
+  const updatedSale = await updateSalesModel(id, sales);
+  return updatedSale;
+};
+
 module.exports = {
   createSalesService,
   getAllService,
   getSalesByIdService,
+  updateSalesService,
 };
