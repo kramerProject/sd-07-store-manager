@@ -55,12 +55,12 @@ const createSale = async (req, res) =>  {
 
 const updateSale = async (req, res) =>  {
   try {
-    const { sale } = req.body;
+    const sale = req.body;
     const { id } = req.params;
     const {status, response} = await Service.update({ id, sale });
     if (!response) {
       const result = await Model.update({ id, sale });
-      return res.status(SUCCESS).json({ id, sale });
+      return res.status(SUCCESS).json(result);
     }
     
     return res.status(status).json(response);

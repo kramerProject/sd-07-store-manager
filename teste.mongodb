@@ -6,8 +6,8 @@ use('StoreManager');
 
 // Search for documents in the current collection.
 db.getCollection('products')
-  .find(
-    {},
-    {}
+  .updateOne(
+    { "_id": ObjectId("6080a69f3fe6f172f9e9c02f") },
+    { $set: { "name": "Esferas do dragão",
+    "quantity": 7} }
   )
-  .sort({});

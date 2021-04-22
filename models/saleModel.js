@@ -21,12 +21,10 @@ const create = async (tradeIn) => {
   return sale.ops[0];
 };
 
-const update = async ({id, name, quantity}) => {
-  if(!ObjectId.isValid(id)) return null;
-  
+const update = async ({id, tradeIn}) => {
   const sale = await connection().then((db) => db
     .collection(SALES)
-    .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } })
+    .updateOne({ _id: ObjectId(id) }, { $set: { itemSold: tradeIn } })
   );
   return sale;
 };

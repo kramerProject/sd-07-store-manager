@@ -51,7 +51,6 @@ const exclude = async (id) => {
   const validateId = idValid(id);
   if (validateId !== true) return message.idValidDeletion;
   const sale = await Model.getById(id);
-  console.log('sale', sale);
   if (sale === null) return message.saleIsValid;
   return true;
 };
