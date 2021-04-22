@@ -1,9 +1,9 @@
-const unprocessableEntity = 422;
+const codes = require('../services/codes');
 const productQuantityMid = (req, res, next) => {
   const { quantity } = req.body;
   const zero = 0;
   if (!Number.isInteger(quantity)) {
-    return res.status(unprocessableEntity).json({
+    return res.status(codes.unprocessableEntity).json({
       err: {
         code: 'invalid_data',
         message: '"quantity" must be a number',
@@ -12,7 +12,7 @@ const productQuantityMid = (req, res, next) => {
   }
 
   if (quantity <= zero) {
-    return res.status(unprocessableEntity).json({
+    return res.status(codes.unprocessableEntity).json({
       err: {
         code: 'invalid_data',
         message: '"quantity" must be larger than or equal to 1',

@@ -1,9 +1,5 @@
 const products = require('../models/productModel');
-
-const getAll = async () => {
-  const result = await products.getAll();
-  return result;
-};
+const { ObjectId } = require('mongodb');
 
 const createProduct = async (name, quantity) => {
   const result = await products.createProduct(name, quantity);
@@ -15,6 +11,11 @@ const createProduct = async (name, quantity) => {
       },
     };
 
+  return result;
+};
+
+const getAll = async () => {
+  const result = await products.getAll();
   return result;
 };
 
@@ -54,10 +55,32 @@ const deleteProduct = async (id) => {
   return result;
 };
 
+const updateQuantity = async (qtd, check) => {
+  const zero = 0;
+  for (let i = zero; i < qtd.length; i++) {
+    const productUpdateQuantity = await getById(ObjectId(qtd[i].productId));
+    const qtdSale = qtd[i].quantity;
+    const qtdStock = productUpdateQuantity.quantity;
+    if (qtdStock - qtdSale < zero && check === 'sum')
+      return {
+        err: {
+          code: 'stock_problem',
+          message: 'Such amount is not permitted to sell',
+        },
+      };
+    if (productUpdateQuantity) {
+      console.log('asd');
+      await products.updateQuantity(productUpdateQuantity._id, qtdSale, check);
+    }
+  }
+  return true;
+};
+
 module.exports = {
   createProduct,
   getAll,
   getById,
   updateProduct,
   deleteProduct,
+  updateQuantity,
 };
