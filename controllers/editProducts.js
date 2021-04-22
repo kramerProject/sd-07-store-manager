@@ -8,7 +8,7 @@ async function editProducts(req, res) {
     const data = await editProduct(id, name, quantity);
     res.status(SUCCESS).json(data);
   } catch (error) {
-    res.status(ENTITY).json({ 
+    res.status(ENTITY).json({
       err: { 
         code: 'invalid_data', 
         message: 'Wrong sale id format' 

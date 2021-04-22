@@ -44,7 +44,7 @@ router.delete(
 
 router.get('/sales', findAllSale);
 router.get('/sales/:id', findIdSale);
-router.post('/sales', validIdProductMiddleware, validQuantitySaleMiddleware, addSale);
+router.post('/sales', validQuantitySaleMiddleware, validIdProductMiddleware, addSale);
 router.put('/sales/:id', validQuantitySaleMiddleware, editSale);
 router.delete('/sales/:id', deleteSale);
 

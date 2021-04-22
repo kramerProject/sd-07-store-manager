@@ -3,7 +3,8 @@ const { SUCCESS, ENTITY} = require('../CODE_ERROR');
 
 async function deleteProducts(req, res) {
   const message = { 
-    err: { 
+    err: {
+      status: ENTITY,
       code: 'invalid_data', 
       message: 'Wrong id format' 
     }

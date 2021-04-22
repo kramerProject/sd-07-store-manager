@@ -14,5 +14,5 @@ module.exports = {
   validProductMiddleware,
   validSizeNameMiddleware,
   validQuantityMiddleware,
-  validQuantitySaleMiddleware
+  validQuantitySaleMiddleware,
 };

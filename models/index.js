@@ -12,6 +12,7 @@ const {
   findNameSales,
   findAllSales,
   findIdSales,
+  findIdDeleteSales,
   editSales,
   deleteSales,
 } = require('./modelSales');
@@ -21,6 +22,7 @@ module.exports = {
   findNameProduct,
   findAllProduct,
   findIdProduct,
+  findIdDeleteSales,
   editProduct,
   deleteProduct,
   addSales,

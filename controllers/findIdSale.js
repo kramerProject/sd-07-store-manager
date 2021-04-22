@@ -8,7 +8,7 @@ async function findIdSale(req, res) {
       message: 'Sale not found' 
     }
   };
-  
+   
   try {
     const { id } = req.params;
     const data = await findIdSales(id);
