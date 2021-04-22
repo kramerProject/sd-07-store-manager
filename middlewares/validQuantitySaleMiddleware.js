@@ -26,11 +26,13 @@ async function validQuantitySaleMiddleware(req, res, next) {
     if (saleProduct === undefined || saleProduct === null ) {
       return res.status(ENTITY).json(E1);
     }
-    const { quantity } = saleProduct;
+    const { quantity, productId } = saleProduct;
     if (!Number.isInteger(quantity) || quantity <= ZERO ){
       return res.status(ENTITY).json(E2);
-    } 
-    if (!(await findIdProduct(saleProduct.productId))){
+    }
+    try {
+      await findIdProduct(productId);
+    } catch (error) {
       return res.status(NOT_FOUND).json(E3);
     }
   }
