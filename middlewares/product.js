@@ -4,6 +4,7 @@ const status422 = 422;
 
 const productMiddleware = async (req, res, next) => {
   const { name, quantity } = req.body;
+
   const minLength = 5;
 
   if (name && name.length < minLength) {

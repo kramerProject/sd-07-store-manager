@@ -6,7 +6,15 @@ const getAll = async () => {
     .collection('products')
     .find().toArray());
 
-  return products;
+  return { products };
+};
+
+const getById = async (id) => {
+  const product = await connection().then((db) => db
+    .collection('products')
+    .findOne(ObjectId(id)));
+
+  return product;
 };
 
 const add = async (name, quantity) => {
@@ -27,6 +35,7 @@ const getByName = async (name) => {
 
 module.exports = {
   getAll,
+  getById,
   add,
   getByName
 };

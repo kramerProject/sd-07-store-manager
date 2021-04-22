@@ -1,5 +1,7 @@
-const productMiddleware = require('./product');;
+const productMiddleware = require('./product');
+const idMiddleware = require('./id');
 
 module.exports = {
-  productMiddleware
+  productMiddleware,
+  idMiddleware
 };

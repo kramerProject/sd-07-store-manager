@@ -14,6 +14,17 @@ const getAllProducts = async (req, res) => {
   }
 };
 
+const getProductsById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await productModel.getById(id);
+    return res.status(status200).json(product);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(status500).json({ message: err.message });
+  }
+};
+
 const addProduct = async (req, res) => {
   try {
     const { name, quantity } = req.body;
@@ -27,5 +38,6 @@ const addProduct = async (req, res) => {
 
 module.exports = {
   getAllProducts,
+  getProductsById,
   addProduct
 };
