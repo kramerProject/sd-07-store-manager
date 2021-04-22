@@ -1,19 +1,16 @@
+// não remova esse endpoint, e para o avaliador funcionar
 const express = require('express');
-const productRoute = require('./src/routes/products');
-// const saleRoute = require('./routes/salesRoute');
-
+const products = require('./src/routes/productsRoute');
+const sales = require('./src/routes/salesRoute');
 const app = express();
 
 app.use(express.json());
-app.use(productRoute);
-// app.use(saleRoute);
+app.use('/products', products);
+app.use('/sales', sales);
 
-// não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
 });
 
-const port = 3000;
-app.listen(port, () => {
-  console.log(`App rodando na porta ${port}`);
-});
+const PORT = 3000;
+app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
