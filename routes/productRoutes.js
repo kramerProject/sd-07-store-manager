@@ -8,14 +8,18 @@ const router = express.Router();
 router.get('/products', productController.getAllProducts);
 
 router.get('/products/:id', middleware.idMiddleware, productController.getProductsById);
+
 router.put('/products/:id',
   middleware.idMiddleware,
   middleware.updateMiddleware,
   productController.updateProduct
 );
 
-router.use(middleware.productMiddleware);
+router.delete('/products/:id',
+  middleware.idMiddleware,
+  productController.deleteProduct
+);
 
-router.post('/products', productController.addProduct);
+router.post('/products', middleware.productMiddleware, productController.addProduct);
 
 module.exports = router;
