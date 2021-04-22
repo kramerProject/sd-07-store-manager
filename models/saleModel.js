@@ -16,17 +16,20 @@ const getById = async (id) => {
 
 const create = async (tradeIn) => {
   const sale = await connection().then(db =>
-    db.collection(SALES).insertOne({ itemSold: tradeIn })
+    db.collection(SALES).insertOne({ itensSold: tradeIn })
   );
   return sale.ops[0];
 };
 
-const update = async ({id, tradeIn}) => {
+const update = async (id, tradeIn) => {
   const sale = await connection().then((db) => db
     .collection(SALES)
-    .updateOne({ _id: ObjectId(id) }, { $set: { itemSold: tradeIn } })
+    .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: tradeIn } })
   );
-  return sale;
+  const result = await connection().then((db =>
+    db.collection(SALES).findOne(ObjectId(id))
+  ));
+  return result;
 };
 
 const exclude = async (id) => {

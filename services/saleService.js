@@ -34,23 +34,25 @@ const create = async (sale) => {
   return true;
 };
 
-const update = async ({id, sale}) => {
+const update = async (id, sale) => {
   const validateId = idValid(id);
   if (validateId !== true) return validateId;
-  if (sale) {    
+  if (sale !== null || sale !== undefined) {    
     const validatedQ = sale.map((item) => quantityValid(item.quantity));
     if (validatedQ !== true) return validatedQ[0];
     const validatedId = sale.map((item) => idValid(item.id));
     if (validatedId !== true) return validatedId[0];
   }
-  if (!sale) return message.saleIsValid;
+  // if (!sale) return message.saleIsValid;
   return true;
 };
 
 const exclude = async (id) => {
+  console.log(id);
   const validateId = idValid(id);
   if (validateId !== true) return message.idValidDeletion;
   const sale = await Model.getById(id);
+  console.log(sale, 'consult');
   if (sale === null) return message.saleIsValid;
   return true;
 };

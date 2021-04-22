@@ -57,9 +57,9 @@ const updateSale = async (req, res) =>  {
   try {
     const sale = req.body;
     const { id } = req.params;
-    const {status, response} = await Service.update({ id, sale });
+    const {status, response} = await Service.update(id, sale);
     if (!response) {
-      const result = await Model.update({ id, sale });
+      const result = await Model.update(id, sale);
       return res.status(SUCCESS).json(result);
     }
     
