@@ -1,8 +1,8 @@
 const codes = require('../services/codes');
 const productNameMid = (req, res, next) => {
   const { name, quantity } = req.body;
-
-  if (name.length < number) {
+  const five = 5;
+  if (!name || name.length < five) {
     return res.status(codes.unprocessableEntity).json({
       err: {
         code: 'invalid_data',
@@ -10,15 +10,14 @@ const productNameMid = (req, res, next) => {
       },
     });
   }
-  if (quantity < 1) {
+  if( quantity < 1) {
     return res.status(codes.unprocessableEntity).json({
       err: {
         code: 'invalid_data',
         message: '"quantity" must be larger than or equal to 1',
-      },
+      }
     });
   }
-
   next();
 };
 
