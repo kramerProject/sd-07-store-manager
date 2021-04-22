@@ -13,19 +13,23 @@ const validateProductSales = async (productId, quantity) => {
 };
 
 const addSalesService = async (products) => {
-  const productsEvery = products.map(async (product) => {
-    const validate = await validateProductSales(product.productId, product.quantity);
-    // console.log('validadte', validate);
-    return validate;
-  });
-  // console.log('productsEvery', productsEvery);
-  if (!productsEvery) {
+  let productsAllValid = true;
+  for (i = ZERO; i < products.length; i += 1) {
+    const validate = await validateProductSales(
+      products[i].productId, products[i].quantity);
+    if (!validate) productsAllValid = false;
+  }
+  // products.forEach(async (product) => {
+  //   const validate = await validateProductSales(product.productId, product.quantity);
+  //   console.log('validadte', validate);
+  //   if(!validate) productsAllValid = false;
+  // });
+  console.log('productsEvery', productsAllValid);
+  if (!productsAllValid) {
     return {
-      err: {
-        code: 'invalid_data',
-        status: status.UNPROCESSABLE_ENTITY,
-        message: 'Wrong product ID or invalid quantity',
-      },
+      code: 'invalid_data',
+      status: status.UNPROCESSABLE_ENTITY,
+      message: 'Wrong product ID or invalid quantity',
     };
   }
   const salesProducts = await salesModel.addSalesModel(products);
@@ -55,27 +59,29 @@ const putByIdSalesService = async (id, data) => {
   const filteredQuantitys =
     data.filter((e) => e.quantity < ONE).length < ONE &&
     data.filter((e) => typeof e.quantity === 'string').length < ONE;
- 
-  if (!filteredQuantitys) return {
-    code: 'invalid_data',
-    status: status.UNPROCESSABLE_ENTITY,
-    message: 'Wrong product ID or invalid quantity',
-  };
+
+  if (!filteredQuantitys)
+    return {
+      code: 'invalid_data',
+      status: status.UNPROCESSABLE_ENTITY,
+      message: 'Wrong product ID or invalid quantity',
+    };
 
   const dataCollection = await productsModel.findAllProductsModel();
   let productsMatch = ZERO;
   data.map((productInList) => {
     dataCollection.map((product) => {
-      if (productInList.productId.toString() === product._id.toString())
+      if (productInList.productId.toString() === product._id.toString()) 
         productsMatch += ONE;
     });
   });
 
-  if (productsMatch !== data.length) return {
-    code: 'invalid_data',
-    status: status.UNPROCESSABLE_ENTITY,
-    message: 'Wrong product ID or invalid quantity',
-  };
+  if (productsMatch !== data.length)
+    return {
+      code: 'invalid_data',
+      status: status.UNPROCESSABLE_ENTITY,
+      message: 'Wrong product ID or invalid quantity',
+    };
 
   const newData = await salesModel.putByIdSalesModel(id, data);
   return newData;
