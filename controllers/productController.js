@@ -2,8 +2,6 @@ const ProductService = require('../services/productService');
 // const rescue = require('express-rescue');
 
 const SUCCSESS = 200;
-const NOT_FOUND = 404;
-const ERRO = 500;
 const UNPROCESSABLE_ENTITY = 422;
 
 const getProducts = async (req, res) => {

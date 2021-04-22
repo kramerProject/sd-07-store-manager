@@ -25,7 +25,7 @@ const productId = async (id) => {
 };
 
 const updateProduct = async (id, { name, quantity }) => {
-  // if (!ObjectId.isValid(id)) return null;
+  if (!ObjectId.isValid(id)) return null;
 
   const product = await connect()
     .then((db) => db.collection('products')
@@ -34,6 +34,8 @@ const updateProduct = async (id, { name, quantity }) => {
 };
 
 const deleteProduct = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
   const productIdd = await productId(id);
   if (productIdd) {
     connect().then(async (db) => {

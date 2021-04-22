@@ -17,7 +17,7 @@ const createProduct = async (name, quantity) => {
       status: UNPROCESSABLE_ENTITY
     };
 
-  if (quantity < quantityMin || quantity === quantityMin)
+  if (quantity <= quantityMin)
     return {
       msg: {
         'err': {
