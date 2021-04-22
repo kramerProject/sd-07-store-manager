@@ -19,12 +19,6 @@ const addSalesService = async (products) => {
       products[i].productId, products[i].quantity);
     if (!validate) productsAllValid = false;
   }
-  // products.forEach(async (product) => {
-  //   const validate = await validateProductSales(product.productId, product.quantity);
-  //   console.log('validadte', validate);
-  //   if(!validate) productsAllValid = false;
-  // });
-  console.log('productsEvery', productsAllValid);
   if (!productsAllValid) {
     return {
       code: 'invalid_data',
