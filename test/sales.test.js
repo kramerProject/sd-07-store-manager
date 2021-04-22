@@ -370,9 +370,9 @@ describe('7 - Crie um endpoint para atualizar uma venda', () => {
 
   it('Será validado que não é possível atualizar vendas com quantidade menor que zero', async () => {
     let result;
-    let resultProductId;
+    let resultProductId; 
     let resultSales;
-    let resultSalesId;
+    let resultSalesId; 
 
     await frisby
       .get(`${url}/products/`)

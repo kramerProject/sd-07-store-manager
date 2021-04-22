@@ -35,7 +35,10 @@ const getAllSales = async () => {
 
 const getSaleById = async (id) => {
   const result = await Sales.getSaleById(id);
-  if (result === false) return { code: 404, message: 'Sale not found' };
+  const zeroSales = 0;
+
+  if (result === false || result.length === zeroSales) 
+    return { code: 404, message: 'Sale not found' };
 
   return { code: 200, result };
 };

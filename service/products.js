@@ -56,8 +56,6 @@ const updateProduct = async (name, quantity, id) => {
 
   const result = await Products.updateProduct(name, quantity, id);
 
-  console.log('result is', result);
-
   return { code: 200, result };
 };
 
