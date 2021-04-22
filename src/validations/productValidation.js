@@ -36,9 +36,34 @@ const validNumber = (quantity) => {
   }
 };
 
+const existID = async (id) => {
+  await validID(id);
+  const idVerify = await ProductsModel.getByID(id);
+  if (!idVerify) {
+    const error = new Error ('Wrong id format');
+    error.statusCode = 'invalid_data';
+    throw error;
+  }
+  return idVerify;
+};
+
+const validID = async (id) => {
+  const minLengthID = 24;
+  if (typeof id !== 'string' || id.length < minLengthID) {
+    const error = new Error ('Wrong id format');
+    error.statusCode = 'invalid_data';
+    throw error;
+  };
+  return true;
+};
+
+
+
 module.exports = {
   validName,
   existName,
   validQuantity,
   validNumber,
+  existID,
+  validID,
 };
