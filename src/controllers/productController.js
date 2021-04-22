@@ -1,14 +1,14 @@
-const prodService = require('../services/productService');
+const products = require('../services/productService');
 
 const SUCCESS = 200;
 const updateCode = 201;
-const notProcessed = 422;
+const unprocessableEntity = 422;
 
 const createProduct = async (req, res) => {
   const { name, quantity } = req.body;
   try {
     const result = await products.createProduct(name, quantity);
-    if (result.err) return res.status(notProcessed).json(result);
+    if (result.err) return res.status(unprocessableEntity).json(result);
     res.status(updateCode).json(result);
   } catch (error) {
     console.log(error.message);
@@ -17,7 +17,7 @@ const createProduct = async (req, res) => {
 
 const getAll = async (_req, res) => {
   try {
-    const result = await prodService.getAll();
+    const result = await products.getAll();
     res.status(SUCCESS).json(result);
   } catch (error) {
     console.error(error.message);
@@ -27,10 +27,11 @@ const getAll = async (_req, res) => {
 const getById = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await prodService.getById(id);
-    res.status(result.status).json(result.response);
+    const result = await products.getById(id);
+    if (result.err) return res.status(unprocessableEntity).json(result);
+    res.status(codes.sucess).json(result);
   } catch (error) {
-    console.error(error.message);
+    console.log(error.message);
   }
 };
 
@@ -38,7 +39,7 @@ const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
     const result = await products.deleteProduct(id);
-    if (result.err) return res.status(notProcessed).json(result);
+    if (result.err) return res.status(unprocessableEntity).json(result);
     res.status(SUCCESS).json(result);
   } catch (error) {
     console.log(error.message);
@@ -50,7 +51,7 @@ const updateProduct = async (req, res) => {
   const { name, quantity } = req.body;
   try {
     const result = await products.updateProduct(id, name, quantity);
-    if (result.err) res.status(notProcessed).json(result);
+    if (result.err) res.status(unprocessableEntity).json(result);
     res.status(SUCCESS).json(result);
   } catch (error) {
     console.log(error.message);

@@ -6,9 +6,16 @@ const getAll = async () => {
 };
 
 const createProduct = async (name, quantity) => {
-  return connection()
-    .then((db) => db.collection('products').insertOne({ name, quantity }))
-    .then((result) => result.ops);
+  const nameOK = await connection()
+    .then((db) => db.collection('products').findOne({ name: name }));
+  if (nameOK) return null;
+  const result = await connection()
+    .then((db) => db.collection('products').insertOne({ name, quantity }));
+  return {
+    _id: result.insertedId,
+    name,
+    quantity,
+  };
 };
 
 const getById = async (id) => {
