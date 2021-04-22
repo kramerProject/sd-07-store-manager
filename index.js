@@ -4,6 +4,7 @@ const salesRoute = require('./src/routes/salesRoute');
 const errorMiddlewares = require('./src/middlewares/errorMiddlewares');
 
 const app = express();
+const PORT = 3000;
 
 app.use(express.json());
 app.use(productsRoute);
@@ -16,6 +17,6 @@ app.get('/', (_request, response) => {
 
 app.use(errorMiddlewares);
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log('Rodando!');
 });
