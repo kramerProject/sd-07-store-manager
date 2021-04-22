@@ -17,8 +17,7 @@ const addProduct = async (name, quantity) => {
 
 const getAll = async () => {
   const result = await connection()
-    .then((db) => db.collection('products')
-    .find().toArray());
+    .then((db) => db.collection('products').find().toArray());
 
   return {
     products: result,
@@ -66,8 +65,7 @@ const deleteProduct = async (id) => {
   );
   if (!resultCheck) return null;
   await connection()
-    .then((db) => db.collection('products')
-    .deleteOne({ _id: ObjectId(id) }));
+    .then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }));
 
   return resultCheck;
 };
