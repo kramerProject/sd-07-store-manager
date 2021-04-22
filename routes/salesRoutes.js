@@ -1,13 +1,13 @@
 const express = require('express');
 
 const salesController = require('../controllers/salesController');
-// const middleware = require('../middlewares');
+const middleware = require('../middlewares');
 
 const router = express.Router();
 
 router.get('/sales', salesController.getAllSales);
 
-// router.get('/sales/:id', middleware.idMiddleware, salesController.getProductsById);
+router.get('/sales/:id', middleware.idSaleMiddleware, salesController.getSaleById);
 
 // router.put('/sales/:id',
 //   middleware.idMiddleware,
@@ -20,7 +20,6 @@ router.get('/sales', salesController.getAllSales);
 //   salesController.deleteProduct
 // );
 
-router.post('/sales', salesController.addSale);
-// router.post('/sales', middleware.productMiddleware, salesController.addSale);
+router.post('/sales', middleware.salesMiddleware, salesController.addSale);
 
 module.exports = router;

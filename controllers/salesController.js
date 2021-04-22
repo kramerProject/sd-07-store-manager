@@ -14,22 +14,22 @@ const getAllSales = async (req, res) => {
   }
 };
 
-// const getSalesById = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const product = await salesModel.getById(id);
-//     return res.status(status200).json(product);
-//   } catch (err) {
-//     console.error(err.message);
-//     return res.status(status500).json({ message: err.message });
-//   }
-// };
+const getSaleById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const sale = await salesModel.getById(id);
+    return res.status(status200).json(sale);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(status500).json({ message: err.message });
+  }
+};
 
 const addSale = async (req, res) => {
   try {
     const itensSold = req.body;
     const newSale = await salesModel.add(itensSold);
-    return res.status(status201).json(newSale);
+    return res.status(status200).json(newSale);
   } catch (err) {
     console.error(err.message);
     return res.status(status500).json({ message: err.message });
@@ -62,7 +62,7 @@ const addSale = async (req, res) => {
 
 module.exports = {
   getAllSales,
-  // getSalesById,
+  getSaleById,
   addSale,
   // updateSale,
   // deleteSale

@@ -9,13 +9,13 @@ const getAll = async () => {
   return { sales };
 };
 
-// const getById = async (id) => {
-//   const sale = await connection().then((db) => db
-//     .collection('sales')
-//     .findOne(ObjectId(id)));
+const getById = async (id) => {
+  const sale = await connection().then((db) => db
+    .collection('sales')
+    .findOne(ObjectId(id)));
 
-//   return sale;
-// };
+  return sale;
+};
 
 const add = async (itensSold) => {
   const sale = await connection().then((db) => db
@@ -44,17 +44,9 @@ const add = async (itensSold) => {
 //   });
 // };
 
-// const getByName = async (name) => {
-//   const sale = await connection().then((db) => db
-//     .collection('sales')
-//     .findOne({ name: name }));
-
-//   return sale;
-// };
-
 module.exports = {
   getAll,
-  // getById,
+  getById,
   add,
   // update,
   // exclude,
