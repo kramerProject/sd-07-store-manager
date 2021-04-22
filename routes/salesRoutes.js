@@ -11,10 +11,7 @@ router.get('/sales/:id', middleware.idSaleMiddleware, salesController.getSaleByI
 
 router.put('/sales/:id', middleware.salesMiddleware, salesController.updateSale);
 
-// router.delete('/sales/:id',
-//   middleware.idMiddleware,
-//   salesController.deleteProduct
-// );
+router.delete('/sales/:id', middleware.idDeleteMiddleware, salesController.deleteSale);
 
 router.post('/sales', middleware.salesMiddleware, salesController.addSale);
 

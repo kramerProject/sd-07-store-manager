@@ -38,16 +38,16 @@ const update = async (id, itensSold) => {
   return { _id: id, itensSold };
 };
 
-// const exclude = async (id) => {
-//   return await connection().then((db) => {
-//     return db.collection('sales').deleteOne({ _id: ObjectId(id) });
-//   });
-// };
+const exclude = async (id) => {
+  return await connection().then((db) => {
+    return db.collection('sales').deleteOne({ _id: ObjectId(id) });
+  });
+};
 
 module.exports = {
   getAll,
   getById,
   add,
   update,
-  // exclude
+  exclude
 };

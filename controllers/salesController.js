@@ -49,21 +49,21 @@ const updateSale = async (req, res) => {
   }
 };
 
-// const deleteSale = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     await salesModel.exclude(id);
-//     return res.status(status200).end();
-//   } catch (err) {
-//     console.error(err.message);
-//     return res.status(status500).json({ message: err.message });
-//   }
-// };
+const deleteSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await salesModel.exclude(id);
+    return res.status(status200).end();
+  } catch (err) {
+    console.error(err.message);
+    return res.status(status500).json({ message: err.message });
+  }
+};
 
 module.exports = {
   getAllSales,
   getSaleById,
   addSale,
   updateSale,
-  // deleteSale
+  deleteSale
 };
