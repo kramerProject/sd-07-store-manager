@@ -2,7 +2,7 @@ const salesModels = require('../models/SalesModels');
 const { messages: 
   { mInvalidFormatId, mInvalidIdQtd, mSaleNotFound },
 productNotExist, invalidQuantity, quantityNotNumber
-} = require('../services/ValidatedSales');
+} = require('./ValidatedSales');
 
 const createSale = async (product) => {
   switch(true) {

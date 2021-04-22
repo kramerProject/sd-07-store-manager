@@ -2,7 +2,7 @@ const productsModels = require('../models/ProductsModels');
 const { messages: 
   { mProductExists, mProductName, mQuantity, mIsNotNumber, mInvalidFormatId },
 productName, productExists, isNotNumber, minQuantity
-} = require('../services/ValidatedProduct');
+} = require('./ValidatedProduct');
 
 const createProduct = async(product, quantity) => {
   switch(true) {
