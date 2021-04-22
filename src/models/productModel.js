@@ -16,7 +16,9 @@ const addProduct = async (name, quantity) => {
 };
 
 const getAll = async () => {
-  const result = await connection().then((db) => db.collection('products').find().toArray());
+  const result = await connection()
+    .then((db) => db.collection('products')
+    .find().toArray());
 
   return {
     products: result,
@@ -63,7 +65,9 @@ const deleteProduct = async (id) => {
     db.collection('products').findOne(new ObjectId(id)),
   );
   if (!resultCheck) return null;
-  await connection().then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }));
+  await connection()
+    .then((db) => db.collection('products')
+    .deleteOne({ _id: ObjectId(id) }));
 
   return resultCheck;
 };
@@ -77,14 +81,16 @@ const updateQuantity = async (id, qtd, check) => {
   if (!resultCheck) return null;
   if (check === 'sum') {
     await connection().then((db) =>
-      db.collection('products').updateOne({ _id: ObjectId(id) }, { $inc: { quantity: -qtd } }),
+      db.collection('products')
+        .updateOne({ _id: ObjectId(id) }, { $inc: { quantity: -qtd } }),
     );
     return true;
   }
 
   if (check === 'subtract') {
     await connection().then((db) =>
-      db.collection('products').updateOne({ _id: ObjectId(id) }, { $inc: { quantity: qtd } }),
+      db.collection('products')
+        .updateOne({ _id: ObjectId(id) }, { $inc: { quantity: qtd } }),
     );
     return true;
   }
