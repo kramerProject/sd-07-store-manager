@@ -1,4 +1,4 @@
-const { ENTITY, ZERO } = require('../CODE_ERROR');
+const { ENTITY, ZERO, NOT_FOUND  } = require('../CODE_ERROR');
 const { findIdProduct } = require('../models');
 
 async function validQuantitySaleMiddleware(req, res, next) {
@@ -30,7 +30,9 @@ async function validQuantitySaleMiddleware(req, res, next) {
     if (!Number.isInteger(quantity) || quantity <= ZERO ){
       return res.status(ENTITY).json(E2);
     } 
-    if (!(await findIdProduct(saleProduct.productId))) return res.status(ENTITY).json(E3);
+    if (!(await findIdProduct(saleProduct.productId))){
+      return res.status(NOT_FOUND).json(E3);
+    }
   }
 
   next();
