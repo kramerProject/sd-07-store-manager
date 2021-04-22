@@ -6,7 +6,7 @@ const createProduct = async (name, quantity) => {
     name,
     quantity,
   };
-  connection().then((db) => {
+  await connection().then((db) => {
     db.collection('products').insertOne(newProduct);
   });
   return connection().then((db) => db.collection('products').find({ name }).toArray());
