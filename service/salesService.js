@@ -78,10 +78,27 @@ const validateStock = async (id, quantity) => {
   }
 };
 
+const updateStock = async (products, operation) => {
+  for (const product of products) {
+    const { updateProduct, getProductById } = productsModel;
+    const dbProduct = await getProductById(product.productId);
+    if (operation === 'sum') {
+      dbProduct.quantity += product.quantity;
+      
+    } else if (operation === 'subtract') {
+      dbProduct.quantity -= product.quantity;
+    }
+    const { _id, name, quantity } = dbProduct; 
+    await updateProduct(_id, name, quantity);
+  }
+};
+
+
 const addSale = async (products) => {
   const { addSale } = salesModel;
   await validateProducts(products);
   const sale = await addSale(products);
+  await updateStock(products, 'subtract');
   return sale;
 };
 
@@ -116,9 +133,11 @@ const updateSale = async (id, products) => {
 };
 
 const deleteSale = async (id) => {
+  const { deleteSale, getSaleById } = salesModel;
   validateSaleId(id);
+  const { itensSold } = await getSaleById(id);
+  await updateStock(itensSold, 'sum');
 
-  const { deleteSale } = salesModel;
   const deletedSale = await deleteSale(id);
   return deletedSale;
 };
