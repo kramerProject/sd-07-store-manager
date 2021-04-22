@@ -21,8 +21,7 @@ async function validIdProductMiddleware(req, res, next) {
     try {
       await findIdProduct(sale.productId);
     } catch (error) {
-      next(type_erro2);
-      // return res.status(ENTITY).json(type_erro2); 
+      return res.status(ENTITY).json(type_erro2); 
     }
   }
 

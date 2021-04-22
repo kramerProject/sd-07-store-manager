@@ -17,14 +17,8 @@ async function validQuantitySaleMiddleware(req, res, next) {
   };
   const E3 = {
     err: {
-      code: 'invalid_data',
-      message: '"quantity" must be larger than or equal to 1',
-    },
-  };
-  const E4 = {
-    err: {
       code: 'stock_problem',
-      message: '"quantity" must be larger than or equal to 1',
+      message: 'Such amount is not permitted to sell',
     },
   };
 
@@ -36,7 +30,7 @@ async function validQuantitySaleMiddleware(req, res, next) {
     if (!Number.isInteger(quantity) || quantity <= ZERO ){
       return res.status(ENTITY).json(E2);
     } 
-    if (!(await findIdProduct(saleProduct.productId))) return res.status(ENTITY).json(E4);
+    if (!(await findIdProduct(saleProduct.productId))) return res.status(ENTITY).json(E3);
   }
 
   next();
