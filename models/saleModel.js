@@ -9,19 +9,16 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  if(!ObjectId.isValid(id)) {
-    return null;
-  }
   return connection().then(db =>
     db.collection(SALES).findOne(ObjectId(id))
   );
 };
 
-const create = async ({name, quantity}) => {
+const create = async (tradeIn) => {
   const sale = await connection().then(db =>
-    db.collection(SALES).insertOne({ name, quantity })
+    db.collection(SALES).insertOne({ itemSold: tradeIn })
   );
-  return { _id: sale.insertedId, name, quantity };
+  return sale.ops[0];
 };
 
 const update = async ({id, name, quantity}) => {
@@ -35,8 +32,6 @@ const update = async ({id, name, quantity}) => {
 };
 
 const exclude = async (id) => {
-  if(!ObjectId.isValid(id)) return null;
-
   return connection().then((db) => db
     .collection(SALES)
     .deleteOne({ _id: ObjectId(id) })

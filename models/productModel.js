@@ -9,9 +9,6 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  if(!ObjectId.isValid(id)) {
-    return null;
-  }
   return connection().then(db =>
     db.collection(PRODUCTS).findOne(ObjectId(id))
   );
@@ -25,8 +22,6 @@ const create = async ({name, quantity}) => {
 };
 
 const update = async ({id, name, quantity}) => {
-  if(!ObjectId.isValid(id)) return null;
-  
   const product = await connection().then((db) => db
     .collection(PRODUCTS)
     .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } })
@@ -35,8 +30,6 @@ const update = async ({id, name, quantity}) => {
 };
 
 const exclude = async (id) => {
-  if(!ObjectId.isValid(id)) return null;
-
   return connection().then((db) => db
     .collection(PRODUCTS)
     .deleteOne({ _id: ObjectId(id) })
