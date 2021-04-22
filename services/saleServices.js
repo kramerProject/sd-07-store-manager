@@ -1,7 +1,9 @@
 const {
   createSales,
-  // getAllModel,
+  getAllModel,
+  getSalesByIdModel,
 } = require('../models/salesModel');
+const { ObjectId } = require('mongodb');
 
 const validateQuantity = (sales) => {
   const forbiddenQuantity = 0;
@@ -22,11 +24,36 @@ const createSalesService = async (sales) => {
   return createdSales;
 };
 
-// const getllService = () => {
+const getAllService = async () => {
+  const salesList = await getAllModel();
+  return { sales: salesList };
+};
 
-// };
+const validateId = (id) => {
+  if (!ObjectId.isValid(id)) {
+    return true;
+  }
+  return false;
+};
+
+const getSalesByIdService = async (id) => {
+  const isValid = validateId(id);
+
+  if (isValid) {
+    throw new Error('Sale not found');
+  }
+
+  const sale = await getSalesByIdModel(id);
+
+  if (typeof sale === null || typeof sale === undefined) {
+    throw new Error('Sale not found');
+  }
+
+  return sale;
+};
 
 module.exports = {
   createSalesService,
-  // getllService,
+  getAllService,
+  getSalesByIdService,
 };

@@ -1,4 +1,5 @@
 const connect = require('../config/connect');
+const { ObjectId } = require('mongodb');
 
 const createSales = async (sales) => {
   return connect().then((db) => db.collection('sales').insertOne(
@@ -7,12 +8,18 @@ const createSales = async (sales) => {
     .catch(error => error.message);
 };
 
-// const getAllModel = async () => {
-//   return connect().then((db => db.collection('sales').find()))
-//     .catch(error => error.message);
-// };
+const getAllModel = async () => {
+  return connect().then((db) => db.collection('sales').find().toArray())
+    .catch(error => error.message);
+};
+
+const getSalesByIdModel = async (id) => {
+  return connect().then((db) => db.collection('sales').findOne({_id: ObjectId(id)}))
+    .catch((error) => error.message);
+};
 
 module.exports = {
   createSales,
-  // getAllModel
+  getAllModel,
+  getSalesByIdModel,
 };
