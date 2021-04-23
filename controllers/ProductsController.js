@@ -22,10 +22,10 @@ const getProduct = async (_req, res) => {
   }
 };
 
-const getProductsById = async (req, res) => {
+const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await productsServices.getProductsById(id);
+    const product = await productsServices.getProductById(id);
     res.status(SUCCESS).json(product.message);
   } catch (error) {
     console.log(error);
@@ -60,7 +60,7 @@ const deleteProductsById = async (req, res) => {
 module.exports = {
   createProduct,
   getProduct,
-  getProductsById,
+  getProductById,
   updateProductsById,
   deleteProductsById,
 };

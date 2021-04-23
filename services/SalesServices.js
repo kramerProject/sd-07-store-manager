@@ -1,5 +1,5 @@
 const salesModels = require('../models/SalesModels');
-const { messages: 
+const { message: 
   { mInvalidFormatId, mInvalidIdQtd, mSaleNotFound },
 productNotExist, invalidQuantity, quantityNotNumber
 } = require('./ValidatedSales');

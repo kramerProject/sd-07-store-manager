@@ -1,5 +1,5 @@
 const productsModels = require('../models/ProductsModels');
-const { messages: 
+const { message: 
   { mProductExists, mProductName, mQuantity, mIsNotNumber, mInvalidFormatId },
 productName, productExists, isNotNumber, minQuantity
 } = require('./ValidatedProduct');
@@ -23,7 +23,7 @@ const getProduct = async () => {
 };
 
 const getProductsById = async (id) => {
-  const response = await productsModels.getProductsById(id);
+  const response = await productsModels.getProductById(id);
   response ? { message: response } : { message: mInvalidFormatId };
 };
 

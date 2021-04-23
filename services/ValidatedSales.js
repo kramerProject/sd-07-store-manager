@@ -5,7 +5,7 @@ const statusData = {
   notFound: 'not_found',
 };
 
-const messages = {
+const message = {
   mInvalidIdQtd: {
     err: {
       code: statusData.invalid, 
@@ -51,7 +51,7 @@ const quantityNotNumber = (products) => {
 };
 
 module.exports = {
-  messages,
+  message,
   productNotExist,
   invalidQuantity,
   quantityNotNumber,

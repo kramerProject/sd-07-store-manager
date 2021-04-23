@@ -9,7 +9,7 @@ const numbers = {
   minQuantity: 1
 };
 
-const messages = {
+const message = {
   mProductName: {
     err: {
       code: statusData.invalid, 
@@ -67,7 +67,7 @@ const isNotNumber = (quantity) => {
 };
 
 module.exports = {
-  messages,
+  message,
   productName,
   productExists,
   isNotNumber,
