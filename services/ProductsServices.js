@@ -4,12 +4,12 @@ const { messages:
 productName, productExists, isNotNumber, minQuantity
 } = require('./ValidatedProduct');
 
-const createProduct = async(product, quantity) => {
+const createProduct = async(product, qtd) => {
   switch(true) {
   case productName(product): throw { message: mProductName };
   case await productExists(product): throw { message: mProductExists };
-  case isNotNumber(quantity): throw { message: mIsNotNumber };
-  case minQuantity(quantity): throw { message: mQuantity };
+  case isNotNumber(qtd): throw { message: mIsNotNumber };
+  case minQuantity(qtd): throw { message: mQuantity };
   default:
     const result = await productsModels.createProduct(product, quantity);
     const { _id, name, quantity } = result[0];
@@ -27,14 +27,14 @@ const getProductsById = async (id) => {
   result ? { message: result } : { message: mInvalidFormatId };
 };
 
-const updateProductsById = async (id, product, quantity) => {
+const updateProductsById = async (id, product, qtd) => {
   switch(true) {
   case productName(product): throw { message: mProductName };
-  case isNotNumber(quantity): throw { message: mIsNotNumber };
-  case minQuantity(quantity): throw { message: mQuantity };
+  case isNotNumber(qtd): throw { message: mIsNotNumber };
+  case minQuantity(qtd): throw { message: mQuantity };
   default:
     const result = await productsModels.updateProductsById(id, product, quantity);
-    const { _id, name, quantity } = result[0];
+    const { id, product, quantity } = result[0];
     return { message: result.value };
   }
 };
