@@ -7,6 +7,7 @@ const createProduct = async (req, res) => {
     const results = await productsServices.createProduct(name, quantity);
     res.status(CREATE).json(results.message);
   } catch(error) { 
+    console.log(error);
     res.status(UNPROCESS).json(error.message);
   }
 };

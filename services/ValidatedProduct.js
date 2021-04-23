@@ -49,7 +49,7 @@ const productName = (name) => {
 };
 
 const productExists = async (name) => {
-  if(await productsModels.getByProductName(name))
+  if(await productsModels.getProductByName(name))
     return true;
   return false;
 };
