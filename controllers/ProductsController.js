@@ -4,8 +4,8 @@ const { SUCCESS, CREATE, UNPROCESS, NOTFOUND } = require('./Status');
 const createProduct = async (req, res) => {
   try {
     const { name, quantity } = req.body;
-    const results = await productsServices.createProduct(name, quantity);
-    res.status(CREATE).json(results.message);
+    const result = await productsServices.createProduct(name, quantity);
+    res.status(CREATE).json(result.message);
   } catch(error) { 
     console.log(error);
     res.status(UNPROCESS).json(error.message);
@@ -14,11 +14,11 @@ const createProduct = async (req, res) => {
 
 const getProduct = async (_req, res) => {
   try {
-    const product = await productsServices.getProduct();
-    res.status(SUCCESS).json(product.list);
+    const products = await productsServices.getProduct();
+    res.status(SUCCESS).json(products.list);
   } catch (error) {
     console.log(error);
-    res.status(NOTFOUND).json(error.message);
+    res.json('Desculpe, algo deu errado :(');
   }
 };
 
@@ -29,7 +29,7 @@ const getProductsById = async (req, res) => {
     res.status(SUCCESS).json(product.message);
   } catch (error) {
     console.log(error);
-    res.status(NOTFOUND).json(error.message);
+    res.status(UNPROCESS).json(error.message);
   }
 };
 
@@ -48,8 +48,8 @@ const updateProductsById = async (req, res) => {
 const deleteProductsById = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await productsServices.deleteProductsById(id);
-    res.status(SUCCESS).json(product.message);
+    const result = await productsServices.deleteProductsById(id);
+    res.status(SUCCESS).json(result.message);
   } catch (error) {
     console.log(error); 
     res.status(UNPROCESS).json(error.message);

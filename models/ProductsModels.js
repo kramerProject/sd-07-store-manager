@@ -4,7 +4,7 @@ const ObjectId = require('mongodb').ObjectId;
 // criar endpoint - cadastro produtos
 const createProduct = async(name, quantity) => {
   return connect().then(db => db.collection('products').insertOne({ name, quantity }))
-    .then(response => response.ops).catch(error => console.error(error.message));
+    .then(result => result.ops).catch(error => console.error(error.message));
 };
 
 const getProductByName = async (name) => {

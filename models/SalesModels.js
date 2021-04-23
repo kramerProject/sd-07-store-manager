@@ -6,13 +6,13 @@ const createSale = async(product) => {
     .catch(error => console.error(error.message));
 };
 
-const getSale = async () => {
-  return connect().then(db => db.collection('sales').find().toArray())
+const getSaleById = async (id) => {
+  return connect().then(db => db.collection('sales').findOne({_id: ObjectId(id)}))
     .catch(error => console.error(error.message));
 };
 
-const getSaleById = async (id) => {
-  return connect().then(db => db.collection('sales').findOne({_id: ObjectId(id)}))
+const getSale = async () => {
+  return connect().then(db => db.collection('sales').find().toArray())
     .catch(error => console.error(error.message));
 };
 

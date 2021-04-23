@@ -23,8 +23,8 @@ const getProduct = async () => {
 };
 
 const getProductsById = async (id) => {
-  const result = await productsModels.getProductsById(id);
-  result ? { message: result } : { message: mInvalidFormatId };
+  const response = await productsModels.getProductsById(id);
+  response ? { message: response } : { message: mInvalidFormatId };
 };
 
 const updateProductsById = async (id, product, qtd) => {
@@ -39,8 +39,8 @@ const updateProductsById = async (id, product, qtd) => {
 };
 
 const deleteProductsById = async (id) => {
-  const product = await productsModels.deleteProductsById(id);
-  product ? { message: product } : { message: mInvalidFormatId };
+  const result = await productsModels.deleteProductsById(id);
+  result ? { message: result } : { message: mInvalidFormatId };
 };
 
 module.exports = {

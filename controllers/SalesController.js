@@ -3,8 +3,8 @@ const { SUCCESS, CREATE, UNPROCESS, NOTFOUND } = require('./Status');
 
 const createSale = async (req, res) => {
   try {
-    const results = await salesServices.createSale(req.body);
-    res.status(CREATE).json(results.message);
+    const result = await salesServices.createSale(req.body);
+    res.status(CREATE).json(result.message);
   } catch(error) { 
     res.status(UNPROCESS).json(error.message);
   }
@@ -12,10 +12,10 @@ const createSale = async (req, res) => {
 
 const getSale = async (_req, res) => {
   try {
-    const sale = await salesServices.getSale();
-    res.status(SUCCESS).json(sale.message);
+    const list = await salesServices.getSale();
+    res.status(SUCCESS).json(list.message);
   } catch (error) {
-    res.status(NOTFOUND).json(error.message);
+    res.json('Algo deu errado :(');
   }
 };
 
@@ -32,8 +32,8 @@ const getSalesById = async (req, res) => {
 const updateSalesById = async (req, res) => {
   try {
     const { id } = req.params;
-    const sale = await salesServices.updateSalesById(id, req.body);
-    res.status(SUCCESS).json(sale.message);
+    const updateSale = await salesServices.updateSalesById(id, req.body);
+    res.status(SUCCESS).json(updateSale.message);
   } catch (error) {
     res.status(UNPROCESS).json(error.message);
   }
@@ -42,8 +42,8 @@ const updateSalesById = async (req, res) => {
 const deleteSalesById = async (req, res) => {
   try {
     const { id } = req.params;
-    const sale = await salesServices.deleteSalesById(id);
-    res.status(SUCCESS).json(sale.message);
+    const deleteSale = await salesServices.deleteSalesById(id);
+    res.status(SUCCESS).json(deleteSale.message);
   } catch (error) {
     res.status(UNPROCESS).json(error.message);
   }
