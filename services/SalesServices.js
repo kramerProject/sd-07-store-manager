@@ -21,8 +21,9 @@ const getSale = async () => {
 };
 
 const getSaleById = async (id) => {
-  const result = await salesModels.getSaleById(id);
-  result ? { message: result } : { message: mSaleNotFound };
+  const sale = await salesModels.getSaleById(id);
+  if(!sale) throw { message: mSaleNotFound };
+  return { message: sale };
 };
 
 const updateSalesById = async (id, sale) => {
@@ -31,14 +32,15 @@ const updateSalesById = async (id, sale) => {
   case invalidQuantity(sale): throw { message: mInvalidIdQtd };
   case quantityNotNumber(sale): throw { message: mInvalidIdQtd };
   default:
-    const result = await salesModels.updateSalesById(id, sale);
-    return { message: result.value };
+    const updateSale = await salesModels.updateSalesById(id, sale);
+    return { message: updateSale.value };
   }
 };
 
 const deleteSalesById = async (id) => {
-  const result = await salesModels.deleteSalesById(id);
-  result ? { message: result } : { message: mInvalidFormatId };
+  const deleteSale = await salesModels.deleteSalesById(id);
+  if(!deleteSale) throw { message: mInvalidFormatId };
+  return { message: deleteSale };
 };
 
 module.exports = {

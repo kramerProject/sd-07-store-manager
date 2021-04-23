@@ -26,24 +26,24 @@ const message = {
   },
 };
 
-const productNotExist = async (products) => {
-  const product = await Promise.all(products.map(async (item) => {
+const productNotExist = async (product) => {
+  const produto = await Promise.all(product.map(async (item) => {
     if(await productsModels.getProductById(item.productId)) return false;
     return true;
   }));
-  return product.some(item => item === true);
+  return produto.some(item => item === true);
 };
 
-const invalidQuantity = (products) => {
-  const validatedProducts = products.map(item => {
+const invalidQuantity = (product) => {
+  const validatedProducts = product.map(item => {
     if(item.quantity < 1) return true;
     return false;
   });
   return validatedProducts.some(item => item === true);
 };
 
-const quantityNotNumber = (products) => {
-  const validatedProducts = products.map(item => {
+const quantityNotNumber = (product) => {
+  const validatedProducts = product.map(item => {
     if(typeof(item.quantity) !== 'number') return true;
     return false;
   });

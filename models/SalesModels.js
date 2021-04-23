@@ -2,32 +2,37 @@ const connect = require('../config/connect');
 const ObjectId = require('mongodb').ObjectId;
 
 const createSale = async(product) => {
-  return connect().then(db => db.collection('sales').insertOne({itensSold: [...product]}))
-    .catch(error => console.error(error.message));
+  return connect().then(db => db.collection('sales')
+    .insertOne({itensSold: [...product]}))
+    .catch(err => console.log(err.message));
 };
 
 const getSaleById = async (id) => {
-  return connect().then(db => db.collection('sales').findOne({_id: ObjectId(id)}))
-    .catch(error => console.error(error.message));
+  connect().then(db => db.collection('sales')
+    .findOne({_id: ObjectId(id)}))
+    .catch(err => console.log(err.message));
 };
 
 const getSale = async () => {
-  return connect().then(db => db.collection('sales').find().toArray())
-    .catch(error => console.error(error.message));
+  return connect().then(db => db.collection('sales')
+    .find().toArray())
+    .catch(err => console.log(err.message));
 };
 
 const updateSalesById = async (id, sale) => {
-  return connect().then(db => db.collection('sales').findOneAndUpdate({_id: ObjectId(id)},
-    {$set: { itensSold: sale }},
-    {returnOriginal: false}))
-    .catch(error => console.error(error.message));
+  connect().then(db => db.collection('sales')
+    .findOneAndUpdate(
+      {_id: ObjectId(id)},
+      {$set: { itensSold: sale }},
+      {returnOriginal: false}))
+    .catch(err => console.log(err.message));
 };
 
 const deleteSalesById = async (id) => {
-  return connect().then(db => db.collection('sales')
+  connect().then(db => db.collection('sales')
     .findOneAndDelete({_id: ObjectId(id)}))
     .then(response => response.value)
-    .catch(error => console.error(error.message));
+    .catch(err => console.log(err.message));
 };
 
 module.exports = {

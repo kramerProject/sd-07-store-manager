@@ -11,5 +11,6 @@ app.get('/', (_request, response) => {
 // app.use(routeSales);
 app.use(routeProduct);
 app.use(routeSales);
+
 const PORT = 3000;
 app.listen(PORT,() => console.log('Minha aplicação está rodando!!'));

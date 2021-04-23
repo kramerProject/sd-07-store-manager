@@ -18,13 +18,14 @@ const createProduct = async(product, qty) => {
 };
 
 const getProduct = async () => {
-  const result = await productsModels.getProduct();
-  return { list: { products: result } };
+  const response = await productsModels.getProduct();
+  return { list: { products: response } };
 };
 
 const getProductById = async (id) => {
   const response = await productsModels.getProductById(id);
-  response ? { message: response } : { message: mInvalidFormatId };
+  if (response) return { message: response };
+  throw { message: mInvalidFormatId };
 };
 
 const updateProductsById = async (id, product, qtd) => {
@@ -40,7 +41,8 @@ const updateProductsById = async (id, product, qtd) => {
 
 const deleteProductsById = async (id) => {
   const result = await productsModels.deleteProductsById(id);
-  result ? { message: result } : { message: mInvalidFormatId };
+  if (result) return { message: result };
+  throw { message: mInvalidFormatId };
 };
 
 module.exports = {

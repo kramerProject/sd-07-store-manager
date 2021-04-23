@@ -3,38 +3,43 @@ const ObjectId = require('mongodb').ObjectId;
 
 // criar endpoint - cadastro produtos
 const createProduct = async(name, quantity) => {
-  return connect().then(db => db.collection('products').insertOne({ name, quantity }))
-    .then(result => result.ops).catch(error => console.error(error.message));
+  connect().then(db => db.collection('products')
+    .insertOne({ name, quantity }))
+    .then(result => result.ops)
+    .catch(err => console.log(err.message));
 };
 
 const getProductByName = async (name) => {
-  return connect().then(db => db.collection('products').findOne({name}))
-    .catch(error => console.error(error.message));
+  connect().then(db => db.collection('products')
+    .findOne({name}))
+    .catch(err => console.log(err.message));
 };
 
 const getProduct = async () => {
-  return connect().then(db => db.collection('products').find().toArray())
-    .catch(error => console.error(error.message));
+  connect().then(db => db.collection('products')
+    .find().toArray())
+    .catch(err => console.log(err.message));
 };
 
 const getProductById = async (id) => {
-  return connect().then(db => db.collection('products').findOne({_id: ObjectId(id)}))
-    .catch(error => console.error(error.message));
+  connect().then(db => db.collection('products')
+    .findOne({_id: ObjectId(id)}))
+    .catch(err => console.log(err.message));
 };
 
 const updateProductsById = async (id, name, quantity) => {
-  return connect().then(db => db.collection('products')
+  connect().then(db => db.collection('products')
     .findOneAndUpdate({_id: ObjectId(id)},
       {$set: {name, quantity}},
       {returnOriginal: false}))
-    .catch(error => console.error(error.message));
+    .catch(err => console.log(err.message));
 };
 
 const deleteProductsById = async (id) => {
-  return connect().then(db => db.collection('products')
+  connect().then(db => db.collection('products')
     .findOneAndDelete({_id: ObjectId(id)}))
     .then(response => response.value)
-    .catch(error => console.error(error.message));
+    .catch(err => console.log(err.message));
 };
 
 module.exports = {
