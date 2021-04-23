@@ -54,14 +54,14 @@ const productExists = async (name) => {
   return false;
 };
 
-const isNotNumber = (quantity) => {
-  if(typeof(quantity) !== 'number')
+const minQuantity = (quantity) => {
+  if(quantity < numbers.minQuantity)
     return true;
   return false;
 };
 
-const minQuantity = (quantity) => {
-  if(quantity < numbers.minQuantity)
+const isNotNumber = (quantity) => {
+  if(typeof(quantity) !== 'number')
     return true;
   return false;
 };

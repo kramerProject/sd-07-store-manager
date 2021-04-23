@@ -17,6 +17,7 @@ const getProduct = async (_req, res) => {
     const product = await productsServices.getProduct();
     res.status(SUCCESS).json(product.list);
   } catch (error) {
+    console.log(error);
     res.status(NOTFOUND).json(error.message);
   }
 };
@@ -27,6 +28,7 @@ const getProductsById = async (req, res) => {
     const product = await productsServices.getProductsById(id);
     res.status(SUCCESS).json(product.message);
   } catch (error) {
+    console.log(error);
     res.status(NOTFOUND).json(error.message);
   }
 };
@@ -38,6 +40,7 @@ const updateProductsById = async (req, res) => {
     const product = await productsServices.updateProductsById(id, name, quantity);
     res.status(SUCCESS).json(product.message);
   } catch (error) {
+    console.log(error);
     res.status(UNPROCESS).json(error.message);
   }
 };
@@ -48,6 +51,7 @@ const deleteProductsById = async (req, res) => {
     const product = await productsServices.deleteProductsById(id);
     res.status(SUCCESS).json(product.message);
   } catch (error) {
+    console.log(error); 
     res.status(UNPROCESS).json(error.message);
   }
 };
