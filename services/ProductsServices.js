@@ -39,8 +39,8 @@ const updateProductsById = async (id, product, qtd) => {
 };
 
 const deleteProductsById = async (id) => {
-  const result = await productsModels.deleteProductsById(id);
-  result ? { message: result } : { message: mInvalidFormatId };
+  const product = await productsModels.deleteProductsById(id);
+  product ? { message: product } : { message: mInvalidFormatId };
 };
 
 module.exports = {
