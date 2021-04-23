@@ -12,7 +12,7 @@ const createSale = async (req, res) => {
 
 const getSale = async (_req, res) => {
   try {
-    const sale = await salesServices.getAllSales();
+    const sale = await salesServices.getSale();
     res.status(SUCCESS).json(sale.message);
   } catch (error) {
     res.status(NOTFOUND).json(error.message);

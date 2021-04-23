@@ -13,7 +13,7 @@ const createProduct = async (req, res) => {
 
 const getProduct = async (_req, res) => {
   try {
-    const product = await productsServices.getAllProducts();
+    const product = await productsServices.getProduct();
     res.status(SUCCESS).json(product.list);
   } catch (error) {
     res.status(NOTFOUND).json(error.message);
