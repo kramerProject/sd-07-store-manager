@@ -22,7 +22,7 @@ const getProduct = async () => {
   return { list: { products: result } };
 };
 
-const getProductsById = async (id) => {
+const getProductById = async (id) => {
   const response = await productsModels.getProductById(id);
   response ? { message: response } : { message: mInvalidFormatId };
 };
@@ -46,7 +46,7 @@ const deleteProductsById = async (id) => {
 module.exports = {
   createProduct,
   getProduct,
-  getProductsById,
+  getProductById,
   updateProductsById,
   deleteProductsById,
 };
