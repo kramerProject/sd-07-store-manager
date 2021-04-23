@@ -2,7 +2,7 @@ const ProductService = require('../Service/ProductService');
 
 const {StatusCodes} = require('http-status-codes');
 
-const createProduct = async (req, res, next) => {
+const createProduct = async (req, res ) => {
   console.log('[PRODUCTS CONTROLLER] : CHAMOU O MÉTODO ADICIONAR UM PRODUCTS');
   try {
     const { name, quantity } = req.body;
