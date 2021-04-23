@@ -6,19 +6,19 @@ const statusData = {
 };
 
 const message = {
-  mInvalidIdQtd: {
+  invalidIdQtd: {
     err: {
       code: statusData.invalid, 
       message: 'Wrong product ID or invalid quantity',
     }
   },
-  mSaleNotFound: {
+  saleNotFound: {
     err: {
       code: statusData.notFound,
       message: 'Sale not found',
     }
   },
-  mInvalidFormatId: {
+  invalidFormatId: {
     err: {
       code: statusData.invalid, 
       message: 'Wrong sale ID format',

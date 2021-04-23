@@ -1,19 +1,19 @@
 const salesServices = require('../services/SalesServices');
-const { SUCCESS, CREATE, UNPROCESS, NOTFOUND } = require('./Status');
+const code = require('./Status');
 
 const createSale = async (req, res) => {
   try {
     const result = await salesServices.createSale(req.body);
-    res.status(CREATE).json(result.message);
+    res.status(code.SUCCESS).json(result.message);
   } catch(error) { 
-    res.status(UNPROCESS).json(error.message);
+    res.status(code.UNPROCESS).json(error.message);
   }
 };
 
 const getSale = async (_req, res) => {
   try {
     const list = await salesServices.getSale();
-    res.status(SUCCESS).json(list.message);
+    res.status(code.SUCCESS).json(list.message);
   } catch (error) {
     res.json('Algo deu errado :(');
   }
@@ -23,9 +23,9 @@ const getSaleById = async (req, res) => {
   try {
     const { id } = req.params;
     const sale = await salesServices.getSaleById(id);
-    res.status(SUCCESS).json(sale.message);
+    res.status(code.SUCCESS).json(sale.message);
   } catch (error) {
-    res.status(NOTFOUND).json(error.message);
+    res.status(code.NOTFOUND).json(error.message);
   }
 };
 
@@ -33,9 +33,9 @@ const updateSalesById = async (req, res) => {
   try {
     const { id } = req.params;
     const updateSale = await salesServices.updateSalesById(id, req.body);
-    res.status(SUCCESS).json(updateSale.message);
+    res.status(code.SUCCESS).json(updateSale.message);
   } catch (error) {
-    res.status(UNPROCESS).json(error.message);
+    res.status(code.UNPROCESS).json(error.message);
   }
 };
 
@@ -43,9 +43,9 @@ const deleteSalesById = async (req, res) => {
   try {
     const { id } = req.params;
     const deleteSale = await salesServices.deleteSalesById(id);
-    return res.status(SUCCESS).json(deleteSale.message);
+    res.status(code.SUCCESS).json(deleteSale.message);
   } catch (error) {
-    return res.status(UNPROCESS).json(error.message);
+    res.status(code.UNPROCESS).json(error.message);
   }
 };
 

@@ -1,15 +1,16 @@
 const productsModels = require('../models/ProductsModels');
-const { message: 
-  { mProductExists, mProductName, mQuantity, mIsNotNumber, mInvalidFormatId },
-productName, productExists, isNotNumber, minQuantity
-} = require('./ValidatedProduct');
+const validated = require('./ValidatedProduct');
 
 const createProduct = async(product, qty) => {
   switch(true) {
-  case productName(product): throw { message: mProductName };
-  case await productExists(product): throw { message: mProductExists };
-  case isNotNumber(qty): throw { message: mIsNotNumber };
-  case minQuantity(qty): throw { message: mQuantity };
+  case validated.productName(product): 
+    throw { message: validated.message.productName };
+  case await validated.productExists(product): 
+    throw { message: validated.message.productExists };
+  case validated.isNotNumber(qty):
+    throw { message: validated.message.isNotNumber };
+  case validated.minQuantity(qty):
+    throw { message: validated.message.quantity };
   default:
     const result = await productsModels.createProduct(product, qty);
     const { _id, name, quantity } = result[0];
@@ -25,14 +26,17 @@ const getProduct = async () => {
 const getProductById = async (id) => {
   const response = await productsModels.getProductById(id);
   if (response) return { message: response };
-  throw { message: mInvalidFormatId };
+  throw { message: validated.message.invalidFormatId };
 };
 
 const updateProductsById = async (id, product, qtd) => {
   switch(true) {
-  case productName(product): throw { message: mProductName };
-  case isNotNumber(qtd): throw { message: mIsNotNumber };
-  case minQuantity(qtd): throw { message: mQuantity };
+  case validated.productName(product):
+    throw { message: validated.message.productName };
+  case validated.isNotNumber(qtd):
+    throw { message: validated.message.isNotNumber };
+  case validated.minQuantity(qtd):
+    throw { message: validated.message.quantity };
   default:
     const result = await productsModels.updateProductsById(id, product, qtd);
     return { message: result.value };
@@ -42,7 +46,7 @@ const updateProductsById = async (id, product, qtd) => {
 const deleteProductsById = async (id) => {
   const result = await productsModels.deleteProductsById(id);
   if (result) return { message: result };
-  throw { message: mInvalidFormatId };
+  throw { message: validated.message.invalidFormatId };
 };
 
 module.exports = {

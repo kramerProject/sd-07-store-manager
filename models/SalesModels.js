@@ -2,7 +2,7 @@ const connect = require('../config/connect');
 const ObjectId = require('mongodb').ObjectId;
 
 const createSale = async(product) => {
-  return connect().then(db => db.collection('sales')
+  connect().then(db => db.collection('sales')
     .insertOne({itensSold: [...product]}))
     .catch(err => console.log(err.message));
 };
@@ -10,13 +10,13 @@ const createSale = async(product) => {
 const getSaleById = async (id) => {
   connect().then(db => db.collection('sales')
     .findOne({_id: ObjectId(id)}))
-    .catch(err => console.log(err.message));
+    .catch(err => console.log(err));
 };
 
 const getSale = async () => {
-  return connect().then(db => db.collection('sales')
+  connect().then(db => db.collection('sales')
     .find().toArray())
-    .catch(err => console.log(err.message));
+    .catch(err => console.log(err));
 };
 
 const updateSalesById = async (id, sale) => {
@@ -25,14 +25,14 @@ const updateSalesById = async (id, sale) => {
       {_id: ObjectId(id)},
       {$set: { itensSold: sale }},
       {returnOriginal: false}))
-    .catch(err => console.log(err.message));
+    .catch(err => console.log(err));
 };
 
 const deleteSalesById = async (id) => {
   connect().then(db => db.collection('sales')
     .findOneAndDelete({_id: ObjectId(id)}))
     .then(response => response.value)
-    .catch(err => console.log(err.message));
+    .catch(err => console.log(err));
 };
 
 module.exports = {

@@ -10,31 +10,31 @@ const numbers = {
 };
 
 const message = {
-  mProductName: {
+  productName: {
     err: {
       code: statusData.invalid, 
       message: '\"name"\ length must be at least 5 characters long',
     }
   },
-  mProductExists: {
+  productExists: {
     err: {
       code: statusData.invalid,  
       message: 'Product already exists',
     }
   },
-  mQuantity: {
+  quantity: {
     err: {
       code: statusData.invalid, 
       message: '\"quantity"\ must be larger than or equal to 1',
     }
   },
-  mIsNotNumber: {
+  isNotNumber: {
     err: {
       code: statusData.invalid,  
       message: '\"quantity"\ must be a number',
     }
   },
-  mInvalidFormatId: {
+  invalidFormatId: {
     err: {
       code: statusData.invalid,  
       message: 'Wrong id format',
@@ -54,14 +54,14 @@ const productExists = async (name) => {
   return false;
 };
 
-const minQuantity = (qtd) => {
-  if(qtd < numbers.minQuantity)
+const isNotNumber = (qtd) => {
+  if(typeof(qtd) !== 'number')
     return true;
   return false;
 };
 
-const isNotNumber = (qtd) => {
-  if(typeof(qtd) !== 'number')
+const minQuantity = (qtd) => {
+  if(qtd < numbers.minQuantity)
     return true;
   return false;
 };

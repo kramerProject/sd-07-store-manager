@@ -1,14 +1,14 @@
 const salesModels = require('../models/SalesModels');
-const { message: 
-  { mInvalidFormatId, mInvalidIdQtd, mSaleNotFound },
-productNotExist, invalidQuantity, quantityNotNumber
-} = require('./ValidatedSales');
+const validated = require('./ValidatedSales');
 
 const createSale = async (product) => {
   switch(true) {
-  case await productNotExist(product): throw { message: mInvalidIdQtd };
-  case invalidQuantity(product): throw { message: mInvalidIdQtd };
-  case quantityNotNumber(product): throw { message: mInvalidIdQtd};
+  case await validated.productNotExist(product): 
+    throw { message: validated.message.invalidIdQtd };
+  case validated.invalidQuantity(product):
+    throw { message: validated.message.invalidIdQtd };
+  case validated.quantityNotNumber(product):
+    throw { message: validated.message.invalidIdQtd};
   default:
     const result = await salesModels.createSale(product);
     return { message: result.ops[0] };
@@ -16,21 +16,24 @@ const createSale = async (product) => {
 };
 
 const getSale = async () => {
-  const result = await salesModels.getSale();
-  return { message: { sales: result } };
+  const salesList = await salesModels.getSale();
+  return { message: { sales: salesList } };
 };
 
 const getSaleById = async (id) => {
   const sale = await salesModels.getSaleById(id);
-  if(!sale) throw { message: mSaleNotFound };
+  if(!sale) throw { message: validated.message.saleNotFound };
   return { message: sale };
 };
 
 const updateSalesById = async (id, sale) => {
   switch(true) {
-  case await productNotExist(sale): throw { message: mInvalidIdQtd };
-  case invalidQuantity(sale): throw { message: mInvalidIdQtd };
-  case quantityNotNumber(sale): throw { message: mInvalidIdQtd };
+  case await validated.productNotExist(sale):
+    throw { message: validated.message.invalidIdQtd };
+  case validated.invalidQuantity(sale):
+    throw { message: validated.message.invalidIdQtd };
+  case validated.quantityNotNumber(sale):
+    throw { message: validated.message.invalidIdQtd };
   default:
     const updateSale = await salesModels.updateSalesById(id, sale);
     return { message: updateSale.value };
@@ -39,7 +42,7 @@ const updateSalesById = async (id, sale) => {
 
 const deleteSalesById = async (id) => {
   const deleteSale = await salesModels.deleteSalesById(id);
-  if(!deleteSale) throw { message: mInvalidFormatId };
+  if(!deleteSale) throw { message: validated.message.invalidFormatId };
   return { message: deleteSale };
 };
 
