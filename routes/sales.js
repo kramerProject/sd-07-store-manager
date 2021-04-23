@@ -3,7 +3,7 @@ const salesController = require('../controllers/SalesController');
 const router = express.Router();
 
 router.route('/sales/:id')
-  .get(salesController.getSalesById)
+  .get(salesController.getSaleById)
   .put(salesController.updateSalesById)
   .delete(salesController.deleteSalesById);
 

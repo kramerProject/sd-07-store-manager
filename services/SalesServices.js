@@ -20,8 +20,8 @@ const getSale = async () => {
   return { message: { sales: result } };
 };
 
-const getSalesById = async (id) => {
-  const result = await salesModels.getSalesById(id);
+const getSaleById = async (id) => {
+  const result = await salesModels.getSaleById(id);
   result ? { message: result } : { message: mSaleNotFound };
 };
 
@@ -44,7 +44,7 @@ const deleteSalesById = async (id) => {
 module.exports = {
   createSale,
   getSale,
-  getSalesById,
+  getSaleById,
   updateSalesById,
   deleteSalesById
 };

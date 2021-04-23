@@ -3,7 +3,7 @@ const productsController = require('../controllers/ProductsController');
 const router = express.Router();
 
 router.route('/products/:id')
-  .get(productsController.getProductsById)
+  .get(productsController.getProductById)
   .put(productsController.updateProductsById)
   .delete(productsController.deleteProductsById);
 

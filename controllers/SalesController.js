@@ -19,10 +19,10 @@ const getSale = async (_req, res) => {
   }
 };
 
-const getSalesById = async (req, res) => {
+const getSaleById = async (req, res) => {
   try {
     const { id } = req.params;
-    const sale = await salesServices.getSalesById(id);
+    const sale = await salesServices.getSaleById(id);
     res.status(SUCCESS).json(sale.message);
   } catch (error) {
     res.status(NOTFOUND).json(error.message);
@@ -52,7 +52,7 @@ const deleteSalesById = async (req, res) => {
 module.exports = {
   createSale,
   getSale,
-  getSalesById,
+  getSaleById,
   updateSalesById,
   deleteSalesById
 };
