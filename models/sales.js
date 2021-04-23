@@ -5,10 +5,10 @@ const createSale = async (sales) => {
   const newSale = {
     itensSold: sales,
   };
-  await connection().then((db) => {
-    db.collection('sales').insertOne(newSale);
+  const sale = await connection().then((db) => {
+    return db.collection('sales').insertOne(newSale);
   });
-  return await connection().then((db) => db.collection('sales').find(newSale).toArray());
+  return sale.ops[0];
 };
 
 const getAllSales = async () => {

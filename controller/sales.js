@@ -14,7 +14,7 @@ const createSale = async (req, res) => {
       });
     }
 
-    res.status(code).json(result[0]);
+    res.status(code).json(result);
   } catch (err) {
     console.error(err);
   }
