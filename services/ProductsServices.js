@@ -40,18 +40,18 @@ const getProductById = async (id) => {
   throw { message: validated.message.invalidFormatId };
 };
 
-const updateProductsById = async (id, product, qtd) => {
+const updateProductsById = async (id, name, quantity) => {
   switch(true) {
-  case validated.productName(product):
+  case validated.productName(name):
     throw { message: validated.message.productName };
-  case validated.isNotNumber(qtd):
+  case validated.isNotNumber(quantity):
     throw { message: validated.message.isNotNumber };
-  case validated.minQuantity(qtd):
+  case validated.minQuantity(quantity):
     throw { message: validated.message.quantity };
   default:
     const objectId = convertId(id);
     if(!objectId) throw { message: validated.message.invalidFormatId };
-    const result = await productsModels.updateProductsById(objectId, product, qtd);
+    const result = await productsModels.updateProductsById(objectId, {name, quantity});
     return { message: result.value };
   }
 };

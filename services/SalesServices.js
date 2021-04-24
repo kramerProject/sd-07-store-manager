@@ -13,22 +13,22 @@ const convertId = (id) => {
 
 const createSale = async (product) => {
   switch(true) {
-  case await validated.productNotExist(product): 
-    console.log('xblau!!');
+  case await validated.productNotExist(product):
     throw { message: validated.message.invalidIdQtd };
   case validated.invalidQuantity(product):
     throw { message: validated.message.invalidIdQtd };
   case validated.quantityNotNumber(product):
     throw { message: validated.message.invalidIdQtd};
+  case await validated.isInStock(product):
+    throw { message: validated.message.notInStock};
   default:
     const result = await salesModels.createSale(product);
-    // result.itensSold.forEach(async item => {
-    //   const product = await productsModels.getProductById(convertId(item.productId));
-    //   await productsModels.updateProductsById(convertId(item.productId), {
-    //     quantity: product.quantity - item.quantity 
-    //   });
-    // });
-    
+    for(const item of result.ops[0].itensSold) {
+      const product = await productsModels.getProductById(convertId(item.productId));
+      await productsModels.updateProductsById(convertId(item.productId), {
+        quantity: product.quantity - item.quantity 
+      });
+    };
     return { message: result.ops[0] };
   }
 };
@@ -67,6 +67,12 @@ const deleteSalesById = async (id) => {
   if(!objectId) throw { message: validated.message.invalidFormatId };
   const deleteSale = await salesModels.deleteSalesById(objectId);
   if(!deleteSale) throw { message: validated.message.invalidFormatId };
+  for(const item of deleteSale.itensSold) {
+    const product = await productsModels.getProductById(convertId(item.productId));
+    await productsModels.updateProductsById(convertId(item.productId), {
+      quantity: product.quantity + item.quantity 
+    });
+  };
   return { message: deleteSale };
 };
 

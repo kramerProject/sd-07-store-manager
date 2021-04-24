@@ -24,15 +24,13 @@ const getProduct = async () => {
 const getProductById = async (id) => {
   return connect().then(db => db.collection('products')
     .findOne({_id: id }))
-    // .findOne({_id: ObjectId(id)}))
     .catch(err => console.log(err));
 };
 
-const updateProductsById = async (id, name, quantity) => {
+const updateProductsById = async (id, body) => {
   return connect().then(db => db.collection('products')
     .findOneAndUpdate({_id: id},
-    // .findOneAndUpdate({_id: ObjectId(id)},
-      {$set: {name, quantity}},
+      {$set: {...body}},
       {returnOriginal: false}))
     .catch(error => console.log(error));
 };

@@ -12,6 +12,7 @@ const convertId = (id) => {
 const statusData = {
   invalid: 'invalid_data',
   notFound: 'not_found',
+  stockProblem: 'stock_problem',
 };
 
 const message = {
@@ -33,6 +34,12 @@ const message = {
       message: 'Wrong sale ID format',
     }
   },
+  notInStock: {
+    err: {
+      code: statusData.stockProblem,
+      message: 'Such amount is not permitted to sell',
+    }
+  }
 };
 
 const productNotExist = async (product) => {
@@ -61,9 +68,20 @@ const quantityNotNumber = (product) => {
   return validatedProducts.some(item => item === true);
 };
 
+const isInStock = async (product) => {
+  const ZERO = 0;
+  const produto = await Promise.all(product.map(async (item) => {
+    const inStock = await productsModels.getProductById(convertId(item.productId));
+    return inStock.quantity - item.quantity < ZERO;
+  }));
+  return produto.some(item => item === true);
+};
+
 module.exports = {
   message,
   productNotExist,
   invalidQuantity,
   quantityNotNumber,
+  isInStock,
+  statusData,
 };
