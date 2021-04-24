@@ -1,5 +1,14 @@
 const productsModels = require('../models/ProductsModels');
 const validated = require('./ValidatedProduct');
+const ObjectId = require('mongodb').ObjectId;
+
+const convertId = (id) => {
+  try{
+    return ObjectId(id);
+  } catch {
+    return null;
+  }
+};
 
 const createProduct = async(product, qty) => {
   switch(true) {
@@ -24,7 +33,9 @@ const getProduct = async () => {
 };
 
 const getProductById = async (id) => {
-  const response = await productsModels.getProductById(id);
+  const objectId = convertId(id);
+  if(!objectId) throw { message: validated.message.invalidFormatId };
+  const response = await productsModels.getProductById(objectId);
   if (response) return { message: response };
   throw { message: validated.message.invalidFormatId };
 };
@@ -38,13 +49,17 @@ const updateProductsById = async (id, product, qtd) => {
   case validated.minQuantity(qtd):
     throw { message: validated.message.quantity };
   default:
-    const result = await productsModels.updateProductsById(id, product, qtd);
+    const objectId = convertId(id);
+    if(!objectId) throw { message: validated.message.invalidFormatId };
+    const result = await productsModels.updateProductsById(objectId, product, qtd);
     return { message: result.value };
   }
 };
 
 const deleteProductsById = async (id) => {
-  const result = await productsModels.deleteProductsById(id);
+  const objectId = convertId(id);
+  if(!objectId) throw { message: validated.message.invalidFormatId };
+  const result = await productsModels.deleteProductsById(objectId);
   if (result) return { message: result };
   throw { message: validated.message.invalidFormatId };
 };

@@ -1,4 +1,13 @@
 const productsModels = require('../models/ProductsModels');
+const ObjectId = require('mongodb').ObjectId;
+
+const convertId = (id) => {
+  try{
+    return ObjectId(id);
+  } catch {
+    return null;
+  }
+};
 
 const statusData = {
   invalid: 'invalid_data',
@@ -28,7 +37,9 @@ const message = {
 
 const productNotExist = async (product) => {
   const produto = await Promise.all(product.map(async (item) => {
-    if(await productsModels.getProductById(item.productId)) return false;
+    const objectId = convertId(item.productId);
+    if(!objectId) return true;
+    if(await productsModels.getProductById(objectId)) return false;
     return true;
   }));
   return produto.some(item => item === true);
