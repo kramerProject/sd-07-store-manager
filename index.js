@@ -1,5 +1,5 @@
 const express = require('express');
-const { creatProduct } = require('./src/routes');
+const products = require('./src/routes');
 
 const app = express();
 
@@ -9,14 +9,15 @@ const PORT = process.env.PORT || '3000';
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
-  response.send('Deu ruim');
+  response.send();
 });
 
-app.use(creatProduct);
+app.use(products.getAllProducts);
+app.use(products.creatProduct);
 
 app.use((err, _req, res, _next) => {
   const { status, message, code } = err;
-  res.status(status).json({
+  res.sendStatus(status).json({
     error: {
       code,
       message,

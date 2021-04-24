@@ -1,14 +1,22 @@
-const { creatProduct } = require('../models/productsModel');
+const { get } = require('frisby');
+const { creatProduct, getAllProducts } = require('../models/productsModel');
 const { nameValidator, quatityValidation } = require('../validations/products');
 
 const creatProductService = async (name, quantity) => {
-  if (nameValidator(name) && quatityValidation(quantity)) {
-    const createdProduct = await creatProduct(name, quantity);
-    return createdProduct;
+  try {
+    nameValidator(name);
+    quatityValidation(quantity);
+    return await creatProduct(name, quantity);
+  } catch (error) {
+    console.log(error.message);
   }
-  return false;
+};
+
+const getAllProductService = () => {
+  return getAllProducts();
 };
 
 module.exports = {
   creatProductService,
+  getAllProductService,
 };
