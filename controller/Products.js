@@ -8,7 +8,7 @@ const addProduct = async (req, res) => {
 
   const { code, message } = result;
 
-  if (code === 'invalid') {
+  if (code === 'invalid_data') {
     return res.status(UNPROCESSABLE_ENTITY).send({ err: { code, message } });
   }
 
@@ -28,7 +28,7 @@ const findProductById = async (req, res) => {
 
   const { code, message } = result;
 
-  if (code === 'invalid')
+  if (code === 'invalid_data')
     return res.status(UNPROCESSABLE_ENTITY).send({ err: { code, message } });
 
   res.status(OK).send(result);
@@ -42,7 +42,7 @@ const updateProduct = async (req, res) => {
 
   const { code, message } = result;
 
-  if (code === 'invalid') {
+  if (code === 'invalid_data') {
     return res.status(UNPROCESSABLE_ENTITY).send({ err: { code, message } });
   }
 
@@ -56,7 +56,7 @@ const deleteProduct = async (req, res) => {
 
   const { code, message } = result;
 
-  if (code === 'invalid'){
+  if (code === 'invalid_data'){
     return res.status(UNPROCESSABLE_ENTITY).send({ err: { code, message } });
   }
 

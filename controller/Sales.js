@@ -8,7 +8,7 @@ const addSales = async (req, res) => {
 
   const { code, message } = result;
 
-  if (code === 'invalid') {
+  if (code === 'invalid_data') {
     return res.status(UNPROCESSABLE_ENTITY).send({ err: { code, message } });
   }
 
@@ -45,7 +45,7 @@ const updateSale = async (req, res) => {
 
   const { code, message } = result;
 
-  if (code === 'invalid') {
+  if (code === 'invalid_data') {
     return res.status(UNPROCESSABLE_ENTITY).send({ err: { code, message } });
   }
 
@@ -63,7 +63,7 @@ const deleteSale = async (req, res) => {
 
   const { code, message } = result;
 
-  if (code === 'invalid') {
+  if (code === 'invalid_data') {
     return res.status(UNPROCESSABLE_ENTITY).send({ err: { code, message } });
   }
 

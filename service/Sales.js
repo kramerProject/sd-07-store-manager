@@ -28,7 +28,7 @@ const addSales = async (sales) => {
   }
 
   if (!areProductsRegistered || !areQtdFieldsValid) {
-    return { code: 'invalid', message: 'Wrong product ID or invalid quantity' };
+    return { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' };
   }
 
   const { insertedId } = await Sale.addSales(sales);
@@ -60,7 +60,7 @@ const updateSale = async (id, sales) => {
     quantity > EMPTY_QUANTITY && typeof quantity === 'number');
 
   if (!areQtdFieldsValid) {
-    return { code: 'invalid', message: 'Wrong product ID or invalid quantity' };
+    return { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' };
   }
 
   const products = await Product.findAllProducts();
@@ -90,7 +90,7 @@ const deleteSale = async (id) => {
 
   const { status, itensSold } = sale;
   if (status === 'error') return {
-    code: 'invalid', message: 'Wrong sale ID format',
+    code: 'invalid_data', message: 'Wrong sale ID format',
   };
 
   await Sale.deleteSale(id);

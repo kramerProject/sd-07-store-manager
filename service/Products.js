@@ -4,11 +4,11 @@ const validateFields = require('../helper/Validate');
 const addProduct = async (name, quantity) => {
   const { status, message } = validateFields(name, quantity);
 
-  if (status === 'error') return { code: 'invalid', message };
+  if (status === 'error') return { code: 'invalid_data', message };
 
   const productExists = await Product.findProductByName(name);
 
-  if (productExists) return { code: 'invalid', message: 'Product already exists' };
+  if (productExists) return { code: 'invalid_data', message: 'Product already exists' };
 
   const { insertedId } = await Product.addProduct(name, quantity);
 
@@ -25,7 +25,7 @@ const findProductById = async (id) => {
   const product = await Product.findProductById(id);
 
   const { status } = product;
-  if (status === 'error') return { code: 'invalid', message: 'Wrong id format' };
+  if (status === 'error') return { code: 'invalid_data', message: 'Wrong id format' };
 
   return product;
 };
@@ -33,7 +33,7 @@ const findProductById = async (id) => {
 const updateProduct = async (id, name, quantity) => {
   const { status, message } = validateFields(name, quantity);
 
-  if (status === 'error') return { code: 'invalid', message };
+  if (status === 'error') return { code: 'invalid_data', message };
 
   const { insertedId } = await Product.updateProduct(id, name, quantity);
 
@@ -44,7 +44,7 @@ const deleteProduct = async (id) => {
   const product = await Product.findProductById(id);
 
   const { status } = product;
-  if (status === 'error') return { code: 'invalid', message: 'Wrong id' };
+  if (status === 'error') return { code: 'invalid_data', message: 'Wrong id' };
 
   await Product.deleteProduct(id);
 
