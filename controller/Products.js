@@ -1,5 +1,5 @@
-const Product = require('../services/Products');
-const { UNPROCESSABLE_ENTITY, CREATED, OK } = require('../helpers/status');
+const Product = require('../service/Products');
+const { UNPROCESSABLE_ENTITY, CREATED, OK } = require('../helper/status');
 
 const addProduct = async (req, res) => {
   const { name, quantity } = req.body;
