@@ -44,7 +44,7 @@ const deleteProduct = async (id) => {
   const product = await Product.findProductById(id);
 
   const { status } = product;
-  if (status === 'error') return { code: 'invalid_data', message: 'Wrong id' };
+  if (status === 'error') return { code: 'invalid_data', message: 'Wrong id format' };
 
   await Product.deleteProduct(id);
 
