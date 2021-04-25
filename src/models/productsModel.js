@@ -4,7 +4,7 @@ const { ObjectId } = require('mongodb');
 const creatProduct = async (name, quantity) => {
   const createdProduct = await connection().then((db) => db.collection('products')
     .insertOne({ name, quantity }));
-  return createdProduct;
+  return createdProduct.ops[0];
 };
 
 const updateProduct = async (id, name, quantity) => {

@@ -3,12 +3,13 @@ const { httpStatusCode } = require('./../../constants');
 const creatProductController = async (req, res, next) => {
   const { name, quantity } = req.body;
   try {
-    await productService.creatProductService(name, quantity);
-    return res.sendStatus(httpStatusCode.CREATED)
-      .json(httpStatusCode.UNPROCESSABLE_ENTITY);
+    const createdProduct = await productService.creatProductService(name, quantity);
+    console.log(createdProduct);
+    if (createdProduct) return res.status(httpStatusCode.CREATED)
+      .json(createdProduct);
   } catch (error) {
     console.log(error.message);
-    return next({
+    next({
       status: httpStatusCode.UNPROCESSABLE_ENTITY,
       code: 'invalid_data',
       message: error.message

@@ -19,8 +19,8 @@ app.use(products.creatProduct);
 
 app.use((err, _req, res, _next) => {
   const { status, message, code } = err;
-  res.sendStatus(status).json({
-    error: {
+  res.status(status).json({
+    err: {
       code,
       message,
     },
