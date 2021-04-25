@@ -16,6 +16,7 @@ app.get('/', (_request, response) => {
 
 app.use(products.getAllProducts);
 app.use(products.creatProduct);
+app.use(products.deletProduct);
 
 app.use((err, _req, res, _next) => {
   const { status, message, code } = err;

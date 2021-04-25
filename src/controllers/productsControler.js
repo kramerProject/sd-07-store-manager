@@ -32,7 +32,24 @@ const getAllProductController = async (req, res, next) => {
   }
 };
 
+const deletProductController = async (req, res, next) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const delectedProduct = await productService.deletProduct(Object(id));
+    if(delectedProduct) return res.status(httpStatusCode.OK);
+  } catch (error) {
+    console.log(error.message);
+    return next({
+      status: httpStatusCode.BAD_REQUEST,
+      code: 'invalid_data',
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   creatProductController,
   getAllProductController,
+  deletProductController,
 };

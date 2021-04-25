@@ -1,9 +1,9 @@
 const nameValidator = require('./nameValidation');
-const quatityValidation = require('./quatityValidation');
+const quantityValidation = require('./quantityValidation');
 const productIdValidation = require('./productIdValidation');
 
 module.exports = {
   nameValidator,
-  quatityValidation,
+  quantityValidation,
   productIdValidation,
 };

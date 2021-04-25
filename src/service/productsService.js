@@ -1,12 +1,21 @@
 const { get } = require('frisby');
 const { httpStatusCode } = require('../../constants');
-const { creatProduct, getAllProducts } = require('../models/productsModel');
-const { nameValidator, quatityValidation } = require('../validations/products');
+const {
+  creatProduct,
+  getAllProducts,
+  deleteProduct
+} = require('../models/productsModel');
+const {
+  nameValidator,
+  quantityValidation,
+  productIdValidation
+} = require('../validations/products');
+
+const PRODUC_DONT_EXISTS = 0;
 
 const creatProductService = async (name, quantity) => {
-  const PRODUC_DONT_EXISTS = 0;
+  quantityValidation(quantity);
   nameValidator(name);
-  quatityValidation(quantity);
   let registredProduct = await getAllProducts();
   registredProduct = registredProduct.filter((product) => product.name === name);
   if (registredProduct.length > PRODUC_DONT_EXISTS) {
@@ -16,11 +25,23 @@ const creatProductService = async (name, quantity) => {
   return newProduct;
 };
 
-const getAllProductService = () => {
-  return getAllProducts();
+const getAllProductService = async () => {
+  const allProducts = await getAllProducts();
+  if (!allProducts.length) throw new Error('Product not fount');
+  return allProducts;
+};
+
+const deletProduct = async (id) => {
+  productIdValidation(id);
+  let registredProduct = await deletProduct(id);
+  registredProduct = registredProduct.filter((product) => product.id === Object(id));
+  if (registredProduct.length > PRODUC_DONT_EXISTS) {
+    throw new Error('Product not found');
+  }
 };
 
 module.exports = {
   creatProductService,
   getAllProductService,
+  deletProduct,
 };
