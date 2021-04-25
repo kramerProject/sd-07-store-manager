@@ -1,5 +1,5 @@
 const Product = require('../model/Products');
-const validateFields = require('../helper/Validate');
+const validateFields = require('../helper/validateFields');
 
 const addProduct = async (name, quantity) => {
   const { status, message } = validateFields(name, quantity);
