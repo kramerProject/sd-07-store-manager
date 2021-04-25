@@ -10,10 +10,7 @@ const findProductByName = (name) => connection()
 
 const findProductById = (id) => connection()
   .then((db) => db.collection('products').findOne(ObjectId(id)))
-  .catch((err) => {
-    console.log(err);
-    process.exit(1);
-  });
+  .catch(() => ({ status: 'error' }));
 
 const addProduct = (name, quantity) => connection()
   .then((db) => db.collection('products').insertOne({ name, quantity }))
