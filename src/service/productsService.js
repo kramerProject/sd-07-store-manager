@@ -3,7 +3,8 @@ const {
   creatProduct,
   getAllProducts,
   deleteProduct,
-  getProductById
+  getProductById,
+  updateProduct,
 } = require('../models/productsModel');
 const {
   nameValidator,
@@ -35,11 +36,10 @@ const getAllProductService = async () => {
 const getProductByIdService = async (id) => {
   productIdValidation(id);
   const producById = await getProductById(id);
-  console.log(producById);
   return producById;
 };
 
-const deletProduct = async (id) => {
+const deletProductService = async (id) => {
   productIdValidation(id);
   let registredProduct = await getAllProducts();
   registredProduct = registredProduct.filter((product) => product.id === id);
@@ -50,9 +50,19 @@ const deletProduct = async (id) => {
   return delectedProduct;
 };
 
+const updateProductServide = async (id, name, quantity) => {
+  productIdValidation(id);
+  quantityValidation(quantity);
+  nameValidator(name);
+  await updateProduct(id, name, quantity);
+  const updatedProduct = await getProductById(id);
+  return updatedProduct;
+};
+
 module.exports = {
   creatProductService,
   getAllProductService,
   getProductByIdService,
-  deletProduct,
+  deletProductService,
+  updateProductServide,
 };
