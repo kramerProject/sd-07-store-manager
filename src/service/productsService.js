@@ -2,7 +2,8 @@ const { httpStatusCode } = require('../../constants');
 const {
   creatProduct,
   getAllProducts,
-  deleteProduct
+  deleteProduct,
+  getProductById
 } = require('../models/productsModel');
 const {
   nameValidator,
@@ -31,6 +32,13 @@ const getAllProductService = async () => {
   };
 };
 
+const getProductByIdService = async (id) => {
+  productIdValidation(id);
+  const producById = await getProductById(id);
+  console.log(producById);
+  return producById;
+};
+
 const deletProduct = async (id) => {
   productIdValidation(id);
   const registredProduct = await deleteProduct(id);
@@ -40,5 +48,6 @@ const deletProduct = async (id) => {
 module.exports = {
   creatProductService,
   getAllProductService,
+  getProductByIdService,
   deletProduct,
 };
