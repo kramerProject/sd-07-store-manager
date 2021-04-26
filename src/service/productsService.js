@@ -41,8 +41,13 @@ const getProductByIdService = async (id) => {
 
 const deletProduct = async (id) => {
   productIdValidation(id);
-  const registredProduct = await deleteProduct(id);
-  return registredProduct;
+  let registredProduct = await getAllProducts();
+  registredProduct = registredProduct.filter((product) => product.id === id);
+  if (registredProduct.length > PRODUC_DONT_EXISTS) {
+    throw new Error('Produc not found');
+  }
+  const delectedProduct = await deleteProduct(id);
+  return delectedProduct;
 };
 
 module.exports = {
