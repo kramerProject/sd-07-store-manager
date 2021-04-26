@@ -1,6 +1,6 @@
 const { ObjectID } = require('mongodb');
 const { add, getAll, getById, update, exclude } = require('../models/salesModel');
-// const { updateSales } = require('./updateService');
+const { updateBySales } = require('./productService');
 const { CustomError } = require('../middlewares');
 const {StatusCodes} = require('http-status-codes');
 
@@ -25,7 +25,7 @@ const addSales =  async (productList) => {
     StatusCodes.UNPROCESSABLE_ENTITY,
     code,
     'Error from model - create');
-  // await updateSales(productList, 'subtract');
+  await updateBySales(productList, 'subtract');
 
   return { _id: newSale.insertedId, itensSold: productList };
 };
@@ -85,8 +85,7 @@ const deleteSaleById = async (id) => {
     code,
     'Error from model - deleteSale'
   );
-  console.log(readSale.itensSold);
-  // await updateSales(readSale.itensSold, 'add');
+  await updateBySales(readSale.itensSold, 'add');
   return readSale;
 };
 

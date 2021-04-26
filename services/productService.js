@@ -4,6 +4,7 @@ const { CustomError } = require('../middlewares');
 const {StatusCodes} = require('http-status-codes');
 
 const code = 'invalid_data';
+const ZERO_QTD = 0;
 
 const addProduct = async (name, quantity) => {
   const productsList = await getAllProducts();
@@ -39,7 +40,6 @@ const getAllProducts = async () => {
 };
 
 const readProductsById = async (id) => {
-  console.log(id);
   if (!ObjectID.isValid(id)) throw new CustomError(
     StatusCodes.UNPROCESSABLE_ENTITY,
     code,
@@ -73,10 +73,37 @@ const deleteProductById = async (id) => {
   return readProduct;
 };
 
+async function updateBySales(saleList, operation) {
+  const ProductPromises = saleList.map((sale) => getById(sale.productId));
+  const ProductList = await Promise.all(ProductPromises);
+
+  await Promise.all(
+    ProductList.map((product, index) => {
+      const { _id, name, quantity } = product;
+      let quantityProduct = quantity;
+      let quantitySale = saleList[index].quantity;
+
+      let newQuantity = operation === 'subtract'
+        ? quantityProduct - quantitySale
+        : quantityProduct + quantitySale;
+
+      if (newQuantity < ZERO_QTD)
+        throw new CustomError(
+          StatusCodes.NOT_FOUND,
+          'stock_problem',
+          'Such amount is not permitted to sell'
+        );
+
+      return update(_id, name, newQuantity);
+    }),
+  );
+};
+
 module.exports = {
   addProduct,
   getAllProducts,
   readProductsById,
   updateProductById,
   deleteProductById,
+  updateBySales,
 };
