@@ -4,7 +4,6 @@ const creatProductController = async (req, res, next) => {
   const { name, quantity } = req.body;
   try {
     const createdProduct = await productService.creatProductService(name, quantity);
-    console.log(createdProduct);
     if (createdProduct) return res.status(httpStatusCode.CREATED)
       .json(createdProduct);
   } catch (error) {
@@ -25,7 +24,7 @@ const getAllProductController = async (req, res, next) => {
   } catch (error) {
     console.log(error.message);
     return next({
-      status: httpStatusCode.BAD_REQUEST,
+      status: httpStatusCode.UNPROCESSABLE_ENTITY,
       code: 'invalid_data',
       message: error.message
     });
@@ -34,14 +33,14 @@ const getAllProductController = async (req, res, next) => {
 
 const deletProductController = async (req, res, next) => {
   const { id } = req.params;
-  console.log(id);
   try {
-    const delectedProduct = await productService.deletProduct(Object(id));
-    if(delectedProduct) return res.status(httpStatusCode.OK);
+    const delectedProduct = await productService.deletProduct(id);
+    // if(delectedProduct) 
+    return res.status(httpStatusCode.OK).json(delectedProduct);
   } catch (error) {
     console.log(error.message);
     return next({
-      status: httpStatusCode.BAD_REQUEST,
+      status: httpStatusCode.UNPROCESSABLE_ENTITY,
       code: 'invalid_data',
       message: error.message
     });

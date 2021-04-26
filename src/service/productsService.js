@@ -1,4 +1,3 @@
-const { get } = require('frisby');
 const { httpStatusCode } = require('../../constants');
 const {
   creatProduct,
@@ -27,17 +26,15 @@ const creatProductService = async (name, quantity) => {
 
 const getAllProductService = async () => {
   const allProducts = await getAllProducts();
-  if (!allProducts.length) throw new Error('Product not fount');
-  return allProducts;
+  return {
+    products: allProducts,
+  };
 };
 
 const deletProduct = async (id) => {
   productIdValidation(id);
-  let registredProduct = await deletProduct(id);
-  registredProduct = registredProduct.filter((product) => product.id === Object(id));
-  if (registredProduct.length > PRODUC_DONT_EXISTS) {
-    throw new Error('Product not found');
-  }
+  const registredProduct = await deleteProduct(id);
+  return registredProduct;
 };
 
 module.exports = {
