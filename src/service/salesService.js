@@ -1,5 +1,6 @@
+const { ObjectID } = require('bson');
 const { salesModel } = require('../models');
-const { idOrQtdValidate } = require('../validations/sales');
+const { idOrQtdValidate, saleIdValidate } = require('../validations/sales');
 
 const creatSales = async (saleInfo) => {
   saleInfo.map((element) => idOrQtdValidate(element.productId, element.quantity));
@@ -16,6 +17,7 @@ const getSales = async () => {
 };
 
 const getSaleById = async (id) => {
+  if(!ObjectID.isValid(id)) throw new Error('Sale not found');
   const saleById = await salesModel.getSaleById(id) || [];
   if (Object.keys(saleById).length < 1) throw new Error('Sale not found');
   return {
