@@ -1,12 +1,11 @@
 const express = require('express');
-const products = require('./src/routes');
+const { products, sales } = require('./src/routes');
 
 const app = express();
 
 app.use(express.json());
 
 const LOCAL_PORT = 3000;
-
 const PORT = process.env.PORT || LOCAL_PORT;
 
 // não remova esse endpoint, e para o avaliador funcionar
@@ -17,6 +16,8 @@ app.get('/', (_request, response) => {
 app.use(products.getAllProducts);
 app.use(products.creatProduct);
 app.use(products.deletProduct);
+app.use(sales.getAllSales);
+app.use(sales.creatSale);
 
 app.use((err, _req, res, _next) => {
   const { status, message, code } = err;

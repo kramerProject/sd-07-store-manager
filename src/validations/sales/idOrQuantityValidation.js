@@ -2,7 +2,7 @@ const { ObjectId } = require('mongodb');
 
 const idOrQtdValidate = (id, quanity) => {
   if (!ObjectId.isValid(id) || +quanity < 1 || typeof quanity !== 'number') {
-    throw new Error('Wrong product id or invalidy quantity');
+    throw new Error('Wrong product ID or invalid quantity');
   }
   return false;
 };

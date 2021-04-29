@@ -2,28 +2,33 @@ const { connection } = require('../../configs');
 const { ObjectId } = require('mongodb');
 
 const creatSale = async (saleInfos) => {
-  connection().then((db) => db.collection('sales')
+  const createdSale = await connection().then((db) => db.collection('sales')
     .insertOne({ itensSold: saleInfos }));
+  return createdSale.ops[0];
 };
 
 const updateSale = async (id, saleInfos) => {
-  connection().then((db) => db.collection('sales')
+  const updatedSale = await connection().then((db) => db.collection('sales')
     .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: saleInfos } }));
+  return updatedSale;
 };
 
 const deleteSale = async (id) => {
-  connection().then((db) => db.collection('sales')
+  const deletedSale = await connection().then((db) => db.collection('sales')
     .deleteOne({ _id: ObjectId(id) }));
+  return deletedSale;
 };
 
 const getAllSales = async () => {
-  connection().then((db) => db.collection('sales')
+  const listedSale = await connection().then((db) => db.collection('sales')
     .find().toArray());
+  return listedSale;
 };
 
 const getSaleById = async (id) => {
-  connection().then((db) => db.collection('sales')
-    .findOne(ObjectId(id)).toArray());
+  const foundSale = await connection().then((db) => db.collection('sales')
+    .findOne({ _id: ObjectId(id)}));
+  return foundSale;
 };
 
 module.exports = {

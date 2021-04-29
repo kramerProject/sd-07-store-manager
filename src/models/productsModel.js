@@ -10,7 +10,6 @@ const creatProduct = async (name, quantity) => {
 const updateProduct = async (id, name, quantity) => {
   const updatedProduct = await connection().then((db) => db.collection('products')
     .updateOne({_id: ObjectId(id)}, {$set: {name: name, quantity: quantity}}));
-  console.log(updatedProduct.message.documents);
   return updatedProduct;
 };
 

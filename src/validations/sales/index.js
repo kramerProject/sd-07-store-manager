@@ -3,4 +3,5 @@ const saleIdValidate = require('./saleIdValidate');
 
 module.exports = {
   idOrQtdValidate,
+  saleIdValidate,
 };
