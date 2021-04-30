@@ -128,8 +128,6 @@ describe('1 - Crie um endpoint para o cadastro de produtos', () => {
       .expect('status', 201)
       .then((res) => {
         let { body } = res;
-        console.log('res is: ', res);
-        console.log('body is: ', body);
         body = JSON.parse(body);
         const productName = body.name;
         const quantityProduct = body.quantity;

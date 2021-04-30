@@ -7,6 +7,7 @@ var isNaN = function (value) {
 
 const createSale = async (sales) => {
   //validação
+  const update = await Sales.updateQuantityWhenSold(sales);
   const quantidadeNula = 0;
   const firstSale = 0;
   for (let index = firstSale; index < sales.length; index += 1) {
@@ -23,9 +24,15 @@ const createSale = async (sales) => {
       };
   }
 
+  if (update === null)
+    return {
+      code: 404,
+      message: 'Such amount is not permitted to sell',
+    };
+
   const result = await Sales.createSale(sales);
 
-  return { code: 200, result };
+  if (result) return { code: 200, result };
 };
 
 const getAllSales = async () => {
@@ -37,13 +44,14 @@ const getSaleById = async (id) => {
   const result = await Sales.getSaleById(id);
   const zeroSales = 0;
 
-  if (result === false || result.length === zeroSales) 
+  if (result === false || result.length === zeroSales)
     return { code: 404, message: 'Sale not found' };
 
   return { code: 200, result };
 };
 
 const updateSale = async (id, itensSold) => {
+  const update = await Sales.updateQuantityWhenSold(itensSold);
   const quantidadeNula = 0;
   const { quantity } = itensSold[0];
   if (quantity <= quantidadeNula)
@@ -56,6 +64,11 @@ const updateSale = async (id, itensSold) => {
       code: 422,
       message: 'Wrong product ID or invalid quantity',
     };
+  if (update === null)
+    return {
+      code: 404,
+      message: 'Such amount is not permitted to sell',
+    };
 
   const result = await Sales.updateSale(id, itensSold);
 
@@ -63,9 +76,11 @@ const updateSale = async (id, itensSold) => {
 };
 
 const deleteSale = async (id) => {
-  const result = await Sales.deleteSale(id);
+  const saleId = await Sales.updateQuantityWhenDeletedSold(id);
 
-  if (result === false) return { code: 422, message: 'Wrong sale ID format' };
+  if (saleId === false) return { code: 422, message: 'Wrong sale ID format' };
+
+  const result = await Sales.deleteSale(id);
 
   return { code: 200, result };
 };

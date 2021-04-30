@@ -144,8 +144,6 @@ describe('5 - Crie um endpoint para cadastrar vendas', () => {
       .expect('status', 200)
       .then((secondResponse) => {
         const { json } = secondResponse;
-        console.log('secondResponse is: ', secondResponse);
-        console.log('json is: ', json);
         const idFirstItenSold = json.itensSold[0].productId;
         const quantityFirstItenSold = json.itensSold[0].quantity;
         expect(idFirstItenSold).toBe(resultProductId);

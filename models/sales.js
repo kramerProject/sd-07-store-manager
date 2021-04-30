@@ -1,5 +1,40 @@
 const { ObjectId } = require('bson');
 const connection = require('./connection');
+const { getProductById, updateProduct } = require('./products');
+
+const updateQuantityWhenSold = async (sales) => {
+  const zero = 0;
+  for (let index = zero; index < sales.length; index += 1) {
+    //venda
+    const { productId } = sales[index];
+    const quantitySold = sales[index].quantity;
+    //produto ou estoque
+    const product = await getProductById(productId);
+    const { name, quantity } = product[0];
+    //update
+    const newQuantity = quantity - quantitySold;
+    await updateProduct(name, newQuantity, productId);
+    if (newQuantity <= zero) return null;
+  }
+};
+
+const updateQuantityWhenDeletedSold = async (id) => {
+  const saleId = await getSaleById(id);
+  if (!saleId) return false;
+  const sales = saleId[0].itensSold;
+  const zero = 0;
+  for (let index = zero; index < sales.length; index += 1) {
+    //venda
+    const { productId } = sales[index];
+    const quantitySold = sales[index].quantity;
+    //produto ou estoque
+    const product = await getProductById(productId);
+    const { name, quantity } = product[0];
+    //update
+    const newQuantity = quantity + quantitySold;
+    await updateProduct(name, newQuantity, productId);
+  }
+};
 
 const createSale = async (sales) => {
   const newSale = {
@@ -32,8 +67,8 @@ const getSaleById = async (id) => {
 };
 
 const updateSale = async (id, itensSold) => {
-  await connection().then((db) => {
-    db.collection('sales').updateOne(
+  const update = await connection().then((db) => {
+    return db.collection('sales').updateOne(
       { _id: ObjectId(id) },
       {
         $set: {
@@ -67,4 +102,12 @@ const deleteSale = async (id) => {
     });
 };
 
-module.exports = { createSale, getAllSales, getSaleById, updateSale, deleteSale };
+module.exports = {
+  createSale,
+  getAllSales,
+  getSaleById,
+  updateSale,
+  deleteSale,
+  updateQuantityWhenSold,
+  updateQuantityWhenDeletedSold,
+};

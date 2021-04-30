@@ -4,11 +4,14 @@ const createSale = async (req, res) => {
   try {
     const { body } = req;
     const { code, message, result } = await Sales.createSale(body);
+    const NOT_FOUND = 404;
+
+    const codeMessage = code === NOT_FOUND ? 'stock_problem' : 'invalid_data';
 
     if (!result) {
       return res.status(code).json({
         err: {
-          code: 'invalid_data',
+          code: codeMessage,
           message,
         },
       });
@@ -47,15 +50,19 @@ const updateSale = async (req, res) => {
     const itensSold = req.body;
     const { id } = req.params;
     const { code, message, result } = await Sales.updateSale(id, itensSold);
+    const NOT_FOUND = 404;
+
+    const codeMessage = code === NOT_FOUND ? 'stock_problem' : 'invalid_data';
 
     if (!result) {
       return res.status(code).json({
         err: {
-          code: 'invalid_data',
+          code: codeMessage,
           message,
         },
       });
     }
+
     res.status(code).json(result[0]);
   } catch (err) {
     console.error(err);
