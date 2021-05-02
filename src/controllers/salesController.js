@@ -63,9 +63,25 @@ const updateSale = async (req, res, next) => {
   }
 };
 
+const deleteSale = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const deletedSale = await salesService.deleteSale(id);
+    return res.status(httpStatusCode.OK).json(deletedSale);
+  } catch (error) {
+    console.log(error.message);
+    return next({
+      status: httpStatusCode.UNPROCESSABLE_ENTITY,
+      code: 'invalid_data',
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   creatSales,
   getAllSales,
   getSaleById,
   updateSale,
+  deleteSale,
 };

@@ -11,7 +11,6 @@ const updateSale = async (id, saleInfos) => {
   await connection().then((db) => db.collection('sales')
     .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: saleInfos } }));
   const updatedSale = await getSaleById(id);
-  console.log(updatedSale);
   return updatedSale;
 };
 

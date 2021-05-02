@@ -1,7 +1,7 @@
 const { ObjectId } = require('mongodb');
 
 const saleIdValidate = (id) => {
-  if (!ObjectId.isValid(id)) throw new Error('Wrong sale id format');
+  if (!ObjectId.isValid(id)) throw new Error('Wrong sale ID format');
   return false;
 };
 
