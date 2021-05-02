@@ -6,20 +6,25 @@ const {
 const {
   addProductController,
   getAllProductsController,
+  getProductByIdController,
 } = require('../controller/productsController');
 
 const productsRoute = express.Router();
 
 productsRoute
-  .get(
-    '/',
-    getAllProductsController
-  )
   .post(
     '/',
     nameValidator,
     quantityValidator,
     addProductController
+  )
+  .get(
+    '/',
+    getAllProductsController
+  )
+  .get(
+    '/:id',
+    getProductByIdController,
   );
 
 module.exports = productsRoute;

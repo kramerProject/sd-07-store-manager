@@ -1,6 +1,7 @@
 const {
   addProductService,
-  getAllProductsService
+  getAllProductsService,
+  getProductByIdService,
 } = require('../services/productsService');
 
 const NEW_ITEM = 201;
@@ -22,8 +23,23 @@ const addProductController = async(req, res) => {
 
 const getAllProductsController = async (req, res) => {
   try {
-    const results = await getAllProductsService();
-    res.status(SUCCESS).json(results);
+    const products = await getAllProductsService();
+    res.status(SUCCESS).json({products});
+  } catch (error) {
+    res.status(INTERNAL_ERROR).json({
+      message: error.message,
+    });
+  }
+};
+
+const getProductByIdController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await getProductByIdService(id);
+    if(result.err) { // Referência: Vanessa Naara
+      return res.status(INVALID_DATA).json(result);
+    }
+    return res.status(SUCCESS).json(result);
   } catch (error) {
     res.status(INTERNAL_ERROR).json({
       message: error.message,
@@ -33,5 +49,6 @@ const getAllProductsController = async (req, res) => {
 
 module.exports = {
   addProductController,
-  getAllProductsController
+  getAllProductsController,
+  getProductByIdController,
 };
