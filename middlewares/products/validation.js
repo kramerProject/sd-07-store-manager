@@ -9,7 +9,7 @@ const minQuantity = 1;
 const nameValidator = async(req, res, next) => {
   const { name } = req.body;
   if(!name || name.length < minLength) {
-    res.status(INVALID_DATA).json({
+    return res.status(INVALID_DATA).json({
       err: {
         code: 'invalid_data',
         message: '"name" length must be at least 5 characters long'
@@ -31,8 +31,8 @@ const nameValidator = async(req, res, next) => {
 
 const quantityValidator = async(req, res, next) => {
   const { quantity } = req.body;
-  if(!quantity || quantity.length < minQuantity) {
-    res.status(INVALID_DATA).send({
+  if(!quantity || quantity < minQuantity) {
+    return res.status(INVALID_DATA).send({
       err: {
         code: 'invalid_data',
         message: '"quantity" must be larger than or equal to 1'
@@ -40,7 +40,7 @@ const quantityValidator = async(req, res, next) => {
     });
   }
   if (typeof quantity !== 'number') {
-    res.status(INVALID_DATA).send({
+    return res.status(INVALID_DATA).send({
       err: {
         code: 'invalid_data',
         message: '"quantity" must be a number'
