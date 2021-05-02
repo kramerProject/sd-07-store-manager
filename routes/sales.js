@@ -1,5 +1,9 @@
 const express = require('express');
-const { createSalesController } = require('../controllers/salesController');
+const {
+  createSalesController,
+  getAllSalesController,
+  getSaleByIdController,
+} = require('../controllers/salesController');
 const { quantityValidator } = require('../middlewares/sales/validation');
 
 const salesRoute = express.Router();
@@ -9,6 +13,14 @@ salesRoute
     '/',
     quantityValidator,
     createSalesController,
+  )
+  .get(
+    '/',
+    getAllSalesController,
+  )
+  .get(
+    '/:id',
+    getSaleByIdController,
   );
 
 

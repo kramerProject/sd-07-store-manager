@@ -1,8 +1,13 @@
-const { createSalesService } = require('../services/salesService');
+const {
+  createSalesService,
+  getAllSalesService,
+  getSaleByIdService,
+} = require('../services/salesService');
 
 // const NEW_ITEM = 201;
 const SUCCESS = 200;
-// const INVALID_DATA = 422;
+const NOT_FOUND = 404;
+const INVALID_DATA = 422;
 const INTERNAL_ERROR = 500;
 
 const createSalesController = async(req, res) => {
@@ -17,4 +22,34 @@ const createSalesController = async(req, res) => {
   }
 };
 
-module.exports = { createSalesController };
+const getAllSalesController = async(req, res) => {
+  try {
+    const sales = await getAllSalesService();
+    res.status(SUCCESS).json({sales});
+  } catch (error) {
+    res.status(INTERNAL_ERROR).json({
+      message: error.message,
+    });
+  }
+};
+
+const getSaleByIdController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await getSaleByIdService(id);
+    if(result.err) {
+      return res.status(NOT_FOUND).json(result);
+    }
+    return res.status(SUCCESS).json(result);
+  } catch (error) {
+    res.status(INTERNAL_ERROR).json({
+      message: error.message,
+    });
+  }
+};
+
+module.exports = {
+  createSalesController,
+  getAllSalesController,
+  getSaleByIdController,
+};
