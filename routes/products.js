@@ -2,14 +2,14 @@ const express = require('express');
 const {
   nameValidator,
   quantityValidator,
-} = require('../middlewares/products/validation');
+} = require('../middlewares/products/validations');
 const {
   addProductController,
   getAllProductsController,
   getProductByIdController,
   updateProductController,
   deleteProductController,
-} = require('../controller/productsController');
+} = require('../controllers/productsController');
 
 const productsRoute = express.Router();
 
