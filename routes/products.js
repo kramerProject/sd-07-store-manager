@@ -8,6 +8,7 @@ const {
   getAllProductsController,
   getProductByIdController,
   updateProductController,
+  deleteProductController,
 } = require('../controller/productsController');
 
 const productsRoute = express.Router();
@@ -32,6 +33,10 @@ productsRoute
     quantityValidator,
     nameValidator,
     updateProductController,
+  )
+  .delete(
+    '/:id',
+    deleteProductController,
   );
 
 module.exports = productsRoute;

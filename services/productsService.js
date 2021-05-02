@@ -3,6 +3,7 @@ const {
   getAllProductsModel,
   getProductByIdModel,
   updateProductModel,
+  deleteProductModel,
 } = require('../models/productsModel');
 
 const objErr = {
@@ -33,9 +34,19 @@ const updateProductService = async(id, name, quantity) => {
   return await updateProductModel(id, name, quantity);
 };
 
+const deleteProductService = async(id) => {
+  const objDeleted = await deleteProductModel(id);
+  if (!objDeleted) {
+    objErr.err.message = 'Wrong id format';
+    return objErr;
+  }
+  return objDeleted;
+};
+
 module.exports = {
   addProductService,
   getAllProductsService,
   getProductByIdService,
-  updateProductService
+  updateProductService,
+  deleteProductService,
 };
