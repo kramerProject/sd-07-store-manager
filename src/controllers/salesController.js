@@ -1,3 +1,4 @@
+const { ObjectID } = require('bson');
 const { salesService } = require('../service');
 const { httpStatusCode } = require('./../../constants');
 
@@ -45,8 +46,27 @@ const getSaleById = async (req, res, next) => {
   }
 };
 
+const updateSale = async (req, res, next) => {
+  const salesInfo = req.body;
+  const { id } = req.params;
+  if(!ObjectID.isValid(id)) throw new Error('Sale not found');
+  console.log(id);
+  try {
+    const updatedSale = await salesService.updateSale(id, salesInfo);
+    return res.status(httpStatusCode.OK).json(updatedSale);
+  } catch (error) {
+    console.log(error.message);
+    return next({
+      status: httpStatusCode.UNPROCESSABLE_ENTITY,
+      code: 'invalid_data',
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   creatSales,
   getAllSales,
   getSaleById,
+  updateSale,
 };

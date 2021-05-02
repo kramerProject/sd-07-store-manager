@@ -25,8 +25,16 @@ const getSaleById = async (id) => {
   };
 };
 
+const updateSale = async (id, salesInfo) => {
+  saleIdValidate(id);
+  idOrQtdValidate(salesInfo);
+  const updatedSale = await salesModel.updateSale(id, salesInfo);
+  return updatedSale;
+};
+
 module.exports = {
   creatSales,
   getSales,
   getSaleById,
+  updateSale,
 };

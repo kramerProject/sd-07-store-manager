@@ -16,6 +16,7 @@ app.get('/', (_request, response) => {
 app.use(products.getAllProducts);
 app.use(products.creatProduct);
 app.use(products.deletProduct);
+app.use(sales.updateSale);
 app.use(sales.getAllSales);
 app.use(sales.creatSale);
 
