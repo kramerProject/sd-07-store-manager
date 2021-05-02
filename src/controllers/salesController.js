@@ -50,7 +50,6 @@ const updateSale = async (req, res, next) => {
   const salesInfo = req.body;
   const { id } = req.params;
   if(!ObjectID.isValid(id)) throw new Error('Sale not found');
-  console.log(id);
   try {
     const updatedSale = await salesService.updateSale(id, salesInfo);
     return res.status(httpStatusCode.OK).json(updatedSale);
