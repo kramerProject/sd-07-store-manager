@@ -17,7 +17,7 @@ const nameValidator = async(req, res, next) => {
     });
   }
   const results = await getAllProductsService();
-  const duplicateName = results.some(item => item.name === name);
+  const duplicateName = results.find(item => item.name === name);
   if (duplicateName) {
     return res.status(INVALID_DATA).json({
       err: {

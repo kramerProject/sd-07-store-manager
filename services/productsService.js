@@ -2,6 +2,7 @@ const {
   addProductModel,
   getAllProductsModel,
   getProductByIdModel,
+  updateProductModel,
 } = require('../models/productsModel');
 
 const objErr = {
@@ -28,8 +29,13 @@ const getProductByIdService = async(id) => {
   return objProduct;
 };
 
+const updateProductService = async(id, name, quantity) => {
+  return await updateProductModel(id, name, quantity);
+};
+
 module.exports = {
   addProductService,
   getAllProductsService,
   getProductByIdService,
+  updateProductService
 };

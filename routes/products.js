@@ -7,6 +7,7 @@ const {
   addProductController,
   getAllProductsController,
   getProductByIdController,
+  updateProductController,
 } = require('../controller/productsController');
 
 const productsRoute = express.Router();
@@ -25,6 +26,12 @@ productsRoute
   .get(
     '/:id',
     getProductByIdController,
+  )
+  .put(
+    '/:id',
+    quantityValidator,
+    nameValidator,
+    updateProductController,
   );
 
 module.exports = productsRoute;
