@@ -3,12 +3,13 @@ const {
   getAllSalesService,
   getSaleByIdService,
   updateSaleService,
+  deleteSaleService,
 } = require('../services/salesService');
 
 // const NEW_ITEM = 201;
 const SUCCESS = 200;
 const NOT_FOUND = 404;
-// const INVALID_DATA = 422;
+const INVALID_DATA = 422;
 const INTERNAL_ERROR = 500;
 
 const createSalesController = async(req, res) => {
@@ -62,9 +63,25 @@ const updateSaleController = async (req, res) => {
   }
 };
 
+const deleteSaleController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await deleteSaleService(id);
+    if(result.err) {
+      return res.status(INVALID_DATA).json(result);
+    }
+    res.status(SUCCESS).end();
+  } catch (error) {
+    res.status(INTERNAL_ERROR).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createSalesController,
   getAllSalesController,
   getSaleByIdController,
   updateSaleController,
+  deleteSaleController,
 };

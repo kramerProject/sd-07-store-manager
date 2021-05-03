@@ -4,6 +4,7 @@ const {
   getAllSalesController,
   getSaleByIdController,
   updateSaleController,
+  deleteSaleController,
 } = require('../controllers/salesController');
 const { quantityValidator } = require('../middlewares/sales/validation');
 
@@ -27,7 +28,10 @@ salesRoute
     '/:id',
     quantityValidator,
     updateSaleController,
+  )
+  .delete(
+    '/:id',
+    deleteSaleController,
   );
-
 
 module.exports = salesRoute;
