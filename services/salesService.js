@@ -2,6 +2,7 @@ const {
   createSalesModel,
   getAllSalesModel,
   getSaleByIdModel,
+  updateSaleModel,
 } = require('../models/salesModel');
 
 const objErr = {
@@ -15,7 +16,7 @@ const createSalesService = async(salesArrayOfItens) => {
   return await createSalesModel(salesArrayOfItens);
 };
 
-const getAllSalesService = async(sales) => {
+const getAllSalesService = async() => {
   return await getAllSalesModel();
 };
 
@@ -28,8 +29,13 @@ const getSaleByIdService = async(id) => {
   return objProduct;
 };
 
+const updateSaleService = async(id, salesArrayOfItens) => {
+  return await updateSaleModel(id, salesArrayOfItens);
+};
+
 module.exports = {
   createSalesService,
   getAllSalesService,
   getSaleByIdService,
+  updateSaleService,
 };

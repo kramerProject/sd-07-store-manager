@@ -3,6 +3,7 @@ const {
   createSalesController,
   getAllSalesController,
   getSaleByIdController,
+  updateSaleController,
 } = require('../controllers/salesController');
 const { quantityValidator } = require('../middlewares/sales/validation');
 
@@ -21,6 +22,11 @@ salesRoute
   .get(
     '/:id',
     getSaleByIdController,
+  )
+  .put(
+    '/:id',
+    quantityValidator,
+    updateSaleController,
   );
 
 
