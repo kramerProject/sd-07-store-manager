@@ -1,5 +1,6 @@
 const {
   addProductModel,
+  findProductModel,
   getAllProductsModel,
   getProductByIdModel,
   updateProductModel,
@@ -14,6 +15,8 @@ const objErr = {
 };
 
 const addProductService = async(name, quantity) => {
+  const productExists = await findProductModel(name);
+  if (productExists) return false;
   return await addProductModel(name, quantity);
 };
 
@@ -31,6 +34,8 @@ const getProductByIdService = async(id) => {
 };
 
 const updateProductService = async(id, name, quantity) => {
+  const minQuantity = 1;
+  if (quantity < minQuantity) return false;
   return await updateProductModel(id, name, quantity);
 };
 

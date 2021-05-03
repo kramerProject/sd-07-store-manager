@@ -1,9 +1,9 @@
 const INVALID_DATA = 422;
 const minQuantity = 1;
 
-const quantityValidator = (req, res, next) => {
+const quantityValidator = async(req, res, next) => {
   const salesItens = req.body;
-  if(!salesItens[0].quantity || salesItens[0].quantity < minQuantity) {
+  if (!salesItens[0].quantity || salesItens[0].quantity < minQuantity) {
     return res.status(INVALID_DATA).send({
       err: {
         code: 'invalid_data',
@@ -22,4 +22,6 @@ const quantityValidator = (req, res, next) => {
   next();
 };
 
-module.exports = { quantityValidator };
+module.exports = {
+  quantityValidator,
+};

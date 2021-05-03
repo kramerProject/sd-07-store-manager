@@ -1,6 +1,11 @@
 const connection = require('../config/conn');
 const { ObjectId } = require('mongodb');
 
+const findProductModel = async(name) => {
+  const db = await connection();
+  return await db.collection('products').findOne({ name });
+};
+
 const addProductModel = async(name, quantity) => {
   // const product = await connection().then((db) =>
   //   db.collection('products').insertOne({ name, quantity }));
@@ -42,4 +47,5 @@ module.exports = {
   getProductByIdModel,
   updateProductModel,
   deleteProductModel,
+  findProductModel,
 };

@@ -6,7 +6,6 @@ const {
   deleteSaleService,
 } = require('../services/salesService');
 
-// const NEW_ITEM = 201;
 const SUCCESS = 200;
 const NOT_FOUND = 404;
 const INVALID_DATA = 422;
@@ -16,6 +15,9 @@ const createSalesController = async(req, res) => {
   try {
     const salesArrayOfItens = req.body;
     const newSale = await createSalesService(salesArrayOfItens);
+    if(newSale.err) {
+      return res.status(NOT_FOUND).json(newSale);
+    }
     res.status(SUCCESS).json(newSale);
   } catch (error) {
     res.status(INTERNAL_ERROR).json({

@@ -1,4 +1,14 @@
 const express = require('express');
+
+const {
+  quantityValidator,
+} = require('../middlewares/sales/validation');
+
+const {
+  createdQuantitiesManager,
+  deletedQuantitiesManager,
+} = require('../middlewares/sales/allQuantitiesManager');
+
 const {
   createSalesController,
   getAllSalesController,
@@ -6,20 +16,10 @@ const {
   updateSaleController,
   deleteSaleController,
 } = require('../controllers/salesController');
-const { quantityValidator } = require('../middlewares/sales/validation');
 
 const salesRoute = express.Router();
 
 salesRoute
-  .post(
-    '/',
-    quantityValidator,
-    createSalesController,
-  )
-  .get(
-    '/',
-    getAllSalesController,
-  )
   .get(
     '/:id',
     getSaleByIdController,
@@ -29,8 +29,19 @@ salesRoute
     quantityValidator,
     updateSaleController,
   )
+  .get(
+    '/',
+    getAllSalesController,
+  )
+  .post(
+    '/',
+    quantityValidator,
+    createdQuantitiesManager,
+    createSalesController,
+  )
   .delete(
     '/:id',
+    deletedQuantitiesManager,
     deleteSaleController,
   );
 
