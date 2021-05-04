@@ -5,6 +5,12 @@ const getAllProducts = async () =>
   connect()
     .then((db) => db.collection('products').find().toArray());
 
+const getProductById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  return connect().then((db) => db.collection('products').findOne(ObjectId(id)));
+};
+
 const createProduct = async (name, quantity) =>
   connect().then((db) =>
     db.collection('products').insertOne({
@@ -15,4 +21,5 @@ const createProduct = async (name, quantity) =>
 module.exports = {
   getAllProducts,
   createProduct,
+  getProductById,
 };

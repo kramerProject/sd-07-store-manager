@@ -10,9 +10,24 @@ const getAllProducts = async (req, res) => {
   try {
     const results = await Product.getAllProducts();
   
-    return res.status(SUCCESS).json(results);
+    return res.status(SUCCESS).json({products: results});
   } catch (err) {
     return res.status(INTERNAL_SERVER_ERROR).json({ message: err.message });
+  }
+};
+
+const getProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await Product.getProductById(id);
+  
+    if (!result) throw Error('Wrong id format');
+  
+    return res.status(SUCCESS).json(result);
+  } catch (err) {
+    return res.status(INVALID_DATA).json({
+      err: {code: 'invalid_data', message: err.message }
+    });
   }
 };
 
@@ -35,4 +50,5 @@ const createProduct = async (req, res) => {
 module.exports = {
   getAllProducts,
   createProduct,
+  getProductById,
 };
