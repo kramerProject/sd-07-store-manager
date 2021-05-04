@@ -51,8 +51,26 @@ const newSale = async (req, res) => {
   }
 };
 
+const editSaleById = async (req, res) => {
+  const sales = req.body;
+  const {id} = req.params;
+  const verifications = saleService.verifyEntries(sales);
+  try {
+    if (verifications) {
+      throw Error(verifications);
+    }
+    const editedSale = await Sale.editSaleById(sales, id);
+    return res.status(SUCCESS).json(editedSale);
+  } catch (err) {
+    return res.status(INVALID_DATA).json({
+      err: {code: 'invalid_data', message: err.message }
+    });
+  }
+};
+
 module.exports = {
   getAllSales,
   newSale,
   getSaleById,
+  editSaleById,
 };
