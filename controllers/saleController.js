@@ -68,9 +68,24 @@ const editSaleById = async (req, res) => {
   }
 };
 
+const deleteSaleById = async (req, res) => {
+  const { id } = req.params;
+  const result = await Sale.getSaleById(id);
+  try {
+    if (!result) throw Error('Wrong sale ID format');
+    await Sale.deleteSaleById(id);
+    return res.status(SUCCESS).json(result);
+  } catch (err) {
+    return res.status(INVALID_DATA).json({
+      err: {code: 'invalid_data', message: err.message }
+    });
+  }
+};
+
 module.exports = {
   getAllSales,
   newSale,
   getSaleById,
   editSaleById,
+  deleteSaleById,
 };
