@@ -29,7 +29,7 @@ const verifyQuantity = (quantity) => {
 const verifyEntries = async (name, quantity) => {
   const checkNameEntries = await verifyName(name);
   const checkQuantityEntries = verifyQuantity(quantity);
-  const tests = [checkNameEntries, checkQuantityEntries];
+  const tests = [checkQuantityEntries, checkNameEntries];
   return tests.find(test => test !== undefined);
 };
 

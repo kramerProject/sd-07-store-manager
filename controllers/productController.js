@@ -47,8 +47,26 @@ const createProduct = async (req, res) => {
   }
 };
 
+const editProductById = async (req, res) => {
+  const { name, quantity } = req.body;
+  const {id} = req.params;
+  const verifications = await productService.verifyEntries(name, quantity);
+  try {
+    if (verifications && verifications !== 'Product already exists') {
+      throw Error(verifications);
+    }
+    const editedProduct = await Product.editProductById(name, quantity, id);
+    return res.status(SUCCESS).json(editedProduct);
+  } catch (err) {
+    return res.status(INVALID_DATA).json({
+      err: {code: 'invalid_data', message: err.message }
+    });
+  }
+};
+
 module.exports = {
   getAllProducts,
   createProduct,
   getProductById,
+  editProductById,
 };
