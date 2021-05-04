@@ -6,7 +6,6 @@ const verifyEntries = (entries) => {
     .every(entry => typeof entry.quantity === 'number');
   const quantityCheck = entries
     .every(entry => entry.quantity > MIN_QUANTITY);
-  console.log('quantidade', quantityCheck);
   if (!typeCheck || !quantityCheck) {
     return 'Wrong product ID or invalid quantity';
   }
