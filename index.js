@@ -7,7 +7,7 @@ const PORT = 3000;
 
 app.use(express.json());
 app.use(routes.productRoutes);
-// app.use(routes.saleRoutes);
+app.use(routes.saleRoutes);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {

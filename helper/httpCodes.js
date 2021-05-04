@@ -1,0 +1,11 @@
+const SUCCESS = 200;
+const CREATED = 201;
+const INVALID_DATA = 422;
+const INTERNAL_SERVER_ERROR = 500;
+
+module.exports = {
+  SUCCESS,
+  CREATED,
+  INVALID_DATA,
+  INTERNAL_SERVER_ERROR,
+};

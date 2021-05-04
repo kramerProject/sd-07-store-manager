@@ -1,10 +1,12 @@
 const Product = require('../models/productModel');
 const productService = require('../services/productService');
+const httpCodes = require('../helper/httpCodes');
 
-const SUCCESS = 200;
-const CREATED = 201;
-const INVALID_DATA = 422;
-const INTERNAL_SERVER_ERROR = 500;
+const {
+  SUCCESS,
+  CREATED,
+  INVALID_DATA,
+  INTERNAL_SERVER_ERROR } = httpCodes;
 
 const getAllProducts = async (req, res) => {
   try {
