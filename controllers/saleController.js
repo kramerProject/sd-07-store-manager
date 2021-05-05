@@ -2,7 +2,6 @@ const Sale = require('../models/saleModel');
 const saleService = require('../services/saleService');
 const httpCodes = require('../helper/httpCodes');
 
-
 const {
   SUCCESS,
   INVALID_DATA,
@@ -38,15 +37,20 @@ const newSale = async (req, res) => {
   const sales = req.body;
 
   const verifications = saleService.verifyEntries(sales);
+  const saleIsForbidden = await saleService.verifyProduct(sales);
   try {
-    if (verifications) {
-      throw Error(verifications);
-    }
+    if (verifications) throw Error(verifications);
+    if (saleIsForbidden) throw Error(saleIsForbidden);
     const newSale = await Sale.newSale(sales);
     return res.status(SUCCESS).json(newSale);
   } catch (err) {
-    return res.status(INVALID_DATA).json({
-      err: {code: 'invalid_data', message: err.message }
+    if (err.message === 'Wrong product ID or invalid quantity') {
+      return res.status(INVALID_DATA).json({
+        err: {code: 'invalid_data', message: err.message }
+      });
+    }
+    return res.status(NOT_FOUND).json({
+      err: {code: 'stock_problem', message: err.message }
     });
   }
 };
