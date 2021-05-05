@@ -2,23 +2,6 @@ const { ObjectID } = require('bson');
 const { salesModel, productsModel } = require('../models');
 const { idOrQtdValidate, saleIdValidate } = require('../validations/sales');
 
-const MIN_STOCK = 0;
-
-const updateStock = async (salesInfo) => {
-  for (sale of salesInfo) {
-    const { productId, quantity } = sale;
-    saleIdValidate(productId);
-    const produc = await productsModel.getProductById(productId);
-    const newStock = {
-      name: produc.name,
-      quantity: produc.quantity - quantity,
-    };
-    if(newStock.quantity > MIN_STOCK)
-      throw new Error('Such amount is not permitted to sell');
-    await productsModel.updateProduct(productId, newStock.name, newStock.quantity);
-  }
-};
-
 const creatSales = async (saleInfo) => {
   saleInfo.map((element) => idOrQtdValidate(element.productId, element.quantity));
   const createdSale = await salesModel.creatSale( saleInfo);
