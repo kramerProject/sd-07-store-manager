@@ -52,7 +52,7 @@ const numberValidation = (numberProduct) => {
 };
 
 const idValidation = async (id) => {
-  const product = await productsModel.findAll();
+  const product = await modelProduct.findAll();
   const findById = product.find((product) => product._id == id);
   if (!findById) return err = {
     response: {

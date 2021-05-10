@@ -23,6 +23,6 @@ const findId = async (id) => {
 module.exports = {
   insertProduct,
   findAll,
-  findId
+  findId,
 };
 

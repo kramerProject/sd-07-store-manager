@@ -1,4 +1,4 @@
-const productsModel = require('../models/productsModel');
+const modelProduct = require('../models/productsModel');
 const validation = require('./productsValidate');
 
 const OK = 200;
@@ -13,13 +13,24 @@ const insertProduct = async (name, quantity) => {
   if (productValidation.response) return productValidation;
   if (nameValidation.response) return nameValidation;
   if (quantityValidation.response) return quantityValidation;
-  const result = await productsModel.insertProduct(name, quantity);
+  const result = await modelProduct.insertProduct(name, quantity);
   return {
     code: CREATED,
     response: result,
   };
 };
 
+const findProductById = async (id) => {
+  const validId = await validation.idValidation(id);
+  if (validId.response) return validId;
+  const result = await modelProduct.findId(id);
+  return {
+    code: OK,
+    response: result,
+  };
+};
+
 module.exports = {
   insertProduct,
+  findProductById,
 };
