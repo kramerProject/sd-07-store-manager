@@ -14,7 +14,9 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.listen(3000, () => {
+const PORT = 3000;
+
+app.listen(PORT, () => {
   console.log('entrou');
 });
 
