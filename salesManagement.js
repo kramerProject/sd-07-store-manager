@@ -4,6 +4,7 @@ const {
   errorMiddleware,
   checkSaleId,
   checkSaleUpdate,
+  checkDeleteSale,
 } = require('./middleware');
 const {
   getAllSales,
@@ -61,7 +62,7 @@ app.put('/sales/:id', checkSaleUpdate, async (request, response) => {
   }
 });
 
-app.delete('/sales/:id', checkSaleId, async (request, response, next) => {
+app.delete('/sales/:id', checkDeleteSale, async (request, response, next) => {
   const { id } = request.params;
 
   try {

@@ -46,6 +46,17 @@ const updateSale = async (id, sale) => {
 };
 
 const deleteSale = async (id) => {
+  const productsArray = await getSaleById(id);
+  console.log(productsArray.itensSold);
+  productsArray.itensSold.forEach((product) => {
+    getProductByID(product.productId)
+      .then((item) => {
+        updateProductQuantity(
+          product.productId,
+          item.quantity + product.quantity
+        );
+      });
+  });
   const result = await getSaleById(id);
   connection()
     .then((db) => db.collection(col)
