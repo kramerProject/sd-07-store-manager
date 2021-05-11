@@ -30,7 +30,23 @@ const findProductById = async (id) => {
   };
 };
 
+const updateProductById = async (id, name, quantity) => {
+  const nameValidation = validation.characterValidation(name, FIVE);
+  const quantityValidation = validation.numberValidation(quantity);
+
+  if (nameValidation.response) return nameValidation;
+  if (quantityValidation.response) return quantityValidation;
+
+  const result = await modelProduct.updateProduct(id, name, quantity);
+  return {
+    code: OK,
+    response: result
+  };
+};
+
+
 module.exports = {
   insertProduct,
   findProductById,
+  updateProductById,
 };

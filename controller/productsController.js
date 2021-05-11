@@ -39,9 +39,23 @@ const findProductById = async (req, res) => {
   }
 };
 
+const updateProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const result = await validateProduct.updateProductById(id, name, quantity);
+
+    return res.status(result.code).json(result.response);
+  } catch (error) {
+    console.log(error);
+    res.status(INTERNAL_SERVER_ERROR).json({ message: error.message });
+  }
+};
+
 module.exports = {
   insertProduct,
   findAll,
   findProductById,
+  updateProductById,
 };
 
