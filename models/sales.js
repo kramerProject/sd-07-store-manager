@@ -28,7 +28,7 @@ const createSale = async (productsArray) => {
     .then((db) => db.collection(col)
       .insertOne({ itensSold: productsArray })
       .then((result) => {
-        return { id: result.insertedId, itensSold: productsArray };
+        return { _id: result.insertedId, itensSold: productsArray };
       }));
 };
 

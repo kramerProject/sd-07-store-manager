@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
-// const URL = 'mongodb://localhost:27017';
-const URL = 'mongodb://mongodb:27017/StoreManager';
+const URL = 'mongodb://localhost:27017';
+// const URL = 'mongodb://mongodb:27017/StoreManager';
 
 const connection = () => {
   return MongoClient

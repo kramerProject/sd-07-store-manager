@@ -12,7 +12,7 @@ const insertProduct = async (product) => {
   return connection()
     .then((db) => db.collection(col).insertOne({ ...product }))
     .then((result) => {
-      return { id: result.insertedId, ...product };
+      return { _id: result.insertedId, ...product };
     });
 };
 
