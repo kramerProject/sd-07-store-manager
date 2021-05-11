@@ -33,16 +33,17 @@ const createSale = async (productsArray) => {
 };
 
 const updateSale = async (id, sale) => {
-  connection()
+  return connection()
     .then((db) => db.collection(col)
       .updateOne(
         { _id: ObjectId(id) },
         { $set: { itensSold: [...sale] } },
-      ));
+      )
+      .then((result) => result));
     
-  const result = await getSaleById(id);
+  // const result = await getSaleById(id);
 
-  return result;
+  // return result;
 };
 
 const deleteSale = async (id) => {
