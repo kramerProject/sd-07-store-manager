@@ -22,9 +22,9 @@ const INTERNAL_ERROR = 500;
 app.get('/products', async (_request, response) => {
   try {
     const result = await getAllProducts();
-    response.status(OK).send(result);
+    response.status(OK).json(result);
   } catch(err) {
-    response.status(INTERNAL_ERROR).send({ message: err.message });
+    response.status(INTERNAL_ERROR).json({ message: err.message });
   }
 });
 
@@ -33,9 +33,9 @@ app.get('/products/:id', checkProductId, async (request, response) => {
 
   try {
     const result = await getProductByID(id);
-    response.status(OK).send(result);
+    response.status(OK).json(result);
   } catch(err) {
-    response.status(INTERNAL_ERROR).send({ message: err.message });
+    response.status(INTERNAL_ERROR).json({ message: err.message });
   }
 });
 
@@ -44,9 +44,9 @@ app.post('/products', checkProductInsertion, async (request, response) => {
 
   try {
     const result = await insertProduct({ name, quantity });
-    response.status(CREATED).send(result);
+    response.status(CREATED).json(result);
   } catch(err) {
-    response.status(INTERNAL_ERROR).send({ message: err.message });
+    response.status(INTERNAL_ERROR).json({ message: err.message });
   }
 });
 
@@ -56,9 +56,9 @@ app.put('/products/:id', checkProductUpdate, async (request, response) => {
 
   try {
     const result = await updateProduct(id, product);
-    response.status(OK).send(result);
+    response.status(OK).json(result);
   } catch(err) {
-    response.status(INTERNAL_ERROR).send({ message: err.message });
+    response.status(INTERNAL_ERROR).json({ message: err.message });
   }
 });
 
@@ -67,9 +67,9 @@ app.delete('/products/:id', checkProductId, async (request, response) => {
 
   try {
     const result = await deleteProduct(id);
-    response.status(OK).send(result);
+    response.status(OK).json(result);
   } catch(err) {
-    response.status(INTERNAL_ERROR).send({ message: err.message });
+    response.status(INTERNAL_ERROR).json({ message: err.message });
   }
 });
 
