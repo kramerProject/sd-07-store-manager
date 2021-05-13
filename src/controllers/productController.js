@@ -1,4 +1,8 @@
-const { insertProductOnDB, getAll, getById } = require('../service/products');
+const { insertProductOnDB, getAll,
+  getById,
+  updatedById,
+  deleteById
+} = require('../service/products');
 const {
   StatusCodes: { CREATED, INTERNAL_SERVER_ERROR, UNPROCESSABLE_ENTITY, OK },
 } = require('http-status-codes');
@@ -33,8 +37,34 @@ const getByIdProduct = async (req, res) => {
     console.log('Deu erro ao listar os produtos por ID ' + error.message);
   }
 };
+
+const updateById = async(req, res) => {
+  const {id} = req.params;
+  const {name, quantity} = req.body;
+  
+  try {
+    const products = await updatedById(id, name, quantity);
+    return res.status(OK).send(products);
+  } catch (error) {
+    console.log('Deu erro ao atualizar os produtos ' + error.message);
+    
+  }
+};
+const delById = async(req, res) => {
+  const {id} = req.params;
+  
+  try {
+    const products = await deleteById(id);
+    return res.status(OK).send(products);
+  } catch (error) {
+    console.log('Deu erro ao deletar os produtos ' + error.message);
+    
+  }
+};
 module.exports = {
   controllerProduct,
   getAllProduct,
   getByIdProduct,
+  updateById,
+  delById
 };

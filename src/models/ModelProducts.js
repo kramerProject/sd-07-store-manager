@@ -31,9 +31,26 @@ const getAllById = async(id) => {
   
   return result_1;
 };
+const updateByID = async(id, name, quantity) => {
+  const db = await connection();
+  await db.collection('products').updateOne(
+    { _id: ObjectId(id) }, { $set: { name, quantity } },
+  );
+  return await getAllById(id);
+
+};
+
+const deletedById = async(id) => {
+  const db = await connection();
+  await db.collection('products')
+    .deleteOne({ _id: ObjectId(id) });
+  return await getAllById(id);
+};
 module.exports = {
   insert,
   findProduct,
   getAllProducts,
-  getAllById
+  getAllById,
+  updateByID,
+  deletedById
 };
