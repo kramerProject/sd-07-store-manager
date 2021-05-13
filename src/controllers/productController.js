@@ -4,7 +4,8 @@ const { insertProductOnDB, getAll,
   deleteById,
   insertSale,
   getAllSales,
-  getSaById
+  getSaById,
+  updatedSaleById
 } = require('../service/products');
 const {
   StatusCodes: { CREATED,  OK },
@@ -50,7 +51,7 @@ const saleById = async( req, res) => {
   }
 };
 const updateById = async(req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   const {name, quantity} = req.body;
   
   try {
@@ -61,6 +62,22 @@ const updateById = async(req, res) => {
     
   }
 };
+
+
+const updateSaleById = async(req,res) => {
+  const {id} = req.params;
+  const salesArray = req.body;
+  try {
+    const products = await updatedSaleById(id, salesArray);
+    return res.status(OK).send(products);
+  } catch (error) {
+    return console.log('Deu erro ao atualizar os produtos ' + error.message);
+    
+  }
+};
+
+
+
 const delById = async(req, res) => {
   const {id} = req.params;
   
@@ -86,7 +103,7 @@ const controllerSales = async (req, res) => {
 const allSales = async(req,res) => {
   try {
     const all = await getAllSales();
-    res.status(OK).json(all);
+    res.status(OK).json({sales: all});
   } catch (error) {
     return console.log('Deu erro cadastrar venda ' + error.message);
   }
@@ -100,5 +117,6 @@ module.exports = {
   delById,
   controllerSales,
   allSales,
-  saleById
+  saleById,
+  updateSaleById
 };

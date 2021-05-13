@@ -1,5 +1,5 @@
-const {StatusCodes: {UNPROCESSABLE_ENTITY}} = require('http-status-codes');
-const { findByEqual } = require('../service/products');
+const {StatusCodes: {UNPROCESSABLE_ENTITY, NOT_FOUND}} = require('http-status-codes');
+const { findByEqual, saleIsValid } = require('../service/products');
 const {ObjectId} = require('mongodb');
 const checkAddProduct = (req,res,next) => {
   const { name, quantity } = req.body;
@@ -47,6 +47,21 @@ const checkAddSale = (req,res,next) => {
 
   next();
 };
+
+// const checkSaleValid = async (req,res,next) => {
+//   const { id } = req.body;
+//   const checked = await saleIsValid(id);
+//   console.log(StatusCodes);
+//   if(checked === undefined){
+//     return res.status(NOT_FOUND).send({
+//       'err': {
+//         'code': 'invalid_data',
+//         'message': 'Wrong product ID or invalid quantity'
+//       }
+//     });
+//   }
+
+// };
 const checkEqualProduct = async(req,res,next) => {
   const { name } =  req.body;
   const result = await findByEqual(name);
@@ -81,5 +96,5 @@ module.exports = {
   checkAddProduct,
   checkEqualProduct,
   checkId,
-  checkAddSale
+  checkAddSale,
 };
