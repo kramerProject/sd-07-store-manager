@@ -6,7 +6,7 @@ const checkAddProduct = (req,res,next) => {
   const zero = 0;
   const lenghtAcept = 5;
   if(typeof quantity !== 'number'){
-    return  res.status(UNPROCESSABLE_ENTITY).send({
+    return res.status(UNPROCESSABLE_ENTITY).json({
       'err': {
         'code': 'invalid_data',
         'message': '"quantity\" must be a number'
@@ -14,7 +14,7 @@ const checkAddProduct = (req,res,next) => {
     });
   }
   if(quantity <= zero){
-    return  res.status(UNPROCESSABLE_ENTITY).send({
+    return res.status(UNPROCESSABLE_ENTITY).json({
       'err': {
         'code': 'invalid_data',
         'message': '"quantity\" must be larger than or equal to 1'
@@ -22,7 +22,7 @@ const checkAddProduct = (req,res,next) => {
     });
   }
   if(typeof name !== 'string' || name.length <= lenghtAcept){
-    return  res.status(UNPROCESSABLE_ENTITY).send({
+    return res.status(UNPROCESSABLE_ENTITY).json({
       'err': {
         'code': 'invalid_data',
         'message': '"name\" length must be at least 5 characters long'
@@ -33,12 +33,25 @@ const checkAddProduct = (req,res,next) => {
 
   next();
 };
+const checkAddSale = (req,res,next) => {
+  const [{quantity}] = req.body;
+  const zero = 0;
+  if(typeof quantity !== 'number' || quantity <= zero){
+    return res.status(UNPROCESSABLE_ENTITY).send({
+      'err': {
+        'code': 'invalid_data',
+        'message': 'Wrong product ID or invalid quantity'
+      }
+    });
+  }
 
+  next();
+};
 const checkEqualProduct = async(req,res,next) => {
   const { name } =  req.body;
   const result = await findByEqual(name);
   if(result){
-    res.status(UNPROCESSABLE_ENTITY).send({
+    return res.status(UNPROCESSABLE_ENTITY).send({
       'err': {
         'code': 'invalid_data',
         'message': 'Product already exists'
@@ -52,7 +65,7 @@ const checkEqualProduct = async(req,res,next) => {
 const checkId = async(req,res,next) => {
   const { id } =  req.params;
   if(!ObjectId.isValid(id)){
-    res.status(UNPROCESSABLE_ENTITY).send({
+    return res.status(UNPROCESSABLE_ENTITY).send({
       'err': {
         code: 'invalid_data',
         message: 'Wrong id format',
@@ -67,5 +80,6 @@ const checkId = async(req,res,next) => {
 module.exports = {
   checkAddProduct,
   checkEqualProduct,
-  checkId
+  checkId,
+  checkAddSale
 };

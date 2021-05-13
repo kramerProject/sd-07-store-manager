@@ -3,12 +3,14 @@ const {insert,
   getAllProducts,
   getAllById,
   updateByID,
-  deletedById
+  deletedById,
+  addNewSale,
+  allSale,
+  getsalById
 } = require('../models/ModelProducts');
 
-const insertProductOnDB = (name, quantity) => {
-  const insertProducts =  insert(name, quantity);
-  return insertProducts;
+const insertProductOnDB = async (name, quantity) => {
+  return await insert(name, quantity);
 };
 
 const findByEqual = async (name) => {
@@ -26,6 +28,10 @@ const getById = async(id) => {
   const result = await getAllById(id);
   return result;
 };
+const getSaById = async(id) => {
+  const result = await getsalById(id);
+  return result;
+};
 
 const updatedById = async(id, name, quantity) => {
   const result = await updateByID(id, name, quantity);
@@ -36,11 +42,23 @@ const deleteById = async(id) => {
   const result = await deletedById(id);
   return result;
 };
+
+const insertSale = async(arraySale) => {
+  const createdSale = await addNewSale(arraySale);
+  return createdSale;
+};
+
+const getAllSales = async() => {
+  return await allSale();
+};
 module.exports = {
   insertProductOnDB, 
   findByEqual,
   getAll,
   getById,
   updatedById,
-  deleteById
+  deleteById,
+  insertSale,
+  getAllSales,
+  getSaById
 };

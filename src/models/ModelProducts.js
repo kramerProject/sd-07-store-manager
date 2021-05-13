@@ -4,19 +4,30 @@ const connection = require('../../data/connection');
 const insert = async (name, quantity) => {
   const db = await connection();
   const result_1 = await db.collection('products').insertOne({ name, quantity });
-  return{
+  return {
     _id: result_1.insertedId,
     name,
     quantity
   };
-
-  
+};
+const addNewSale = async (arraySale) => {
+  const db = await connection();
+  const result_1 = await db.collection('sales').insertOne({ arraySale});
+  return {
+    _id: result_1.insertedId,
+    itensSold: arraySale,
+  };
 };
 const getAllProducts = async () => {
   const db = await connection();
   const result_1 = await db.collection('products').find().toArray();
   return result_1;
 
+};
+const allSale = async() => {
+  const db = await connection();
+  const result_1 = await db.collection('sales').find().toArray();
+  return result_1;
 };
 const findProduct = async () => {
   const db = await connection();
@@ -27,6 +38,14 @@ const findProduct = async () => {
 const getAllById = async(id) => {
   const db = await connection();
   const result_1 = await db.collection('products')
+    .findOne(ObjectId(id));
+  
+  return result_1;
+};
+
+const getsalById = async(id) => {
+  const db = await connection();
+  const result_1 = await db.collection('sales')
     .findOne(ObjectId(id));
   
   return result_1;
@@ -52,5 +71,8 @@ module.exports = {
   getAllProducts,
   getAllById,
   updateByID,
-  deletedById
+  deletedById,
+  addNewSale,
+  allSale,
+  getsalById
 };

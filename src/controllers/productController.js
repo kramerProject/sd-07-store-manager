@@ -1,20 +1,22 @@
 const { insertProductOnDB, getAll,
   getById,
   updatedById,
-  deleteById
+  deleteById,
+  insertSale,
+  getAllSales,
+  getSaById
 } = require('../service/products');
 const {
-  StatusCodes: { CREATED, INTERNAL_SERVER_ERROR, UNPROCESSABLE_ENTITY, OK },
+  StatusCodes: { CREATED,  OK },
 } = require('http-status-codes');
 
 const controllerProduct = async (req, res) => {
+  const { name, quantity } = req.body;
   try {
-    const { name, quantity } = req.body;
     const insertProduct = await insertProductOnDB(name, quantity);
-    return res.status(CREATED).send(insertProduct);
+    return res.status(CREATED).json(insertProduct);
   } catch (error) {
-    console.log('Deu erro cadastrar produto ' + error.message);
-    res.status(INTERNAL_SERVER_ERROR).send();
+    return console.log('Deu erro cadastrar produto ' + error.message);
   }
 };
 
@@ -24,7 +26,7 @@ const getAllProduct = async (_req, res) => {
     const products = await getAll();
     return res.status(OK).send({products: products});
   } catch (err) {
-    console.log('Deu erro ao listar os produtos ' + err.message);
+    return console.log('Deu erro ao listar os produtos ' + err.message);
   }
 };
 
@@ -34,10 +36,19 @@ const getByIdProduct = async (req, res) => {
     const products = await getById(id);
     return res.status(OK).send(products);
   } catch (error) {
-    console.log('Deu erro ao listar os produtos por ID ' + error.message);
+    return  console.log('Deu erro ao listar os produtos por ID ' + error.message);
   }
 };
 
+const saleById = async( req, res) => {
+  const { id } = req.params;
+  try {
+    const products = await getSaById(id);
+    return res.status(OK).send(products);
+  } catch (error) {
+    return  console.log('Deu erro ao listar os produtos por ID ' + error.message);
+  }
+};
 const updateById = async(req, res) => {
   const {id} = req.params;
   const {name, quantity} = req.body;
@@ -46,7 +57,7 @@ const updateById = async(req, res) => {
     const products = await updatedById(id, name, quantity);
     return res.status(OK).send(products);
   } catch (error) {
-    console.log('Deu erro ao atualizar os produtos ' + error.message);
+    return console.log('Deu erro ao atualizar os produtos ' + error.message);
     
   }
 };
@@ -57,14 +68,37 @@ const delById = async(req, res) => {
     const products = await deleteById(id);
     return res.status(OK).send(products);
   } catch (error) {
-    console.log('Deu erro ao deletar os produtos ' + error.message);
+    return console.log('Deu erro ao deletar os produtos ' + error.message);
     
   }
 };
+const controllerSales = async (req, res) => {
+  try {
+    const arraySales = req.body;
+    const newSale = await insertSale(arraySales);
+    
+    return res.status(OK).send(newSale);
+  } catch (error) {
+    return console.log('Deu erro cadastrar venda ' + error.message);
+  }
+};
+
+const allSales = async(req,res) => {
+  try {
+    const all = await getAllSales();
+    res.status(OK).json(all);
+  } catch (error) {
+    return console.log('Deu erro cadastrar venda ' + error.message);
+  }
+};
+
 module.exports = {
   controllerProduct,
   getAllProduct,
   getByIdProduct,
   updateById,
-  delById
+  delById,
+  controllerSales,
+  allSales,
+  saleById
 };

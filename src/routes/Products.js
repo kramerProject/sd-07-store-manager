@@ -5,17 +5,28 @@ const {
   getAllProduct,
   getByIdProduct,
   updateById,
-  delById
+  delById,
+  controllerSales,
+  allSales,
+  saleById
 } = require('../controllers/productController');
 const { checkAddProduct,
-  checkEqualProduct, checkId } = require('../middlewares/productMiddleware');
+  checkEqualProduct, checkId,
+  checkAddSale } = require('../middlewares/productMiddleware');
 
 
-
+  
+app.post('/products', checkAddProduct, checkEqualProduct, controllerProduct);
 app.get('/products/:id',checkId, getByIdProduct);
 app.put('/products/:id',checkAddProduct, checkId, updateById);
 app.get('/products', getAllProduct);
-app.post('/products', checkAddProduct, checkEqualProduct, controllerProduct);
 app.delete('/products/:id',checkId, delById);
+
+//Sales Endpoints
+
+app.post('/sales',checkAddSale, controllerSales);
+app.get('/sales', allSales);
+app.get('/sales/:id',checkId, saleById);
+
 
 module.exports = app;
