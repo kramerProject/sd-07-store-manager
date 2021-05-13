@@ -14,7 +14,18 @@ const insertSale = async (array) => {
   };
 };
 
+const findSaleById = async (id) => {
+  const idValid = await validation.idValidation(id);
+  if (idValid.response) return idValid;
+  const result = await modelSales.findSaleById(id);
+  return {
+    code: OK,
+    response: result,
+  };
+};
+
 module.exports = {
   insertSale,
+  findSaleById,
 };
 

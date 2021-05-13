@@ -16,8 +16,32 @@ const insertSale = async (req, res) => {
   }
 };
 
+const findAll = async (_req, res) => {
+  try {
+    const results = await modelSales.findAll();
+
+    return res.status(OK).json({sales: results});
+  } catch (error) {
+    console.log(error);
+    res.status(INTERNAL_SERVER_ERROR).json({ message: error.message });
+  }
+};
+
+const findSaleById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await validationSales.findSaleById(id);
+
+    return res.status(result.code).json(result.response);
+  } catch (error) {
+    console.log(error);
+    res.status(INTERNAL_SERVER_ERROR).json({ message: error.message });
+  }
+};
 
 module.exports = {
   insertSale,
+  findAll,
+  findSaleById,
 };
 
