@@ -13,6 +13,7 @@ app.get('/', (_request, response) => {
 
 app.use(express.json());
 app.use(routes.productRoute);
+app.use(routes.salesRoutes);
 
 app.listen(port, () => {
   console.log(`Conexão estabalecida com a porta ${port}!`);
