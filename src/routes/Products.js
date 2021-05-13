@@ -13,7 +13,7 @@ const { checkAddProduct,
 
 
 app.get('/products/:id',checkId, getByIdProduct);
-app.put('/products/:id',checkAddProduct,checkEqualProduct, checkId, updateById);
+app.put('/products/:id',checkAddProduct, checkId, updateById);
 app.get('/products', getAllProduct);
 app.post('/products', checkAddProduct, checkEqualProduct, controllerProduct);
 app.delete('/products/:id',checkId, delById);
