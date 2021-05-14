@@ -121,24 +121,7 @@ const checkIdDelete = async(req,res,next) => {
 };
 
 
-const checkSubStock = async(req,res,next) => {
-  const { id } =  req.params;
-  const [{quantity}] = req.body;
-  const atual = await getAllById(id);
-  const  updatedNewStock = await updateByID(id, quantity);
-  console.log(updatedNewStock);
 
-  // if(!ObjectId.isValid(id)){
-  //   return res.status(UNPROCESSABLE_ENTITY).send({
-  //     'err': {
-  //       code: 'invalid_data',
-  //       message: 'Wrong sale ID format',
-  //     }
-  //   });
-  // }
- 
-  next();
-};
 
 module.exports = {
   checkAddProduct,

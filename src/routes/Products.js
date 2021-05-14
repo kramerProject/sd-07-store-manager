@@ -15,9 +15,7 @@ const {
 const { checkAddProduct,
   checkEqualProduct, checkId,
   checkAddSale,
-  checkSaleValid,
   checkIdDelete,
-  checkSubStock,
   checkSale } = require('../middlewares/productMiddleware');
 
 
