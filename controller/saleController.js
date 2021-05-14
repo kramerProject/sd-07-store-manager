@@ -39,9 +39,23 @@ const findSaleById = async (req, res) => {
   }
 };
 
+const updateSaleById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const arrayOfSales = req.body;
+    const result = await validationSales.updateSaleById(id, arrayOfSales);
+
+    return res.status(result.code).json(result.response);
+  } catch (error) {
+    console.log(error);
+    res.status(INTERNAL_SERVER_ERROR).json({ message: error.message });
+  }
+};
+
 module.exports = {
   insertSale,
   findAll,
   findSaleById,
+  updateSaleById,
 };
 

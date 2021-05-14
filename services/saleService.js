@@ -24,8 +24,20 @@ const findSaleById = async (id) => {
   };
 };
 
+const updateSaleById = async (id, array) => {
+  const quantityValidation = validation.numberValidation(array);
+  if (quantityValidation.response) return quantityValidation;
+
+  const result = await modelSales.updateSaleById(id, array);
+  return {
+    code: OK,
+    response: result
+  };
+};
+
 module.exports = {
   insertSale,
   findSaleById,
+  updateSaleById,
 };
 
