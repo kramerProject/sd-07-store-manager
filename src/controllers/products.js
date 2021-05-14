@@ -15,16 +15,20 @@ const newProduct = async (req, res) => {
   try {
     const { name , quantity } = req.body;
     const createdProduct = await createNewProduct(name, quantity);
-    console.log(createdProduct);
-    return res.status(CREATED).send(createdProduct);
+    const { _id, name : newname, quantity: newquantity } = createdProduct;
+    return res.status(CREATED).send({
+      _id,
+      'name': newname,
+      'quantity': newquantity,
+    });
   } catch (error) {
     return res.status(INTERNAL_SERVER_ERROR).send(error.message);
   }
 };
 
-const getAll = (req, res) => {
+const getAll = async (req, res) => {
   try {
-    const products = findAll();
+    const products = await findAll();
     return res.status(OK).send(products);
   } catch (error) {
     console.log(error);
@@ -32,11 +36,11 @@ const getAll = (req, res) => {
   }
 };
 
-const getById = (req, res) => {
+const getById = async (req, res) => {
   try {
     const { id } = req.params;
     const ZERO = 0;
-    const product = findById(id);
+    const product = await findById(id);
     if (product.length === ZERO) {
       return res.status(UNPROCESSABLE_ENTITY).send({
         'err': {

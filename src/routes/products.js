@@ -13,8 +13,8 @@ const {
 Router.post(
   '/products', checkNameAndQuantity, itExists, newProduct
 );
-Router.get('/products/:id', getById);
 Router.get('/products', getAll);
+Router.get('/products/:id', getById);
 Router.put(
   '/products/:id', checkNameAndQuantity, setById
 );

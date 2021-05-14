@@ -2,9 +2,14 @@ const connection = require('./connection');
 const { ObjectId } = require('mongodb');
 
 const getAll = async () => {
-  return await connection()
-    .then((db) => {
-      return db.collection('products').find({}).toArray(); });
+  let output = [];
+  await connection()
+    .then((db) => db.collection('products').find({}).toArray())
+    .then(result => {
+      console.log('model', result);
+      output = result;
+    });
+  return output;
 };
 
 const getByName = async (name) => {
@@ -14,12 +19,14 @@ const getByName = async (name) => {
 };
 
 const getById = async (id) => {
+  let output= [];
   if (!ObjectId.isValid(id)) {
-    return null;
+    return output;
   }
-  return connection().then(db => {
-    db.collection('products').findOne(ObjectId(id));
-  });
+  await connection()
+    .then((db) => db.collection('products').findOne(ObjectId(id)))
+    .then((result) => { output = result; });
+  return output;
 };
 
 const create = async (name, quantity) => {
