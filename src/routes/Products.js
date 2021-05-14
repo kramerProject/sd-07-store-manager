@@ -31,8 +31,8 @@ app.delete('/products/:id',checkId, delById);
 
 app.post('/sales',checkAddSale, controllerSales);
 app.get('/sales', allSales);
-app.get('/sales/:id', checkSale, saleById);
+app.get('/sales/:id',  checkSale, saleById);
 app.put('/sales/:id',checkAddSale, checkId, updateSaleById);
-app.delete('/sales/:id',checkIdDelete, delSaleById);
+app.delete('/sales/:id', checkIdDelete, delSaleById);
 
 module.exports = app;

@@ -57,7 +57,7 @@ const getsalById = async(id) => {
   const db = await connection();
   const result_1 = await db.collection('sales')
     .findOne(ObjectId(id));
-  
+ 
   return result_1;
 };
 const updateByID = async(id, name, quantity) => {

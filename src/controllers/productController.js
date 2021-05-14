@@ -46,9 +46,13 @@ const saleById = async( req, res) => {
   const { id } = req.params;
   try {
     const products = await getSaById(id);
-    const getbyid = await getSaById(id);
-    if(!getbyid) {
-      return res.status(NOT_FOUND).send();
+    if(!products){
+      return res.status(NOT_FOUND).send({
+        'err': {
+          code: 'not_found',
+          message: 'Sale not found',
+        }
+      });
     }
     return res.status(OK).send(products);
   } catch (error) {
@@ -87,10 +91,8 @@ const delSaleById = async(req, res) => {
   
   try {
     const getbyid = await getSaById(id);
-    if(!getbyid) {
-      return res.status(NOT_FOUND).send();
-    }
-    const products = await deleteSaleById(id);
+   
+    await deleteSaleById(id);
     return res.status(OK).send(getbyid);
   } catch (error) {
     return console.log('Deu erro ao deletar os vendas ' + error.message);
