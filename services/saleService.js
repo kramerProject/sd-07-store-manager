@@ -35,9 +35,21 @@ const updateSaleById = async (id, array) => {
   };
 };
 
+const deleteSale = async (id) => {
+  const saleValidation = await validation.findSale(id);
+  if (saleValidation.response) return saleValidation;
+
+  const result = await modelSales.deleteSale(id);
+  return {
+    code: OK,
+    response: result
+  };
+};
+
 module.exports = {
   insertSale,
   findSaleById,
   updateSaleById,
+  deleteSale,
 };
 

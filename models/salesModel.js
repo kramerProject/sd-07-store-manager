@@ -26,10 +26,14 @@ const updateSaleById = async (id, array) =>
     return findSaleById(id);
   });
 
+const deleteSale = async (id) =>
+  connection().then((db) => db.collection('sales').deleteOne({ _id: ObjectId(id) }));
+
 module.exports = {
   insertSale,
   findAll,
   findSaleById,
   updateSaleById,
+  deleteSale,
 };
 

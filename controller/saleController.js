@@ -52,10 +52,23 @@ const updateSaleById = async (req, res) => {
   }
 };
 
+const deleteSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await validationSales.deleteSale(id);
+
+    return res.status(result.code).json(result.response);
+  } catch (error) {
+    console.log(error);
+    res.status(INTERNAL_SERVER_ERROR).json({ message: error.message });
+  }
+};
+
 module.exports = {
   insertSale,
   findAll,
   findSaleById,
   updateSaleById,
+  deleteSale,
 };
 
