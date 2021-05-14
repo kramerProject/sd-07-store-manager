@@ -15,7 +15,7 @@ const newProduct = async (req, res) => {
   try {
     const { name , quantity } = req.body;
     const createdProduct = await createNewProduct(name, quantity);
-    console.log(createNewProduct);
+    console.log(createdProduct);
     return res.status(CREATED).send(createdProduct);
   } catch (error) {
     return res.status(INTERNAL_SERVER_ERROR).send(error.message);
