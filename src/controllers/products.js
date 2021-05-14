@@ -29,7 +29,9 @@ const newProduct = async (req, res) => {
 const getAll = async (req, res) => {
   try {
     const products = await findAll();
-    return res.status(OK).send(products);
+    return res.status(OK).send({
+      'products': products
+    });
   } catch (error) {
     console.log(error);
     return res.status(INTERNAL_SERVER_ERROR).send(error.message);
