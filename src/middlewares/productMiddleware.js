@@ -31,12 +31,11 @@ const checkNameAndQuantity = (req, res, next) => {
   }
   next();
 };
-
-const itExists = (req, res, next) => {
+//testado - funcionando.
+const itExists = async (req, res, next) => {
   const { name } = req.body;
-  const ZERO = 0;
-  const exists = findByName(name);
-  if (exists.length > ZERO) {
+  const exists = await findByName(name);
+  if (exists !== undefined) {
     res.status(UNPROCESSABLE_ENTITY).send({
       'err': {
         'code': 'invalid_data',
@@ -46,8 +45,23 @@ const itExists = (req, res, next) => {
   }
   next();
 };
+const idExists = (req, res, next) => {
+  const { id } = req.body;
+  const ZERO = 0;
+  const exists = findById(id);
+  if (!exists || exists.length === ZERO) {
+    res.status(UNPROCESSABLE_ENTITY).send({
+      'err': {
+        'code': 'invalid_data',
+        'message': 'Wrong id format'
+      }
+    });
+  }
+  next();
+};
 
 module.exports = {
   checkNameAndQuantity,
   itExists,
+  idExists,
 };

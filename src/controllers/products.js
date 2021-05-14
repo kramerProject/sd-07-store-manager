@@ -2,7 +2,8 @@ const {
   createNewProduct,
   findAll,
   findById,
-  updateById } = require('../services/productService');
+  updateById,
+  removeById } = require('../services/productService');
   
 const { StatusCodes: {
   CREATED,
@@ -10,13 +11,13 @@ const { StatusCodes: {
   UNPROCESSABLE_ENTITY,
   OK} } = require('http-status-codes');
 
-const newProduct = (req, res) => {
+const newProduct = async (req, res) => {
   try {
     const { name , quantity } = req.body;
-    const createdProduct = createNewProduct(name, quantity);
+    const createdProduct = await createNewProduct(name, quantity);
+    console.log(createNewProduct);
     return res.status(CREATED).send(createdProduct);
   } catch (error) {
-    console.log(error);
     return res.status(INTERNAL_SERVER_ERROR).send(error.message);
   }
 };
@@ -66,10 +67,21 @@ const setById = (req, res) => {
     return res.status(INTERNAL_SERVER_ERROR).send(error.message);
   }
 };
+const deleteById = (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = removeById(id);
+    return res.status(OK).response(deleted);
+  } catch (error) {
+    console.log(error);
+    return res.status(INTERNAL_SERVER_ERROR).send(error.message);
+  }
+};
 
 module.exports = {
   newProduct,
   getAll,
   getById,
   setById,
+  deleteById,
 };

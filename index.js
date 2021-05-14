@@ -7,7 +7,7 @@ app.use(express.urlencoded({
   extended: true
 }));
 
-app.use('/products', productRoutes);
+app.use(productRoutes);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
@@ -17,6 +17,6 @@ app.get('/', (_request, response) => {
 const PORT = 3000;
 
 app.listen(PORT, () => {
-  console.log('entrou');
+  console.log(`Rodando na porta :${PORT}`);
 });
 

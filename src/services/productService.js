@@ -4,7 +4,8 @@ const {
   getByName,
   getAll,
   getById,
-  setById
+  setById,
+  deleteById,
 } = require('../models/productModel');
 
 const createNewProduct = async (name, quantity) => {
@@ -14,6 +15,7 @@ const createNewProduct = async (name, quantity) => {
 
 const findByName = async (name) => {
   const product = await getByName(name);
+  console.log(product);
   return product;
 };
 
@@ -30,6 +32,9 @@ const findById = async (id) => {
 updateById = async (id, name, quantity) => {
   await setById(id, name, quantity);
 };
+const removeById = async (id) => {
+  return await deleteById(id);
+};
 
 module.exports = {
   createNewProduct,
@@ -37,4 +42,5 @@ module.exports = {
   findAll,
   findById,
   updateById,
+  removeById,
 };
