@@ -76,6 +76,20 @@ const checkEqualProduct = async(req,res,next) => {
  
   next();
 };
+const checkSale = (req,res,next) => {
+  const { id } =  req.params;
+  if(!ObjectId.isValid(id)){
+    return res.status(NOT_FOUND).send({
+      'err': {
+        code: 'not_found',
+        message: 'Sale not found',
+      }
+    });
+  }
+ 
+  next();
+
+};
 
 const checkId = async(req,res,next) => {
   const { id } =  req.params;
@@ -91,10 +105,24 @@ const checkId = async(req,res,next) => {
   next();
 };
 
-
+const checkIdDelete = async(req,res,next) => {
+  const { id } =  req.params;
+  if(!ObjectId.isValid(id)){
+    return res.status(UNPROCESSABLE_ENTITY).send({
+      'err': {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format',
+      }
+    });
+  }
+ 
+  next();
+};
 module.exports = {
   checkAddProduct,
   checkEqualProduct,
   checkId,
   checkAddSale,
+  checkIdDelete,
+  checkSale
 };

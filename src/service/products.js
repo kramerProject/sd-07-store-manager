@@ -8,7 +8,9 @@ const {insert,
   allSale,
   getsalById,
   saleUpdateById,
-  validSale
+  validSale,
+  deletedSale
+  
 } = require('../models/ModelProducts');
 
 const insertProductOnDB = async (name, quantity) => {
@@ -57,6 +59,10 @@ const deleteById = async(id) => {
   const result = await deletedById(id);
   return result;
 };
+const deleteSaleById = async(id) => {
+  const result = await deletedSale(id);
+  return result;
+};
 
 const insertSale = async(arraySale) => {
   const createdSale = await addNewSale(arraySale);
@@ -77,4 +83,5 @@ module.exports = {
   getAllSales,
   getSaById,
   updatedSaleById,
+  deleteSaleById
 };

@@ -5,10 +5,11 @@ const { insertProductOnDB, getAll,
   insertSale,
   getAllSales,
   getSaById,
-  updatedSaleById
+  updatedSaleById,
+  deleteSaleById
 } = require('../service/products');
 const {
-  StatusCodes: { CREATED,  OK },
+  StatusCodes: { CREATED,  OK, NOT_FOUND }, 
 } = require('http-status-codes');
 
 const controllerProduct = async (req, res) => {
@@ -45,6 +46,10 @@ const saleById = async( req, res) => {
   const { id } = req.params;
   try {
     const products = await getSaById(id);
+    const getbyid = await getSaById(id);
+    if(!getbyid) {
+      return res.status(NOT_FOUND).send();
+    }
     return res.status(OK).send(products);
   } catch (error) {
     return  console.log('Deu erro ao listar os produtos por ID ' + error.message);
@@ -76,6 +81,22 @@ const updateSaleById = async(req,res) => {
   }
 };
 
+
+const delSaleById = async(req, res) => {
+  const {id} = req.params;
+  
+  try {
+    const getbyid = await getSaById(id);
+    if(!getbyid) {
+      return res.status(NOT_FOUND).send();
+    }
+    const products = await deleteSaleById(id);
+    return res.status(OK).send(getbyid);
+  } catch (error) {
+    return console.log('Deu erro ao deletar os vendas ' + error.message);
+    
+  }
+};
 
 
 const delById = async(req, res) => {
@@ -118,5 +139,6 @@ module.exports = {
   controllerSales,
   allSales,
   saleById,
-  updateSaleById
+  updateSaleById,
+  delSaleById
 };

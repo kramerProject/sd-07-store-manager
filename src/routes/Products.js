@@ -9,12 +9,15 @@ const {
   controllerSales,
   allSales,
   saleById,
-  updateSaleById
+  updateSaleById,
+  delSaleById
 } = require('../controllers/productController');
 const { checkAddProduct,
   checkEqualProduct, checkId,
   checkAddSale,
-  checkSaleValid } = require('../middlewares/productMiddleware');
+  checkSaleValid,
+  checkIdDelete,
+  checkSale } = require('../middlewares/productMiddleware');
 
 
   
@@ -28,8 +31,8 @@ app.delete('/products/:id',checkId, delById);
 
 app.post('/sales',checkAddSale, controllerSales);
 app.get('/sales', allSales);
-app.get('/sales/:id', checkId, saleById);
+app.get('/sales/:id', checkSale, saleById);
 app.put('/sales/:id',checkAddSale, checkId, updateSaleById);
-
+app.delete('/sales/:id',checkIdDelete, delSaleById);
 
 module.exports = app;

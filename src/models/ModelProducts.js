@@ -83,6 +83,13 @@ const deletedById = async(id) => {
     .deleteOne({ _id: ObjectId(id) });
   return await getAllById(id);
 };
+
+const deletedSale = async(id) => {
+  const db = await connection();
+  const result = await db.collection('sales')
+    .deleteOne({ _id: ObjectId(id) });
+  return result;
+};
 module.exports = {
   insert,
   findProduct,
@@ -94,4 +101,5 @@ module.exports = {
   allSale,
   getsalById,
   saleUpdateById,
+  deletedSale
 };
