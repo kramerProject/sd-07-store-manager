@@ -1,4 +1,5 @@
-const {insert,
+const {
+  insert,
   findProduct,
   getAllProducts,
   getAllById,
@@ -9,14 +10,12 @@ const {insert,
   getsalById,
   saleUpdateById,
   validSale,
-  deletedSale
-  
+  deletedSale,
 } = require('../models/ModelProducts');
 
 const insertProductOnDB = async (name, quantity) => {
   return await insert(name, quantity);
 };
-
 
 // const saleIsValid = async(id) => {
 //   const valid =  await validSale(id);
@@ -26,8 +25,8 @@ const insertProductOnDB = async (name, quantity) => {
 //   return valid;
 // };
 const findByEqual = async (name) => {
-  const equalName =  await findProduct(name);
-  const exists = equalName.find(product => product.name === name);
+  const equalName = await findProduct(name);
+  const exists = equalName.find((product) => product.name === name);
   return exists;
 };
 
@@ -36,44 +35,46 @@ const getAll = async () => {
   return result;
 };
 
-const getById = async(id) => {
+const getById = async (id) => {
   const result = await getAllById(id);
   return result;
 };
 
-const getSaById = async(id) => {
+const getSaById = async (id) => {
   const result = await getsalById(id);
   return result;
 };
 
-const updatedById = async(id, name, quantity) => {
+const updatedById = async (id, name, quantity) => {
   const result = await updateByID(id, name, quantity);
   return result;
 };
 
-const updatedSaleById = async(id, arraySales) => {
+const updatedSaleById = async (id, arraySales) => {
   const result = await saleUpdateById(id, arraySales);
   return result;
 };
-const deleteById = async(id) => {
+const deleteById = async (id) => {
   const result = await deletedById(id);
   return result;
 };
-const deleteSaleById = async(id) => {
+const deleteSaleById = async (id) => {
   const result = await deletedSale(id);
   return result;
 };
 
-const insertSale = async(arraySale) => {
+const insertSale = async (arraySale) => {
   const createdSale = await addNewSale(arraySale);
   return createdSale;
 };
 
-const getAllSales = async() => {
+const getAllSales = async () => {
   return await allSale();
 };
+
+
 module.exports = {
-  insertProductOnDB, 
+  insertProductOnDB,
   findByEqual,
   getAll,
   getById,
@@ -83,5 +84,6 @@ module.exports = {
   getAllSales,
   getSaById,
   updatedSaleById,
-  deleteSaleById
+  deleteSaleById,
+  updateQuantity
 };
