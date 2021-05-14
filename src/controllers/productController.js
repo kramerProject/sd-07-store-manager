@@ -8,6 +8,7 @@ const { insertProductOnDB, getAll,
   updatedSaleById,
   deleteSaleById
 } = require('../service/products');
+const {updateByNewSale} = require('../models/ModelProducts');
 const {
   StatusCodes: { CREATED,  OK, NOT_FOUND }, 
 } = require('http-status-codes');
@@ -59,6 +60,7 @@ const saleById = async( req, res) => {
     return  console.log('Deu erro ao listar os produtos por ID ' + error.message);
   }
 };
+
 const updateById = async(req, res) => {
   const { id } = req.params;
   const {name, quantity} = req.body;
@@ -71,8 +73,30 @@ const updateById = async(req, res) => {
     
   }
 };
-
-
+const controllerSales = async (req, res) => {
+  try {
+    const all = await getAll();
+    const arraySales = req.body;
+    const [{quantity, productId}] = arraySales;
+    const subtract = all[0].quantity - quantity;
+    updateByNewSale(productId, subtract);
+    const newSale = await insertSale(arraySales);
+    return res.status(OK).send(newSale);
+  } catch (error) {
+    return console.log('Deu erro cadastrar venda ' + error.message);
+  }
+};
+const delSaleById = async(req, res) => {
+  const {id} = req.params;
+  try {
+    const getbyid = await getSaById(id);
+    await deleteSaleById(id);
+    return res.status(OK).send(getbyid);
+  } catch (error) {
+    return console.log('Deu erro ao deletar os vendas ' + error.message);
+    
+  }
+};
 const updateSaleById = async(req,res) => {
   const {id} = req.params;
   const salesArray = req.body;
@@ -85,43 +109,20 @@ const updateSaleById = async(req,res) => {
   }
 };
 
-
-const delSaleById = async(req, res) => {
-  const {id} = req.params;
-  
-  try {
-    const getbyid = await getSaById(id);
-   
-    await deleteSaleById(id);
-    return res.status(OK).send(getbyid);
-  } catch (error) {
-    return console.log('Deu erro ao deletar os vendas ' + error.message);
-    
-  }
-};
-
-
 const delById = async(req, res) => {
   const {id} = req.params;
   
   try {
     const products = await deleteById(id);
+   
+
     return res.status(OK).send(products);
   } catch (error) {
     return console.log('Deu erro ao deletar os produtos ' + error.message);
     
   }
 };
-const controllerSales = async (req, res) => {
-  try {
-    const arraySales = req.body;
-    const newSale = await insertSale(arraySales);
-    
-    return res.status(OK).send(newSale);
-  } catch (error) {
-    return console.log('Deu erro cadastrar venda ' + error.message);
-  }
-};
+
 
 const allSales = async(req,res) => {
   try {

@@ -85,5 +85,4 @@ module.exports = {
   getSaById,
   updatedSaleById,
   deleteSaleById,
-  updateQuantity
 };

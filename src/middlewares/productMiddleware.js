@@ -1,6 +1,7 @@
 const {StatusCodes: {UNPROCESSABLE_ENTITY, NOT_FOUND}} = require('http-status-codes');
 const { findByEqual, saleIsValid } = require('../service/products');
 const {ObjectId} = require('mongodb');
+const {updateByID, getAllById} = require('../models/ModelProducts');
 const checkAddProduct = (req,res,next) => {
   const { name, quantity } = req.body;
   const zero = 0;
@@ -118,11 +119,33 @@ const checkIdDelete = async(req,res,next) => {
  
   next();
 };
+
+
+const checkSubStock = async(req,res,next) => {
+  const { id } =  req.params;
+  const [{quantity}] = req.body;
+  const atual = await getAllById(id);
+  const  updatedNewStock = await updateByID(id, quantity);
+  console.log(updatedNewStock);
+
+  // if(!ObjectId.isValid(id)){
+  //   return res.status(UNPROCESSABLE_ENTITY).send({
+  //     'err': {
+  //       code: 'invalid_data',
+  //       message: 'Wrong sale ID format',
+  //     }
+  //   });
+  // }
+ 
+  next();
+};
+
 module.exports = {
   checkAddProduct,
   checkEqualProduct,
   checkId,
   checkAddSale,
   checkIdDelete,
-  checkSale
+  checkSale,
+  checkSubStock
 };

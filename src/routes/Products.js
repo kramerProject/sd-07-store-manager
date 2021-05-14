@@ -17,6 +17,7 @@ const { checkAddProduct,
   checkAddSale,
   checkSaleValid,
   checkIdDelete,
+  checkSubStock,
   checkSale } = require('../middlewares/productMiddleware');
 
 
@@ -28,8 +29,9 @@ app.get('/products', getAllProduct);
 app.delete('/products/:id',checkId, delById);
 
 //Sales Endpoints
+// checkSubStock
 
-app.post('/sales',checkAddSale, controllerSales);
+app.post('/sales', checkAddSale, controllerSales);
 app.get('/sales', allSales);
 app.get('/sales/:id',  checkSale, saleById);
 app.put('/sales/:id',checkAddSale, checkId, updateSaleById);

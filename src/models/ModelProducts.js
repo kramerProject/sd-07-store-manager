@@ -43,6 +43,7 @@ const getAllById = async(id) => {
   return result_1;
 };
 
+
 // const validSale = async(id) => {
 //   const db = await connection();
 //   const result_1 = await db.collection('sales')
@@ -66,6 +67,14 @@ const updateByID = async(id, name, quantity) => {
     { _id: ObjectId(id) }, { $set: { name, quantity } },
   );
   return await getAllById(id);
+
+};
+
+const updateByNewSale = async(id,quantity) => {
+  const db = await connection();
+  return await db.collection('products').updateOne(
+    { _id: ObjectId(id) }, { $set: {  quantity } },
+  );
 
 };
 
@@ -101,5 +110,6 @@ module.exports = {
   allSale,
   getsalById,
   saleUpdateById,
-  deletedSale
+  deletedSale,
+  updateByNewSale
 };
