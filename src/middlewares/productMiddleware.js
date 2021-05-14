@@ -1,7 +1,6 @@
 const {StatusCodes: {UNPROCESSABLE_ENTITY, NOT_FOUND}} = require('http-status-codes');
-const { findByEqual, saleIsValid } = require('../service/products');
+const { findByEqual } = require('../service/products');
 const {ObjectId} = require('mongodb');
-const {updateByID, getAllById} = require('../models/ModelProducts');
 const checkAddProduct = (req,res,next) => {
   const { name, quantity } = req.body;
   const zero = 0;
@@ -130,5 +129,4 @@ module.exports = {
   checkAddSale,
   checkIdDelete,
   checkSale,
-  checkSubStock
 };
