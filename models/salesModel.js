@@ -1,40 +1,25 @@
 const connection = require('./connection');
-const { ObjectId } = require('mongodb');
-
-const connection = require('./connection');
 // const { ObjectId } = require('mongodb');
 
-const getNewProduct = ({ id, itensSold }) => {
-  return {
-    id,
-    itensSold: [name, quantity],
-  }
-}
+const createSale = async (itemsSold) => {
+  await connection()
+    .then((db) => db.collection('sales').insertOne({ itemsSold: [...itemsSold] }));
+  return { _id: prod.insertedId, itemsSold };
+};
 
+/*
+db.sales.insertOne({
+  "itensSold": [{
+  "productId": "product_id5",
+  "quantity": "product_quantity5",
+  },
+  {
+  "productId": "product_id6",
+  "quantity": "product_quantity6",
+  },]
+});
+*/
 
-// const getAllProducts = async () => {
-//   return connection()
-//     .then((db) => db.collection('sales').find().toArray())
-//         .then((sales) => sales.map(({ _id, itensSold }) =>
-//             getNewProduct({
-//               id: _id,
-//               itensSold,
-//             })
-//         )
-//     );
-// }
-
-// const createSale = async (name, quantity) => {
-//   connection()
-//     .then((db) => db.collection('sales').insertOne({ name, quantity }))
-//     .then((result) => getNewProduct({ id: result.insertedId, name, quantity }))
-// }
-
-// module.exports = {
-//   getNewProduct,
-//   getAllProducts,
-//   isValidProduct,
-//   findProductById,
-//   findProductByName,
-//   createProduct,
-// }
+module.exports = {
+  createSale,
+};
