@@ -55,13 +55,13 @@ const productByIdMiddleware = async (req, res, next) => {
   if(!ObjectId.isValid(id)) {
     return res.status(INVALID_DATA).send({
       err: {
-        code: "invalid_data",
+        code: 'invalid_data',
         message: 'Wrong id format',
       }
     });
   }
   next();
-}
+};
 
 module.exports = {
   nameMiddleware,

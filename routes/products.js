@@ -19,6 +19,15 @@ productsRoute.post(
 
 productsRoute.get('/products', ProductsController.getAllProductsController);
 
-productsRoute.get('/products/:id', productByIdMiddleware, ProductsController.productByIdController);
+productsRoute.get('/products/:id',
+  productByIdMiddleware,
+  ProductsController.productByIdController
+);
+
+productsRoute.put('/products/:id',
+  quantityMiddleware,
+  nameMiddleware,
+  ProductsController.updateProductController
+);
 
 module.exports = productsRoute;
