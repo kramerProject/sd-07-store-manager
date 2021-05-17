@@ -1,5 +1,6 @@
 const express = require('express');
-const ProductsModel = require('../models/productsModel');
+// const ProductsModel = require('../models/productsModel');
+const ProductsController = require('../controller/productsController');
 
 const {
   nameMiddleware,
@@ -8,22 +9,15 @@ const {
 
 const productsRoute = express.Router();
 
-const SUCCESS = 200;
+productsRoute.post(
+  '/products',
+  nameMiddleware,
+  quantityMiddleware,
+  ProductsController.createProductController
+);
 
-const NOT_FOUND = 404;
+productsRoute.get('/products', ProductsController.getAllProductsController);
 
-const INVALID_DATA = 400;
-
-productsRoute.post('/products', nameMiddleware, quantityMiddleware, async (req, res) => {
-  const { name, quantity } = req.body;
-  const newProduct = await ProductsModel.createProduct(name, quantity);
-  console.log(await newProduct)
-  return res.status(201).send(newProduct);
-})
-
-productsRoute.get('/products', async(req, res) => {
-  const allProducts = await ProductsModel.getAllProducts();
-  res.status(200).send(allProducts);
-})
+productsRoute.get('/products/:id', ProductsController.productByIdController);
 
 module.exports = productsRoute;

@@ -11,7 +11,7 @@ const DB_NAME = 'StoreManager';
 const OPTION = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-}
+};
 
 const connection = async () => {
   return MongoClient
@@ -20,7 +20,7 @@ const connection = async () => {
     .catch((err) => {
       console.error(err.message);
       process.exit();
-    })
-  }
+    });
+};
 
-  module.exports = connection;
+module.exports = connection;
