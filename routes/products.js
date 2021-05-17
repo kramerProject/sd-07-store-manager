@@ -1,5 +1,4 @@
 const express = require('express');
-// const ProductsModel = require('../models/productsModel');
 const ProductsController = require('../controller/productsController');
 
 const {
@@ -28,6 +27,10 @@ productsRoute.put('/products/:id',
   quantityMiddleware,
   nameMiddleware,
   ProductsController.updateProductController
+);
+
+productsRoute.delete('/products/:id',
+  ProductsController.deleteProductController
 );
 
 module.exports = productsRoute;

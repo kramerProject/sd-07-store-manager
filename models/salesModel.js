@@ -1,12 +1,15 @@
-// const connection = require('./connection');
-// // const { ObjectId } = require('mongodb');
+const connection = require('./connection');
+const { ObjectId } = require('mongodb');
 
-// const getNewProduct = ({ id, itensSold }) => {
-//   return {
-//     id,
-//     itensSold: [name, quantity],
-//   }
-// }
+const connection = require('./connection');
+// const { ObjectId } = require('mongodb');
+
+const getNewProduct = ({ id, itensSold }) => {
+  return {
+    id,
+    itensSold: [name, quantity],
+  }
+}
 
 
 // const getAllProducts = async () => {

@@ -24,6 +24,22 @@ const updateProductController = async (req, res) => {
   }
 };
 
+const deleteProductController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await ProductsModel.deleteProduct(id);
+    return res.status(SUCCESS).send({ message: 'Product deleted successfully' });
+  } catch (err) {
+    return res.status(INVALID_DATA).
+      send({
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong id format',
+        }
+      });
+  }
+};
+
 const getAllProductsController = async(req, res) => {
   const allProducts = await ProductsModel.getAllProducts();
   const result = {products: allProducts };
@@ -51,4 +67,5 @@ module.exports = {
   getAllProductsController,
   productByIdController,
   updateProductController,
+  deleteProductController,
 };

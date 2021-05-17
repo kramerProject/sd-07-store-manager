@@ -13,7 +13,6 @@ const createProduct = async (name, quantity) => {
 };
 
 const productById = async (id) => {
-  // if(!ObjectId.isValid(id)) return null
   const productData = await connection()
     .then((db) => db.collection('products').findOne(new ObjectId(id)));
   if(!productData) return null; // {
@@ -27,47 +26,16 @@ const updateProduct = async(id, name, quantity) => {
   return { _id: id, name, quantity };
 };
 
-/*
-crush.put('/:id',
-  authMiddleware,
-  nameMiddleware,
-  ageAuthMiddleware,
-  dateAuthMiddleware,
-  datedAtMiddle,
-  rateMiddle, async (req, res) => {
-  const result = await readCrushesFile();
-  const { id } = req.params;
-  const { name, age, date } = req.body;
-  const crushIndex = result
-    .findIndex((crushData) => crushData.id === Number(id));
-  result[crushIndex] = { id: Number(id), name, age, date };
-  try {
-    await writeCrushesFile(result);
-    return res.status(SUCCESS).send(result[crushIndex]);
-  } catch (err) {
-    const message = {
-      message: 'Crush não encontrado',
-    };
-    return res.status(NOT_FOUND).send(message);
-  }
-});
-*/
-
-// const findProductByName = async (name) => {
-//   const productsData = await connection()
-//     .then((db) => db.collection('products').findOne({name}));
-
-//   if(!productsData) return null;
-
-//   const { name, quantity } = productsData;
-
-//   return getNewProduct({ id, name, quantity });
-// }
+const deleteProduct = async(id) => {
+  return await connection()
+    .then((db) => db.collection('products')
+      .deleteOne({ _id: ObjectId(id) }));
+};
 
 module.exports = {
   getAllProducts,
   createProduct,
   productById,
   updateProduct,
-  // findProductByName,
+  deleteProduct,
 };
