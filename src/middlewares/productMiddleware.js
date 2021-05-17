@@ -1,5 +1,5 @@
 const { StatusCodes: { UNPROCESSABLE_ENTITY } } = require('http-status-codes');
-const { findByName } = require('../services/productService');
+const { findByName, findById } = require('../services/productService');
 
 const checkNameAndQuantity = (req, res, next) => {
   const { name, quantity } = req.body;
@@ -45,12 +45,26 @@ const itExists = async (req, res, next) => {
   }
   next();
 };
-const idExists = (req, res, next) => {
+const idExists = async (req, res, next) => {
   const { id } = req.body;
   const ZERO = 0;
-  const exists = findById(id);
+  const exists = await findById(id);
   if (!exists || exists.length === ZERO) {
-    res.status(UNPROCESSABLE_ENTITY).send({
+    return res.status(UNPROCESSABLE_ENTITY).send({
+      'err': {
+        'code': 'invalid_data',
+        'message': 'Wrong id format'
+      }
+    });
+  }
+  next();
+};
+const idParamsExists = async (req, res, next) => {
+  const { id } = req.params;
+  const ZERO = 0;
+  const exists = await findById(id);
+  if (!exists || exists.length === ZERO) {
+    return res.status(UNPROCESSABLE_ENTITY).send({
       'err': {
         'code': 'invalid_data',
         'message': 'Wrong id format'
@@ -64,4 +78,5 @@ module.exports = {
   checkNameAndQuantity,
   itExists,
   idExists,
+  idParamsExists,
 };

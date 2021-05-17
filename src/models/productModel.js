@@ -26,6 +26,7 @@ const getById = async (id) => {
   await connection()
     .then((db) => db.collection('products').findOne(ObjectId(id)))
     .then((result) => { output = result; });
+    
   return output;
 };
 
@@ -53,13 +54,15 @@ const setById = async (id, newName, newQuantity) => {
   });
 };
 const deleteById = async (id) => {
+  console.log('test', !ObjectId.isValid(id));
   if (!ObjectId.isValid(id)) {
     return null;
   }
 
-  connection().then(db => {
-    db.collection('products').remove(ObjectId(id));
+  await connection().then(db => {
+    db.collection('products').deleteOne({_id: ObjectId(id)});
   });
+  return [];
 };
 
 module.exports = {

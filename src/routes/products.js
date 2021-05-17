@@ -2,7 +2,8 @@ const Router = require('express').Router();
 const {
   checkNameAndQuantity,
   itExists,
-  idExists } = require('../middlewares/productMiddleware');
+  idExists,
+  idParamsExists } = require('../middlewares/productMiddleware');
 const {
   newProduct,
   getAll,
@@ -19,7 +20,7 @@ Router.put(
   '/products/:id', checkNameAndQuantity, setById
 );
 Router.delete(
-  '/products/:id', idExists, deleteById
+  '/products/:id', idParamsExists, deleteById
 );
 
 module.exports = Router;

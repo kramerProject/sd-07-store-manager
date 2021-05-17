@@ -58,11 +58,11 @@ const getById = async (req, res) => {
   }
 };
 
-const setById = (req, res) => {
+const setById = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, quantity } = req.body;
-    updateById(id, name, quantity);
+    await updateById(id, name, quantity);
     return res.status(OK).send({
       '_id': id,
       name,
@@ -73,11 +73,11 @@ const setById = (req, res) => {
     return res.status(INTERNAL_SERVER_ERROR).send(error.message);
   }
 };
-const deleteById = (req, res) => {
+const deleteById = async (req, res) => {
   try {
     const { id } = req.params;
-    const deleted = removeById(id);
-    return res.status(OK).response(deleted);
+    const deleted = await removeById(id);
+    return res.status(OK).send(deleted);
   } catch (error) {
     console.log(error);
     return res.status(INTERNAL_SERVER_ERROR).send(error.message);
