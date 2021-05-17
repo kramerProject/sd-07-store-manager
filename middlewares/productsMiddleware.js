@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const { getAllProducts } = require('../models/productsModel');
 const minNameLength = 5;
 const empty = 0;
@@ -49,7 +50,21 @@ const quantityMiddleware = (req, res, next) => {
   next();
 };
 
+const productByIdMiddleware = async (req, res, next) => {
+  const {id} = req.params;
+  if(!ObjectId.isValid(id)) {
+    return res.status(INVALID_DATA).send({
+      err: {
+        code: "invalid_data",
+        message: 'Wrong id format',
+      }
+    });
+  }
+  next();
+}
+
 module.exports = {
   nameMiddleware,
-  quantityMiddleware
+  quantityMiddleware,
+  productByIdMiddleware
 };

@@ -1,48 +1,24 @@
 const connection = require('./connection');
 const { ObjectId } = require('mongodb');
 
-const getNewProduct = ({ id, name, quantity }) => {
-  return {
-    id,
-    name,
-    quantity,
-  };
-};
-
-const createProduct = async (name, quantity) => {
-  return await connection()
-    .then((db) => db.collection('products').insertOne({ name, quantity }))
-    .then((result) => getNewProduct({ id: result.insertedId, name, quantity }));
-};
-
 const getAllProducts = async () => {
   return await connection()
-    .then((db) => db.collection('products').find().toArray())
-    .then((products) => products.map(({ id, name, quantity }) =>
-      getNewProduct({
-        id,
-        name,
-        quantity,
-      })
-    )
-    );
-};
+    .then((db) => db.collection('products').find().toArray());
+}
+
+const createProduct = async (name, quantity) => {
+  const prod = await connection()
+    .then((db) => db.collection('products').insertOne({ name, quantity }))
+  return { _id: prod.insertedId, name, quantity };
+}
 
 const productById = async (id) => {
+  // if(!ObjectId.isValid(id)) return null
   const productData = await connection()
     .then((db) => db.collection('products').findOne(new ObjectId(id)));
-  if(!productData) {
-    return res.status(INVALID_DATA)
-      .send({
-        err: {
-          code: 'invalid_data',
-          message: 'Wrong id format',
-        }
-      });
-  }
-  const { name, quantity } = productData;
-  return getNewProduct({ id, name, quantity });
-};
+    if(!productData) return null // {
+  return productData;
+}
 
 // const findProductByName = async (name) => {
 //   const productsData = await connection()
@@ -56,9 +32,8 @@ const productById = async (id) => {
 // }
 
 module.exports = {
-  getNewProduct,
   getAllProducts,
   createProduct,
   productById,
   // findProductByName,
-};
+}

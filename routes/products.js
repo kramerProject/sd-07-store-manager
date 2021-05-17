@@ -4,7 +4,8 @@ const ProductsController = require('../controller/productsController');
 
 const {
   nameMiddleware,
-  quantityMiddleware
+  quantityMiddleware,
+  productByIdMiddleware,
 } = require('../middlewares/productsMiddleware');
 
 const productsRoute = express.Router();
@@ -18,6 +19,6 @@ productsRoute.post(
 
 productsRoute.get('/products', ProductsController.getAllProductsController);
 
-productsRoute.get('/products/:id', ProductsController.productByIdController);
+productsRoute.get('/products/:id', productByIdMiddleware, ProductsController.productByIdController);
 
 module.exports = productsRoute;
