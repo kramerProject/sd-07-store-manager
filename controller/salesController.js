@@ -8,11 +8,11 @@ const SUCCESS = 200;
 
 const createSaleController = async (req, res) => {
   try{
-    const itemsSold = req.body;
+    const itemsSold = [...req.body];
     const sale = await SalesModel.createSale(itemsSold);
     return res.status(SUCCESS).send(sale);
   } catch(err) {
-    console.error(err);
+    console.log({message: err.message});
   }
 };
 

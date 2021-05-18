@@ -1,10 +1,12 @@
 const connection = require('./connection');
-// const { ObjectId } = require('mongodb');
-
 const createSale = async (itemsSold) => {
-  await connection()
+  const newSale = await connection()
     .then((db) => db.collection('sales').insertOne({ itemsSold: [...itemsSold] }));
-  return { _id: prod.insertedId, itemsSold };
+  return { _id: newSale.insertedId, itemsSold };
+};
+
+module.exports = {
+  createSale,
 };
 
 /*
@@ -19,7 +21,3 @@ db.sales.insertOne({
   },]
 });
 */
-
-module.exports = {
-  createSale,
-};
