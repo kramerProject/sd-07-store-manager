@@ -24,7 +24,7 @@ const getById = async (id) => {
     return output;
   }
   await connection()
-    .then((db) => db.collection('products').findOne(ObjectId(id)))
+    .then((db) => db.collection('products').findOne({_id: ObjectId(id)}))
     .then((result) => { output = result; });
     
   return output;

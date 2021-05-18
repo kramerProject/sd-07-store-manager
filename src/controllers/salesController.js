@@ -2,6 +2,7 @@ const {
   createNewSale,
   findAll,
   findById,
+  removeById,
 //   updateById,
 } = require('../services/salesService');
   
@@ -43,7 +44,7 @@ const getById = async (req, res) => {
     const { id } = req.params;
     const ZERO = 0;
     const sales = await findById(id);
-    if (sales.length === ZERO) {
+    if (!sales || sales.length === ZERO) {
       return res.status(NOT_FOUND).send({
         'err': {
           'code': 'not_found',
@@ -73,21 +74,21 @@ const getById = async (req, res) => {
 //     return res.status(INTERNAL_SERVER_ERROR).send(error.message);
 //   }
 // };
-// const deleteById = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const deleted = await removeById(id);
-//     return res.status(OK).send(deleted);
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(INTERNAL_SERVER_ERROR).send(error.message);
-//   }
-// };
+const deleteById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = await removeById(id);
+    return res.status(OK).send(deleted);
+  } catch (error) {
+    console.log(error);
+    return res.status(INTERNAL_SERVER_ERROR).send(error.message);
+  }
+};
 
 module.exports = {
   newSale,
   getAll,
   getById,
+  deleteById,
 //   setById,
-//   deleteById,
 };

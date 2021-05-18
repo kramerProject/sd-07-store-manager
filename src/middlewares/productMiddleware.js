@@ -1,4 +1,4 @@
-const { StatusCodes: { UNPROCESSABLE_ENTITY } } = require('http-status-codes');
+const { StatusCodes: { UNPROCESSABLE_ENTITY, NOT_FOUND } } = require('http-status-codes');
 const { findByName, findById } = require('../services/productService');
 
 const checkNameAndQuantity = (req, res, next) => {

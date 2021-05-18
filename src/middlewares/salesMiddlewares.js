@@ -1,4 +1,4 @@
-const { StatusCodes: { UNPROCESSABLE_ENTITY } } = require('http-status-codes');
+const { StatusCodes: { UNPROCESSABLE_ENTITY, NOT_FOUND } } = require('http-status-codes');
 const salesService = require('../services/salesService');
 const productService = require('../services/productService');
 
@@ -61,21 +61,22 @@ const checkIdsAndQuantities = (req, res, next) => {
 //   }
 //   next();
 // };
-// const idParamsExists = async (req, res, next) => {
-//   const { id } = req.params;
-//   const ZERO = 0;
-//   const exists = await findById(id);
-//   if (!exists || exists.length === ZERO) {
-//     return res.status(UNPROCESSABLE_ENTITY).send({
-//       'err': {
-//         'code': 'invalid_data',
-//         'message': 'Wrong id format'
-//       }
-//     });
-//   }
-//   next();
-// };
+const idParamsExists = async (req, res, next) => {
+  const { id } = req.params;
+  const ZERO = 0;
+  const exists = await salesService.findById(id);
+  if (!exists || exists.length === ZERO) {
+    return res.status(UNPROCESSABLE_ENTITY).send({
+      'err': {
+        'code': 'invalid_data',
+        'message': 'Wrong sale ID format'
+      }
+    });
+  }
+  next();
+};
 
 module.exports = {
   checkIdsAndQuantities,
+  idParamsExists,
 };
