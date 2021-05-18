@@ -1,9 +1,9 @@
 
 const {
   create,
+  getAll,
+  getById,
 //   getByName,
-//   getAll,
-//   getById,
 //   setById,
 //   deleteById,
 } = require('../models/salesModel');
@@ -19,15 +19,15 @@ const createNewSale = async (products) => {
 //   return product;
 // };
 
-// const findAll = async () => {
-//   const products = await getAll();
-//   return products;
-// };
+const findAll = async () => {
+  const sales = await getAll();
+  return sales;
+};
 
-// const findById = async (id) => {
-//   const product = await getById(id);
-//   return product;
-// };
+const findById = async (id) => {
+  const sales = await getById(id);
+  return sales;
+};
 
 // updateById = async (id, name, quantity) => {
 //   await setById(id, name, quantity);
@@ -38,4 +38,6 @@ const createNewSale = async (products) => {
 
 module.exports = {
   createNewSale,
+  findAll,
+  findById,
 };

@@ -4,16 +4,16 @@ const {
 } = require('../middlewares/salesMiddlewares');
 const {
   newSale,
-//   getAll,
-//   getById,
+  getAll,
+  getById,
 //   setById,
 } = require('../controllers/salesController');
 
 Router.post(
   '/sales', checkIdsAndQuantities, newSale
 );
-// Router.get('/products', getAll);
-// Router.get('/products/:id', getById);
+Router.get('/sales', getAll);
+Router.get('/sales/:id', getById);
 // Router.put(
 //   '/products/:id', checkNameAndQuantity, setById
 // );

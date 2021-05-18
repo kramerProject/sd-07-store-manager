@@ -1,7 +1,7 @@
 const {
-  createNewSale
-//   findAll,
-//   findById,
+  createNewSale,
+  findAll,
+  findById,
 //   updateById,
 } = require('../services/salesService');
   
@@ -9,6 +9,7 @@ const { StatusCodes: {
   CREATED,
   INTERNAL_SERVER_ERROR,
   UNPROCESSABLE_ENTITY,
+  NOT_FOUND,
   OK} } = require('http-status-codes');
 
 const newSale = async (req, res) => {
@@ -25,37 +26,37 @@ const newSale = async (req, res) => {
   }
 };
 
-// const getAll = async (req, res) => {
-//   try {
-//     const products = await findAll();
-//     return res.status(OK).send({
-//       'products': products
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(INTERNAL_SERVER_ERROR).send(error.message);
-//   }
-// };
+const getAll = async (req, res) => {
+  try {
+    const sales = await findAll();
+    return res.status(OK).send({
+      'sales': sales
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(INTERNAL_SERVER_ERROR).send(error.message);
+  }
+};
 
-// const getById = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const ZERO = 0;
-//     const product = await findById(id);
-//     if (product.length === ZERO) {
-//       return res.status(UNPROCESSABLE_ENTITY).send({
-//         'err': {
-//           'code': 'invalid_data',
-//           'message': 'Wrong id format'
-//         }
-//       });
-//     }
-//     return res.status(OK).send(product);
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(INTERNAL_SERVER_ERROR).send(error.message);
-//   }
-// };
+const getById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const ZERO = 0;
+    const sales = await findById(id);
+    if (sales.length === ZERO) {
+      return res.status(NOT_FOUND).send({
+        'err': {
+          'code': 'not_found',
+          'message': 'Sale not found'
+        }
+      });
+    }
+    return res.status(OK).send(sales);
+  } catch (error) {
+    console.log(error);
+    return res.status(INTERNAL_SERVER_ERROR).send(error.message);
+  }
+};
 
 // const setById = async (req, res) => {
 //   try {
@@ -85,8 +86,8 @@ const newSale = async (req, res) => {
 
 module.exports = {
   newSale,
-//   getAll,
-//   getById,
+  getAll,
+  getById,
 //   setById,
 //   deleteById,
 };

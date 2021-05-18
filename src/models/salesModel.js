@@ -9,16 +9,27 @@ const create = async (itensSold) => {
   return output;
 };
 
-// const getAll = async () => {
-//   let output = [];
-//   await connection()
-//     .then((db) => db.collection('products').find({}).toArray())
-//     .then(result => {
-//       console.log('model', result);
-//       output = result;
-//     });
-//   return output;
-// };
+const getAll = async () => {
+  let output = [];
+  await connection()
+    .then((db) => db.collection('sales').find({}).toArray())
+    .then(result => {
+      output = result;
+    });
+  return output;
+};
+
+const getById = async (id) => {
+  let output= [];
+  if (!ObjectId.isValid(id)) {
+    return output;
+  }
+  await connection()
+    .then((db) => db.collection('sales').findOne(ObjectId(id)))
+    .then((result) => { output = result; });
+    
+  return output;
+};
 
 // const getByName = async (name) => {
 //   return connection()
@@ -26,17 +37,6 @@ const create = async (itensSold) => {
 //     .then((result) => { return result[0]; });
 // };
 
-// const getById = async (id) => {
-//   let output= [];
-//   if (!ObjectId.isValid(id)) {
-//     return output;
-//   }
-//   await connection()
-//     .then((db) => db.collection('products').findOne(ObjectId(id)))
-//     .then((result) => { output = result; });
-    
-//   return output;
-// };
 
 
 
@@ -69,4 +69,6 @@ const create = async (itensSold) => {
 
 module.exports = {
   create,
+  getAll,
+  getById,
 };
