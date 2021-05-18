@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const productRoutes = require('./src/routes/products');
+const salesRoutes = require('./src/routes/sales');
 
 app.use(express.json());
 app.use(express.urlencoded({
@@ -8,6 +9,7 @@ app.use(express.urlencoded({
 }));
 
 app.use(productRoutes);
+app.use(salesRoutes);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {

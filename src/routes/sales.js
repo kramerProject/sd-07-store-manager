@@ -1,8 +1,24 @@
 const Router = require('express').Router();
-
+const {
+  checkIdsAndQuantities,
+} = require('../middlewares/salesMiddlewares');
+const {
+  newSale,
+//   getAll,
+//   getById,
+//   setById,
+} = require('../controllers/salesController');
 
 Router.post(
-  '/sales', ''
+  '/sales', checkIdsAndQuantities, newSale
 );
+// Router.get('/products', getAll);
+// Router.get('/products/:id', getById);
+// Router.put(
+//   '/products/:id', checkNameAndQuantity, setById
+// );
+// Router.delete(
+//   '/products/:id', idParamsExists, deleteById
+// );
 
 module.exports = Router;
