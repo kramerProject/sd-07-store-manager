@@ -1,16 +1,7 @@
 const { productsModel } = require('../models');
-const { ObjectId } = require('mongodb');
 const validate = require('./validate');
 
-const getAll = async () => {
-  try {
-    return await productsModel.getAll();
-
-  } catch(error) {
-    throw new Error(`Não foi possível encontrar products:\n ${error}`);
-
-  }
-};
+const getAll = async () => ({ products: await productsModel.getAll() });
 
 const create = async (product = {}) => {
   const { name, quantity } = product;
@@ -20,8 +11,7 @@ const create = async (product = {}) => {
 };
 
 const getById = async (id) => {
-  if (!ObjectId.isValid(id)) throw new Error('ID inválido.');
-
+  await validate.id(id);
   return await productsModel.getById(id);
 };
 

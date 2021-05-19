@@ -1,4 +1,5 @@
 const { productsModel } = require('../models');
+const { ObjectId } = require('mongodb');
 
 const minSizeName = 5;
 const lessQuantity = 1;
@@ -17,7 +18,11 @@ const validate = {
       throw new Error(`"quantity" must be larger than or equal to ${lessQuantity}`);
     if (!Number.isInteger(quantity)) throw new Error('"quantity" must be a number');
     return;
-  }
+  },
+
+  id: (id) => {
+    if (!ObjectId.isValid(id)) throw new Error('Wrong id format');
+  },
 
 };
 
