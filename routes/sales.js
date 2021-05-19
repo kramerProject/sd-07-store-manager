@@ -13,4 +13,6 @@ salesRoute.post('/sales',
   SalesController.createSaleController
 );
 
+salesRoute.get('/sales', SalesController.getAllSalesController);
+
 module.exports = salesRoute;

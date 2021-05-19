@@ -1,5 +1,4 @@
 const ProductsModel = require('../models/productsModel');
-// const ProductService = require('../services/products');
 
 const SUCCESS = 200;
 const CREATED = 201;

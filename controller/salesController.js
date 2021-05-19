@@ -16,6 +16,14 @@ const createSaleController = async (req, res) => {
   }
 };
 
+const getAllSalesController = async(req, res) => {
+  const allSales = await SalesModel.getAllSales();
+  // const result = {products: allSales };
+  return res.status(SUCCESS).send(allSales);
+};
+
+
 module.exports = {
   createSaleController,
+  getAllSalesController,
 };
