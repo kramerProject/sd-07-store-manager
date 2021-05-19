@@ -24,6 +24,15 @@ const create = (name, quantity) => {
     .then((result) => ({ _id: result.insertedId, name, quantity }));
 };
 
+const update = (id, name, quantity) => {
+  return connection()
+    .then((db) => {
+      return db.collection(PRODUCTS)
+        .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } }, { upsert: true });
+    })
+    .then(() => ({_id: ObjectId(id), name, quantity }));
+};
+
 const findByName = (name) => {
   return connection()
     .then((db) => {
@@ -31,4 +40,4 @@ const findByName = (name) => {
     });
 };
 
-module.exports = { getAll, getById, create, findByName };
+module.exports = { getAll, getById, create, update, findByName };

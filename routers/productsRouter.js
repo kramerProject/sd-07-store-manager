@@ -8,7 +8,8 @@ productsRouter.route('/')
   .post(productController.create);
 
 productsRouter.route('/:id')
-  .get(productController.getById);
+  .get(productController.getById)
+  .put(productController.update);
 
 productsRouter.use(productController.errorMiddleware);
 
