@@ -8,7 +8,9 @@ salesRouter.route('/')
   .post(salesController.create);
 
 salesRouter.route('/:id')
-  .get(salesController.getById);
+  .get(salesController.getById)
+  .put(salesController.update)
+  .delete(salesController.exclude);
 
 salesRouter.use(salesController.errorMiddleware);
 

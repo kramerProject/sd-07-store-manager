@@ -1,5 +1,5 @@
 const connection = require('./connection');
-
+const { ObjectId } = require('mongodb');
 const SALES = 'sales';
 
 const getAll = () => {
@@ -24,4 +24,22 @@ const create = (itensSold) => {
     .then((result) => ({ _id: result.insertedId, itensSold }));
 };
 
-module.exports = { getAll, create, getById };
+const update = (id, itensSold) => {
+  return connection()
+    .then((db) => {
+      return db.collection(SALES)
+        .updateOne({ _id: ObjectId(id) }, { $set: { itensSold } }, { upsert: true });
+    })
+    .then(() => ({_id: ObjectId(id), itensSold }));
+};
+
+const exclude = (id) => {
+  return connection()
+    .then((db) => {
+      return db.collection(SALES)
+        .deleteOne({ _id: ObjectId(id) });
+    });
+};
+
+
+module.exports = { getAll, getById, create, update, exclude };

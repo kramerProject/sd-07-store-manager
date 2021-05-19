@@ -19,7 +19,20 @@ const create = rescue(async (request, response) => {
   response.status(httpStatus.SUCCESS).send(result);
 });
 
+const update = rescue(async (request, response) => {
+  const { id } = request.params;
+  const result = await salesService.update(id, request.body);
+  response.status(httpStatus.SUCCESS).send(result);
+});
+
+const exclude = rescue(async (request, response) => {
+  const { id } = request.params;
+  const result = await salesService.exclude(id);
+  response.status(httpStatus.SUCCESS).send(result);
+});
+
 const errorMiddleware = (err, _req, response, _next) => {
+  console.log(err);
   if (err.toString().includes('not found')) {
     response.status(httpStatus.NOT_FOUND)
       .json(errorResponse.NOT_FOUND(err.message));
@@ -29,4 +42,4 @@ const errorMiddleware = (err, _req, response, _next) => {
   }
 };
 
-module.exports = { getAll, getById, create, errorMiddleware };
+module.exports = { getAll, getById, create, update, exclude, errorMiddleware };

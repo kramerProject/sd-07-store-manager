@@ -13,4 +13,15 @@ const create = async (itensSold) => {
   return salesModel.create(itensSold);
 };
 
-module.exports = { getAll, getById, create };
+const update = async (id, itensSold) => {
+  await salesValidate.id(id);
+  salesValidate.quantity(itensSold);
+  return salesModel.update(id, itensSold);
+};
+
+const exclude = async (id) => {
+  await salesValidate.id(id);
+  return salesModel.exclude(id);
+};
+
+module.exports = { getAll, getById, create, update, exclude };
