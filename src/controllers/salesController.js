@@ -3,7 +3,7 @@ const {
   findAll,
   findById,
   removeById,
-//   updateById,
+  updateById,
 } = require('../services/salesService');
   
 const { StatusCodes: {
@@ -59,21 +59,21 @@ const getById = async (req, res) => {
   }
 };
 
-// const setById = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const { name, quantity } = req.body;
-//     await updateById(id, name, quantity);
-//     return res.status(OK).send({
-//       '_id': id,
-//       name,
-//       quantity,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(INTERNAL_SERVER_ERROR).send(error.message);
-//   }
-// };
+const setById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { body } = req;
+    await updateById(id, body);
+    return res.status(OK).send({
+      '_id': id,
+      itensSold: body,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(INTERNAL_SERVER_ERROR).send(error.message);
+  }
+};
+
 const deleteById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -90,5 +90,5 @@ module.exports = {
   getAll,
   getById,
   deleteById,
-//   setById,
+  setById,
 };

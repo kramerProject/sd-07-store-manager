@@ -8,7 +8,7 @@ const {
   getAll,
   getById,
   deleteById,
-//   setById,
+  setById,
 } = require('../controllers/salesController');
 
 Router.post(
@@ -16,9 +16,9 @@ Router.post(
 );
 Router.get('/sales', getAll);
 Router.get('/sales/:id', getById);
-// Router.put(
-//   '/products/:id', checkNameAndQuantity, setById
-// );
+Router.put(
+  '/sales/:id', checkIdsAndQuantities, setById
+);
 Router.delete(
   '/sales/:id', idParamsExists, deleteById
 );

@@ -37,24 +37,21 @@ const getById = async (id) => {
 //     .then((result) => { return result[0]; });
 // };
 
+const setById = async (id, itensSold) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
 
+  connection().then(db =>{
+    db.collection('sales').updateOne({_id: ObjectId(id)},
+      {
+        $set:{
+          itensSold,
+        }  
+      });
+  });
+};
 
-
-// const setById = async (id, newName, newQuantity) => {
-//   if (!ObjectId.isValid(id)) {
-//     return null;
-//   }
-
-//   connection().then(db =>{
-//     db.collection('products').updateOne(ObjectId(id),
-//       {
-//         $set:{
-//           name: newName,
-//           quantity: newQuantity,
-//         }  
-//       });
-//   });
-// };
 const deleteById = async (id) => {
   console.log('test', !ObjectId.isValid(id));
   if (!ObjectId.isValid(id)) {
@@ -71,5 +68,6 @@ module.exports = {
   create,
   getAll,
   getById,
+  setById,
   deleteById,
 };

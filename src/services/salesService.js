@@ -4,8 +4,7 @@ const {
   getAll,
   getById,
   deleteById,
-//   getByName,
-//   setById,
+  setById,
 } = require('../models/salesModel');
 
 const createNewSale = async (products) => {
@@ -26,13 +25,14 @@ const findById = async (id) => {
 const removeById = async (id) => {
   return await deleteById(id);
 };
-// updateById = async (id, name, quantity) => {
-//   await setById(id, name, quantity);
-// };
+const updateById = async (id, itensSold) => {
+  await setById(id, itensSold);
+};
 
 module.exports = {
   createNewSale,
   findAll,
   findById,
+  updateById,
   removeById,
 };
