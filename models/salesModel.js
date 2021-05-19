@@ -3,9 +3,16 @@ const connection = require('./connection');
 const SALES = 'sales';
 
 const getAll = () => {
-  return connection
+  return connection()
     .then((db) => {
-      db.collection(SALES).find().toArray();
+      return db.collection(SALES).find().toArray();
+    });
+};
+
+const getById = (id) => {
+  return connection()
+    .then((db) => {
+      return db.collection(SALES).findOne(ObjectId(id));
     });
 };
 
@@ -17,4 +24,4 @@ const create = (itensSold) => {
     .then((result) => ({ _id: result.insertedId, itensSold }));
 };
 
-module.exports = { getAll, create };
+module.exports = { getAll, create, getById };

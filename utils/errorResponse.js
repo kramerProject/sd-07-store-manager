@@ -5,6 +5,12 @@ const errorResponse = {
       message,
     }
   }),
+  NOT_FOUND: (message = '') => ({
+    err: { 
+      code: 'not_found',
+      message,
+    }
+  }),
 };
 
 module.exports = errorResponse;

@@ -7,6 +7,9 @@ salesRouter.route('/')
   .get(salesController.getAll)
   .post(salesController.create);
 
+salesRouter.route('/:id')
+  .get(salesController.getById);
+
 salesRouter.use(salesController.errorMiddleware);
 
 module.exports = salesRouter;

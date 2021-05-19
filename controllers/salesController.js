@@ -7,16 +7,26 @@ const getAll = rescue(async (_request, response) => {
   response.status(httpStatus.SUCCESS).json(sales);
 });
 
+const getById = rescue(async (request, response) => {
+  const { id } = request.params;
+  const sales = await salesService.getById(id);
+  response.status(httpStatus.SUCCESS).json(sales);
+  
+});
+
 const create = rescue(async (request, response) => {
   const result = await salesService.create(request.body);
-  console.log(result);
   response.status(httpStatus.SUCCESS).send(result);
 });
 
 const errorMiddleware = (err, _req, response, _next) => {
-  response.status(httpStatus.UNPROCESSABLE_ENTITY)
-    .json(errorResponse.INVALID_DATA(err.message));
-  
+  if (err.toString().includes('not found')) {
+    response.status(httpStatus.NOT_FOUND)
+      .json(errorResponse.NOT_FOUND(err.message));
+  } else {
+    response.status(httpStatus.UNPROCESSABLE_ENTITY)
+      .json(errorResponse.INVALID_DATA(err.message));
+  }
 };
 
-module.exports = { getAll, create, errorMiddleware };
+module.exports = { getAll, getById, create, errorMiddleware };
