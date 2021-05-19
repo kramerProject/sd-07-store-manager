@@ -1,18 +1,12 @@
 const express = require('express');
-const { salesModel } = require('../models');
+const { salesController } = require('../controllers');
 
 const salesRouter = express.Router();
 
-const SUCCESS = 200;
-const FAIL = 500;
+salesRouter.route('/')
+  .get(salesController.getAll)
+  .post(salesController.create);
 
-salesRouter.get('/', async (_req, res) => {
-  try {
-    const sales = await salesModel.getAll();
-    res.status(SUCCESS).send(sales);
-  } catch(error) {
-    res.status(FAIL).send({ message: 'Erro ao procurar sales' });
-  }
-});
+salesRouter.use(salesController.errorMiddleware);
 
 module.exports = salesRouter;

@@ -4,7 +4,7 @@ const { ObjectId } = require('mongodb');
 const minSizeName = 5;
 const lessQuantity = 1;
 const zero = 0;
-const validate = {
+const productValidate = {
   existsName: async (name) => {
     const response = await productsModel.findByName(name);
     if (response) throw new Error('Product already exists');
@@ -27,4 +27,4 @@ const validate = {
 
 };
 
-module.exports = validate;
+module.exports = productValidate;
