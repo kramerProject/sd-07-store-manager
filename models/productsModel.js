@@ -33,6 +33,14 @@ const update = (id, name, quantity) => {
     .then(() => ({_id: ObjectId(id), name, quantity }));
 };
 
+const exclude = (id) => {
+  return connection()
+    .then((db) => {
+      return db.collection(PRODUCTS)
+        .deleteOne({ _id: ObjectId(id) });
+    });
+};
+
 const findByName = (name) => {
   return connection()
     .then((db) => {
@@ -40,4 +48,4 @@ const findByName = (name) => {
     });
 };
 
-module.exports = { getAll, getById, create, update, findByName };
+module.exports = { getAll, getById, create, update, exclude, findByName };

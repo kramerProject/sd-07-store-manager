@@ -20,6 +20,12 @@ const update = rescue(async (request, response) => {
   response.status(httpStatus.SUCCESS).send(result);
 });
 
+const exclude = rescue(async (request, response) => {
+  const { id } = request.params;
+  const result = await productService.exclude(id);
+  response.status(httpStatus.SUCCESS).send(result);
+});
+
 const getById = rescue(async (request, response) => {
   const { id } = request.params;
   const result = await productService.getById(id);
@@ -32,4 +38,4 @@ const errorMiddleware = (err, _req, response, _next) => {
   
 };
 
-module.exports = { getById, getAll, create, update, errorMiddleware };
+module.exports = { getById, getAll, create, update, exclude, errorMiddleware };

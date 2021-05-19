@@ -8,19 +8,24 @@ const create = async (product) => {
   await validate.existsName(name);
   validate.name(name);
   validate.quantity(quantity);
-  return await productsModel.create(name, quantity);
+  return productsModel.create(name, quantity);
 };
 
 const update = async (product) => {
   const { id, name, quantity } = product;
   validate.name(name);
   validate.quantity(quantity);
-  return await productsModel.update(id, name, quantity);
+  return productsModel.update(id, name, quantity);
+};
+
+const exclude = async (id) => {
+  await validate.id(id);
+  return productsModel.exclude(id);
 };
 
 const getById = async (id) => {
   await validate.id(id);
-  return await productsModel.getById(id);
+  return productsModel.getById(id);
 };
 
-module.exports = { getAll, create, getById, update };
+module.exports = { getAll, create, getById, update, exclude };

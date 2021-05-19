@@ -9,7 +9,8 @@ productsRouter.route('/')
 
 productsRouter.route('/:id')
   .get(productController.getById)
-  .put(productController.update);
+  .put(productController.update)
+  .delete(productController.exclude);
 
 productsRouter.use(productController.errorMiddleware);
 
