@@ -25,7 +25,9 @@ const getById = async (id) => {
   }
   await connection()
     .then((db) => db.collection('products').findOne({_id: ObjectId(id)}))
-    .then((result) => { output = result; });
+    .then((result) => { 
+      console.log('PM', result);
+      output = result; });
     
   return output;
 };

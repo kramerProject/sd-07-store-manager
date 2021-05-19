@@ -33,34 +33,27 @@ const checkIdsAndQuantities = (req, res, next) => {
   }
   next();
 };
-// //testado - funcionando.
-// const itExists = async (req, res, next) => {
-//   const { name } = req.body;
-//   const exists = await findByName(name);
-//   if (exists !== undefined) {
-//     res.status(UNPROCESSABLE_ENTITY).send({
-//       'err': {
-//         'code': 'invalid_data',
-//         'message': 'Product already exists'
-//       }
-//     });
-//   }
-//   next();
-// };
-// const idExists = async (req, res, next) => {
-//   const { id } = req.body;
-//   const ZERO = 0;
-//   const exists = await findById(id);
-//   if (!exists || exists.length === ZERO) {
-//     return res.status(UNPROCESSABLE_ENTITY).send({
-//       'err': {
-//         'code': 'invalid_data',
-//         'message': 'Wrong id format'
-//       }
-//     });
-//   }
-//   next();
-// };
+
+const hasQuantity = (req, res, next) => {
+  const { body } = req;
+  for( let i = ZERO; i < body.length; i+=ONE) {
+    const { productId, quantity } = body[i];
+    productService.findById(productId)
+      .then(response => {
+        if(response.quantity - quantity < ZERO) {
+          console.log('entrou');
+          return res.status(NOT_FOUND).send({
+            'err': {
+              'code': 'stock_problem',
+              'message': 'Such amount is not permitted to sell'
+            }
+          });
+        }
+      });
+  }
+  next();
+};
+
 const idParamsExists = async (req, res, next) => {
   const { id } = req.params;
   const ZERO = 0;
@@ -79,4 +72,5 @@ const idParamsExists = async (req, res, next) => {
 module.exports = {
   checkIdsAndQuantities,
   idParamsExists,
+  hasQuantity,
 };

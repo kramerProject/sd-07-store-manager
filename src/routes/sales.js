@@ -2,6 +2,7 @@ const Router = require('express').Router();
 const {
   checkIdsAndQuantities,
   idParamsExists,
+  hasQuantity,
 } = require('../middlewares/salesMiddlewares');
 const {
   newSale,
@@ -12,7 +13,7 @@ const {
 } = require('../controllers/salesController');
 
 Router.post(
-  '/sales', checkIdsAndQuantities, newSale
+  '/sales', checkIdsAndQuantities, hasQuantity, newSale
 );
 Router.get('/sales', getAll);
 Router.get('/sales/:id', getById);
