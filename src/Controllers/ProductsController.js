@@ -3,7 +3,7 @@ const productService = require('../Service/ProductsService');
 const codes = {
   success: 200,
   create: 201,
-  error: 400
+  error: 422
 };
 
 
