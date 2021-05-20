@@ -35,7 +35,7 @@ const getAllSalesController = async(req, res) => {
     // const result = {products: allSales };
     return res.status(SUCCESS).send(allSales);
   } catch (err) {
-    return res.status(NOT_FOUND).send({message: err.message})
+    return res.status(NOT_FOUND).send({message: err.message});
   }
 };
 
@@ -54,8 +54,8 @@ const salesByIdController = async(req, res) => {
     }
     return res.status(SUCCESS).json(product);
   } catch (err) {
-    console.log(err.message)
-    return res.status(NOT_FOUND).send({message: 'Sale not found'})
+    console.log(err.message);
+    return res.status(NOT_FOUND).send({message: 'Sale not found'});
   }
 };
 

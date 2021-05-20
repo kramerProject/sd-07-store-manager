@@ -11,21 +11,21 @@ const updateSale = async(id, name, quantity) => {
 const createSale = async (itemsSold) => {
   const newSale = await connection()
     .then((db) => db.collection('sales').insertOne({ itensSold: itemsSold }));
-    console.log(newSale.ops[0]);
+  console.log(newSale.ops[0]);
   return { _id: newSale.ops[0]._id, itensSold: itemsSold };
 };
 
 const getAllSales = async () => {
   const getSales = await connection()
     .then((db) => db.collection('sales').find().toArray());
-  return { sales: getSales }
+  return { sales: getSales };
 };
 
 const saleById = async (id) => {
   const saleData = await connection()
     .then((db) => db.collection('sales').findOne({_id: ObjectId(id)}))
     .catch((err) => console.log(err));
-  console.log({saleData})
+  console.log({saleData});
 
   if(!saleData) {
     return {
