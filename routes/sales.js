@@ -8,15 +8,25 @@ const {
 const salesRoute = express.Router();
 
 salesRoute.post('/sales',
-  saleProductByIdMiddleware,
+  // saleProductByIdMiddleware,
   quantityMiddleware,
   salesController.createSaleController
 );
 
-salesRoute.get('/sales', salesController.getAllSalesController);
+salesRoute.get('/sales',
+  // saleProductByIdMiddleware,
+  salesController.getAllSalesController
+);
 
-// salesRoute.get('/sales/:id',
-// SalesController.salesByIdController,
-// );
+salesRoute.get('/sales/:id',
+  // saleProductByIdMiddleware,
+  salesController.salesByIdController,
+);
+
+salesRoute.put('/sales/:id',
+  // saleProductByIdMiddleware,
+  quantityMiddleware,
+  salesController.updateSaleController,
+);
 
 module.exports = salesRoute;

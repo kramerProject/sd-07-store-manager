@@ -14,7 +14,7 @@ const createProduct = async (name, quantity) => {
 
 const productById = async (id) => {
   const productData = await connection()
-    .then((db) => db.collection('products').findOne(new ObjectId(id)));
+    .then((db) => db.collection('products').findOne({_id: ObjectId(id)}));
   if(!productData) return null; // {
   return productData;
 };

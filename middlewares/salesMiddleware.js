@@ -26,7 +26,6 @@ const saleProductByIdMiddleware = async (req, res, next) => {
     const id = prod.id;
     return allProducts.some((item) => ObjectId(item.id) !== ObjectId(id));
   });
-  console.log({matchId});
   if (!matchId) {
     return res.status(INVALID_DATA).send({
       err: {
