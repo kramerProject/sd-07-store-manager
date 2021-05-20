@@ -21,8 +21,8 @@ const createSaleController = async (req, res) => {
 const updateSaleController = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, quantity } = req.body;
-    const updatedSale = await salesModel.updateSale(id, name, quantity);
+    // const { quantity } = req.body;
+    const updatedSale = await salesModel.updateSale(id, req.body);
     return res.status(SUCCESS).send(updatedSale);
   } catch (err) {
     return res.status(BAD_REQUEST).send({ message: err.message });

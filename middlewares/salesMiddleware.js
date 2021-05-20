@@ -4,7 +4,7 @@ const empty = 0;
 const INVALID_DATA = 422;
 
 const quantityMiddleware = (req, res, next) => {
-  const itemsSold = [...req.body];
+  const itemsSold = req.body;
   const isEqualOrLessThanZero = itemsSold.some((item) => item.quantity <= empty);
   const isNaN = itemsSold.some((item) => typeof item.quantity !== 'number');
   if (isEqualOrLessThanZero || isNaN) {

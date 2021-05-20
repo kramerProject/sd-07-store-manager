@@ -1,18 +1,16 @@
 const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
-const updateSale = async(id, name, quantity) => {
-  await connection()
-    .then((db) => db.collection('sales')
-      .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity }}));
-  return { _id: id, name, quantity };
+const updateSale = async(id, quantity) => {
+  return await connection()
+    .then((db) => db.collection('sales').updateOne({ _id: ObjectId(id) }, { $set: { itensSold: quantity }}))
+    .then(() => ({ _id: ObjectId(id), itensSold: quantity }));
 };
 
 const createSale = async (itemsSold) => {
-  const newSale = await connection()
-    .then((db) => db.collection('sales').insertOne({ itensSold: itemsSold }));
-  console.log(newSale.ops[0]);
-  return { _id: newSale.ops[0]._id, itensSold: itemsSold };
+  return await connection()
+    .then((db) => db.collection('sales').insertOne({ itensSold: itemsSold }))
+    .then((result) => ({ _id: result.insertedId, itensSold: itemsSold }));
 };
 
 const getAllSales = async () => {
@@ -22,11 +20,11 @@ const getAllSales = async () => {
 };
 
 const saleById = async (id) => {
+  // console.log({id});
   const saleData = await connection()
     .then((db) => db.collection('sales').findOne({_id: ObjectId(id)}))
     .catch((err) => console.log(err));
-  console.log({saleData});
-
+  // console.log({saleData});
   if(!saleData) {
     return {
       err: {
