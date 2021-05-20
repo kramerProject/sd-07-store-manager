@@ -10,9 +10,16 @@ const getAll = () => {
 };
 
 const getById = (id) => {
+  if (!ObjectId.isValid(id)) throw new Error('Wrong sale ID format');
   return connection()
     .then((db) => {
       return db.collection(SALES).findOne(ObjectId(id));
+    }).then((result) => {
+      if (!result) {
+        throw new Error('Sale not found');
+      } else {
+        return result;
+      }
     });
 };
 

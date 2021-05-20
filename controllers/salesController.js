@@ -32,8 +32,7 @@ const exclude = rescue(async (request, response) => {
 });
 
 const errorMiddleware = (err, _req, response, _next) => {
-  console.log(err);
-  if (err.toString().includes('not found')) {
+  if (err.message.toLowerCase().includes('not found')) {
     response.status(httpStatus.NOT_FOUND)
       .json(errorResponse.NOT_FOUND(err.message));
   } else {

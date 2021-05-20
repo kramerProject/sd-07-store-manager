@@ -622,7 +622,7 @@ describe('8 - Crie um endpoint para deletar uma venda', () => {
 
     await frisby.delete(`${url}/sales/${resultSalesId}`)
       .expect('status', 200);
-
+      
     await frisby.get(`${url}/sales/${resultSalesId}`)
       .expect('status', 404)
       .expect((resultGet) => {

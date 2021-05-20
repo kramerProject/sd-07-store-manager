@@ -1,4 +1,5 @@
 const { ObjectId } = require('mongodb');
+const { salesModel } = require('../models');
 
 const lessQuantity = 1;
 
@@ -11,8 +12,9 @@ const salesValidate = {
   },
 
   id: (id) => {
-    if (!ObjectId.isValid(id)) throw new Error('Sale not found');
+    if (!ObjectId.isValid(id)) throw new Error('Wrong sale ID format');
   },
+
 };
 
 module.exports = salesValidate;
