@@ -1,5 +1,5 @@
 const express = require('express');
-const SalesController = require('../controller/salesController');
+const salesController = require('../controller/salesController');
 
 const {
   saleProductByIdMiddleware,  quantityMiddleware,
@@ -8,11 +8,15 @@ const {
 const salesRoute = express.Router();
 
 salesRoute.post('/sales',
-  quantityMiddleware,
   saleProductByIdMiddleware,
-  SalesController.createSaleController
+  quantityMiddleware,
+  salesController.createSaleController
 );
 
-salesRoute.get('/sales', SalesController.getAllSalesController);
+salesRoute.get('/sales', salesController.getAllSalesController);
+
+// salesRoute.get('/sales/:id',
+// SalesController.salesByIdController,
+// );
 
 module.exports = salesRoute;

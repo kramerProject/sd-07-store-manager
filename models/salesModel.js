@@ -7,13 +7,21 @@ const getAllSales = async () => {
 
 const createSale = async (itemsSold) => {
   const newSale = await connection()
-    .then((db) => db.collection('sales').insertOne({ itemsSold: [...itemsSold] }));
-  return { _id: newSale.insertedId, itemsSold };
+    .then((db) => db.collection('sales').insertOne({ itensSold: [itemsSold] }));
+  return { _id: newSale.ops[0].insertedId, itensSold: itemsSold };
 };
+
+// const saleById = async (id) => {
+//   const saleData = await connection()
+//     .then((db) => db.collection('sales').findOne(new ObjectId(id)));
+//   if(!saleData) return null;
+//   return saleData;
+// };
 
 module.exports = {
   getAllSales,
   createSale,
+  // saleById,
 };
 
 /*

@@ -1,4 +1,4 @@
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const { getAllProducts } = require('../models/productsModel');
 const empty = 0;
 const INVALID_DATA = 422;
@@ -6,7 +6,8 @@ const INVALID_DATA = 422;
 const quantityMiddleware = (req, res, next) => {
   const itemsSold = [...req.body];
   const isEqualOrLessThanZero = itemsSold.some((item) => item.quantity <= empty);
-  if (isEqualOrLessThanZero) {
+  const isNaN = itemsSold.some((item) => typeof item.quantity !== 'number');
+  if (isEqualOrLessThanZero || isNaN) {
     return res.status(INVALID_DATA)
       .send({
         err: {
@@ -15,30 +16,17 @@ const quantityMiddleware = (req, res, next) => {
         }
       });
   }
-  const isNaN = itemsSold.some((item) => typeof item.quantity !== 'number');
-  if (isNaN) {
-    return res.status(INVALID_DATA)
-      .send({
-        err: {
-          code: 'invalid_data',
-          message: '"quantity" must be a number',
-        }
-      });
-  }
   next();
 };
 
 const saleProductByIdMiddleware = async (req, res, next) => {
-  const sales = [...req.params];
+  const sales = req.body;
   const allProducts = await getAllProducts(); 
-  const matchId = sales.some((prod) => {
+  const matchId = sales.find((prod) => {
     const id = prod.id;
-    const searchingId = allProducts.find((item) => item.id === id);
-    if (!searchingId) {
-      return true;
-    }
-    return false; // retorno se houver match
+    return allProducts.some((item) => ObjectId(item.id) !== ObjectId(id));
   });
+  console.log({matchId});
   if (!matchId) {
     return res.status(INVALID_DATA).send({
       err: {
