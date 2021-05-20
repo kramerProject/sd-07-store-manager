@@ -3,7 +3,8 @@ const connection = require('./connection');
 
 const updateSale = async(id, quantity) => {
   return await connection()
-    .then((db) => db.collection('sales').updateOne({ _id: ObjectId(id) }, { $set: { itensSold: quantity }}))
+    .then((db) => db.collection('sales')
+      .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: quantity }}))
     .then(() => ({ _id: ObjectId(id), itensSold: quantity }));
 };
 
