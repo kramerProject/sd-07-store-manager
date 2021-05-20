@@ -6,7 +6,7 @@ const SUCCESS = 200;
 // const CREATED = 201;
 const BAD_REQUEST = 400;
 const NOT_FOUND = 404;
-// const INVALID_DATA = 422;
+const INVALID_DATA = 422;
 
 const createSaleController = async (req, res) => {
   try{
@@ -21,11 +21,34 @@ const createSaleController = async (req, res) => {
 const updateSaleController = async (req, res) => {
   try {
     const { id } = req.params;
-    // const { quantity } = req.body;
     const updatedSale = await salesModel.updateSale(id, req.body);
     return res.status(SUCCESS).send(updatedSale);
   } catch (err) {
     return res.status(BAD_REQUEST).send({ message: err.message });
+  }
+};
+
+const deleteSaleController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await salesModel.deleteSale(id);
+    if(!ObjectId.isValid(id)) {
+      return res.status(INVALID_DATA).send({
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong sale ID format',
+        }
+      });
+    }
+    return res.status(SUCCESS).send({ message: 'Product deleted successfully' });
+  } catch (err) {
+    return res.status(INVALID_DATA).
+      send({
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong sale ID format',
+        }
+      });
   }
 };
 
@@ -64,4 +87,5 @@ module.exports = {
   updateSaleController,
   getAllSalesController,
   salesByIdController,
+  deleteSaleController,
 };

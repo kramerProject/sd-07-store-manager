@@ -14,6 +14,13 @@ const createSale = async (itemsSold) => {
     .then((result) => ({ _id: result.insertedId, itensSold: itemsSold }));
 };
 
+const deleteSale = async(id) => {
+  return await connection()
+    .then((db) => db.collection('sales')
+      .deleteOne({ _id: ObjectId(id) }))
+    .catch((err) => console.log(err));
+};
+
 const getAllSales = async () => {
   const getSales = await connection()
     .then((db) => db.collection('sales').find().toArray());
@@ -42,4 +49,5 @@ module.exports = {
   createSale,
   saleById,
   updateSale,
+  deleteSale,
 };

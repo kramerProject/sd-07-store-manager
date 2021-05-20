@@ -29,4 +29,8 @@ salesRoute.put('/sales/:id',
   salesController.updateSaleController,
 );
 
+salesRoute.delete('/sales/:id',
+  salesController.deleteSaleController,
+);
+
 module.exports = salesRoute;
