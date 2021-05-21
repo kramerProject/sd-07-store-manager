@@ -12,8 +12,8 @@ const getAll = () => {
 const getById = (id) => {
   return connection()
     .then((db) => {
-      return db.collection(PRODUCTS).findOne(ObjectId(id));
-    });
+      return db.collection(PRODUCTS).findOne({ _id: ObjectId(id)});
+    }).catch(err => console.log('productModel.getById:', err.message));
 };
 
 const create = (name, quantity) => {
@@ -33,6 +33,15 @@ const update = (id, name, quantity) => {
     .then(() => ({_id: ObjectId(id), name, quantity }));
 };
 
+const quantityIncrement = (id, quantity) => {
+  return connection()
+    .then((db) => {
+      return db.collection(PRODUCTS)
+        .updateOne({ _id: ObjectId(id) }, { $inc: { quantity } })
+        .catch((err) => { console.log(err);});
+    });
+};
+
 const exclude = (id) => {
   return connection()
     .then((db) => {
@@ -48,4 +57,6 @@ const findByName = (name) => {
     });
 };
 
-module.exports = { getAll, getById, create, update, exclude, findByName };
+module.exports = {
+  getAll, getById, create, update, exclude, findByName, quantityIncrement
+};

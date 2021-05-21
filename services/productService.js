@@ -1,5 +1,6 @@
 const { productsModel } = require('../models');
 const productValidate = require('./productValidate');
+const NEGATIVE_ONE = -1;
 
 const getAll = async () => ({ products: await productsModel.getAll() });
 
@@ -28,4 +29,10 @@ const getById = async (id) => {
   return productsModel.getById(id);
 };
 
-module.exports = { getAll, create, getById, update, exclude };
+const updateQuantityStock = async (itens, one = NEGATIVE_ONE) => {
+  await itens.forEach(async ({ _id: id, quantity }) => {
+    await productsModel.quantityIncrement(id, (quantity * one));
+  });
+};
+
+module.exports = { getAll, create, getById, update, exclude, updateQuantityStock };

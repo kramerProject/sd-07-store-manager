@@ -32,10 +32,13 @@ const exclude = rescue(async (request, response) => {
 });
 
 const errorMiddleware = (err, _req, response, _next) => {
-  if (err.message.toLowerCase().includes('not found')) {
+  if (err.message.includes('not found')) {
     response.status(httpStatus.NOT_FOUND)
       .json(errorResponse.NOT_FOUND(err.message));
-  } else {
+  } else if (err.message.includes('Such amount is not permitted to sell')) {
+    response.status(httpStatus.NOT_FOUND)
+      .json(errorResponse.STOCK_PROBLEM(err.message));
+  }else {
     response.status(httpStatus.UNPROCESSABLE_ENTITY)
       .json(errorResponse.INVALID_DATA(err.message));
   }

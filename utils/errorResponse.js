@@ -11,6 +11,12 @@ const errorResponse = {
       message,
     }
   }),
+  STOCK_PROBLEM: (message = '') => ({
+    err: { 
+      code: 'stock_problem',
+      message,
+    }
+  }),
 };
 
 module.exports = errorResponse;

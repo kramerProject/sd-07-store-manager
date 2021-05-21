@@ -10,17 +10,10 @@ const getAll = () => {
 };
 
 const getById = (id) => {
-  if (!ObjectId.isValid(id)) throw new Error('Wrong sale ID format');
   return connection()
     .then((db) => {
-      return db.collection(SALES).findOne(ObjectId(id));
-    }).then((result) => {
-      if (!result) {
-        throw new Error('Sale not found');
-      } else {
-        return result;
-      }
-    });
+      return db.collection(SALES).findOne({ _id: ObjectId(id) });
+    }).catch(err => console.log('salesModel.getById: ',err.message));
 };
 
 const create = (itensSold) => {
@@ -47,6 +40,5 @@ const exclude = (id) => {
         .deleteOne({ _id: ObjectId(id) });
     });
 };
-
 
 module.exports = { getAll, getById, create, update, exclude };

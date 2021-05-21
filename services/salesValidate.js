@@ -1,7 +1,13 @@
 const { ObjectId } = require('mongodb');
-const { salesModel } = require('../models');
+const { productsModel } = require('../models');
 
 const lessQuantity = 1;
+const zero = 0;
+
+// pode virar uma query.
+const getQuantityById = (id) => productsModel.getById(id)
+  .then((result) => result?.quantity);
+
 
 const salesValidate = {
   quantity: (itemsSold) => {
@@ -9,6 +15,18 @@ const salesValidate = {
       if (quantity < lessQuantity || !Number.isInteger(quantity))
         throw new Error('Wrong product ID or invalid quantity');
     });
+  },
+
+  stock: async (itemsSold) => {
+    const promises = itemsSold.map( async ({ productId, quantity }) => {
+      const stockQuantity = await getQuantityById(productId);
+      if ((stockQuantity - quantity) < zero) {
+        console.log(stockQuantity - quantity);
+        throw new Error('Such amount is not permitted to sell');
+      }
+    });
+
+    await Promise.all(promises);
   },
 
   id: (id) => {

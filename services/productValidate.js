@@ -3,6 +3,7 @@ const { ObjectId } = require('mongodb');
 
 const minSizeName = 5;
 const lessQuantity = 1;
+
 const productValidate = {
   existsName: async (name) => {
     const response = await productsModel.findByName(name);
