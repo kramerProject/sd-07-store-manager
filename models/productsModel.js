@@ -38,7 +38,7 @@ const quantityIncrement = (id, quantity) => {
     .then((db) => {
       return db.collection(PRODUCTS)
         .updateOne({ _id: ObjectId(id) }, { $inc: { quantity } })
-        .catch((err) => { console.log(err);});
+        .catch((err) => { console.log('productModel.quantityIncrement: ' + err);});
     });
 };
 

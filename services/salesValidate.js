@@ -21,7 +21,6 @@ const salesValidate = {
     const promises = itemsSold.map( async ({ productId, quantity }) => {
       const stockQuantity = await getQuantityById(productId);
       if ((stockQuantity - quantity) < zero) {
-        console.log(stockQuantity - quantity);
         throw new Error('Such amount is not permitted to sell');
       }
     });

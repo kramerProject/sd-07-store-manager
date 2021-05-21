@@ -33,16 +33,9 @@ const update = async (id, itensSold) => {
 const exclude = async (id) => {
   salesValidate.id(id);
   const ONE = 1;
-  // return salesModel.exclude(id);
-  // await productService.updateQuantityStock(itensSold, ONE);
-  return salesModel.exclude(id)
-    .then(async (result) => {
-      await productService.updateQuantityStock([
-        { _id: result._id, quantity: result.quantity }
-      ], ONE);
-      console.log(result.documents);
-      return result;
-    });
+  const { itensSold } = await getById(id);
+  await productService.updateQuantityStock(itensSold, ONE);
+  return salesModel.exclude(id);
 };
 
 module.exports = { getAll, getById, create, update, exclude };
