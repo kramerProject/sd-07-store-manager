@@ -6,7 +6,7 @@ const zero = 0;
 
 // pode virar uma query.
 const getQuantityById = (id) => productsModel.getById(id)
-  .then((result) => result?.quantity);
+  .then((result) => result ? result.quantity : null);
 
 
 const salesValidate = {
