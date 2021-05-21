@@ -6,6 +6,7 @@ const app = express();
 
 app.use(express.json());
 app.use(routes.productsRoute);
+app.use(routes.salesRoute);
 
 const PORT = 3000;
 
