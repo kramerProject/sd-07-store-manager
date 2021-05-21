@@ -1,4 +1,4 @@
-const productsModel = require('../models/productsModel');
+const productsModel = require('../model/products.js');
 
 
 const validateAlreadyExists = async (name) => {

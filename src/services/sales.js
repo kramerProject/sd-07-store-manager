@@ -1,5 +1,5 @@
-const productsModel = require('../models/productsModel');
-const salesModel = require('../models/salesModel');
+const productsModel = require('../model/products.js');
+const salesModel = require('../model/sales.js');
 
 const validateQuantity = (sales) => {
   let message;
