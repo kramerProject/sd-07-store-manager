@@ -1,5 +1,6 @@
 const salesModel = require('../models/salesModel');
 const salesService = require('../services/salesService');
+const productsModel = require('../models/productsModel');
 
 
 const CREATE = 201;
@@ -23,17 +24,23 @@ const getAll = async (req, res) => {
 
 const addSale = async (req, res) => {
   const sales = req.body;
-
   const resultQuantity = salesService.validateQuantity(sales);
+  const resultUpdate = await salesService.updateAdd(sales);
   try {
-    if (resultQuantity) {
-      throw Error(resultQuantity);
-    }
+    if (resultQuantity) throw Error(resultQuantity);
+    if (resultUpdate) throw Error(resultUpdate);
+
     const sale = await salesModel.addSale(sales);
+
     return res.status(OK).json(sale);
   } catch (err) {
-    return res.status(INVALID_DATA).json({
-      err: {code: 'invalid_data', message: err.message }
+    if (err.message === 'Wrong product ID or invalid quantity') {
+      return res.status(INVALID_DATA).json({
+        err: {code: 'invalid_data', message: err.message }
+      });
+    }
+    return res.status(NOT_FOUND).json({
+      err: {code: 'stock_problem', message: err.message }
     });
   }
 };
@@ -57,10 +64,10 @@ const update = async (req, res) => {
   const sales = req.body;
   const {id} = req.params;
   const resultQuantity = salesService.validateQuantity(sales);
+  const resultUpdate = await salesService.updateAdd(sales);
   try {
-    if (resultQuantity) {
-      throw Error(resultQuantity);
-    }
+    if (resultQuantity) throw Error(resultQuantity);
+    if (resultUpdate) throw Error(resultUpdate);
     const sale = await salesModel.update(sales, id);
     return res.status(OK).json(sale);
   } catch (err) {
@@ -75,7 +82,9 @@ const remove = async (req, res) => {
   const result = await salesModel.getById(id);
   try {
     if (!result) throw Error('Wrong sale ID format');
+    await salesService.updateRemove(id);
     await salesModel.remove(id);
+
     return res.status(OK).json(result);
   } catch (err) {
     return res.status(INVALID_DATA).json({

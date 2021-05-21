@@ -1,9 +1,10 @@
 const { ObjectId } = require('mongodb');
 const connect = require('../config/connection');
 
-const getAll = async () =>
-  connect()
+const getAll = async () => {
+  return connect()
     .then((db) => db.collection('products').find().toArray());
+};
 
 const addProduct = async (name, quantity) =>
   connect().then((db) =>
