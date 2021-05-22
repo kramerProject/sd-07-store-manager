@@ -30,6 +30,33 @@ const nameValidation = async (req, res, next) => {
   next();
 };
 
+const quantityValidation = (req, res, next) => {
+  const minQty = 1;
+  const { quantity } = req.body;
+  if (!quantity || quantity < minQty) {
+    return res.status(INVALID_DATA).send(
+      {
+        err: {
+          code: 'invalid_data',
+          message: '"quantity" must be larger than or equal to 1'
+        }
+      }
+    )
+  }
+  if (typeof quantity != 'number') {
+    return res.status(INVALID_DATA).send(
+      {
+        err: {
+          code: 'invalid_data',
+          message: '"quantity" must be a number'
+        }
+      }
+    )
+  }
+  next();
+};
+
 module.exports = {
   nameValidation,
+  quantityValidation,
 };
