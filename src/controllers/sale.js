@@ -46,7 +46,9 @@ salesController.post('/', saleValidation, async (req, res) => {
 });
 
 salesController.put('/:id', saleValidation, async (req, res) => {
-  console.log('Atualiza venda');
+  const { id } = req.params;
+  const soldProducts = await sale.update(id, req.body);
+  res.status(OK).send(soldProducts);
 });
 
 salesController.delete('/:id', async (req, res) => {

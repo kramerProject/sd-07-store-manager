@@ -15,6 +15,17 @@ const create = async (soldProducts) =>
       )
     );
 
+const update = async (id, soldProducts) => {
+  connection().then ((db) => db.collection('sales').updateOne(
+    { _id: ObjectId(id) },
+    { $set: { itensSold: [...soldProducts] } } )
+  );
+  return {
+    _id: id,
+    itensSold: soldProducts
+  };
+};
+
 const exclude = async (id) => {
   const item = getOne(id);
   connection().then ((db) => db.collection('sales').deleteOne(
@@ -29,5 +40,6 @@ module.exports = {
   getAll,
   getOne,
   create,
+  update,
   exclude,
 };
