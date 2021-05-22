@@ -7,17 +7,12 @@ const isString = (value) => (typeof value === 'string');
 const minNameLenght = 5;
 const minQuantityValue = 1; 
 
-const validateNameQuantity = async (name, quantity) => {
+const validateNameQuantity = (name, quantity) => {
   switch (true) {
   case (isLengthLetterThan(name, minNameLenght)):
     return ({
       code: 'invalid_data',
       message: '\"name\" length must be at least 5 characters long'
-    });
-  case (await findByName(name) !== null):
-    return ({
-      code: 'invalid_data',
-      message: 'Product already exists'
     });
   case (isQuantityLessThan(quantity, minQuantityValue)):
     return ({
@@ -33,6 +28,17 @@ const validateNameQuantity = async (name, quantity) => {
   };
 };
 
+const nameExist = async (name) => {
+  const validate = await findByName(name);
+  if (validate !== null) {
+    return ({
+      code: 'invalid_data',
+      message: 'Product already exists'
+    });
+  }
+  return {};
+};
+
 const validateId = (id) => {
   const idLength = 24;
   if (id.length < idLength) return true;
@@ -42,4 +48,5 @@ const validateId = (id) => {
 module.exports = {
   validateNameQuantity,
   validateId,
+  nameExist,
 };

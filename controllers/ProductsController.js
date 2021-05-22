@@ -29,7 +29,7 @@ const create = async (req, res) => {
   const { code, message, product } = await Products.create(name, quantity);
 
   if (message) return res.status(CODE_422).send(
-    { err: 
+    { err:
       { code: code, message: message }
     });
 
@@ -40,7 +40,17 @@ const deleteById = (req, res) => {
 
 };
 
-const updateById = (req, res) => {
+const updateById = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+
+  const { code, message, product } = await Products.updateById(id, name, quantity);
+
+  if (message) return res.status(CODE_422).send(
+    { err:
+      { code: code, message: message }
+    });
+  res.status(CODE_200).send(product);
 
 };
 
