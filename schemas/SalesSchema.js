@@ -53,8 +53,18 @@ const validateSales = async (sales) => {
   return {};
 };
 
+const validateSaleId = (id) => {
+  const idLength = 24;
+  if (id.length < idLength) {
+    return errorMessage;
+  }
+
+  return {};
+};
+
 module.exports = {
   validateSales,
   validateQuantity,
   validateProductId,
+  validateSaleId,
 };

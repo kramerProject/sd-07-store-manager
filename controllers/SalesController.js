@@ -5,6 +5,7 @@ const Sales = require('../services/SalesService');
 const CODE_200 = 200;
 const CODE_201 = 201;
 const CODE_422 = 422;
+const CODE_404 = 404;
 
 const getAll = rescue(async (req, res) => {
   const sales = await Sales.getAll();
@@ -16,7 +17,7 @@ const findById = rescue( async (req, res) => {
   const { id } = req.params;
   const { code, message, sale } = await Sales.findById(id);
 
-  if (message) return res.status(CODE_422).send(
+  if (message) return res.status(CODE_404).send(
     { err: 
       { code: code, message: message }
     });

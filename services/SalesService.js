@@ -8,11 +8,11 @@ const getAll = async () => {
 };
 
 const findById = async (id) => {
-  const validate = SalesSchema.validateId(id);
-  if (validate.message) return(validate);
+  const validate = await SalesSchema.validateSaleId(id);
+  if (validate.message) return({ code: 'not_found', message: 'Sale not found'});
 
   const sale = await SalesModel.findById(id);
-  if (!sale) return({ code: 'invalid_data', message: 'Wrong id format'});
+  if (!sale) return({ code: 'not_found', message: 'Sale not found'});
 
   return ({ sale });
 };
