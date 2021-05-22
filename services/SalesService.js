@@ -8,7 +8,7 @@ const getAll = async () => {
 };
 
 const findById = async (id) => {
-  const validate = await SalesSchema.validateSaleId(id);
+  const validate = SalesSchema.validateSaleId(id);
   if (validate.message) return({ code: 'not_found', message: 'Sale not found'});
 
   const sale = await SalesModel.findById(id);

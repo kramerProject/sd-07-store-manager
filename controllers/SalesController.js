@@ -42,11 +42,11 @@ const create = async (req, res) => {
 const deleteById = async (req, res) => {
   const{ id } = req.params;
 
-  let { code, message, sale } = await Sales.findById(id);
+  let { message, sale } = await Sales.findById(id);
 
   if (message) return res.status(CODE_422).send(
-    { err: 
-      { code: code, message: message }
+    { err:
+      { code: 'invalid_data', message: 'Wrong sale ID format' }
     });
   
   await Sales.deleteById(id);

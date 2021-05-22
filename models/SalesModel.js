@@ -51,7 +51,7 @@ const updateById = async (id, productId, quantity) =>
 
 const deleteById = async (id) => 
   await connection()
-    .then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }))
+    .then((db) => db.collection('sales').deleteOne({ '_id': ObjectId(id) }))
     .then(() => true);
 
 module.exports = {
