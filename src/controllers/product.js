@@ -9,6 +9,12 @@ const {
 const OK = 200;
 const CREATED = 201;
 const INVALID_DATA = 422;
+const WRONG_ID_FORMAT = {
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong id format'
+  }
+};
 
 const productsController = Router();
 
@@ -26,14 +32,7 @@ productsController.get('/:id', async (req, res) => {
     const item = await product.getOne(id);
     res.status(OK).send(item);
   } catch {
-    res.status(INVALID_DATA).send(
-      {
-        err: {
-          code: 'invalid_data',
-          message: 'Wrong id format'
-        }
-      }
-    );
+    res.status(INVALID_DATA).send(WRONG_ID_FORMAT);
   }
 });
 
@@ -50,6 +49,17 @@ productsController
     const { name, quantity } = req.body;
     const item = await product.update(id, name, quantity);
     res.status(OK).send(item);
+  });
+
+productsController
+  .delete('/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const item = await product.exclude(id);
+      res.status(OK).send(item);
+    } catch {
+      res.status(INVALID_DATA).send(WRONG_ID_FORMAT);
+    }
   });
 
 module.exports = productsController;

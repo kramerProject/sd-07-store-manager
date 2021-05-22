@@ -22,10 +22,20 @@ const update = async (id, name, quantity) => {
   };
 };
 
+const exclude = async (id) => {
+  const item = getOne(id);
+  connection().then ((db) => db.collection('products').deleteOne(
+    {
+      _id: ObjectId(id)
+    }
+  ));
+  return item;
+};
 
 module.exports = {
   getAll,
   getOne,
   create,
   update,
+  exclude,
 };
