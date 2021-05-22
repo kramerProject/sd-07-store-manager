@@ -57,7 +57,6 @@ const productByIdController = async(req, res) => {
         }
       });
   }
-  console.log(product);
   return res.status(SUCCESS).json(product);
 };
 

@@ -28,11 +28,9 @@ const getAllSales = async () => {
 };
 
 const saleById = async (id) => {
-  // console.log({id});
   const saleData = await connection()
     .then((db) => db.collection('sales').findOne({_id: ObjectId(id)}))
     .catch((err) => console.log(err));
-  // console.log({saleData});
   if(!saleData) {
     return {
       err: {

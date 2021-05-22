@@ -21,11 +21,12 @@ const quantityMiddleware = (req, res, next) => {
 
 const saleProductByIdMiddleware = async (req, res, next) => {
   const sales = req.body;
-  const allProducts = await getAllProducts(); 
+  const allProducts = await getAllProducts();
   const matchId = sales.find((prod) => {
     const id = prod.id;
     return allProducts.some((item) => ObjectId(item.id) !== ObjectId(id));
   });
+  // console.log('matchId: ', matchId.id)
   if (!matchId) {
     return res.status(INVALID_DATA).send({
       err: {
