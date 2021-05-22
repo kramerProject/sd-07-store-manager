@@ -1,26 +1,45 @@
-const models = require('../models/product');
+const product = require('../models/product');
 const { Router } = require('express');
 const { 
   nameValidation,
   quantityValidation 
 } = require('../middlewares/product/validation');
-// const productValidation = require('../src/middlewares/product/validation');
 
 const OK = 200;
 const CREATED = 201;
+const INVALID_DATA = 422;
 
 const productsController = Router();
 
 productsController.get('/', async (_req, res) => {
-  res.status(OK).send(await models.getAll());
+  res.status(OK).send(
+    {
+      products: await product.getAll()
+    }
+  );
+});
+
+productsController.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const item = await product.getOne(id);
+    res.status(OK).send(item);
+  } catch {
+    res.status(INVALID_DATA).send(
+      {
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong id format'
+        }
+      }
+    );
+  }
 });
 
 productsController.post('/', nameValidation, quantityValidation, async (req, res) => {
   const { name, quantity } = req.body;
-  const product = await models.create(name, quantity);
-  res.status(CREATED).send(product.ops[0]);
-}
-
-);
+  const item = await product.create(name, quantity);
+  res.status(CREATED).send(item.ops[0]);
+});
 
 module.exports = productsController;
