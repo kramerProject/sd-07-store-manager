@@ -3,6 +3,7 @@ const rescue = require('express-rescue');
 const Products = require('../services/ProductsService');
 
 const CODE_200 = 200;
+const CODE_201 = 201;
 const CODE_422 = 422;
 
 const getAll = rescue(async (req, res) => {
@@ -13,7 +14,12 @@ const getAll = rescue(async (req, res) => {
 
 const findById = rescue( async (req, res) => {
   const { id } = req.params;
-  const product = await Products.findById(id);
+  const { code, message, product } = await Products.findById(id);
+
+  if (message) return res.status(CODE_422).send(
+    { err: 
+      { code: code, message: message }
+    });
 
   res.status(CODE_200).json(product);
 });
@@ -27,7 +33,7 @@ const create = async (req, res) => {
       { code: code, message: message }
     });
 
-  res.status(code).send(product);
+  res.status(CODE_201).send(product);
 };
 
 const deleteById = (req, res) => {

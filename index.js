@@ -33,6 +33,6 @@ app.route('/sales/:id')
   .put(sales.updateById)
   .delete(sales.deleteById);
 
-const PORT = process.env.PORT;
+const PORT = 3000;
 
 app.listen(PORT, () => console.log(`Servidor Online na porta ${PORT}`));

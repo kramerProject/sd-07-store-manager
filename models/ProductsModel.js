@@ -22,8 +22,14 @@ const findByName = async (name) => {
     .then((db) => db.collection('products').findOne({ name: name }));
 };
 
+const findById = async (id) => {
+  return connection()
+    .then((db) => db.collection('products').findOne(ObjectId(id)));
+}; 
+
 module.exports = {
   getAll,
   create,
   findByName,
+  findById,
 };

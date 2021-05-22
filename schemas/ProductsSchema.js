@@ -7,7 +7,7 @@ const isString = (value) => (typeof value === 'string');
 const minNameLenght = 5;
 const minQuantityValue = 1; 
 
-const validate = async (name, quantity) => {
+const validateNameQuantity = async (name, quantity) => {
   switch (true) {
   case (isLengthLetterThan(name, minNameLenght)):
     return ({
@@ -33,6 +33,13 @@ const validate = async (name, quantity) => {
   };
 };
 
+const validateId = (id) => {
+  const idLength = 24;
+  if (id.length < idLength) return true;
+  return false;
+};
+
 module.exports = {
-  validate,
+  validateNameQuantity,
+  validateId,
 };
