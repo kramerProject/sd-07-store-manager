@@ -17,12 +17,12 @@ app.get('/', (_request, response) => {
 
 app.route('/products')
   .get(products.getAll)
-  .post(products.create) // requirement 1 - OK
+  .post(products.create); // requirement 1 - OK
 
 app.route('/products/:id')
-.get(products.findById)
-.put(products.updateById)
-.delete(products.deleteById);
+  .get(products.findById)
+  .put(products.updateById)
+  .delete(products.deleteById);
 
 app.route('/sales')
   .get(sales.getAll)

@@ -16,7 +16,7 @@ const deleteById = (req, res, next) => {
 
 const updateById = (req, res, next) => {
 
-}
+};
 
 module.exports = {
   getAll,
@@ -24,4 +24,4 @@ module.exports = {
   create,
   deleteById,
   updateById
-}
+};
