@@ -57,17 +57,16 @@ const deleteById = async (req, res) => {
 
 const updateById = async (req, res) => {
   const { id } = req.params;
-  const { name, quantity } = req.body;
-
+  const [{ productId, quantity }] = req.body;
   const { code, message } = await Sales.findById(id);
 
   if (message) return res.status(CODE_422).send(
-    { err: 
+    { err:
       { code: code, message: message }
     });
 
   const { code: codeId, message: messageId, sale } = await Sales
-    .updateById(id, name, quantity);
+    .updateById(id, productId, quantity);
 
   if (messageId) return res.status(CODE_422).send(
     { err:

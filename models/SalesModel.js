@@ -30,21 +30,22 @@ const findById = async (id) =>
   await connection()
     .then((db) => db.collection('sales').findOne(ObjectId(id)));
   
-const updateById = async (id, name, quantity) => 
+const updateById = async (id, productId, quantity) => 
   await connection()
     .then((db) => db.collection('sales').updateOne(
-      {_id: ObjectId(id)},
-      { $set: 
+      { $and: [
+        { '_id': ObjectId(id) },
+        { 'itensSold.productId': productId }],
+      },
+      { $set:
         { 
-          name,
-          quantity,
+          'itensSold.0.quantity': quantity,
         },
       }))
     .then(() => {
       return ({
         _id: id,
-        name,
-        quantity,
+        itensSold: [{ productId, quantity}],
       });
     });
 

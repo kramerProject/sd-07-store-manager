@@ -31,11 +31,11 @@ const create = async (salesArray) => {
   return ({ sales });
 };
 
-const updateById = async (id, name, quantity) => {
-  const validateNameQty = await SalesSchema.validateNameQuantity(name, quantity);
-  if (validateNameQty.message) return validateNameQty;
+const updateById = async (id, productId, quantity) => {
+  const validateQuantity = await SalesSchema.validateQuantity(quantity);
+  if (validateQuantity.message) return validateQuantity;
 
-  const sale = await SalesModel.updateById(id, name, quantity);
+  const sale = await SalesModel.updateById(id, productId, quantity);
   return ({ sale });
 };
 
