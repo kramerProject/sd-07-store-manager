@@ -15,6 +15,11 @@ const nameValidation = async (req, res, next) => {
       }
     );
   }
+  next();
+};
+
+const nameAlreadyExists = async (req, res, next) => {
+  const { name } = req.body;
   const products = await getAll();
   const nameExists = products.find(product => product.name === name);
   if (nameExists) {
@@ -58,5 +63,6 @@ const quantityValidation = (req, res, next) => {
 
 module.exports = {
   nameValidation,
+  nameAlreadyExists,
   quantityValidation,
 };

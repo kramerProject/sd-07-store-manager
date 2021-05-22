@@ -2,6 +2,7 @@ const product = require('../models/product');
 const { Router } = require('express');
 const { 
   nameValidation,
+  nameAlreadyExists,
   quantityValidation 
 } = require('../middlewares/product/validation');
 
@@ -36,10 +37,19 @@ productsController.get('/:id', async (req, res) => {
   }
 });
 
-productsController.post('/', nameValidation, quantityValidation, async (req, res) => {
-  const { name, quantity } = req.body;
-  const item = await product.create(name, quantity);
-  res.status(CREATED).send(item.ops[0]);
-});
+productsController
+  .post('/', nameAlreadyExists, nameValidation, quantityValidation, async (req, res) => {
+    const { name, quantity } = req.body;
+    const item = await product.create(name, quantity);
+    res.status(CREATED).send(item.ops[0]);
+  });
+
+productsController
+  .put('/:id', nameValidation, quantityValidation, async (req, res) => {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const item = await product.update(id, name, quantity);
+    res.status(OK).send(item);
+  });
 
 module.exports = productsController;
