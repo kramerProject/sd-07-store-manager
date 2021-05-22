@@ -36,7 +36,19 @@ const create = async (req, res) => {
   res.status(CODE_201).send(product);
 };
 
-const deleteById = (req, res) => {
+const deleteById = async (req, res) => {
+  const{ id } = req.params;
+
+  let { code, message, product } = await Products.findById(id);
+
+  if (message) return res.status(CODE_422).send(
+    { err: 
+      { code: code, message: message }
+    });
+  
+  await Products.deleteById(id);
+
+  res.status(CODE_200).send(product);
 
 };
 
@@ -44,12 +56,21 @@ const updateById = async (req, res) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
 
-  const { code, message, product } = await Products.updateById(id, name, quantity);
+  const { code, message } = await Products.findById(id);
 
   if (message) return res.status(CODE_422).send(
-    { err:
+    { err: 
       { code: code, message: message }
     });
+
+  const { code: codeId, message: messageId, product } = await Products
+    .updateById(id, name, quantity);
+
+  if (messageId) return res.status(CODE_422).send(
+    { err:
+      { code: codeId, message: messageId }
+    });
+
   res.status(CODE_200).send(product);
 
 };

@@ -5,7 +5,7 @@ const isQuantityLessThan = (value, min) => (value < min);
 const isString = (value) => (typeof value === 'string');
 
 const minNameLenght = 5;
-const minQuantityValue = 1; 
+const minQuantityValue = 1;
 
 const validateNameQuantity = (name, quantity) => {
   switch (true) {

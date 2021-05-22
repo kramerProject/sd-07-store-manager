@@ -34,11 +34,13 @@ const updateById = async (id, name, quantity) => {
   const validateNameQty = await ProductSchema.validateNameQuantity(name, quantity);
   if (validateNameQty.message) return validateNameQty;
 
-  const validId = ProductSchema.validateId(id);
-  if (validId) return({ code: 'invalid_data', message: 'Wrong id format'});
-
   const product = await ProductsModel.updateById(id, name, quantity);
   return ({ product });
+};
+
+const deleteById = async (id) => {
+  const result = await ProductsModel.deleteById(id);
+  return (result);
 };
 
 module.exports = {
@@ -46,4 +48,5 @@ module.exports = {
   create,
   findById,
   updateById,
+  deleteById,
 };

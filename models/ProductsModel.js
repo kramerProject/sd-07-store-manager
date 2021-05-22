@@ -43,10 +43,16 @@ const updateById = async (id, name, quantity) =>
       });
     });
 
+const deleteById = async (id) => 
+  await connection()
+    .then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }))
+    .then(() => true);
+
 module.exports = {
   getAll,
   create,
   findByName,
   findById,
   updateById,
+  deleteById,
 };
