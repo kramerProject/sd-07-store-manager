@@ -1,4 +1,4 @@
-/*  const { getOne } = require('../../models/product');
+const { getOne } = require('../../models/product');
 
 const INVALID_DATA = 422;
 const errCodeInvalid = {
@@ -8,19 +8,11 @@ const errCodeInvalid = {
   }
 };
 
-const saleValidation = async (req, res, next) => {
-const productQuantity = req.body.map((product) => product.quantity);
-  productQuantity.forEach(id => {
-    if (id < 1) {
-      return res.status(INVALID_DATA).json(errCodeInvalid);
-    }
-  });
-
-  const productIds = req.body.map((product) => product.productId);
-  productIds.forEach(async id => {
-    if (await getOne(id) == null) {
-      return res.status(INVALID_DATA).json(errCodeInvalid);
-    }
+const saleValidation = (req, res, next) => {
+  const productQuantity = req.body.map((product) => product.quantity);
+  productQuantity.forEach(quantity => {
+    if (typeof quantity != 'number' || quantity < 1)
+      return res.status(INVALID_DATA).send(errCodeInvalid);
   });
   next();
 };
@@ -29,4 +21,4 @@ const productQuantity = req.body.map((product) => product.quantity);
 module.exports = {
   saleValidation
 };
-*/
+

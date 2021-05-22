@@ -1,6 +1,6 @@
 const sale = require('../models/sale');
 const { Router } = require('express');
-// const { saleValidation } = require('../middlewares/sale/validation');
+const { saleValidation } = require('../middlewares/sale/validation');
 
 const salesController = Router();
 
@@ -40,7 +40,7 @@ salesController.get('/:id', async (req, res) => {
   }
 });
 
-salesController.post('/', async (req, res) => {
+salesController.post('/', saleValidation, async (req, res) => {
   const soldProducts = await sale.create(req.body);
   res.status(OK).send(soldProducts.ops[0]);
 });
