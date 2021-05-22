@@ -12,8 +12,31 @@ productsController.get('/', async (_req, res) => {
 
 productsController.post('/', async (req, res) => {
   const { name, quantity } = req.body;
-  const product = await models.create({ name, quantity });
+  const product = await models.create(name, quantity);
   res.status(CREATED).json(product.ops[0]);
 });
+
+productsController.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  const product = await models.getProduct(id);
+  res.status(OK).json(product);
+});
+
+productsController.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  const product = await models.getProduct(id);
+  const response = await models.del(id);
+  response.result.ok ? res.status(OK).json(product) : '';
+});
+
+productsController.put('/:id', async (req, res) => {
+  let result = '';
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  const product = await models.update(id, name, quantity);
+  product.result.ok ? result = await models.getProduct(id): '';
+  res.status(OK).json(result);
+});
+
 
 module.exports = productsController ;
