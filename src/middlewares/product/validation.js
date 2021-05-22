@@ -41,7 +41,7 @@ const quantityValidation = (req, res, next) => {
           message: '"quantity" must be larger than or equal to 1'
         }
       }
-    )
+    );
   }
   if (typeof quantity != 'number') {
     return res.status(INVALID_DATA).send(
@@ -51,7 +51,7 @@ const quantityValidation = (req, res, next) => {
           message: '"quantity" must be a number'
         }
       }
-    )
+    );
   }
   next();
 };
