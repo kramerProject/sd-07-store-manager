@@ -22,10 +22,6 @@ const findByName = async (name) =>
   await connection()
     .then((db) => db.collection('sales').findOne({ name: name }));
 
-const findByProductId = async (id) =>
-  await connection()
-    .then((db) => db.collection('products').findOne(ObjectId(id)));
-
 const findById = async (id) =>
   await connection()
     .then((db) => db.collection('sales').findOne(ObjectId(id)));
@@ -59,7 +55,6 @@ module.exports = {
   create,
   findByName,
   findById,
-  findByProductId,
   updateById,
   deleteById,
 };

@@ -3,7 +3,6 @@ const rescue = require('express-rescue');
 const Sales = require('../services/SalesService');
 
 const CODE_200 = 200;
-const CODE_201 = 201;
 const CODE_422 = 422;
 const CODE_404 = 404;
 
@@ -29,7 +28,13 @@ const create = async (req, res) => {
   const salesArray = req.body;
 
   const { code, message, sales } = await Sales.create(salesArray);
-  
+
+  if (code === 'stock_problem')
+    return res.status(CODE_404).send({
+      err:
+      { code: code, message: message }
+    });
+
   if (message) 
     return res.status(CODE_422).send({
       err:

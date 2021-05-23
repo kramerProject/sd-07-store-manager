@@ -26,8 +26,25 @@ const create = async (salesArray) => {
   if (validateSales.message)
     return validateSales;
 
+  const newSalesArray = [...salesArray];
+  const ZERO = 0;
+  const salesGroupedBy = await newSalesArray.reduce((res, obj) => {
+    res[obj.productId] = { 
+      'quantity': (
+        obj.productId in res ? res[obj.productId].quantity : ZERO
+      ) + obj.quantity,
+    };
+    return res;
+  }, {});
+
+  const productQtyValid = await SalesSchema
+    .productQtyValidation(Object.entries(salesGroupedBy));
+
+  if (productQtyValid.message)
+    return productQtyValid;
+  
   await salesArray.forEach( async ({ productId, quantity }) => {
-    await ProductModel.updateQtyById(productId, (quantity * multiplyerValue) );
+    await ProductModel.updateQtyById(productId, quantity * multiplyerValue);
   });
 
   const sales = await SalesModel.create(salesArray);
@@ -36,7 +53,7 @@ const create = async (salesArray) => {
 };
 
 const updateById = async (id, productId, quantity) => {
-  const validateQuantity = await SalesSchema.validateQuantity(quantity);
+  const validateQuantity = SalesSchema.validateQuantity(quantity);
   if (validateQuantity.message) return validateQuantity;
 
   const sale = await SalesModel.updateById(id, productId, quantity);
