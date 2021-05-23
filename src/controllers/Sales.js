@@ -6,10 +6,15 @@ const CREATED = '201';
 
 const salesController = Router();
 
+salesController.get('/', async (_req, res) => {
+  const sales = await models.getAll();
+  res.status(OK).json(sales);
+});
+
 salesController.post('/', quantS, async (req, res) => {
   const { itensSold } = req.body;
-  const product = await models.create(itensSold);
-  res.status(CREATED).json(product.ops[0]);
+  const sales = await models.create(itensSold);
+  res.status(CREATED).json(sales.ops[0]);
 });
 
 module.exports = salesController;

@@ -6,6 +6,6 @@ const create = async (itensSold) =>
 
 const getAll = async () => 
   connection() 
-    .then ((db) => db.collection('sales').find());
+    .then ((db) => db.collection('sales').find().toArray());
 
 module.exports  = { create, getAll };   
