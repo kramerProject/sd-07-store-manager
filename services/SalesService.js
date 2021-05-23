@@ -1,4 +1,5 @@
 const SalesModel = require('../models/SalesModel');
+const ProductModel = require('../models/ProductsModel');
 
 const SalesSchema = require('../schemas/SalesSchema');
 
@@ -18,13 +19,16 @@ const findById = async (id) => {
 };
 
 const create = async (salesArray) => {
-
-
+  const multiplyerValue = -1;
   const validateSales = await SalesSchema
     .validateSales(salesArray);
 
   if (validateSales.message)
     return validateSales;
+
+  await salesArray.forEach( async ({ productId, quantity }) => {
+    await ProductModel.updateQtyById(productId, (quantity * multiplyerValue) );
+  });
 
   const sales = await SalesModel.create(salesArray);
 
@@ -40,6 +44,11 @@ const updateById = async (id, productId, quantity) => {
 };
 
 const deleteById = async (id) => {
+  const sales = await SalesModel.findById(id);
+  await sales.itensSold.forEach( async ({ productId, quantity }) => {
+    await ProductModel.updateQtyById(productId, quantity);
+  });
+
   const result = await SalesModel.deleteById(id);
   return (result);
 };
