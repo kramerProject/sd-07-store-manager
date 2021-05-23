@@ -23,7 +23,7 @@ const name = (req, res, next) => {
   next();
 };
 
-const quant = (req, res, next) => {
+const quantP = (req, res, next) => {
   const { quantity } = req.body;
   const zero = 0;
   if (typeof quantity !== 'number') return res.status(ERROR)
@@ -39,6 +39,27 @@ const quant = (req, res, next) => {
       message: '"quantity" must be larger than or equal to 1',
     },
   });
+  next();
+};
+
+const quantS = (req, res, next) => {
+  const { itensSold } = req.body;
+  const zero = 0;
+  if (typeof itensSold[0].quantity !== 'number') return res.status(ERROR)
+    .json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong product ID or invalid quantity',
+      },
+    });
+  if ((+itensSold[0].quantity < 1) || (+itensSold[0].quantity == zero)) {
+    return res.status(ERROR).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong product ID or invalid quantity',
+      },
+    });
+  };
   next();
 };
 
@@ -70,4 +91,4 @@ const noexist = async(req, res, next) => {
   next();
 };
 
-module.exports = { name, quant, exist, noexist };
+module.exports = { name, quantP, exist, noexist, quantS };

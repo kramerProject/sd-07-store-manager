@@ -1,8 +1,8 @@
 const connection = require('./connection');
 
-const create = async (itenSold) =>
+const create = async (itensSold) =>
   connection()
-    .then ((db) => db.collection('sales').insertOne ({itenSold}));
+    .then ((db) => db.collection('sales').insertOne ({itensSold}));
 
 const getAll = async () => 
   connection() 
