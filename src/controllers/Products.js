@@ -1,5 +1,5 @@
 const models = require('../models/Products');
-const { name, quant, exist } = require('../middlewares');
+const { name, quant, exist, noexist } = require('../middlewares');
 const { Router } = require('express');
 const OK = '200';
 const CREATED = '201';
@@ -17,7 +17,7 @@ productsController.post('/', name, quant, exist, async (req, res) => {
   res.status(CREATED).json(product.ops[0]);
 });
 
-productsController.get('/:id', async (req, res) => {
+productsController.get('/:id', noexist, async (req, res) => {
   const { id } = req.params;
   const product = await models.getProduct(id);
   res.status(OK).json(product);

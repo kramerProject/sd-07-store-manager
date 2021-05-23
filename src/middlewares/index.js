@@ -1,4 +1,4 @@
-const { findName } = require('../models/Products');
+const { findName, getProduct } = require('../models/Products');
 const ERROR = 422;
 
 const name = (req, res, next) => {
@@ -55,4 +55,18 @@ const exist = async(req, res, next) => {
   next();
 };
 
-module.exports = { name, quant, exist };
+const noexist = async(req, res, next) => {
+  const { id } = req.params;
+  let check = await getProduct(id);
+  if (!check) {
+    return res.status(ERROR).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    });
+  }
+  next();
+};
+
+module.exports = { name, quant, exist, noexist };
