@@ -43,7 +43,6 @@ const quant = (req, res, next) => {
 
 const exist = async(req, res, next) => {
   const { name } = req.body;
-  console.log('entrou exist');
   let check = await findName(name);
   if (check) {
     return res.status(ERROR).json({
@@ -55,6 +54,5 @@ const exist = async(req, res, next) => {
   }
   next();
 };
-
 
 module.exports = { name, quant, exist };
