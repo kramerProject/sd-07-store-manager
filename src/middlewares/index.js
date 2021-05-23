@@ -1,6 +1,7 @@
 const { findName } = require('../models/products');
 
 const ERROR = 422;
+
 const validName = (req, res, next) => {
   const MIN_NAME_LENGHT = 5;
   const { name } = req.body;
@@ -11,6 +12,7 @@ const validName = (req, res, next) => {
         message: '"name" must be a string',
       },
     });
+
   if ((name === '') || (name === undefined) || (name.length < MIN_NAME_LENGHT)) {
     return res.status(ERROR).json({
       err: {
@@ -21,6 +23,7 @@ const validName = (req, res, next) => {
   };
   next();
 };
+
 const validQuant = (req, res, next) => {
   const { quantity } = req.body;
   if (typeof quantity !== 'number') return res.status(ERROR)
@@ -38,6 +41,7 @@ const validQuant = (req, res, next) => {
   });
   next();
 };
+
 const validExist = async(req, res, next) => {
   const { name } = req.body;
   let check = await findName(name);
@@ -51,4 +55,9 @@ const validExist = async(req, res, next) => {
   }
   next();
 };
+
+/* const validProducts = async(req, res, next) => {
+  const
+}; */
+
 module.exports = { validName, validQuant, validExist };
