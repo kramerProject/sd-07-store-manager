@@ -5,11 +5,11 @@ const create = async (name, quantity) =>
   connection()
     .then ((db) => db.collection('products').insertOne({ name, quantity }));
 
-// const del = async (id) => {
-//   if (!ObjectId.isValid(id)) return null;
-//   return connection()
-//     .then((db) => db.collection('products') .deleteOne({ _id: ObjectId(id) }));
-// };
+const del = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  return connection()
+    .then((db) => db.collection('products') .deleteOne({ _id: ObjectId(id) }));
+};
 
 const getAll = async () => 
   connection() 
@@ -30,4 +30,4 @@ const update = async (id, name, quantity) =>
     .then((db) => db.collection('products')
       .updateOne({_id: ObjectId(id)}, {$set: {name: name, quantity: quantity}}));
 
-module.exports  = { create, getAll, getProduct, update, /* del, */ findName };   
+module.exports  = { create, getAll, getProduct, update, del, findName };   

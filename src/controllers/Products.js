@@ -23,12 +23,12 @@ productsController.get('/:id', noexist, async (req, res) => {
   res.status(OK).json(product);
 });
 
-// productsController.delete('/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const product = await models.getProduct(id);
-//   const response = await models.del(id);
-//   response.result.ok ? res.status(OK).json(product) : '';
-// });
+productsController.delete('/:id', noexist, async (req, res) => {
+  const { id } = req.params;
+  const product = await models.getProduct(id);
+  const response = await models.del(id);
+  response.result.ok ? res.status(OK).json(product) : '';
+});
 
 productsController.put('/:id', name, quant, async (req, res) => {
   let result = '';
