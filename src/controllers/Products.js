@@ -1,4 +1,5 @@
 const models = require('../models/Products');
+const { name, quant, exist } = require('../middlewares');
 const { Router } = require('express');
 const OK = '200';
 const CREATED = '201';
@@ -10,7 +11,7 @@ productsController.get('/', async (_req, res) => {
   res.status(OK).json(product);
 });
 
-productsController.post('/', async (req, res) => {
+productsController.post('/', name, quant, exist, async (req, res) => {
   const { name, quantity } = req.body;
   const product = await models.create(name, quantity);
   res.status(CREATED).json(product.ops[0]);
