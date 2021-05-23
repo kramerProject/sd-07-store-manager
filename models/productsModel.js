@@ -24,7 +24,7 @@ const updateQuantity = async(id, quantity) => {
     .then((db) => db.collection('products')
       .updateOne({ _id: ObjectId(id)}, {$inc: {quantity}}))
     .then(() => ({ _id: ObjectId(id), quantity }))
-    .catch((err) => console.log("catch do updateQuantity: ", err.message));;
+    .catch((err) => console.log('catch do updateQuantity: ', err.message));;
 };
 
 const updateProduct = async(id, name, quantity) => {

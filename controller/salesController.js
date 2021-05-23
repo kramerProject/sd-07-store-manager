@@ -72,7 +72,7 @@ const deleteSaleController = async (req, res) => {
       itensSold.map((item) => {
         productsModel.updateQuantity(item.productId, item.quantity);
       })
-    )
+    );
     console.log(id);
     await salesModel.deleteSale(id);
     if(!ObjectId.isValid(id)) {
