@@ -19,12 +19,13 @@ const productById = async (id) => {
   return productData;
 };
 
-// const updateQuantity = async(id, quantity) => {
-//   return await connection()
-//     .then((db) => db.collection('products')
-//       .updateOne({ _id: ObjectId(id)}, {$inc: {quantity}}))
-//     .then(() => ({ _id: ObjectId(id), quantity }));
-// };
+const updateQuantity = async(id, quantity) => {
+  return await connection()
+    .then((db) => db.collection('products')
+      .updateOne({ _id: ObjectId(id)}, {$inc: {quantity}}))
+    .then(() => ({ _id: ObjectId(id), quantity }))
+    .catch((err) => console.log("catch do updateQuantity: ", err.message));;
+};
 
 const updateProduct = async(id, name, quantity) => {
   await connection()
@@ -45,5 +46,5 @@ module.exports = {
   productById,
   updateProduct,
   deleteProduct,
-  // updateQuantity
+  updateQuantity
 };

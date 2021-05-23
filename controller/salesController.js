@@ -64,15 +64,16 @@ const updateSaleController = async (req, res) => {
 };
 
 const deleteSaleController = async (req, res) => {
-  console.log('entrei em deleteSaleControler');
+  console.log('entrei em deleteSaleControler'); //
   try {
     const { id } = req.params;
-    // const saleToBeDelete = await salesByIdController(id);
-    // // console.log({saleToBeDelete});
-    // const product = saleToBeDelete.itemsSold[0];
-    // const matchProdInStock = await productsModel.productById(product.productId);
-    // const updatedStockQuantity = (matchProdInStock.quantity + product.quantity);
-    // await salesModel.updateSale(matchProdInStock._id, updatedStockQuantity);
+    const { itensSold } = await salesModel.saleById(id);
+    Promise.all(
+      itensSold.map((item) => {
+        productsModel.updateQuantity(item.productId, item.quantity);
+      })
+    )
+    console.log(id);
     await salesModel.deleteSale(id);
     if(!ObjectId.isValid(id)) {
       return res.status(INVALID_DATA).send({
