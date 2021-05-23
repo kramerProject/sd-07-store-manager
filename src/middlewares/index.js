@@ -25,6 +25,7 @@ const name = (req, res, next) => {
 
 const quant = (req, res, next) => {
   const { quantity } = req.body;
+  const zero = 0;
   if (typeof quantity !== 'number') return res.status(ERROR)
     .json({
       err: {
@@ -32,7 +33,7 @@ const quant = (req, res, next) => {
         message: '"quantity" must be a number',
       },
     });
-  if (+quantity < 1) return res.status(ERROR).json({
+  if ((+quantity < 1) || (+quantity == zero)) return res.status(ERROR).json({
     err: {
       code: 'invalid_data',
       message: '"quantity" must be larger than or equal to 1',
