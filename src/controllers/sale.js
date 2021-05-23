@@ -42,6 +42,7 @@ salesController.get('/:id', async (req, res) => {
 
 salesController.post('/', saleValidation, async (req, res) => {
   const soldProducts = await sale.create(req.body);
+  sale.updateStock('CREATE', soldProducts.ops[0].itensSold);
   res.status(OK).send(soldProducts.ops[0]);
 });
 
@@ -55,6 +56,7 @@ salesController.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const item = await sale.exclude(id);
+    sale.updateStock('DELETE', item.itensSold);
     res.status(OK).send(item);
   } catch {
     res.status(INVALID_DATA).send(WRONG_ID_FORMAT);

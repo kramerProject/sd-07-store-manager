@@ -36,10 +36,30 @@ const exclude = async (id) => {
   return item;
 };
 
+const updateStock = async (operation, items) => {
+  if (operation === 'CREATE') {
+    items.forEach(async product => {
+      await connection().then ((db) => db.collection('products').updateOne(
+        { _id: ObjectId(product.productId) },
+        { $inc: { quantity: - product.quantity } }
+      ));
+    });
+  } else {
+    console.log(operation, items);
+    items.forEach(async product => {
+      await connection().then ((db) => db.collection('products').updateOne(
+        { _id: ObjectId(product.productId) },
+        { $inc: { quantity: + product.quantity } }
+      ));
+    });
+  };
+};
+
 module.exports = {
   getAll,
   getOne,
   create,
   update,
   exclude,
+  updateStock,
 };
