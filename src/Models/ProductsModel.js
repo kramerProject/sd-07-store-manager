@@ -1,15 +1,29 @@
+const connection = require('../db/connection');
+const { ObjectId } = require('mongodb');
 const { connect } = require('./Model');
 
-async function getByName(name) {
-  return await connect('products', 'findOne', { name });
-}
+module.exports = {
+  async create(data) {
+    return await connect('products', 'insertOne', data);
+  },
+  async getByName(name) {
+    return await connect('products', 'findOne', { name });
+  },
+  async getAll() {
+    return await connect('products', 'find', {});
+  },
+  async getById(id) {
+    return await connect('products', 'findOne', ObjectId(id));
+  },
+  async update(id, { name, quantity }) {
+    const db = await connection();
 
-async function create(data) {
-  return await connect('products', 'insertOne', data);
-}
-
-async function getAll() {
-  return await connect('products', 'find', {});
-}
-
-module.exports = { create, getAll, getByName };
+    return await db.collection('products').updateOne(
+      { _id: ObjectId(id) },
+      { $set: { name, quantity } },
+    );
+  },
+  async delete(id) {
+    return await connect('products', 'deleteOne', { _id: ObjectId(id) });
+  }
+};

@@ -1,28 +1,68 @@
 const productService = require('../Service/ProductsService');
 
-const codes = {
-  success: 200,
-  create: 201,
-  error: 422
+const httpStatus = require('../config/httpStatus');
+
+module.exports = {
+  async create(request, response) {
+    try {
+      const data = request.body;
+      const result = await productService.create(data);
+      if (result.status === 'failure') {
+        return response.status(httpStatus.INVALID_DATA).json({ err: result.err });
+      } else {
+        return response.status(httpStatus.CREATED).json(result.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async findAll(request, response) {
+    try {
+      const products = await productService.getAll();
+      return response.status(httpStatus.OK).json({ products });
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async findById(request, response){
+    try {
+      const { id } = request.params;
+      const result = await productService.getById(id);
+      if (result.status === 'failure') {
+        return response.status(httpStatus.INVALID_DATA).json({ err: result.err });
+      } else {
+        return response.status(httpStatus.OK).json(result.data);
+      }
+
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async update(request, response) {
+    try {
+      const { id } = request.params;
+      const data = request.body;
+      const result = await productService.update(id, data);
+      if (result.status === 'failure') {
+        return response.status(httpStatus.INVALID_DATA).json({ err: result.err });
+      } else {
+        return response.status(httpStatus.OK).json(result.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async delete(request, response) {
+    try {
+      const { id } = request.params;
+      const result = await productService.delete(id);
+      if (result.status === 'failure') {
+        return response.status(httpStatus.INVALID_DATA).json({ err: result.err });
+      } else {
+        return response.status(httpStatus.OK).json(result.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
 };
-
-
-async function create(req, response) {
-  try {
-    const data = req.body;
-    const result = await productService.create(data);
-    return response.status(codes.create).json(result.data);
-  } catch (e) {
-    return response.status(codes.error).json({ error: e.message  });
-  }
-}
-async function findAll(request, response) {
-  try {
-    const products = await productService.getAll();
-    return response.status(codes.success).json({ products });
-  } catch (e) {
-    return response.status(codes.error).json({error: e.message});
-  }
-}
-
-module.exports= { create, findAll };

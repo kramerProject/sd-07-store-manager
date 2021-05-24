@@ -1,23 +1,55 @@
 const productModel = require('../Models/ProductsModel');
 const { validateFields } = require('../helpers/validateFilds');
+const { messageSuccess, messageError } = require('../helpers/MessageResponse');
+const { ObjectId } = require('mongodb');
+const { numbers } = require('../helpers/Numbers');
 
-async function create({ name, quantity }) {
-  try {
-    validateFields(name, quantity);
-    await productModel.getByName(name);
+module.exports = {
+  async create({ name, quantity }) {
+    const result = validateFields(name, quantity);
+    if (result.status === 'failure') {
+      return result;
+    }
+    const productExists = await productModel.getByName(name);
+    if (productExists) {
+      return messageError('Product already exists');
+    }
     const product = await productModel.create({ name, quantity });
-    return product.ops[0];
-  } catch (error) {
-    throw new Error('Validation error');
-  }
-}
-async function getAll() {
-  try {
+    return messageSuccess(product.ops[0]);
+  },
+  async getAll() {
     const products = await productModel.getAll();
     return products.toArray();
-  } catch (error) {
-    throw new Error('Products not found');
+  },
+  async getById(id) {
+    if (!ObjectId.isValid(id) || id.length !== numbers.VINTE_QUATRO) {
+      return messageError('Wrong id format');
+    }
+    const productExists = await productModel.getById(id);
+    if (!productExists) {
+      return messageError('Wrong id format');
+    }
+    const product = await productModel.getById(id);
+    return messageSuccess(product);
+  },
+  async update(id, { name, quantity }) {
+    const result = validateFields(name, quantity);
+    if (result.status === 'failure') {
+      return result;
+    }
+    const { insertedId } = await productModel.update(id, { name, quantity });
+    return messageSuccess({ _id: insertedId, name, quantity });
+  },
+  async delete(id) {
+    if (!ObjectId.isValid(id) || id.length !== numbers.VINTE_QUATRO) {
+      return messageError('Wrong id format');
+    }
+    const productExists = await productModel.getById(id);
+    if (!productExists) {
+      return messageError('Wrong id format');
+    }
+    const product = await productModel.getById(id);
+    await productModel.delete(id);
+    return messageSuccess(product);
   }
-}
-
-module.exports = {create, getAll};
+};
