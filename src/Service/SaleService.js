@@ -1,4 +1,5 @@
 const saleModel = require('../Models/SaleModel');
+const productController = require('../Controllers/ProductsController');
 const { numbers } = require('../helpers/Numbers');
 const { messageSuccess, messageError } = require('../helpers/MessageResponse');
 const { ObjectId } = require('mongodb');
@@ -12,6 +13,11 @@ module.exports = {
       if (isNaN(parseInt(sales[index].quantity))) {
         return messageError('Wrong product ID or invalid quantity');
       }
+      const request = {params: {id: sales[index].productId}};
+      const product = await productController.findById(request);
+      const quantity = product.quantity - sales[index].quantity;
+      request['body'] = {name: product.name, quantity};
+      await productController.update(request);
     }
     const salesCreated = await saleModel.create(sales);
     return messageSuccess({ _id: salesCreated.insertedId, itensSold: sales });
@@ -47,6 +53,14 @@ module.exports = {
       return messageError('Wrong sale ID format');
     }
     const salesById = await saleModel.getById(id);
+    const request = {params: {id: salesById.itensSold[0].productId}};
+    const product = await productController.findById(request);
+    const quantity = product.quantity + salesById.itensSold[0].quantity;
+    request['body'] = {name: product.name, quantity};
+    await productController.update(request);
+
+
+
     await saleModel.delete(id);
     return messageSuccess(salesById);
   }

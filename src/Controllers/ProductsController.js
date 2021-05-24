@@ -31,6 +31,9 @@ module.exports = {
       if (result.status === 'failure') {
         return response.status(httpStatus.INVALID_DATA).json({ err: result.err });
       } else {
+        if (!response) {
+          return result.data;
+        }
         return response.status(httpStatus.OK).json(result.data);
       }
 
@@ -43,9 +46,13 @@ module.exports = {
       const { id } = request.params;
       const data = request.body;
       const result = await productService.update(id, data);
+      console.log(result);
       if (result.status === 'failure') {
         return response.status(httpStatus.INVALID_DATA).json({ err: result.err });
       } else {
+        if (!response) {
+          return result.data;
+        }
         return response.status(httpStatus.OK).json(result.data);
       }
     } catch (e) {
